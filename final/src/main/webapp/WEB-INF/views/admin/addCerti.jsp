@@ -12,7 +12,7 @@
 		<table>
 			<tr>
 				<td>자격증(시험) 이름 </td>
-				<td><input type="text" name="name"></td>
+				<td><input type="text" name="cname"></td>
 			</tr>
 			<tr>
 				<td>자격증(시험) 종류</td>
@@ -35,10 +35,32 @@
 				</td>
 			</tr>
 			<tr>
-				<td>자격증(시험) 이름 </td>
-				<td><input type="text" name="name"></td>
+				<td>자격증 회차 (국가기술)</td>
+				<td><input type="text" name="cround"></td>
+			</tr>
+			<tr>
+				<td>원서접수</td>
+				<td>
+					<input type="date" name="regStart"> <input type="time" name="regStartTime"> ~
+					<input type="date" name="regEnd"> <input type="time" name="regEndTime"> 
+				</td>
+			</tr>
+			<tr>
+				<td>원서 - 추가접수</td>
+				<td>
+					<input type="date" name="reg_addStart"> ~
+					<input type="date" name="reg_addEnd">
+				</td>
+			</tr>
+			<tr>
+				<td>시험일</td>
+				<td><input type="date" name="testDate"></td>
+			</tr>
+			<tr>
+				<td>결과발표</td>
+				<td><input type="date" name="resDate"></td>
 			</tr>
 		</table>
-	
+		<input type="submit" value="등록" />
 	</form>
 </body>

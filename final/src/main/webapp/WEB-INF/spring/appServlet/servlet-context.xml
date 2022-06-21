@@ -23,7 +23,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="spring.admin.controller" />
+	<context:component-scan base-package="spring.project.controller" />
 	
 	<aop:aspectj-autoproxy />
 	

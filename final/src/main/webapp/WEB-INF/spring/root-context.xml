@@ -37,8 +37,8 @@
 	
 	<tx:annotation-driven/>
 	
-	<mybatis-spring:scan base-package="spring.admin.mapper"/>
-	<context:component-scan base-package="spring.admin" />
+	<mybatis-spring:scan base-package="spring.project.mapper"/>
+	<context:component-scan base-package="spring.project" />
 	
 	<aop:aspectj-autoproxy />
 	
