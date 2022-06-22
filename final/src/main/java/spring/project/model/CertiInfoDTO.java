@@ -11,8 +11,11 @@ public class CertiInfoDTO {
 	private String cnum; //자격증 고유번호 
 	private String cname;
 	private String category; // 국가기술, 민간, 어학
-	private String subCategory; //eg) 기술사, 기사, 기능사 etc
+	
+	//QNETDATE 테이블과 조인 시 필요한 변수 
+	private int cyear; //시행년도 
 	private int cround; //국가기술자격증 시험 회차 eg)126
+	private String ctype; //eg) 기술사, 기사, 기능사 etc
 	
 	//원서 접수 시작일 , 마감일1
 	private String regStart;

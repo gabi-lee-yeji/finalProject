@@ -26,7 +26,7 @@
 			<td>${dto.cnum }</td>
 			<td>${dto.cname }</td>
 			<td>${dto.category }</td>
-			<td>${dto.subCategory }</td>
+			<td>${dto.ctype }</td>
 			<td>${dto.cround }</td>
 			<td>${dto.regStart } ${dto.regStartTime}</td>
 			<td>${dto.regEnd } ${dto.regEndTime}</td>

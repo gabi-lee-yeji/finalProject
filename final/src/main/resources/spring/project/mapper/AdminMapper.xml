@@ -6,7 +6,7 @@
 	
 	<select id="getCertList" resultType="spring.project.model.CertiInfoDTO">
 		select 
-			cnum,cname,category,subCategory,cround,
+			cnum,cname,category,ctype,cround,
 			to_char(regStart,'YYYY-MM-DD') as regStart,
 			to_char(regEnd,'YYYY-MM-DD') as regEnd,
 			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
@@ -23,8 +23,9 @@
 			cert_seq.NEXTVAL,
 			#{cname,jdbcType=VARCHAR},
 			#{category,jdbcType=VARCHAR},
-			#{subCategory,jdbcType=VARCHAR},
+			#{cyear},
 			#{cround,jdbcType=INTEGER},
+			#{ctype,jdbcType=VARCHAR},
 			to_date(#{regStart},'YYYY-MM-DD'),
 			to_date(#{regEnd,jdbcType=VARCHAR},'YYYY-MM-DD'),
 			to_date(#{reg_addStart,jdbcType=VARCHAR},'YYYY-MM-DD'),
@@ -36,5 +37,23 @@
 		)
 	</insert>
 	
+	<insert id="addCertiDetail">
+		insert into certidetail values (
+			#{cnum},
+			#{company},
+			#{clevel,jdbcType=VARCHAR},
+			#{requirement,jdbcType=VARCHAR},
+			#{cmethod,jdbcType=VARCHAR},
+			#{subject,jdbcType=VARCHAR},
+			#{cutline,jdbcType=VARCHAR},
+			#{cinfo,jdbcType=VARCHAR},
+			#{cjob,jdbcType=VARCHAR},
+			#{website,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="findCnum" resultType="int">
+		select max(cnum) from certiinfo
+	</select>
 	
 </mapper>
