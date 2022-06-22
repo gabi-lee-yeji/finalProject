@@ -1,5 +1,7 @@
 package spring.project.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +24,17 @@ public class AdminController {
 	@RequestMapping("addCertiPro")
 	public String addCertiPro(CertiInfoDTO dto, Model model) {
 		int result = service.addCerti(dto);
-		System.out.println("===pro==="+result);
+		System.out.println("time : "+dto.getRegEndTime());
 		model.addAttribute("result", result);
 		return "admin/addCertiPro";
+	}
+	
+	@RequestMapping("certiList")
+	public String getCertiList(Model model) {
+		List<CertiInfoDTO> list = service.getCertList();
+		int count = list.size();
+		model.addAttribute("list", list);
+		model.addAttribute("count",count);
+		return "admin/certiList";
 	}
 }

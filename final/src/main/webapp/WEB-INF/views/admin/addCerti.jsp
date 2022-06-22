@@ -27,10 +27,13 @@
 			<tr>
 				<td>국가기술자격증 종류</td>
 				<td>
-					<select name="subcategory">
+					<select name="subCategory">
+						<option value="">==선택==</option>
 						<option value="기술사">기술사</option>
 						<option value="기사">기사</option>
 						<option value="산업기사">산업기사</option>
+						<option value="기능사">기능사</option>
+						<option value="기능장">기능장</option>
 					</select>
 				</td>
 			</tr>

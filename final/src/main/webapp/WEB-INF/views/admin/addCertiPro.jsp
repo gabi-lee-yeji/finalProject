@@ -11,5 +11,6 @@
 <c:if test="${result == 1 }">
 	<script>
 		alert("자격증 등록이 완료되었습니다.");
+		window.location="/admin/certiList";
 	</script>
 </c:if>

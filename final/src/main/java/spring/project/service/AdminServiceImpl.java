@@ -33,7 +33,6 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public List<CertiInfoDTO> getCertList() {
-		// TODO Auto-generated method stub
-		return null;
+		return mapper.getCertList();
 	}
 }
