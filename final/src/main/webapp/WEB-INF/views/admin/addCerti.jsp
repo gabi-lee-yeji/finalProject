@@ -9,6 +9,7 @@
 <body>
 	<h1>자격증 등록</h1>
 	<form action="/admin/addCertiPro" method="post">
+		<h2>필수정보</h2>
 		<table>
 			<tr>
 				<td>자격증(시험) 이름 </td>
@@ -62,6 +63,49 @@
 			<tr>
 				<td>결과발표</td>
 				<td><input type="date" name="resDate"></td>
+			</tr>
+		</table>
+		<hr>
+		<h2>상세정보</h2>
+		<table>
+			<tr>
+				<td>시행기관(접수처)</td>
+				<td><input type="text" name="company"/></td>
+			</tr>
+			<tr>
+				<td>등급</td>
+				<td><input type="text" name="clevel"/></td>
+			</tr>
+			<tr>
+				<td>응시자격</td>
+				<td><input type="text" name="requirement"/></td>
+			</tr>
+			<tr>
+				<td>시험방식</td>
+				<td>
+					<input type="text" name="cmethod"/>
+					<div>(예시) 객관식, 주관식, 서술형 etc</div>
+				</td>
+			</tr>
+			<tr>
+				<td>시험과목</td>
+				<td><input type="text" name="subject"/></td>
+			</tr>
+			<tr>
+				<td>합격기준</td>
+				<td><input type="text" name="cutline"/></td>
+			</tr>
+			<tr>
+				<td>자격증 정보(개요)</td>
+				<td><textarea name="cinfo"></textarea></td>
+			</tr>
+			<tr>
+				<td>관련직업 / 진로(전망)</td>
+				<td><input type="text" name="cjob"/></td>
+			</tr>
+			<tr>
+				<td>시행기관 웹사이트</td>
+				<td><input type="text" name="website"/></td>
 			</tr>
 		</table>
 		<input type="submit" value="등록" />

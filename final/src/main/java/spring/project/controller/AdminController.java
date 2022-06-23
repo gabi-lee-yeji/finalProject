@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.service.AdminService;
 
@@ -22,9 +23,8 @@ public class AdminController {
 		return "admin/addCerti";
 	}
 	@RequestMapping("addCertiPro")
-	public String addCertiPro(CertiInfoDTO dto, Model model) {
-		int result = service.addCerti(dto);
-		System.out.println("time : "+dto.getRegEndTime());
+	public String addCertiPro(CertiInfoDTO info, CertiDetailDTO detail, Model model) {
+		int result = service.addCerti(info, detail);
 		model.addAttribute("result", result);
 		return "admin/addCertiPro";
 	}
