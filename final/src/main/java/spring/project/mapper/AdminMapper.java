@@ -4,6 +4,7 @@ import java.util.List;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.QnetDateDTO;
 
 public interface AdminMapper {
 	
@@ -16,4 +17,7 @@ public interface AdminMapper {
 	public int modCerti(CertiInfoDTO dto);
 	public int delCerti(String cnum);
 	public List<CertiInfoDTO> getCertList();
+	
+	public void addQnetDate(QnetDateDTO dto);
+	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.QnetDateDTO;
 
 public interface AdminService {
 
@@ -18,5 +19,8 @@ public interface AdminService {
 	
 	//등록된 자격증 전체 목록
 	public List<CertiInfoDTO> getCertList();
+	
+	//큐넷 일정 데이터(csv) 추가
+	public void addQnetDate(QnetDateDTO dto);
 	
 }
