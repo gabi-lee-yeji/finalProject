@@ -10,7 +10,8 @@ public interface AdminMapper {
 	public int addCerti(CertiInfoDTO dto);
 	public int addCertiDetail(CertiDetailDTO dto);
 	
-	public int findCnum();
+	public int findNextseq(String sequence);
+	public int findCurrseq(String sequence);
 	
 	public int modCerti(CertiInfoDTO dto);
 	public int delCerti(String cnum);

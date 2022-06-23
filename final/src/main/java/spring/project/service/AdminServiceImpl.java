@@ -19,16 +19,30 @@ public class AdminServiceImpl implements AdminService{
 	@Transactional
 	@Override
 	public int addCerti(CertiInfoDTO info, CertiDetailDTO detail) {
+		String cnum = "";
+		String sequence = "";
+		
+		if(info.getCategory().equals("국가기술")) {
+			cnum = "N";
+			sequence = "NAT_SEQ";
+		}else if(info.getCategory().equals("공인민간")) {
+			cnum = "P";
+			sequence = "PRV_SEQ";
+		}else if(info.getCategory().equals("어학")) {
+			cnum = "L";
+			sequence = "LANG_SEQ";
+		}
+		
+		if(mapper.findCurrseq(sequence)==0) {
+			mapper.findNextseq(sequence);
+		}
+		
+		cnum += String.format("%05d", mapper.findCurrseq(sequence));
+		info.setCnum(cnum); detail.setCnum(cnum);
+		
 		int result = mapper.addCerti(info);
-		
-		int cnum = mapper.findCnum();
-		detail.setCnum(cnum);
-		
-		System.out.println("cnum :"+cnum);
-		System.out.println("result1=="+result);
-		
 		result += mapper.addCertiDetail(detail);
-		System.out.println("result2=="+result);
+		
 		return result;
 	}
 

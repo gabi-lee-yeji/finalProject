@@ -3,6 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
+
+	<select id="findNextseq" resultType="int">
+		select ${sequence}.nextval from dual
+	</select>
+	
+	<select id="findCurrseq" resultType="int">
+		select last_number from seq
+		where sequence_name = #{sequence}
+	</select>
 	
 	<select id="getCertList" resultType="spring.project.model.CertiInfoDTO">
 		select 
@@ -20,7 +29,7 @@
 	
 	<insert id="addCerti">
 		insert into certiinfo values (
-			cert_seq.NEXTVAL,
+			#{cnum},
 			#{cname,jdbcType=VARCHAR},
 			#{category,jdbcType=VARCHAR},
 			#{cyear,jdbcType=INTEGER},
@@ -51,9 +60,5 @@
 			#{website,jdbcType=VARCHAR}
 		)
 	</insert>
-	
-	<select id="findCnum" resultType="int">
-		select max(cnum) from certiinfo
-	</select>
 	
 </mapper>
