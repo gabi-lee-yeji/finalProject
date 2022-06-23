@@ -29,6 +29,23 @@ public class AdminController {
 		return "admin/addCertiPro";
 	}
 	
+	@RequestMapping("modCerti")
+	public String modCerti(String cnum, Model model) {
+		List<Object> list = service.getCertiInfo(cnum);
+		model.addAttribute("info", list.get(0));
+		model.addAttribute("detail", list.get(1));
+		if(list.size()>2) {
+			model.addAttribute("qnet", list.get(2));
+		}
+		return "admin/modCerti";
+	}
+	@RequestMapping("modCertiPro")
+	public String modCertiPro(CertiInfoDTO info, CertiDetailDTO detail, Model model) {
+		model.addAttribute("result",service.modCerti(info, detail));
+		return "admin/modCertiPro";
+	}
+	
+	
 	@RequestMapping("certiList")
 	public String getCertiList(Model model) {
 		List<CertiInfoDTO> list = service.getCertList();

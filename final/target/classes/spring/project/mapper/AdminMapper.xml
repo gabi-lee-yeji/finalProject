@@ -3,7 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
-
+	
+	<select id="getQnetdate" resultType="spring.project.model.QnetDateDTO">
+		select * from qnetdate 
+		where cyear=#{cyear}
+			and cround=#{cround}
+			and ctype=#{ctype}
+	</select>
+	
+	<update id="modCertInfo">
+		update certiinfo
+		<set>
+			<if test=""></if>
+			<if test="">,</if>
+			<if test="">,</if>
+			<if test=""></if>
+		</set>
+		where cnum=#{cnum}
+	</update>
+	
+	<select id="getCertiDetail" resultType="spring.project.model.CertiDetailDTO">
+		select * from certidetail where cnum=#{cnum}
+	</select>
+	<select id="getCertiInfo" resultType="spring.project.model.CertiInfoDTO">
+		select * from certiinfo where cnum=#{cnum}
+	</select>
+	
 	<select id="findNextseq" resultType="int">
 		select ${sequence}.nextval from dual
 	</select>

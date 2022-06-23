@@ -7,6 +7,7 @@
 </head>
 
 	<h1>자격증 목록 [총 : ${count }]</h1>
+	<input type="button" value="자격증 등록" onclick="window.location='/admin/addCerti'"/>
 	<table>
 		<tr>
 			<th>번호</th>
@@ -20,6 +21,7 @@
 			<th>추가접수 마감일</th>
 			<th>시험 응시일</th>
 			<th>결과 발표일</th>
+			<th></th>
 		</tr>
 		<c:forEach var="dto" items="${list}">
 			<tr>
@@ -34,8 +36,11 @@
 				<td>${dto.reg_addEnd }</td>
 				<td>${dto.testDate }</td>
 				<td>${dto.resDate }</td>
+				<td>
+					<input type="button" value="수정" onclick="window.location='/admin/modCerti?cnum=${dto.cnum }'">
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
 	
-	<input type="button" value="자격증 등록" onclick="window.location='/admin/addCerti'"/>
+	
