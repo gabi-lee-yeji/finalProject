@@ -18,4 +18,5 @@ public interface AdminService {
 	
 	//등록된 자격증 전체 목록
 	public List<CertiInfoDTO> getCertList();
+	
 }

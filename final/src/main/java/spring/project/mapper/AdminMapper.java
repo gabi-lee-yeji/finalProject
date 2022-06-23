@@ -15,4 +15,5 @@ public interface AdminMapper {
 	public int modCerti(CertiInfoDTO dto);
 	public int delCerti(String cnum);
 	public List<CertiInfoDTO> getCertList();
+	
 }

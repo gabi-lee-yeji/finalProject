@@ -23,10 +23,10 @@
 			cert_seq.NEXTVAL,
 			#{cname,jdbcType=VARCHAR},
 			#{category,jdbcType=VARCHAR},
-			#{cyear},
+			#{cyear,jdbcType=INTEGER},
 			#{cround,jdbcType=INTEGER},
 			#{ctype,jdbcType=VARCHAR},
-			to_date(#{regStart},'YYYY-MM-DD'),
+			to_date(#{regStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
 			to_date(#{regEnd,jdbcType=VARCHAR},'YYYY-MM-DD'),
 			to_date(#{reg_addStart,jdbcType=VARCHAR},'YYYY-MM-DD'),
 			to_date(#{reg_addEnd,jdbcType=VARCHAR},'YYYY-MM-DD'),
@@ -40,7 +40,7 @@
 	<insert id="addCertiDetail">
 		insert into certidetail values (
 			#{cnum},
-			#{company},
+			#{company,jdbcType=VARCHAR},
 			#{clevel,jdbcType=VARCHAR},
 			#{requirement,jdbcType=VARCHAR},
 			#{cmethod,jdbcType=VARCHAR},

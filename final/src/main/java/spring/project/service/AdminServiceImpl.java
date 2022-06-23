@@ -48,4 +48,5 @@ public class AdminServiceImpl implements AdminService{
 	public List<CertiInfoDTO> getCertList() {
 		return mapper.getCertList();
 	}
+	
 }
