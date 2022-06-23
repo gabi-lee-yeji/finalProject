@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.AdminMapper">
+	
+	<select id="getCertList" resultType="spring.project.model.CertiInfoDTO">
+		select 
+			cnum,cname,category,ctype,cround,
+			to_char(regStart,'YYYY-MM-DD') as regStart,
+			to_char(regEnd,'YYYY-MM-DD') as regEnd,
+			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
+			to_char(reg_addEnd,'YYYY-MM-DD') as reg_addEnd,
+			to_char(regStartTime,'HH24:MI') as regStartTime,
+			to_char(regEndTime,'HH24:MI') as regEndTime,
+			to_char(testDate,'YYYY-MM-DD') as testDate,
+			to_char(resDate,'YYYY-MM-DD') as resDate
+		from certiinfo
+	</select>
+	
+	<insert id="addCerti">
+		insert into certiinfo values (
+			cert_seq.NEXTVAL,
+			#{cname,jdbcType=VARCHAR},
+			#{category,jdbcType=VARCHAR},
+			#{cyear},
+			#{cround,jdbcType=INTEGER},
+			#{ctype,jdbcType=VARCHAR},
+			to_date(#{regStart},'YYYY-MM-DD'),
+			to_date(#{regEnd,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			to_date(#{reg_addStart,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			to_date(#{reg_addEnd,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			to_date(#{regStartTime,jdbcType=VARCHAR},'HH24:MI'),
+			to_date(#{regEndTime,jdbcType=VARCHAR},'HH24:MI'),
+			to_date(#{testDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			to_date(#{resDate,jdbcType=VARCHAR},'YYYY-MM-DD')
+		)
+	</insert>
+	
+	<insert id="addCertiDetail">
+		insert into certidetail values (
+			#{cnum},
+			#{company},
+			#{clevel,jdbcType=VARCHAR},
+			#{requirement,jdbcType=VARCHAR},
+			#{cmethod,jdbcType=VARCHAR},
+			#{subject,jdbcType=VARCHAR},
+			#{cutline,jdbcType=VARCHAR},
+			#{cinfo,jdbcType=VARCHAR},
+			#{cjob,jdbcType=VARCHAR},
+			#{website,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="findCnum" resultType="int">
+		select max(cnum) from certiinfo
+	</select>
+	
+</mapper>

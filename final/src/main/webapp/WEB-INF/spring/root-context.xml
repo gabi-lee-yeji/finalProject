@@ -19,8 +19,8 @@
 		<!--  <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@javaking.iptime.org:1521:orcl" />
-		<property name="username" value="test11" />
-		<property name="password" value="test" />
+		<property name="username" value="final01" />
+		<property name="password" value="final" />
 	</bean>
 	
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
@@ -37,8 +37,8 @@
 	
 	<tx:annotation-driven/>
 	
-	<mybatis-spring:scan base-package="test.score.mapper"/>
-	<context:component-scan base-package="test.score" />
+	<mybatis-spring:scan base-package="spring.project.mapper"/>
+	<context:component-scan base-package="spring.project" />
 	
 	<aop:aspectj-autoproxy />
 	
