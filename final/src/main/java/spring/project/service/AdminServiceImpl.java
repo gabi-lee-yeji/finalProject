@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.project.mapper.AdminMapper;
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.QnetDateDTO;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -40,7 +41,8 @@ public class AdminServiceImpl implements AdminService{
 		
 		cnum += String.format("%05d", mapper.findCurrseq(sequence));
 		
-		info.setCnum(cnum); detail.setCnum(cnum);
+		info.setCnum(cnum); 
+		detail.setCnum(cnum);
 		
 		int result = mapper.addCerti(info);
 		result += mapper.addCertiDetail(detail);
@@ -83,4 +85,10 @@ public class AdminServiceImpl implements AdminService{
 		return list;
 	}
 
+	
+	@Override
+	public void addQnetDate(QnetDateDTO dto) {
+		mapper.addQnetDate(dto);
+	}
+	
 }
