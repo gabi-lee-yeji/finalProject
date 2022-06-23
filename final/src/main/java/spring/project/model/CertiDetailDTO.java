@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CertiDetailDTO {
-	private int cnum;
+	private String cnum;
 	private String company; //접수처/시행기관(자격관리자)
 	private String clevel; //자격등급
 	private String requirement; //응시자격
