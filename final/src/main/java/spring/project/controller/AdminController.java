@@ -3,14 +3,24 @@ package spring.project.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
@@ -149,4 +159,61 @@ public class AdminController {
 		str = str.replaceAll("\"\"\"", "");
 		return str;
 	}
+	
+	//추천자격증 기능 관련 메서드(오류)
+	@RequestMapping("certiMatchTest")
+	public String certiMatchTest() throws Exception {
+		
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		
+		Document document = builder.parse(new File("F:/data/jobCode.xml"));
+		
+		NodeList nodes = document.getElementsByTagName("content");
+		System.out.println("리스트 수: "+ nodes.getLength());
+		
+		ArrayList<String> list = new ArrayList();
+		
+		for(int i=0; i<nodes.getLength(); i++) {
+			Node node = nodes.item(i);
+			if(node.getNodeType() == Node.ELEMENT_NODE) {
+				Element e = (Element) node;
+				//System.out.println(getTagValue("jobdicSeq",e));
+				//list.add(getTagValue("jobdicSeq",e));
+				DocumentBuilderFactory factory2 = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder2 = factory2.newDocumentBuilder();
+				Document document2 = builder2.parse("http://www.career.go.kr/cnet/openapi/getOpenApi.xml?apiKey=34caf563dfd1941d93bc320d28211597&svcType=api&svcCode=JOB_VIEW&jobdicSeq="
+						+ getTagValue("jobdicSeq",e));
+				NodeList nodes2 = document2.getElementsByTagName("content");
+				Node node2 = nodes2.item(0);
+				Element f = (Element)node2;
+				if(getTagValue("capacity",f) != null) {
+					//System.out.println(getTagValue("job",f)+"("+ getTagValue("jobdicSeq",e) + ") : " + getTagValue("capacity",f));
+					String str = getTagValue("capacity",f).replaceAll("[(.)]", "");
+					String [] strs = str.split(",");
+					for(String s : strs) {
+						s=s.trim();
+						s=s.replaceAll(" ", "");
+						String data = "\"" + getTagValue("job",f)+ "\"," +s+"\n";
+						System.out.print(data);
+						
+						FileOutputStream fstream = new FileOutputStream(new File("f:/data/ttt.csv"),true);
+						fstream.write(data.getBytes());
+						fstream.close();
+					}
+					
+				}
+			}
+		}
+		return "admin/test";
+	}
+	// tag값의 정보를 가져오는 메소드
+	private static String getTagValue(String tag, Element eElement) {
+	    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
+	    Node nValue = (Node) nlList.item(0);
+	    if(nValue == null) 
+	        return null;
+	    return nValue.getNodeValue();
+	}
+
 }

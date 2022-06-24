@@ -27,4 +27,5 @@ public interface AdminMapper {
 	public CertiDetailDTO getCertiDetail(String cnum);
 	
 	public QnetDateDTO getQnetdate(CertiInfoDTO dto);
+	public void addQnetDate(QnetDateDTO dto);
 }
