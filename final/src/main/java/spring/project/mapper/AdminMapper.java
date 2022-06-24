@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.PagingDTO;
 import spring.project.model.QnetDateDTO;
 
 public interface AdminMapper {
@@ -21,10 +22,18 @@ public interface AdminMapper {
 	
 	public int delCerti(String cnum);
 	
-	public List<CertiInfoDTO> getCertList();
+	public List<CertiInfoDTO> getCertList(PagingDTO page);
+	public int getCertCnt();
 	
 	public CertiInfoDTO getCertiInfo(String cnum);
 	public CertiDetailDTO getCertiDetail(String cnum);
 	
 	public QnetDateDTO getQnetdate(CertiInfoDTO dto);
+	
+	public List<CertiInfoDTO> getSearchList(@Param("startRow")int startRow,
+											@Param("endRow")int endRow,
+											@Param("search")String search, 
+											@Param("keyword")String keyword);
+	public int getSearchCnt(@Param("search")String search, 
+							@Param("keyword")String keyword);
 }

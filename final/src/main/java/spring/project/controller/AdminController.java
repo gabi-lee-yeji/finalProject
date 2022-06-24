@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.PagingDTO;
 import spring.project.model.QnetDateDTO;
 import spring.project.service.AdminService;
 
@@ -53,15 +54,19 @@ public class AdminController {
 	
 	
 	@RequestMapping("certiList")
-	public String getCertiList(Model model) {
-		List<CertiInfoDTO> list = service.getCertList();
-		int count = list.size();
+	public String getCertiList(String pageNum, Model model) {
+		//한 페이지에 보여주고 싶은 게시글수 매개변수로 전달
+		int pageSize = 30;
+		PagingDTO page = new PagingDTO(pageSize, pageNum);
+		List<CertiInfoDTO> list = service.getCertList(page);
+		int count = service.getCertCnt();
 		model.addAttribute("list", list);
 		model.addAttribute("count",count);
+		model.addAttribute("page",page);
 		return "admin/certiList";
 	}
 	
-	@RequestMapping("addQnetAll")
+	@RequestMapping("cert/addQnetAll")
 	public String addQnetAll() throws IOException {
 		
 		FileInputStream fis = new FileInputStream(new File("F:/R/kki.csv"));
@@ -87,7 +92,6 @@ public class AdminController {
 			//System.out.println(info);
 			//System.out.println(detail);
 		}
-		
 		return "admin/addQnetAll";
 	}
 	
@@ -148,5 +152,16 @@ public class AdminController {
 		str = str.replaceAll("\"=\"\"", "");
 		str = str.replaceAll("\"\"\"", "");
 		return str;
+	}
+	
+	@RequestMapping("search")
+	public String searchList(String pageNum, String search, String keyword, Model model) {
+		PagingDTO page = new PagingDTO(10, pageNum);
+		model.addAttribute("search", search);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("page",page);
+		model.addAttribute("count", service.getSearchCnt(search, keyword));
+		model.addAttribute("list", service.getSearchList(page, search, keyword));
+		return "/admin/searchList";
 	}
 }

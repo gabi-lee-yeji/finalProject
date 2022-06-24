@@ -2,20 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <head>
-	<title>등록된 자격증 목록</title>
+	<meta charset="UTF-8">
+	<title> 검색결과 : ${keyword} </title>
 </head>
-
-	<h1>자격증 목록 [총 : ${count }]</h1>
-	<input type="button" value="자격증 등록" onclick="window.location='/admin/addCerti'"/>
-	<form action="/admin/search" method="post">
-		<select	name="search">
-			<option value="cname">종목명</option>
-		</select>
-		<input type="text" name="keyword">
-		<input type="submit" value="검색">
-	</form>
+<body>
+	<h1>'${keyword}' 검색 결과 [총: ${count}개] </h1>
 	<table>
 		<tr>
 			<th>번호</th>
@@ -66,17 +58,18 @@
         
         <center>
         <c:if test="${startPage > 10 }">
-        	<a href="/admin/certiList?pageNum=${startPage-10}">[이전]</a>
+        	<a href="/admin/search?pageNum=${startPage-10}">[이전]</a>
         </c:if>
         
         <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-        	<a href="/admin/certiList?pageNum=${i}">[${i}]</a>
+        	<a href="/admin/search?pageNum=${i}">[${i}]</a>
 		</c:forEach>
 		
 		<c:if test="${endPage < pageCount}">
-        	<a href="/admin/certiList?pageNum=${startPage + 10}">[다음]</a>
+        	<a href="/admin/search?pageNum=${startPage + 10}">[다음]</a>
 		</c:if>
 		</center>
     </c:if>
 	
 	
+</body>

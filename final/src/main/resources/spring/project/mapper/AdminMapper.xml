@@ -4,6 +4,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
 	
+	<select id="getSearchCnt" resultType="int">
+		select count(*) from certiinfo where ${search} like '%${keyword}%'
+	</select>
+	<select id="getSearchList" resultType="spring.project.model.CertiInfoDTO"
+								parameterType="spring.project.model.PagingDTO">
+		<![CDATA[
+		select * from (select rownum r, list.* from (select 
+			cnum,cname,category,ctype,cround,
+			to_char(regStart,'YYYY-MM-DD') as regStart,
+			to_char(regEnd,'YYYY-MM-DD') as regEnd,
+			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
+			to_char(reg_addEnd,'YYYY-MM-DD') as reg_addEnd,
+			to_char(regStartTime,'HH24:MI') as regStartTime,
+			to_char(regEndTime,'HH24:MI') as regEndTime,
+			to_char(testDate,'YYYY-MM-DD') as testDate,
+			to_char(resDate,'YYYY-MM-DD') as resDate
+		from certiinfo where ${search} like '%${keyword}%') list)
+        where r between #{startRow} and #{endRow}
+        ]]>
+	</select>
+	
+	<select id="getCertCnt" resultType="int">
+		select count(*) from certiinfo
+	</select>
+	
 	<select id="getQnetdate" resultType="spring.project.model.QnetDateDTO">
 		select * from qnetdate 
 		where cyear=#{cyear}
@@ -39,7 +64,8 @@
 	</select>
 	
 	<select id="getCertList" resultType="spring.project.model.CertiInfoDTO">
-		select 
+		<![CDATA[
+		select * from (select rownum r, list.* from (select 
 			cnum,cname,category,ctype,cround,
 			to_char(regStart,'YYYY-MM-DD') as regStart,
 			to_char(regEnd,'YYYY-MM-DD') as regEnd,
@@ -49,7 +75,9 @@
 			to_char(regEndTime,'HH24:MI') as regEndTime,
 			to_char(testDate,'YYYY-MM-DD') as testDate,
 			to_char(resDate,'YYYY-MM-DD') as resDate
-		from certiinfo
+		from certiinfo order by cnum) list)
+        where r >= #{startRow} and r <= #{endRow}
+        ]]>
 	</select>
 	
 	<insert id="addCerti">
@@ -67,7 +95,8 @@
 			to_date(#{regStartTime,jdbcType=VARCHAR},'HH24:MI'),
 			to_date(#{regEndTime,jdbcType=VARCHAR},'HH24:MI'),
 			to_date(#{testDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
-			to_date(#{resDate,jdbcType=VARCHAR},'YYYY-MM-DD')
+			to_date(#{resDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			sysdate
 		)
 	</insert>
 	
