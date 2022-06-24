@@ -48,8 +48,7 @@
 			to_char(regStartTime,'HH24:MI') as regStartTime,
 			to_char(regEndTime,'HH24:MI') as regEndTime,
 			to_char(testDate,'YYYY-MM-DD') as testDate,
-			to_char(resDate,'YYYY-MM-DD') as resDate
-		from certiinfo
+			to_char(resDate,'YYYY-MM-DD') as resDate		from certiinfo
 	</select>
 	
 	<insert id="addCerti">
@@ -67,7 +66,8 @@
 			to_date(#{regStartTime,jdbcType=VARCHAR},'HH24:MI'),
 			to_date(#{regEndTime,jdbcType=VARCHAR},'HH24:MI'),
 			to_date(#{testDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
-			to_date(#{resDate,jdbcType=VARCHAR},'YYYY-MM-DD')
+			to_date(#{resDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			sysdate
 		)
 	</insert>
 	
@@ -113,9 +113,9 @@
 			<if test="pracRegEnd2 == null">'',</if>
 			#{pracTestStart},
 			#{pracTestEnd},
-			#{pracResStart}
-			<if test="pracResEnd != null">, #{pracResEnd}</if>
-			<if test="pracResEnd == null">,''</if>
+			#{pracResStart},
+			<if test="pracResEnd != null">#{pracResEnd}</if>
+			<if test="pracResEnd == null">''</if>
 			
 		)
 	</insert>
