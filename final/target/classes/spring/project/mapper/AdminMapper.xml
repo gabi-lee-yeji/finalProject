@@ -4,6 +4,29 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
 	
+	<select id="getSearchCnt" resultType="int">
+		select count(*) from certiinfo where ${search} like '%${keyword}%'
+	</select>
+	<select id="getSearchList" resultType="spring.project.model.CertiInfoDTO"
+								parameterType="spring.project.model.PagingDTO">
+		select * from (select rownum r, list.* from (select 
+			cnum,cname,category,ctype,cround,
+			to_char(regStart,'YYYY-MM-DD') as regStart,
+			to_char(regEnd,'YYYY-MM-DD') as regEnd,
+			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
+			to_char(reg_addEnd,'YYYY-MM-DD') as reg_addEnd,
+			to_char(regStartTime,'HH24:MI') as regStartTime,
+			to_char(regEndTime,'HH24:MI') as regEndTime,
+			to_char(testDate,'YYYY-MM-DD') as testDate,
+			to_char(resDate,'YYYY-MM-DD') as resDate
+		from certiinfo where ${search} like '%${keyword}%') list)
+        where r between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="getCertCnt" resultType="int">
+		select count(*) from certiinfo
+	</select>
+	
 	<select id="getQnetdate" resultType="spring.project.model.QnetDateDTO">
 		select * from qnetdate 
 		where cyear=#{cyear}
@@ -14,10 +37,35 @@
 	<update id="modCertInfo">
 		update certiinfo
 		<set>
-			<if test=""></if>
-			<if test="">,</if>
-			<if test="">,</if>
-			<if test=""></if>
+			<if test="cname != null">cname=#{cname},</if>
+			<if test="category != null">category=#{category},</if>
+			<if test="cyear != null">cyear=#{cyear},</if>
+			<if test="cround != null">cround=#{cround},</if>
+			<if test="ctype != null">ctype=#{ctype},</if>
+			<if test="regStart != null">
+				regStart=to_date(#{regStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
+			</if>
+			<if test="regEnd != null">
+				regEnd=to_date(#{regEnd, jdbcType=VARCHAR},'YYYY-MM-DD'),
+			</if>
+			<if test="reg_addStart != null">
+				reg_addStart=to_date(#{reg_addStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
+			</if>
+			<if test="reg_addEnd != null">
+				reg_addEnd=to_date(#{reg_addEnd, jdbcType=VARCHAR},'YYYY-MM-DD'),
+			</if>
+			<if test="regStartTime != null">
+				regStartTime=to_date(#{regStartTime, jdbcType=VARCHAR},'HH24:MI'),
+			</if>
+			<if test="regEndTime != null">
+				regEndTime=to_date(#{regEndTime, jdbcType=VARCHAR},'HH24:MI'),
+			</if>
+			<if test="testDate != null">
+				testDate=to_date(#{testDate, jdbcType=VARCHAR},'YYYY-MM-DD'),
+			</if>
+			<if test="resDate != null">
+				resDate=to_date(#{resDate, jdbcType=VARCHAR},'YYYY-MM-DD'),
+			</if>
 		</set>
 		where cnum=#{cnum}
 	</update>
@@ -26,7 +74,17 @@
 		select * from certidetail where cnum=#{cnum}
 	</select>
 	<select id="getCertiInfo" resultType="spring.project.model.CertiInfoDTO">
-		select * from certiinfo where cnum=#{cnum}
+		select 
+			cnum,cname,category,ctype,cround,
+			to_char(regStart,'YYYY-MM-DD') as regStart,
+			to_char(regEnd,'YYYY-MM-DD') as regEnd,
+			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
+			to_char(reg_addEnd,'YYYY-MM-DD') as reg_addEnd,
+			to_char(regStartTime,'HH24:MI') as regStartTime,
+			to_char(regEndTime,'HH24:MI') as regEndTime,
+			to_char(testDate,'YYYY-MM-DD') as testDate,
+			to_char(resDate,'YYYY-MM-DD') as resDate
+		from certiinfo where cnum=#{cnum}
 	</select>
 	
 	<select id="findNextseq" resultType="int">
@@ -39,6 +97,30 @@
 	</select>
 	
 	<select id="getCertList" resultType="spring.project.model.CertiInfoDTO">
+		select * from (select rownum r, list.* from (select 
+			cnum,cname,category,ctype,cround,
+			to_char(regStart,'YYYY-MM-DD') as regStart,
+			to_char(regEnd,'YYYY-MM-DD') as regEnd,
+			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
+			to_char(reg_addEnd,'YYYY-MM-DD') as reg_addEnd,
+			to_char(regStartTime,'HH24:MI') as regStartTime,
+			to_char(regEndTime,'HH24:MI') as regEndTime,
+			to_char(testDate,'YYYY-MM-DD') as testDate,
+			to_char(resDate,'YYYY-MM-DD') as resDate
+		from certiinfo order by 
+			<choose>
+				<when test="sort != null">
+					${sort} ${order}
+				</when>
+				<otherwise>
+					cnum asc
+				</otherwise>
+			</choose>
+			nulls last) list)
+        where r between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="getDelList" resultType="spring.project.model.CertiInfoDTO"> 
 		select 
 			cnum,cname,category,ctype,cround,
 			to_char(regStart,'YYYY-MM-DD') as regStart,
@@ -49,8 +131,25 @@
 			to_char(regEndTime,'HH24:MI') as regEndTime,
 			to_char(testDate,'YYYY-MM-DD') as testDate,
 			to_char(resDate,'YYYY-MM-DD') as resDate
-		from certiinfo
+		from certiinfo where cnum in 
+		<foreach collection="array" item="cnum" open="(" separator="," close=")">
+			#{cnum}
+		</foreach>
+		order by cnum
 	</select>
+	
+	<delete id="delCertiInfo">
+		delete from certiinfo where cnum in
+		<foreach collection="array" item="cnum" open="(" separator="," close=")">
+			#{cnum}
+		</foreach>
+	</delete>
+	<delete id="delCertiDetail">
+		delete from certidetail where cnum in
+		<foreach collection="array" item="cnum" open="(" separator="," close=")">
+			#{cnum}
+		</foreach>
+	</delete>
 	
 	<insert id="addCerti">
 		insert into certiinfo values (
@@ -58,7 +157,7 @@
 			#{cname,jdbcType=VARCHAR},
 			#{category,jdbcType=VARCHAR},
 			#{cyear,jdbcType=INTEGER},
-			#{cround,jdbcType=INTEGER},
+			nvl(#{cround,jdbcType=INTEGER}, 0),
 			#{ctype,jdbcType=VARCHAR},
 			to_date(#{regStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
 			to_date(#{regEnd,jdbcType=VARCHAR},'YYYY-MM-DD'),
@@ -67,7 +166,8 @@
 			to_date(#{regStartTime,jdbcType=VARCHAR},'HH24:MI'),
 			to_date(#{regEndTime,jdbcType=VARCHAR},'HH24:MI'),
 			to_date(#{testDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
-			to_date(#{resDate,jdbcType=VARCHAR},'YYYY-MM-DD')
+			to_date(#{resDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			sysdate
 		)
 	</insert>
 	
@@ -82,7 +182,11 @@
 			#{cutline,jdbcType=VARCHAR},
 			#{cinfo,jdbcType=VARCHAR},
 			#{cjob,jdbcType=VARCHAR},
-			#{website,jdbcType=VARCHAR}
+			#{website,jdbcType=VARCHAR},
+			#{status, jdbcType=VARCHAR},
+			to_date(#{expiry,jdbcType=VARCHAR},'YYYY-MM-DD'),
+			#{testPrice, jdbcType=VARCHAR},
+			#{notice, jdbcType=VARCHAR}
 		)
 	</insert>
 	
