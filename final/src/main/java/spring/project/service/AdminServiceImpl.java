@@ -103,19 +103,6 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.getSearchCnt(search, keyword);
 	}
 
-	@Override
-	public void addQnetDate(QnetDateDTO dto) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	
-
-	
-//	@Override
-//	public void addQnetDate(QnetDateDTO dto) {
-//		mapper.addQnetDate(dto);
-//	}
 	
 }

@@ -37,4 +37,5 @@ public class CertiInfoDTO {
 	
 	//@DateTimeFormat(pattern="yyyy-MM-dd")
 	private String registDate;
+	
 }

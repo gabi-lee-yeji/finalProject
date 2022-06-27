@@ -33,7 +33,5 @@ public interface AdminService {
 	//검색 결과 전체 개수
 	public int getSearchCnt(String search, String keyword);
 	
-	//큐넷 일정 데이터(csv) 추가
-	public void addQnetDate(QnetDateDTO dto);
 	
 }
