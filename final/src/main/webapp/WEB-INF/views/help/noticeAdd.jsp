@@ -1,20 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
 <head>
 	<meta charset="UTF-8">
 	<title>공지사항</title>
 </head>
 <body>
 	<h1>공지사항 등록</h1>
-	<form action="/help/noticeAddPro" name="noticeAdd" method="post">
+	<form action="/help/noticeAddPro" name="noticeAdd" method="get">
 	<input type="hidden" name="board_type" value="공지사항" />
-	<input type="hidden" name="POST_GROUP" value=0 />
-	<input type="hidden" name="POST_LEVEL" value=0 />
-	<input type="hidden" name="READCNT" value=0 />
-	<input type="hidden" name="img" value="no" />	
+	post_group <input type="number" name="post_group" />
+	post_level <input type="number" name="post_level" />
+	img <input type="text" name="img" />
+	readcnt: <input type="number" name="readCnt" />	
 		<table>
 			<tr>
 				<td>제목</td>
@@ -32,11 +30,7 @@
 				<td><input type="submit" value="등록" /></td>
 			</tr>
 			<!-- 카테고리(board_type)는 자동으로 입력 (controller)
-			reg 자동 입력 > xml -->
-			
-	  
-			
+			reg 자동 입력 > xml -->		
 		</table>
 	</form>
 </body>
-</html>

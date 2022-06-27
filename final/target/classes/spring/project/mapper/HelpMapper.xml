@@ -4,19 +4,33 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.HelpMapper">
 	
-	<insert id="noticeAdd" >
-		insert into POST_BOARD values(
-			post_board_seq.nextval,
-			#{subject},
-			#{post_content},
-			#{writer},
+	<insert id="noticeAdd" parameterType="spring.project.model.Post_BoardDTO">
+		insert into post_board values (
+			board_seq.nextval,   
+			#{subject, jdbcType=VARCHAR},
+			#{post_content, jdbcType=VARCHAR},
+			#{writer, jdbcType=VARCHAR},
 			sysdate,
-			0,
-			0,
+			#{post_group, jdbcType=NUMERIC},
+			#{post_level, jdbcType=NUMERIC},
 			#{board_type},
-			0,
-			<if test="img != NULL">img=#{img}</if>
+			#{readCnt, jdbcType=NUMERIC},
+			#{img, jdbcType=VARCHAR}
 			)
 	</insert>
+	
+	
+	<update id="updateArticle">
+		update board 
+		<set>
+			<if test="writer != null"> writer=#{writer},</if>
+			<if test="email != null"> email=#{email},</if> 
+			<if test="subject != null"> subject=#{subject},</if> 
+			<if test="passwd != null"> passwd=#{passwd},</if> 
+			<if test="content != null"> content=#{content},</if> 
+		</set>
+		where num=#{num}
+	</update>
+	
 	
 </mapper>

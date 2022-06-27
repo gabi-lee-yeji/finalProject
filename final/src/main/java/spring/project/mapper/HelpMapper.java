@@ -1,9 +1,9 @@
 package spring.project.mapper;
 
-import spring.project.model.HelpNoticeDTO;
+import spring.project.model.Post_BoardDTO;
 
 public interface HelpMapper {
 	
-	public void noticeAdd(HelpNoticeDTO dto);
+	public void noticeAdd(Post_BoardDTO dto);
 
 }

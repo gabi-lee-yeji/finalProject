@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import spring.project.mapper.HelpMapper;
-import spring.project.model.HelpNoticeDTO;
+import spring.project.model.Post_BoardDTO;
 
 @Service
 public class HelpServiceImpl implements HelpService {
@@ -13,7 +13,7 @@ public class HelpServiceImpl implements HelpService {
 	private HelpMapper mapper;
 
 	@Override
-	public void noticeAdd(HelpNoticeDTO dto) {
+	public void noticeAdd(Post_BoardDTO dto) {
 		mapper.noticeAdd(dto);
 	}
 

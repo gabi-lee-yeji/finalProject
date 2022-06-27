@@ -1,10 +1,10 @@
 package spring.project.service;
 
-import spring.project.model.HelpNoticeDTO;
+import spring.project.model.Post_BoardDTO;
 
 public interface HelpService {
 	
 	// 공지사항 글 등록
-	public void noticeAdd(HelpNoticeDTO dto);
+	public void noticeAdd(Post_BoardDTO dto);
 
 }
