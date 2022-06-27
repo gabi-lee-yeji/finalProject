@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.project.mapper.AdminMapper;
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.PagingDTO;
 import spring.project.model.QnetDateDTO;
 
 @Service
@@ -68,9 +69,14 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<CertiInfoDTO> getCertList() {
-		return mapper.getCertList();
+	public List<CertiInfoDTO> getCertList(PagingDTO page) {
+		return mapper.getCertList(page);
 	}
+	@Override
+	public int getCertCnt() {
+		return mapper.getCertCnt();
+	}
+	
 
 	@Override
 	public List<Object> getCertiInfo(String cnum) {
@@ -85,10 +91,31 @@ public class AdminServiceImpl implements AdminService{
 		return list;
 	}
 
-	
+	@Override
+	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword) {
+		int startRow = page.getStartRow();
+		int endRow = page.getEndRow();
+		return mapper.getSearchList(startRow, endRow, search, keyword);
+	}
+
+	@Override
+	public int getSearchCnt(String search, String keyword) {
+		return mapper.getSearchCnt(search, keyword);
+	}
+
 	@Override
 	public void addQnetDate(QnetDateDTO dto) {
-		mapper.addQnetDate(dto);
+		// TODO Auto-generated method stub
+		
 	}
+
+
+	
+
+	
+//	@Override
+//	public void addQnetDate(QnetDateDTO dto) {
+//		mapper.addQnetDate(dto);
+//	}
 	
 }
