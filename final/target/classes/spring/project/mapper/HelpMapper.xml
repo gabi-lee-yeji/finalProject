@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.HelpMapper">
+	
+	<insert id="noticeAdd" >
+		insert into POST_BOARD values(
+			post_board_seq.nextval,
+			#{subject},
+			#{post_content},
+			#{writer},
+			sysdate,
+			0,
+			0,
+			#{board_type},
+			0,
+			<if test="img != NULL">img=#{img}</if>
+			)
+	</insert>
+	
+</mapper>
