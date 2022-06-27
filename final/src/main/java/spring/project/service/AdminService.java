@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.MemberInfoDTO;
 import spring.project.model.PagingDTO;
 import spring.project.model.QnetDateDTO;
 

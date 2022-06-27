@@ -13,8 +13,8 @@ public class HelpServiceImpl implements HelpService {
 	private HelpMapper mapper;
 
 	@Override
-	public void noticeAdd(Post_BoardDTO dto) {
-		mapper.noticeAdd(dto);
+	public void addNotice(Post_BoardDTO dto) {
+		mapper.addNotice(dto);
 	}
 
 }

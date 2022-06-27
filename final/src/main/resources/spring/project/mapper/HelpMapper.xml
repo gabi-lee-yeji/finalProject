@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.HelpMapper">
 	
-	<insert id="noticeAdd" parameterType="spring.project.model.Post_BoardDTO">
+	<insert id="addNotice" parameterType="spring.project.model.Post_BoardDTO">
 		insert into post_board values (
 			board_seq.nextval,   
 			#{subject, jdbcType=VARCHAR},

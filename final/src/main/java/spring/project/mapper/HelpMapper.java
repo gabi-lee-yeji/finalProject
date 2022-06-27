@@ -4,6 +4,6 @@ import spring.project.model.Post_BoardDTO;
 
 public interface HelpMapper {
 	
-	public void noticeAdd(Post_BoardDTO dto);
+	public void addNotice(Post_BoardDTO dto);
 
 }

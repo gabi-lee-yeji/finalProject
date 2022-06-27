@@ -17,18 +17,18 @@ public class HelpController {
 	@Autowired
 	private HelpService service;
 	
-	@RequestMapping("noticeAdd")
-	public String noticeAdd(Post_BoardDTO dto) {
+	@RequestMapping("addNotice")
+	public String addNotice(Post_BoardDTO dto) {
 		
-		log.info("noticeAdd 연결 확인");
+		log.info("addNotice 연결 확인");
 		
-		return "/help/noticeAdd";
+		return "/help/addNotice";
 	}
 	
-	@RequestMapping("noticeAddPro")
-	public String noticeAddPro(Post_BoardDTO dto) {
-		service.noticeAdd(dto);
-		return "/help/noticeAddPro";
+	@RequestMapping("addNoticePro")
+	public String addNoticePro(Post_BoardDTO dto) {
+		service.addNotice(dto);
+		return "/help/addNoticePro";
 	}
 
 	@RequestMapping("noticeList")
