@@ -10,7 +10,10 @@
 	<table>
 		<tr>
 			<td>자격증 번호</td>
-			<td>${info.cnum }</td>
+			<td>
+				${cnum }
+				<input type="hidden" name="cnum" value="${cnum }">
+			</td>
 		</tr>
 		<tr>
 			<td>자격증 이름</td>
@@ -19,12 +22,9 @@
 		<tr>
 			<td>자격증(시험) 종류</td>
 			<td>
-				<select name="category">
-					<option value="${info.category }">==${info.category }==</option>
-					<option value="국가기술">국가기술</option>
-					<option value="공인민간">공인민간</option>
-					<option value="어학">어학</option>
-				</select>
+				<input type="text" name="category" value="${info.category }" disabled/>
+				*시험 종류 변경이 필요한 경우, 권한 필요 : 
+				<a href="/admin/cert/chgCate">수정 요청하기</a> 
 			</td>
 		</tr>
 	</table>
@@ -118,7 +118,37 @@
 	<c:if test="${info.category != '국가기술'}">
 		<table>
 			<tr>
-				<td></td>
+				<td>원서접수기간</td>
+				<td>
+					<input type="text" name="regStart" value="${info.regStart }" /> 
+					<c:if test="${info.regStartTime != null }">
+						<input type="text" name="regStartTime" value="${info.regStartTime }">
+					</c:if>
+					~ 
+					<input type="text" name="regEnd" value="${info.regEnd }" />
+					<c:if test="${info.regStartTime != null }">
+						<input type="text" name="regEndTime" value="${info.regEndTime }">
+					</c:if>
+				</td>
+			</tr>
+			<tr>
+				<td>추가접수기간</td>
+				<td>
+					<input type="text" name="reg_addStart" value="${info.reg_addStart }" />
+					~ <input type="text" name="reg_addEnd" value="${info.reg_addEnd }" />
+				</td>
+			</tr>
+			<tr>
+				<td>시험일자</td>
+				<td>
+					<input type="text" name="testDate" value="${info.testDate }" />
+				</td>
+			</tr>
+			<tr>
+				<td>결과 발표일</td>
+				<td>
+					<input type="text" name="resDate" value="${info.resDate }" />
+				</td>
 			</tr>
 		</table>
 	</c:if>

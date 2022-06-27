@@ -53,24 +53,21 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int modCerti(CertiInfoDTO info, CertiDetailDTO detail) {
-		String cnum = info.getCnum();
-		int result = mapper.modCertInfo(info, cnum);
+	public int modCerti(String cnum, CertiInfoDTO info, CertiDetailDTO detail) {
+		info.setCnum(cnum); detail.setCnum(cnum);
+		int result = mapper.modCertInfo(info);
 		System.out.println("===info==="+result);
-		result += mapper.modCertDetail(info, cnum);
+		//result += mapper.modCertDetail(info);
 		System.out.println("===detail==="+result);
 		return result;
 	}
 
 	@Override
-	public int delCerti(String cnum) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<CertiInfoDTO> getCertList(PagingDTO page) {
-		return mapper.getCertList(page);
+	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order) {
+		int startRow = page.getStartRow();
+		int endRow = page.getEndRow();
+		System.out.println("order by : "+sort+" "+order);
+		return mapper.getCertList(startRow, endRow, sort, order);
 	}
 	@Override
 	public int getCertCnt() {
@@ -81,6 +78,7 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<Object> getCertiInfo(String cnum) {
 		List<Object> list = new ArrayList<Object>();
+		
 		list.add(mapper.getCertiInfo(cnum));
 		list.add(mapper.getCertiDetail(cnum));
 		
@@ -107,6 +105,21 @@ public class AdminServiceImpl implements AdminService{
 	public void addQnetDate(QnetDateDTO dto) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<CertiInfoDTO> getDelList(String[] cnumList) {
+		return mapper.getDelList(cnumList);
+	}
+	
+	@Transactional
+	@Override
+	public int delCerti(String[] cnumList) {
+		int result = mapper.delCertiInfo(cnumList);
+		System.out.println("==info=="+result);
+		result += mapper.delCertiDetail(cnumList);
+		System.out.println("==detail=="+result);
+		return result;
 	}
 
 

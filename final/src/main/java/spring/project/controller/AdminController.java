@@ -39,6 +39,7 @@ public class AdminController {
 	@RequestMapping("modCerti")
 	public String modCerti(String cnum, Model model) {
 		List<Object> list = service.getCertiInfo(cnum);
+		model.addAttribute("cnum", cnum);
 		model.addAttribute("info", list.get(0));
 		model.addAttribute("detail", list.get(1));
 		if(list.size()>2) {
@@ -47,22 +48,39 @@ public class AdminController {
 		return "admin/modCerti";
 	}
 	@RequestMapping("modCertiPro")
-	public String modCertiPro(CertiInfoDTO info, CertiDetailDTO detail, Model model) {
-		model.addAttribute("result",service.modCerti(info, detail));
+	public String modCertiPro(String cnum, CertiInfoDTO info, CertiDetailDTO detail, Model model) {
+		model.addAttribute("cnum", cnum);
+		model.addAttribute("result",service.modCerti(cnum, info, detail));
 		return "admin/modCertiPro";
 	}
 	
+	@RequestMapping("deleteForm")
+	public String deleteForm(String[] cnumList, Model model) {
+		for(String cnum : cnumList)
+			System.out.print(cnum);
+		//삭제하기전 선택한 자격증 컨펌하는 페이지 
+		model.addAttribute("list", service.getDelList(cnumList));
+		return "admin/deleteForm";
+	}
+	@RequestMapping("deletePro")
+	public String deletePro(String[] cnumList, Model model) {
+		model.addAttribute("result", service.delCerti(cnumList));
+		return "admin/deletePro";
+	}
 	
 	@RequestMapping("certiList")
-	public String getCertiList(String pageNum, Model model) {
+	public String getCertiList(String pageNum, String sort, String order, Model model) {
 		//한 페이지에 보여주고 싶은 게시글수 매개변수로 전달
 		int pageSize = 30;
 		PagingDTO page = new PagingDTO(pageSize, pageNum);
-		List<CertiInfoDTO> list = service.getCertList(page);
+		
+		List<CertiInfoDTO> list = service.getCertList(page, sort, order);
 		int count = service.getCertCnt();
 		model.addAttribute("list", list);
 		model.addAttribute("count",count);
 		model.addAttribute("page",page);
+		model.addAttribute("sort", sort);
+		model.addAttribute("order", order);
 		return "admin/certiList";
 	}
 	
@@ -155,13 +173,23 @@ public class AdminController {
 	}
 	
 	@RequestMapping("search")
-	public String searchList(String pageNum, String search, String keyword, Model model) {
-		PagingDTO page = new PagingDTO(10, pageNum);
+	public String searchList(String pageNum, String search, String keyword, String category, Model model) {
+		PagingDTO page = new PagingDTO(30, pageNum);
 		model.addAttribute("search", search);
-		model.addAttribute("keyword", keyword);
 		model.addAttribute("page",page);
-		model.addAttribute("count", service.getSearchCnt(search, keyword));
-		model.addAttribute("list", service.getSearchList(page, search, keyword));
+		if(search.equals("category")) {
+			if(category == null) category = keyword;
+			model.addAttribute("keyword", category);
+			model.addAttribute("count", service.getSearchCnt(search, category));
+			model.addAttribute("list", service.getSearchList(page, search, category));
+		}else {
+			model.addAttribute("keyword", keyword);
+			model.addAttribute("count", service.getSearchCnt(search, keyword));
+			model.addAttribute("list", service.getSearchList(page, search, keyword));
+		}
+		System.out.println("search : "+search);
+		System.out.println("keyword : "+keyword);
+		System.out.println("category : "+category);
 		return "/admin/searchList";
 	}
 }
