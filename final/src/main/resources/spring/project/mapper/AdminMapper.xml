@@ -82,41 +82,11 @@
 			#{cutline,jdbcType=VARCHAR},
 			#{cinfo,jdbcType=VARCHAR},
 			#{cjob,jdbcType=VARCHAR},
-			#{website,jdbcType=VARCHAR}
-		)
-	</insert>
-	
-	<insert id="addQnetDate" parameterType="spring.project.model.QnetDateDTO">
-		insert into qnetdate values(
-			#{cyear},
-			#{cround},
-			#{ctype},
-			#{docRegStart1},
-			#{docRegEnd1},
-			<if test="docRegStart2 != null">#{docRegStart2},</if>
-			<if test="docRegStart2 == null">'',</if>
-			<if test="docRegEnd2 != null">#{docRegEnd2},</if>
-			<if test="docRegEnd2 == null">'',</if>
-			#{docTestStart},
-			<if test="docTestEnd != null">#{docTestEnd},</if>
-			<if test="docTestEnd == null">'',</if>
-			#{docResult},
-			<if test="docSubmitStart != null">#{docSubmitStart},</if>
-			<if test="docSubmitStart == null">'',</if>
-			<if test="docSubmitEnd != null">#{docSubmitEnd},</if>
-			<if test="docSubmitEnd == null">'',</if>
-			#{pracRegStart1},
-			#{pracRegEnd1},
-			<if test="pracRegStart2 != null">#{pracRegStart2},</if>
-			<if test="pracRegStart2 == null">'',</if>
-			<if test="pracRegEnd2 != null">#{pracRegEnd2},</if>
-			<if test="pracRegEnd2 == null">'',</if>
-			#{pracTestStart},
-			#{pracTestEnd},
-			#{pracResStart},
-			<if test="pracResEnd != null">#{pracResEnd}</if>
-			<if test="pracResEnd == null">''</if>
-			
+			#{website,jdbcType=VARCHAR},
+			#{status,jdbcType=VARCHAR},
+			#{expiry,jdbcType=VARCHAR},
+			#{testPrice,jdbcType=VARCHAR},
+			#{notice,jdbcType=VARCHAR}
 		)
 	</insert>
 	
