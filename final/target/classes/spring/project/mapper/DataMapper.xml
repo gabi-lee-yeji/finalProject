@@ -4,6 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
 	
+	<!-- 
+	<select id="findCnum" resultType="String">
+		select cnum from certiinfo where cname=#{cname}
+	</select>
+	 -->
+	 
 	<insert id="addPassDetailN" parameterType="spring.project.model.PassDetailDTO">
 		insert into pass_detail values(
 			#{cname},

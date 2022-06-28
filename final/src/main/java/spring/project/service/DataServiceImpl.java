@@ -29,5 +29,9 @@ public class DataServiceImpl implements DataService {
 	public int updateCertiDetail(CertiDetailDTO dto, String cname) {
 		return mapper.updateCertiDetail(dto, cname);
 	}
-
+/*
+	@Override
+	public String findCnum(String cname) {
+		return mapper.findCnum(cname);
+	}*/
 }

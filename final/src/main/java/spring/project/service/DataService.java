@@ -14,4 +14,8 @@ public interface DataService {
 	
 	//certidetail 테이블 데이터 업데이트
 	public int updateCertiDetail(CertiDetailDTO dto, String cname);
+	/*
+	//자격증 이름으로 certiinfo 에서 cnum 찾기
+	public String findCnum(String cname);
+	*/
 }

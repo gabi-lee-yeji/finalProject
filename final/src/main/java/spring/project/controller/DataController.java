@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -223,6 +225,87 @@ public class DataController {
 		return str;
 	}
 	
+	//국가기술자격 세부내용 가져오기(api csv)
+	@RequestMapping("getNDetail1")
+	public void getNDetail1() throws Exception {
+		
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/ndetail.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+		String strLine;
+		
+		while((strLine = br.readLine()) != null) {
+			//System.out.println(strLine);
+			String [] datas = strLine.split(",", 3);
+			
+			CertiDetailDTO dto = new CertiDetailDTO();
+			int res = 0;
+			//dto.setCnum( ds.findCnum(datas[0]) );
+			
+			switch(datas[1]) {
+			case "개요":
+				dto.setCinfo(datas[2]);
+				res=1;
+				break;
+			case "수행직무":
+				dto.setCjob(datas[2]);
+				res=1;
+				break;
+			case "진로 및 전망":
+				dto.setCjob(datas[2]);
+				res=1;
+				break;
+			case "실시기관명":
+			case "실시기관 홈페이지":
+			case "변천과정":
+			case "위 자격취득자에 대한 법령상 우대현황":
+				break;
+			case "출제경향":
+				//?
+				break;
+			case "취득방법":
+				//System.out.println(datas[2]);
+				if(datas[2].contains("시험과목")) {
+					String datass = datas[2].split("시험과목",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ");
+					//System.out.println(datas[0] + "//" + datass);
+					//System.out.println("시험과목");
+					dto.setSubject(datass);
+				}
+				if(datas[2].contains("응시자격")) {
+					String datass = datas[2].split("응시자격",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ").replaceAll(":", "").trim();
+					//System.out.println("응시자격");
+					dto.setRequirement(datass);
+				}
+				if(datas[2].contains("검정기준")) {
+					String datass = datas[2].split("검정기준",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ");
+					//System.out.println("검정기준");
+					dto.setCmethod(datass);
+				}else if(datas[2].contains("검정방법")) {
+					String datass = datas[2].split("검정방법",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ");
+					//System.out.println("검정방법");
+					dto.setCmethod(datass);
+				}
+				if(datas[2].contains("합격기준")) {
+					String datass = datas[2].split("합격기준",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ").replaceAll(":", "").trim();
+					//System.out.println("합격기준");
+					dto.setCutline(datass);
+				}
+				res=1;
+				break;
+			default:
+				System.out.println(datas[1]);
+				break;
+			}
+			
+			if(res==1) {
+				ds.updateCertiDetail(dto, datas[0]);
+			}
+			
+			
+		}
+	}
+	
 	//추천자격증 기능 관련 메서드(오류)
 	@RequestMapping("certiMatchTest")
 	public String certiMatchTest() throws Exception {
@@ -231,11 +314,10 @@ public class DataController {
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		
 		Document document = builder.parse(new File("F:/data/jobCode.xml"));
-		
+		document.getDocumentElement().normalize();
 		NodeList nodes = document.getElementsByTagName("content");
 		System.out.println("리스트 수: "+ nodes.getLength());
 		
-		ArrayList<String> list = new ArrayList();
 		
 		for(int i=0; i<nodes.getLength(); i++) {
 			Node node = nodes.item(i);

@@ -13,4 +13,6 @@ public interface DataMapper {
 	public void addPassDetailN(PassDetailDTO dto);
 	
 	public int updateCertiDetail(@Param("dto") CertiDetailDTO dto, @Param("cname") String cname);
+	
+	//public String findCnum(String cname);
 }
