@@ -1,12 +1,13 @@
 package spring.project.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
-import spring.project.model.PagingDTO;
+import spring.project.model.MemberInfoDTO;
 import spring.project.model.QnetDateDTO;
 
 public interface AdminMapper {
@@ -42,4 +43,10 @@ public interface AdminMapper {
 	public List<CertiInfoDTO> getDelList(String[] cnumList);
 	public int delCertiInfo(String[] cnumList);
 	public int delCertiDetail(String[] cnumList);
+	
+	
+	public List<MemberInfoDTO> getMemberList(Map map);
+	public int getMemberCnt();
+	
+	public List<MemberInfoDTO> getMemberFilter(Map map);
 }

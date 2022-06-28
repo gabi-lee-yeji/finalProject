@@ -2,12 +2,12 @@ package spring.project.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
-import spring.project.model.PagingDTO;
+import spring.project.model.MemberFilterDTO;
+import spring.project.model.MemberInfoDTO;
 import spring.project.model.QnetDateDTO;
+import spring.project.pagination.PagingDTO;
 
 public interface AdminService {
 	
@@ -44,7 +44,12 @@ public interface AdminService {
 	//회원 관리 메서드
 	//회원 전체 목록 
 	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order);
+	//회원 전체 수 조회
+	public int getMemberCnt();
+	
 	//회원 상세 정보
 	//신고된 회원 목록 
 	
+	//회원목록 - 필터링 / 검색
+	public List<MemberInfoDTO> getSearchList(MemberFilterDTO filter, PagingDTO page);
 }

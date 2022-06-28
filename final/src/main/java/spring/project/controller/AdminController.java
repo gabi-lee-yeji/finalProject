@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
-import spring.project.model.PagingDTO;
+import spring.project.model.MemberFilterDTO;
+import spring.project.model.MemberInfoDTO;
 import spring.project.model.QnetDateDTO;
+import spring.project.pagination.PagingDTO;
+import spring.project.pagination.PagingService;
 import spring.project.service.AdminService;
 
 @Controller
@@ -25,15 +28,19 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 	
+	@Autowired
+	private PagingService pageService;
+	
+	
 	@RequestMapping("addCerti")
 	public String addCerti(CertiInfoDTO dto) {
-		return "admin/addCerti";
+		return "admin/certi/addCerti";
 	}
 	@RequestMapping("addCertiPro")
 	public String addCertiPro(CertiInfoDTO info, CertiDetailDTO detail, Model model) {
 		int result = service.addCerti(info, detail);
 		model.addAttribute("result", result);
-		return "admin/addCertiPro";
+		return "admin/certi/addCertiPro";
 	}
 	
 	@RequestMapping("modCerti")
@@ -45,13 +52,13 @@ public class AdminController {
 		if(list.size()>2) {
 			model.addAttribute("qnet", list.get(2));
 		}
-		return "admin/modCerti";
+		return "admin/certi/modCerti";
 	}
 	@RequestMapping("modCertiPro")
 	public String modCertiPro(String cnum, CertiInfoDTO info, CertiDetailDTO detail, Model model) {
 		model.addAttribute("cnum", cnum);
 		model.addAttribute("result",service.modCerti(cnum, info, detail));
-		return "admin/modCertiPro";
+		return "admin/certi/modCertiPro";
 	}
 	
 	@RequestMapping("deleteForm")
@@ -60,19 +67,20 @@ public class AdminController {
 			System.out.print(cnum);
 		//삭제하기전 선택한 자격증 컨펌하는 페이지 
 		model.addAttribute("list", service.getDelList(cnumList));
-		return "admin/deleteForm";
+		return "admin/certi/deleteForm";
 	}
 	@RequestMapping("deletePro")
 	public String deletePro(String[] cnumList, Model model) {
 		model.addAttribute("result", service.delCerti(cnumList));
-		return "admin/deletePro";
+		return "admin/certi/deletePro";
 	}
 	
 	@RequestMapping("certiList")
 	public String getCertiList(String pageNum, String sort, String order, Model model) {
 		//한 페이지에 보여주고 싶은 게시글수 매개변수로 전달
 		int pageSize = 30;
-		PagingDTO page = new PagingDTO(pageSize, pageNum);
+		PagingDTO page = pageService.getPaging(pageSize, pageNum);
+		
 		
 		List<CertiInfoDTO> list = service.getCertList(page, sort, order);
 		int count = service.getCertCnt();
@@ -81,7 +89,7 @@ public class AdminController {
 		model.addAttribute("page",page);
 		model.addAttribute("sort", sort);
 		model.addAttribute("order", order);
-		return "admin/certiList";
+		return "admin/certi/certiList";
 	}
 	
 	@RequestMapping("cert/addQnetAll")
@@ -110,7 +118,7 @@ public class AdminController {
 			//System.out.println(info);
 			//System.out.println(detail);
 		}
-		return "admin/addQnetAll";
+		return "admin/certi/addQnetAll";
 	}
 	
 
@@ -163,7 +171,7 @@ public class AdminController {
 			
 		}
 		
-		return "admin/addQnetDate";
+		return "admin/certi/addQnetDate";
 	}
 	
 	private static String trimQuote(String str) {
@@ -174,9 +182,9 @@ public class AdminController {
 	
 	@RequestMapping("search")
 	public String searchList(String pageNum, String search, String keyword, String category, Model model) {
-		PagingDTO page = new PagingDTO(30, pageNum);
+		PagingDTO page = pageService.getPaging(30, pageNum);
 		model.addAttribute("search", search);
-		model.addAttribute("page",page);
+		model.addAttribute("page", page);
 		if(search.equals("category")) {
 			if(category == null) category = keyword;
 			model.addAttribute("keyword", category);
@@ -190,6 +198,28 @@ public class AdminController {
 		System.out.println("search : "+search);
 		System.out.println("keyword : "+keyword);
 		System.out.println("category : "+category);
-		return "/admin/searchList";
+		return "/admin/certi/searchList";
+	}
+	
+	@RequestMapping("/member/list")
+	public String getMemberList(String pageNum, String sort, String order, Model model) {
+		PagingDTO page = pageService.getPaging(30, pageNum);
+		model.addAttribute("page",page);
+		model.addAttribute("count",service.getMemberCnt());
+		model.addAttribute("list", service.getMemberList(page, sort, order));
+		return "/admin/member/list";
+	}
+	
+	
+	@RequestMapping("/member/filter")
+	public String memberFilter() {
+		return "/admin/member/memberFilter";
+	}
+	
+	@RequestMapping("/member/searchList")
+	public String getSearchList(MemberFilterDTO dto, String pageNum, Model model) {
+		PagingDTO page = pageService.getPaging(10, pageNum);
+		model.addAttribute("list", service.getSearchList(dto, page));
+		return "/admin/member/searchList";
 	}
 }

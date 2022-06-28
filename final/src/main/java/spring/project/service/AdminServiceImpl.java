@@ -1,5 +1,6 @@
 package spring.project.service;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +10,18 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.project.mapper.AdminMapper;
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
-import spring.project.model.PagingDTO;
+import spring.project.model.MemberFilterDTO;
+import spring.project.model.MemberInfoDTO;
 import spring.project.model.QnetDateDTO;
+import spring.project.pagination.PagingDTO;
 
 @Service
 public class AdminServiceImpl implements AdminService{
 
 	@Autowired
 	AdminMapper mapper;
+	
+	static Map<String, Object> map = new HashMap<String,Object>();
 	
 	@Transactional
 	@Override
@@ -120,6 +125,36 @@ public class AdminServiceImpl implements AdminService{
 		result += mapper.delCertiDetail(cnumList);
 		System.out.println("==detail=="+result);
 		return result;
+	}
+
+	@Override
+	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		map.put("sort", sort);
+		map.put("order", order);
+		
+		return mapper.getMemberList(map);
+	}
+
+	@Override
+	public int getMemberCnt() {
+		return mapper.getMemberCnt();
+	}
+
+	@Override
+	public List<MemberInfoDTO> getSearchList(MemberFilterDTO filter, PagingDTO page) {
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		try {
+			for(Field field : filter.getClass().getDeclaredFields()) {
+				field.setAccessible(true);
+				String key = field.getName();
+				map.put(key, field.get(key));
+			}
+		}catch(Exception e) { e.printStackTrace();}
+		return mapper.getMemberFilter(map);
 	}
 
 
