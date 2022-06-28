@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.DataMapper">
+	
+	<insert id="addPassDetailN" parameterType="spring.project.model.PassDetailDTO">
+		insert into pass_detail values(
+			#{cname},
+			#{m10},#{m20},#{m30},#{m40},#{m50},#{m60},
+			#{f10},#{f20},#{f30},#{f40},#{f50},#{f60},
+			#{total}
+		)
+	</insert>
+	
+	<insert id="addQnetDate" parameterType="spring.project.model.QnetDateDTO">
+		insert into qnetdate values(
+			#{cyear},
+			#{cround},
+			#{ctype},
+			#{docRegStart1},
+			#{docRegEnd1},
+			<if test="docRegStart2 != null">#{docRegStart2},</if>
+			<if test="docRegStart2 == null">'',</if>
+			<if test="docRegEnd2 != null">#{docRegEnd2},</if>
+			<if test="docRegEnd2 == null">'',</if>
+			#{docTestStart},
+			<if test="docTestEnd != null">#{docTestEnd},</if>
+			<if test="docTestEnd == null">'',</if>
+			#{docResult},
+			<if test="docSubmitStart != null">#{docSubmitStart},</if>
+			<if test="docSubmitStart == null">'',</if>
+			<if test="docSubmitEnd != null">#{docSubmitEnd},</if>
+			<if test="docSubmitEnd == null">'',</if>
+			#{pracRegStart1},
+			#{pracRegEnd1},
+			<if test="pracRegStart2 != null">#{pracRegStart2},</if>
+			<if test="pracRegStart2 == null">'',</if>
+			<if test="pracRegEnd2 != null">#{pracRegEnd2},</if>
+			<if test="pracRegEnd2 == null">'',</if>
+			#{pracTestStart},
+			#{pracTestEnd},
+			#{pracResStart},
+			<if test="pracResEnd != null">#{pracResEnd}</if>
+			<if test="pracResEnd == null">''</if>
+			
+		)
+	</insert>
+	
+	<update id="updateCertiDetail" >
+		update certidetail
+		<set>
+			<if test="dto.company != null">company = #{dto.company},</if>
+			<if test="dto.clevel != null">clevel=#{dto.clevel},</if>
+			<if test="dto.requirement != null">requirement=#{dto.requirement},</if>
+			<if test="dto.cmethod != null">cmethod=#{dto.cmethod},</if>
+			<if test="dto.subject != null">subject=#{dto.subject},</if>
+			<if test="dto.cutline != null">cutline=#{dto.cutline},</if>
+			<if test="dto.cinfo != null">cinfo=#{dto.cinfo},</if>
+			<if test="dto.cjob != null">cjob=#{dto.cjob},</if>
+			<if test="dto.website != null">website=#{dto.website},</if>
+			<if test="dto.status != null">status=#{dto.status},</if>
+			<if test="dto.expiry != null">expiry=to_date(#{dto.expiry},'YYYY-MM-DD'),</if>
+			<if test="dto.testPrice != null">testPrice=#{dto.testPrice},</if>
+			<if test="dto.notice != null">notice=#{dto.notice}</if>
+		</set>
+		where cnum in (select cnum from certiinfo where cname=#{cname} )
+	</update>
+	
+</mapper>
