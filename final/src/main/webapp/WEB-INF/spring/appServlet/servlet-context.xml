@@ -23,6 +23,21 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- Resolves fileUpload -->
+	<!-- <beans:bean id ="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
+	<!--	<beans:property name="defaultEncoding" value="UTF-8" /> -->
+		
+		<!-- -1: 무제한 / 1024*1024*10 bytes = 10MB -->
+		<!-- <beans:property name="maxUploadSize" value="-1" />-->
+		
+		<!-- 1024*1024*2 bytes = 2MB -->
+		<!-- <beans:property name="maxUploadSizePerFile" value="2097152" />-->
+		
+		<!-- <beans:property name="maxInMemorySize" value="102400000" />-->
+		<!-- <beans:property name="uploadTempDir" value="file:/C:/upload/tmp" />-->
+		 
+<!-- 	</beans:bean> -->
+	
 	<context:component-scan base-package="spring.project.controller" />
 	
 	<aop:aspectj-autoproxy />

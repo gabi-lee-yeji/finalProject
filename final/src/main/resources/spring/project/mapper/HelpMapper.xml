@@ -7,6 +7,56 @@
 	<insert id="addNotice" parameterType="spring.project.model.Post_BoardDTO">
 		insert into post_board values (
 			board_seq.nextval,   
+			#{subject},
+			#{post_content},
+			#{writer},
+			sysdate,
+			#{post_group},
+			#{post_level},
+			#{board_type},
+			0,
+			#{img, jdbcType=VARCHAR}
+			)
+	</insert>
+	
+	<select id="noticeLists" resultType="spring.project.model.Post_BoardDTO"
+							parameterType="int">
+		<![CDATA[
+			select * from 
+				(select post_board.*, rownum r from 
+					(select * from post_board order by pNum desc, post_level) post_board where board_type='공지사항')
+						where r >= #{startRow} and r <= #{endRow}
+		]]>
+	</select>
+	
+	<select id="noticeCount" resultType="int">
+		select count(*) from post_board where board_type='공지사항'
+	</select>
+	
+	<select id="noticeContent" resultType="spring.project.model.Post_BoardDTO">
+		select * from Post_Board where pnum=#{pnum}
+	</select>
+	
+	<update id="modNotice">
+		update post_board set 
+			subject=#{subject},
+			post_content=#{post_content},	
+			reg=sysdate
+				where pnum=#{pnum}
+	</update>
+	
+	<update id="delNotice">
+		delete post_board where pnum=#{pnum}
+	</update>
+	
+	<select id="passwdCheck" parameterType="String"
+								resultType="int">
+		select count(*) from memberinfo where memid=#{memid} and passwd=#{passwd}
+	</select>
+	
+	<insert id="addNotice111" parameterType="spring.project.model.Post_BoardDTO">
+		insert into post_board values (
+			board_seq.nextval,   
 			#{subject, jdbcType=VARCHAR},
 			#{post_content, jdbcType=VARCHAR},
 			#{writer, jdbcType=VARCHAR},
@@ -19,18 +69,10 @@
 			)
 	</insert>
 	
-	
-	<update id="updateArticle">
-		update board 
-		<set>
-			<if test="writer != null"> writer=#{writer},</if>
-			<if test="email != null"> email=#{email},</if> 
-			<if test="subject != null"> subject=#{subject},</if> 
-			<if test="passwd != null"> passwd=#{passwd},</if> 
-			<if test="content != null"> content=#{content},</if> 
-		</set>
-		where num=#{num}
+	<update id="upReadCnt" parameterType="spring.project.model.Post_BoardDTO">
+		update post_board set readcnt=readcnt+1 where pnum=#{pnum}
 	</update>
+
 	
 	
 </mapper>

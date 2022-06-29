@@ -7,12 +7,8 @@
 </head>
 <body>
 	<h1>공지사항 등록</h1>
-	<form action="/help/noticeAddPro" name="noticeAdd" method="get">
+	<form action="/help/addNoticePro" name="addNotice" method="get" >
 	<input type="hidden" name="board_type" value="공지사항" />
-	post_group <input type="number" name="post_group" />
-	post_level <input type="number" name="post_level" />
-	img <input type="text" name="img" />
-	readcnt: <input type="number" name="readCnt" />	
 		<table>
 			<tr>
 				<td>제목</td>
@@ -27,10 +23,12 @@
 				<td><textarea name="post_content" rows="13" cols="40" ></textarea></td>
 			</tr>
 			<tr>
+				<td>이미지</td>
+				<td><input type="file" name="save"/></td>
+			</tr>
+			<tr>
 				<td><input type="submit" value="등록" /></td>
 			</tr>
-			<!-- 카테고리(board_type)는 자동으로 입력 (controller)
-			reg 자동 입력 > xml -->		
 		</table>
 	</form>
 </body>

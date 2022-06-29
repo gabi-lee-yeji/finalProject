@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Post_BoardDTO {
 	
-	private int pNum;				
+	private int pnum;			// 글고유번호	
 	private String subject;			// 글제목
 	private String post_content;	// 글내용
 	private String writer;			// 작성자
