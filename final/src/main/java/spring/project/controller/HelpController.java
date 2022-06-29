@@ -23,19 +23,19 @@ public class HelpController {
 	@Autowired
 	private HelpService service;
 	
-	@RequestMapping("addNotice")
+	@RequestMapping("notice/addNotice")
 	public String addNotice(Post_BoardDTO dto) {
 		
 		log.info("addNotice 연결 확인");
 		
-		return "/help/addNotice";
+		return "/help/notice/addNotice";
 	}
 	
 	
-	@RequestMapping("addNoticePro")
+	@RequestMapping("notice/addNoticePro")
 	public String addNoticePro(Post_BoardDTO dto) {
 		service.addNotice(dto);
-		return "/help/addNoticePro";
+		return "/help/notice/addNoticePro";
 	}
 /*	
 	@RequestMapping("addNoticePro")
@@ -50,7 +50,7 @@ public class HelpController {
 		return "/help/addNoticePro";
 	}
 */
-	@RequestMapping("noticeList")
+	@RequestMapping("notice/noticeList")
 	public String noticeList(Model model, String pageNum) {
 		if(pageNum == null) pageNum = "1";
 		
@@ -78,10 +78,10 @@ public class HelpController {
 		model.addAttribute("number", number);
 		model.addAttribute("noticeList", noticeList);
 		
-		return "help/noticeList";
+		return "help/notice/noticeList";
 	}
 	
-	@RequestMapping("noticeContent")
+	@RequestMapping("notice/noticeContent")
 	public String noticeContent(int pageNum, int pnum, Model model) {
 		Post_BoardDTO dto = service.noticeContent(pnum);
 		
@@ -89,28 +89,28 @@ public class HelpController {
 		
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("dto", dto);
-		return "help/noticeContent";
+		return "help/notice/noticeContent";
 	}
 	
-	@RequestMapping("modNotice")
+	@RequestMapping("notice/modNotice")
 	public String modNotice(int pageNum, int pnum, Model model) {
 		Post_BoardDTO dto = service.noticeContent(pnum);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("dto", dto);
 		
-		return "help/modNotice";
+		return "help/notice/modNotice";
 	}
 	
-	@RequestMapping("modNoticePro")
+	@RequestMapping("notice/modNoticePro")
 	public String modNoticePro(int pageNum, int pnum, Model model, Post_BoardDTO dto) {
 		service.modNotice(dto);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pnum", pnum);
 		
-		return "help/modNoticePro";
+		return "help/notice/modNoticePro";
 	}
 	
-	@RequestMapping("delNotice")
+	@RequestMapping("notice/delNotice")
 	public String delNotice(int pageNum, int pnum, String memid, String passwd, Model model) {
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pnum", pnum);
@@ -119,10 +119,10 @@ public class HelpController {
 		System.out.println("memid");
 		System.out.println(memid);
 		
-		return "help/delNotice";
+		return "help/notice/delNotice";
 	}
 		
-	@RequestMapping("delNoticePro")
+	@RequestMapping("notice/delNoticePro")
 	public String delNoticePro(int pageNum, int pnum, String memid, String passwd, Model model) {
 		int result = service.passwdCheck(memid, passwd);
 		if(result == 1) {
@@ -134,7 +134,7 @@ public class HelpController {
 		model.addAttribute("result", result);
 		model.addAttribute("pageNum", pageNum);
 		
-		return "help/delNoticePro";
+		return "help/notice/delNoticePro";
 	}
 	
 	
