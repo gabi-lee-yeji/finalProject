@@ -5,15 +5,17 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import spring.project.model.CertiDetailDTO;
+import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberInfoDTO;
-import spring.project.model.QnetDateDTO;
 
 public interface AdminMapper {
 	
-	public int addCerti(CertiInfoDTO dto);
-	public int addCertiDetail(CertiDetailDTO dto);
+	//자격증 등록 = 세개의 테이블에 동시에 insert
+	public int addCertiInfo(CertiInfoDTO dto);
+	public int addCertiSchedule(CertiScheduleDTO dto);
+	public int addCertiDate(CertiDateDTO dto);
 	
 	public int findNextseq(String sequence);
 	public int findCurrseq(String sequence);
@@ -29,8 +31,6 @@ public interface AdminMapper {
 	
 	
 	public CertiInfoDTO getCertiInfo(String cnum);
-	public CertiDetailDTO getCertiDetail(String cnum);
-	public QnetDateDTO getQnetdate(CertiInfoDTO dto);
 
 	
 	public List<CertiInfoDTO> getSearchList(@Param("startRow")int startRow,
@@ -48,5 +48,15 @@ public interface AdminMapper {
 	public List<MemberInfoDTO> getMemberList(Map map);
 	public int getMemberCnt();
 	
+	//회원상세정보 조회
+	public MemberInfoDTO getMemberInfo(String memid);
+	
 	public List<MemberInfoDTO> getMemberFilter(Map map);
+	
+	//신고당한 회원목록 가져오기 
+	public List<MemberInfoDTO> getReportMemList(String status);
+	//신고당한 회원의 정보 가져오기
+	public List<Map<String, Object>> getreportMemInfo(String memid);
+	//신고당한 회원 상태 변경
+	public int updateRepMemStatus(@Param("memid")String memid, @Param("status")String status);
 }

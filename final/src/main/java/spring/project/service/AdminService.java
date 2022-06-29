@@ -1,22 +1,23 @@
 package spring.project.service;
 
 import java.util.List;
+import java.util.Map;
 
-import spring.project.model.CertiDetailDTO;
+import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
-import spring.project.model.QnetDateDTO;
 import spring.project.pagination.PagingDTO;
 
 public interface AdminService {
 	
 	//자격증 관리 메서드 
 	//자격증 등록
-	public int addCerti(CertiInfoDTO info, CertiDetailDTO detail);
+	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO date);
 	
 	//자격증 수정
-	public int modCerti(String cnum, CertiInfoDTO dto, CertiDetailDTO detail);
+	//public int modCerti(String cnum, CertiInfoDTO dto, CertiDetailDTO detail);
 	
 	//등록된 자격증 정보 
 	public List<Object> getCertiInfo(String cnum);
@@ -30,9 +31,6 @@ public interface AdminService {
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword);
 	//검색 결과 전체 개수
 	public int getSearchCnt(String search, String keyword);
-	
-	//큐넷 일정 데이터(csv) 추가
-	public void addQnetDate(QnetDateDTO dto);
 	
 	//삭제확인 페이지 - 선택한 자격증 정보 목록
 	public List<CertiInfoDTO> getDelList(String[] cnumList);
@@ -48,8 +46,16 @@ public interface AdminService {
 	public int getMemberCnt();
 	
 	//회원 상세 정보
-	//신고된 회원 목록 
+	public MemberInfoDTO getMemberInfo(String memid);
+	
+	//신고된 회원 목록
+	public List<MemberInfoDTO> getMemberReport(String status);
+	//신고된 회원의 상세 정보 - 신고당한 글/댓글 목록, 신고한 회원
+	public List<Map<String,Object>> getreportMemInfo(String memid);
+	//신고된 회원의 상태 변경
+	public int updateRepMemStatus(String memid, String status);
+	
 	
 	//회원목록 - 필터링 / 검색
-	public List<MemberInfoDTO> getSearchList(MemberFilterDTO filter, PagingDTO page);
+	public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page);
 }

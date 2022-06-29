@@ -4,32 +4,71 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
 	
-	<select id="getMemberFilter" resultType="spring.project.model.MemberInfoDTO">
+	<update id="updateRepMemStatus">
+		update memberinfo 
+			<set>
+				status = #{status},
+				<if test="status=='강제탈퇴'">
+					mem_level = '',
+					mem_point = 0
+				</if>
+			</set>
+		where memid=#{memid}
+	</update>
+	
+	<select id="getMemberInfo" resultType="spring.project.model.MemberInfoDTO">
+		select * from memberinfo where memid=#{memid}
+	</select>
+	
+	<select id="getreportMemInfo" resultType="map">
+		select b.pnum, b.board_type, b.subject, a.reportcnt from 
+		( select wr_num, count(*) as reportCnt from member_report where memid=#{memid} group by wr_num) a, 
+		post_board b
+		where
+			a.wr_num=b.pnum
+	</select>
+	<select id="getReportMemList" resultType="spring.project.model.MemberInfoDTO">
+			select * from 
+				(select memid, count(*) as reportCnt from member_report group by memid) a, 
+				memberinfo b 
+			where 
+				<![CDATA[ a.reportCnt >= 1	]]>
+				and a.memid=b.memid
+				<if test="status != null"> 
+					and b.status = #{status} 
+				</if>
+			order by a.reportCnt
+		
+	</select>
+	
+	<select id="getMemberFilter" resultType="spring.project.model.MemberInfoDTO"
+								parameterType="hashmap">
 		select * from memberinfo  where
-		<if test="search != null">
-			#{search} like '%${keyword}%'
-		</if>
-		<if test="status != null">
-			and status in 
-			<foreach collection="status" item="type" index="index" open="(" close=")" separator=",">
-				#{type[index])
-			</foreach>
-		</if>
-		<if test="mem_level != null">
-			and mem_level in 
-			<foreach collection="mem_level" item="type" index="index" open="(" close=")" separator=",">
-				#{type[index])
-			</foreach>
-		</if>
-		<if test="mem_point1 != null">
-			<![CDATA[ and mem_point >= #{mem_point1} ]]>
-		</if>
-		<if test="mem_point2 != null">
-			<![CDATA[ and mem_point <= #{mem_point2} ]]>
-		</if>
-		<if test="regDate1 != null">
-			regdate between #{regDate1} and #{regDate2}
-		</if>
+			<if test="search != null">
+				${search} like '%${keyword}%'
+			</if>
+			<if test="status != null">
+				and status in 
+				<foreach collection="status" item="type" index="index" open="(" close=")" separator=",">
+					#{type[index])
+				</foreach>
+			</if>
+			<if test="mem_level != null">
+				and mem_level in 
+				<foreach collection="mem_level" item="type" index="index" open="(" close=")" separator=",">
+					#{type[index])
+				</foreach>
+			</if>
+			<if test="mem_point1 != 0">
+				<![CDATA[ and mem_point >= #{mem_point1} ]]>
+			</if>
+			<if test="mem_point2 != 0">
+				<![CDATA[ and mem_point <= #{mem_point2} ]]>
+			</if>
+			<if test="regDate1 != null">
+				and regdate between #{regDate1} and #{regDate2}
+			</if>
+			order by 
 	</select>
 	
 	<select id="getMemberCnt" resultType="int">
@@ -66,12 +105,6 @@
 		select count(*) from certiinfo
 	</select>
 	
-	<select id="getQnetdate" resultType="spring.project.model.QnetDateDTO">
-		select * from qnetdate 
-		where cyear=#{cyear}
-			and cround=#{cround}
-			and ctype=#{ctype}
-	</select>
 	
 	<update id="modCertInfo">
 		update certiinfo
@@ -109,9 +142,7 @@
 		where cnum=#{cnum}
 	</update>
 	
-	<select id="getCertiDetail" resultType="spring.project.model.CertiDetailDTO">
-		select * from certidetail where cnum=#{cnum}
-	</select>
+	
 	<select id="getCertiInfo" resultType="spring.project.model.CertiInfoDTO">
 		select 
 			cnum,cname,category,ctype,cround,
@@ -190,47 +221,42 @@
 		</foreach>
 	</delete>
 	
-	<insert id="addCerti">
-		insert into certiinfo values (
+	<insert id="addCertiSchedule">
+		insert into certiSchedule values (
 			#{cnum},
-			#{cname,jdbcType=VARCHAR},
-			#{category,jdbcType=VARCHAR},
 			#{cyear,jdbcType=INTEGER},
 			nvl(#{cround,jdbcType=INTEGER}, 0),
 			#{ctype,jdbcType=VARCHAR},
-			to_date(#{regStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			to_date(#{regEnd,jdbcType=VARCHAR},'YYYY-MM-DD'),
-			to_date(#{reg_addStart,jdbcType=VARCHAR},'YYYY-MM-DD'),
-			to_date(#{reg_addEnd,jdbcType=VARCHAR},'YYYY-MM-DD'),
-			to_date(#{regStartTime,jdbcType=VARCHAR},'HH24:MI'),
-			to_date(#{regEndTime,jdbcType=VARCHAR},'HH24:MI'),
-			to_date(#{testDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
-			to_date(#{resDate,jdbcType=VARCHAR},'YYYY-MM-DD'),
 			sysdate
 		)
 	</insert>
 	
-	<insert id="addCertiDetail">
-		insert into certidetail values (
+	<insert id="addCertiInfo">
+		insert into certiInfo values (
 			#{cnum},
-			#{company,jdbcType=VARCHAR},
+			#{cname},
+			#{category},
 			#{clevel,jdbcType=VARCHAR},
+			#{company,jdbcType=VARCHAR},
+			#{website,jdbcType=VARCHAR},
 			#{requirement,jdbcType=VARCHAR},
 			#{cmethod,jdbcType=VARCHAR},
 			#{subject,jdbcType=VARCHAR},
 			#{cutline,jdbcType=VARCHAR},
 			#{cinfo,jdbcType=VARCHAR},
 			#{cjob,jdbcType=VARCHAR},
-			#{website,jdbcType=VARCHAR},
 			#{status, jdbcType=VARCHAR},
-			to_date(#{expiry,jdbcType=VARCHAR},'YYYY-MM-DD'),
-			#{testPrice, jdbcType=VARCHAR},
-			#{notice, jdbcType=VARCHAR}
+			#{price, jdbcType=VARCHAR},
+			#{ncs_cat,jdbcType=VARCHAR},
+			#{notice, jdbcType=VARCHAR},
+			sysdate
 		)
 	</insert>
 	
-	<insert id="addQnetDate" parameterType="spring.project.model.QnetDateDTO">
-		insert into qnetdate values(
+	<insert id="addCertiDate" parameterType="spring.project.model.CertiDateDTO">
+		insert into certidate values(
+			<if test="cnum != null">
+			</if>
 			#{cyear},
 			#{cround},
 			#{ctype},
@@ -259,7 +285,6 @@
 			#{pracResStart}
 			<if test="pracResEnd != null">, #{pracResEnd}</if>
 			<if test="pracResEnd == null">,''</if>
-			
 		)
 	</insert>
 	

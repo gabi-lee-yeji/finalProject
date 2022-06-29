@@ -12,11 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import spring.project.model.CertiDetailDTO;
+import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
-import spring.project.model.QnetDateDTO;
 import spring.project.pagination.PagingDTO;
 import spring.project.pagination.PagingService;
 import spring.project.service.AdminService;
@@ -33,13 +33,12 @@ public class AdminController {
 	
 	
 	@RequestMapping("addCerti")
-	public String addCerti(CertiInfoDTO dto) {
+	public String addCerti() {
 		return "admin/certi/addCerti";
 	}
 	@RequestMapping("addCertiPro")
-	public String addCertiPro(CertiInfoDTO info, CertiDetailDTO detail, Model model) {
-		int result = service.addCerti(info, detail);
-		model.addAttribute("result", result);
+	public String addCertiPro(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO certiDate, Model model) {
+		//model.addAttribute("result", result);
 		return "admin/certi/addCertiPro";
 	}
 	
@@ -54,12 +53,12 @@ public class AdminController {
 		}
 		return "admin/certi/modCerti";
 	}
-	@RequestMapping("modCertiPro")
-	public String modCertiPro(String cnum, CertiInfoDTO info, CertiDetailDTO detail, Model model) {
-		model.addAttribute("cnum", cnum);
-		model.addAttribute("result",service.modCerti(cnum, info, detail));
-		return "admin/certi/modCertiPro";
-	}
+//	@RequestMapping("modCertiPro")
+//	public String modCertiPro(String cnum, CertiInfoDTO info, CertiDetailDTO detail, Model model) {
+//		model.addAttribute("cnum", cnum);
+//		model.addAttribute("result",service.modCerti(cnum, info, detail));
+//		return "admin/certi/modCertiPro";
+//	}
 	
 	@RequestMapping("deleteForm")
 	public String deleteForm(String[] cnumList, Model model) {
@@ -90,94 +89,6 @@ public class AdminController {
 		model.addAttribute("sort", sort);
 		model.addAttribute("order", order);
 		return "admin/certi/certiList";
-	}
-	
-	@RequestMapping("cert/addQnetAll")
-	public String addQnetAll() throws IOException {
-		
-		FileInputStream fis = new FileInputStream(new File("F:/R/kki.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-		
-		String strLine;
-		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
-			String [] datas = strLine.split(",");
-			
-			CertiInfoDTO info = new CertiInfoDTO();
-			CertiDetailDTO detail = new CertiDetailDTO();
-			
-			info.setCategory("국가기술");
-			info.setCname(datas[3]);
-			info.setCtype(datas[2]);
-			info.setCround(Integer.parseInt(datas[1]));
-			info.setCyear(Integer.parseInt(datas[0]));
-			
-			detail.setCompany("한국산업인력공단");
-			
-			service.addCerti(info,detail);
-			//System.out.println(info);
-			//System.out.println(detail);
-		}
-		return "admin/certi/addQnetAll";
-	}
-	
-
-	@RequestMapping("addQnetDate")
-	public String addQnetDate() throws IOException {
-		
-		FileInputStream fis = new FileInputStream(new File("F:/R/qnetdate.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-		
-		String strLine;
-		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
-			QnetDateDTO qdto = new QnetDateDTO();
-			String [] datas = strLine.split(",");
-			for(String s : datas) s = trimQuote(s); 
-			
-			qdto.setCyear(Integer.parseInt(datas[0]));
-			qdto.setCround(Integer.parseInt(datas[1]));
-			qdto.setCtype(datas[2]);
-			qdto.setDocRegStart1(datas[3].substring(0, 8));
-			qdto.setDocRegEnd1(datas[3].substring(8, 16));
-			if(datas[3].length() > 16) {
-				qdto.setDocRegStart2(datas[3].substring(16, 24));
-				qdto.setDocRegEnd2(datas[3].substring(24, 32));
-			}
-			qdto.setDocTestStart(datas[4].substring(0,8));
-			if(datas[4].length() > 8) {
-				qdto.setDocTestEnd(datas[4].substring(8,16));
-			}
-			qdto.setDocResult(datas[5]);
-			if(datas[6].length() > 0) {
-				qdto.setDocSubmitStart(datas[6].substring(0, 8));
-				qdto.setDocSubmitEnd(datas[6].substring(8, 16));
-			}
-			qdto.setPracRegStart1(datas[7].substring(0, 8));
-			qdto.setPracRegEnd1(datas[7].substring(8, 16));
-			if(datas[7].length() > 16) {
-				qdto.setPracRegStart2(datas[7].substring(16, 24));
-				qdto.setPracRegEnd2(datas[7].substring(24,32));
-			}
-			qdto.setPracTestStart(datas[8].substring(0,8));
-			qdto.setPracTestEnd(datas[8].substring(8,16));
-			qdto.setPracResStart(datas[9].substring(0, 8));
-			if(datas[9].length() > 8) {
-				qdto.setPracResEnd(datas[9].substring(8, 16));
-			}
-			
-			//System.out.println(qdto);
-			service.addQnetDate(qdto);
-			
-		}
-		
-		return "admin/certi/addQnetDate";
-	}
-	
-	private static String trimQuote(String str) {
-		str = str.replaceAll("\"=\"\"", "");
-		str = str.replaceAll("\"\"\"", "");
-		return str;
 	}
 	
 	@RequestMapping("search")
@@ -216,10 +127,33 @@ public class AdminController {
 		return "/admin/member/memberFilter";
 	}
 	
-	@RequestMapping("/member/searchList")
+	@RequestMapping("/member/filterPro")
 	public String getSearchList(MemberFilterDTO dto, String pageNum, Model model) {
 		PagingDTO page = pageService.getPaging(10, pageNum);
-		model.addAttribute("list", service.getSearchList(dto, page));
+		List<MemberInfoDTO> list = service.getMemberFilter(dto, page);
+		model.addAttribute("list", list);
 		return "/admin/member/searchList";
+	}
+	
+	@RequestMapping("/member/reportList")
+	public String getMemberReport(String status, Model model) {
+		model.addAttribute("status", status);
+		model.addAttribute("list", service.getMemberReport(status));
+		return "/admin/member/reportList";
+	}
+	
+	@RequestMapping("/member/reportMemInfo")
+	public String getReportMemInfo(String memid, String reportCnt, Model model) {
+		model.addAttribute("memid", memid);
+		model.addAttribute("reportCnt", reportCnt);
+		model.addAttribute("dto", service.getMemberInfo(memid));
+		model.addAttribute("list", service.getreportMemInfo(memid));
+		return "/admin/member/reportMemInfo";
+	}
+	
+	@RequestMapping("/member/memReportPro")
+	public String modReportMember(String memid, String status, Model model) {
+		model.addAttribute("result", service.updateRepMemStatus(memid, status));
+		return "/admin/member/memReportPro";
 	}
 }

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <body>
-	<form action="/admin/member/searchList" method="post">
+	<form action="/admin/member/filterPro" method="post">
 		<table>
 			<tr>
 				<td>

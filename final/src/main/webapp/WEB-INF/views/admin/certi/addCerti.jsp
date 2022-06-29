@@ -28,7 +28,7 @@
 			<tr>
 				<td>국가기술자격증 종류</td>
 				<td>
-					<select name="ctype">
+					<select name="clevel">
 						<option value="">==선택==</option>
 						<option value="기술사">기술사</option>
 						<option value="기사">기사</option>
@@ -45,15 +45,15 @@
 			<tr>
 				<td>원서접수</td>
 				<td>
-					<input type="date" name="regStart"> <input type="time" name="regStartTime"> ~
-					<input type="date" name="regEnd"> <input type="time" name="regEndTime"> 
+					<input type="date" name="date"> <input type="time" name="time"> ~
+					<input type="date" name="date"> <input type="time" name="time"> 
 				</td>
 			</tr>
 			<tr>
 				<td>원서 - 추가접수</td>
 				<td>
-					<input type="date" name="reg_addStart"> ~
-					<input type="date" name="reg_addEnd">
+					<input type="date" name="date"> ~
+					<input type="date" name="date">
 				</td>
 			</tr>
 			<tr>

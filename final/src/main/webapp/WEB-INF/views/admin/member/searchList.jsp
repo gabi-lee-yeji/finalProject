@@ -12,7 +12,7 @@
 	<select name="list" onchange="location.href=this.value">
 		<option>===정렬===</option>
 		<option value="/admin/member/searchList?sort=regDate&order=desc">가입일 내림차순</option>
-		<option value="/admin/member/searchList?sort=regDate&order=asc">가입일 오름차순</option>
+		<option value="/admin/member/searchList?sort=regDate&order=desc">포인트 내림차순</option>
 	</select>
 	<table>
 		<c:forEach var="dto" items="${list }">
