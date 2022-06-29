@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.project.mapper.AdminMapper;
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.QnetDateDTO;
@@ -25,22 +26,22 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Transactional
 	@Override
-	public int addCerti(CertiInfoDTO info, CertiDetailDTO detail) {
+	public int addCerti(CertiInfoDTO info, CertiScheduleDTO sch) {
 		String cnum = "";
 		String sequence = "";
 		
-		if(info.getCategory().equals("�������")) {
+		if(info.getCategory().equals("국가기술")) {
 			cnum = "N";
 			sequence = "NAT_SEQ";
-		}else if(info.getCategory().equals("���ιΰ�")) {
+		}else if(info.getCategory().equals("공인민간")) {
 			cnum = "P";
 			sequence = "PRV_SEQ";
-		}else if(info.getCategory().equals("����")) {
+		}else if(info.getCategory().equals("어학")) {
 			cnum = "L";
 			sequence = "LANG_SEQ";
 		}
 		
-		//���������� 0�� ��� �ʱⰪ ���� (+1)
+		//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 0占쏙옙 占쏙옙占� 占십기값 占쏙옙占쏙옙 (+1)
 		if(mapper.findCurrseq(sequence)==0) {
 			mapper.findNextseq(sequence);
 		}
@@ -48,7 +49,7 @@ public class AdminServiceImpl implements AdminService{
 		cnum += String.format("%05d", mapper.findCurrseq(sequence));
 		
 		info.setCnum(cnum); 
-		detail.setCnum(cnum);
+		sch.setCnum(cnum);
 		
 		int result = mapper.addCerti(info);
 		result += mapper.addCertiDetail(detail);
@@ -87,7 +88,7 @@ public class AdminServiceImpl implements AdminService{
 		list.add(mapper.getCertiInfo(cnum));
 		list.add(mapper.getCertiDetail(cnum));
 		
-		//��������ڰ��� ��� qnetdate���� �������� ��������
+		//占쏙옙占쏙옙占쏙옙占쏙옙微占쏙옙占� 占쏙옙占� qnetdate占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙
 		if(cnum.substring(0,1).equals("N")) {
 			list.add(mapper.getQnetdate(mapper.getCertiInfo(cnum)));
 		}

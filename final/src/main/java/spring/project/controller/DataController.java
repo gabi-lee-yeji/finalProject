@@ -21,8 +21,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiScheduleDTO;
 import spring.project.model.PassDetailDTO;
 import spring.project.model.QnetDateDTO;
 import spring.project.service.AdminService;
@@ -138,7 +140,7 @@ public class DataController {
 	@RequestMapping("addQnetAll")
 	public String addQnetAll() throws IOException {
 		
-		FileInputStream fis = new FileInputStream(new File("F:/R/kki.csv"));
+		FileInputStream fis = new FileInputStream(new File("F:/data/kki.csv"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 		
 		String strLine;
@@ -147,17 +149,18 @@ public class DataController {
 			String [] datas = strLine.split(",");
 			
 			CertiInfoDTO info = new CertiInfoDTO();
-			CertiDetailDTO detail = new CertiDetailDTO();
+			CertiScheduleDTO sch = new CertiScheduleDTO();
+			CertiDateDTO dat = new CertiDateDTO();
 			
 			info.setCategory("국가기술");
 			info.setCname(datas[3]);
-			info.setCtype(datas[2]);
-			info.setCround(Integer.parseInt(datas[1]));
-			info.setCyear(Integer.parseInt(datas[0]));
+			info.setClevel(datas[2]);
+			sch.setCround(Integer.parseInt(datas[1]));
+			sch.setCyear(Integer.parseInt(datas[0]));
 			
-			detail.setCompany("한국산업인력공단");
+			info.setCompany("한국산업인력공단");
 			
-			as.addCerti(info,detail);
+			as.addCerti(info,sch);
 			//System.out.println(info);
 			//System.out.println(detail);
 		}
@@ -305,7 +308,7 @@ public class DataController {
 			
 		}
 	}
-	
+	/*
 	//추천자격증 기능 관련 메서드(오류)
 	@RequestMapping("certiMatchTest")
 	public String certiMatchTest() throws Exception {
@@ -352,6 +355,7 @@ public class DataController {
 		}
 		return "admin/test";
 	}
+	*/
 	// xml 파일 tag값의 정보를 가져오는 메소드
 	private static String getTagValue(String tag, Element eElement) {
 	    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();

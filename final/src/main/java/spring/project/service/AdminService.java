@@ -4,6 +4,7 @@ import java.util.List;
 
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.QnetDateDTO;
@@ -13,7 +14,7 @@ public interface AdminService {
 	
 	//자격증 관리 메서드 
 	//자격증 등록
-	public int addCerti(CertiInfoDTO info, CertiDetailDTO detail);
+	public int addCerti(CertiInfoDTO info, CertiScheduleDTO sch);
 	
 	//자격증 수정
 	public int modCerti(String cnum, CertiInfoDTO dto, CertiDetailDTO detail);
