@@ -8,7 +8,8 @@
 </head>
 <body>
 	<h1>'${keyword}' 검색 결과 [총: ${count}개] </h1>
-	<table>
+	<input type="button" value="목록으로 돌아가기" onclick="window.location='/admin/certiList'"/>
+	<table> 
 		<tr>
 			<th>번호</th>
 			<th>종목명</th>
@@ -58,15 +59,15 @@
         
         <center>
         <c:if test="${startPage > 10 }">
-        	<a href="/admin/search?pageNum=${startPage-10}">[이전]</a>
+        	<a href="/admin/search?pageNum=${startPage-10}&search=${search}&keyword=${keyword}">[이전]</a>
         </c:if>
         
         <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-        	<a href="/admin/search?pageNum=${i}">[${i}]</a>
+        	<a href="/admin/search?pageNum=${i}&search=${search}&keyword=${keyword}">[${i}]</a>
 		</c:forEach>
 		
 		<c:if test="${endPage < pageCount}">
-        	<a href="/admin/search?pageNum=${startPage + 10}">[다음]</a>
+        	<a href="/admin/search?pageNum=${startPage + 10}&search=${search}&keyword=${keyword}">[다음]</a>
 		</c:if>
 		</center>
     </c:if>

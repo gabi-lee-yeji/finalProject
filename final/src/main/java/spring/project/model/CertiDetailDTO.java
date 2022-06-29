@@ -5,26 +5,17 @@ import lombok.Data;
 @Data
 public class CertiDetailDTO {
 	private String cnum;
-	private String company; //Á¢¼öÃ³/½ÃÇà±â°ü(ÀÚ°Ý°ü¸®ÀÚ)
-	private String clevel; //ÀÚ°Ýµî±Þ
-	private String requirement; //ÀÀ½ÃÀÚ°Ý
-	private String cmethod; //°ËÁ¤¹æ¹ý eg) °´°ü½Ä / ¼­¼úÇü...
-	private String subject; // °ËÁ¤°ú¸ñ
-	private String cutline; // ÇÕ°Ý±âÁØ
-	private String cinfo; // Á¤º¸, °³¿ä
-	private String cjob; // °ü·Ã Á÷¾÷, Áø·Î, Àü¸Á
-	private String website; // ½ÃÇà±â°ü À¥»çÀÌÆ®
-	private String status; // Y-ÇöÇà / N-½ÃÇàÁßÁöµÈ ÀÚ°ÝÁõ
-	private String expiry; // ¹Î°£ÀÚ°ÝÁõ °øÀÎ ¸¸·á ÀÏÀÚ
-	private String testPrice; // ¼öÇèºñ °ü·Ã »çÇ×(ÀÀ½Ã·á / ÇÊ±â,½Ç±â..)
-	private String notice; // ºñ°í(À§ ÄÃ·³ ÀÌ¿Ü À¯ÀÇ»çÇ×)
-	
-	@Override
-	public Object clone(){  
-	    try{  
-	        return super.clone();  
-	    }catch(Exception e){ 
-	        return null; 
-	    }
-	}
+	private String company; //ï¿½ï¿½ï¿½ï¿½Ã³/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ú°Ý°ï¿½ï¿½ï¿½ï¿½ï¿½)
+	private String clevel; //ï¿½Ú°Ýµï¿½ï¿½
+	private String requirement; //ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½
+	private String cmethod; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ eg) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
+	private String subject; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String cutline; // ï¿½Õ°Ý±ï¿½ï¿½ï¿½
+	private String cinfo; // ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
+	private String cjob; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
+	private String website; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	private String status; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² 
+	private String expiry; // ï¿½Î°ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String testPrice; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã·ï¿½
+	private String notice; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
