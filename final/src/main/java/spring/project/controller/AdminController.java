@@ -22,11 +22,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import spring.project.model.CertiDetailDTO;
+import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
-import spring.project.model.QnetDateDTO;
 import spring.project.pagination.PagingDTO;
 import spring.project.pagination.PagingService;
 import spring.project.service.AdminService;
@@ -41,20 +41,37 @@ public class AdminController {
 	@Autowired
 	private PagingService pageService;
 	
-	
+	//ÀÚ°ÝÁõ µî·Ï ÆäÀÌÁö 
 	@RequestMapping("addCerti")
-	public String addCerti(CertiInfoDTO dto) {
+	public String addCerti() {
 		return "admin/certi/addCerti";
 	}
 	@RequestMapping("addCertiPro")
-	public String addCertiPro(CertiInfoDTO info, CertiDetailDTO detail, Model model) {
-		int result = service.addCerti(info, detail);
-		model.addAttribute("result", result);
+	public String addCertiPro(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO certiDate, Model model) {
+		model.addAttribute("category", info.getCategory());
+		model.addAttribute("result", service.addCertiInfo(info, schedule, certiDate));
 		return "admin/certi/addCertiPro";
 	}
 	
-	@RequestMapping("modCerti")
-	public String modCerti(String cnum, Model model) {
+	//ÀÚ°ÝÁõ ¸ñ·Ï ÆäÀÌÁö 
+	@RequestMapping("certiList")
+	public String getCertiList(String pageNum, String sort, String order, Model model) {
+		//ÇÑ ÆäÀÌÁö¿¡ º¸¿©ÁÖ°í ½ÍÀº °Ô½Ã±Û¼ö ¸Å°³º¯¼ö·Î Àü´Þ
+		int pageSize = 30;
+		PagingDTO page = pageService.getPaging(pageSize, pageNum);
+		
+		model.addAttribute("list", service.getCertList(page, sort, order));
+		model.addAttribute("count", service.getCertCnt());
+		
+		model.addAttribute("page",page);
+		model.addAttribute("sort", sort);
+		model.addAttribute("order", order);
+		return "admin/certi/infoList";
+	}
+	
+	//ÀÚ°ÝÁõ »ó¼¼Á¤º¸ - ¼öÁ¤ ¹× ÀÏÁ¤ ¸ñ·Ï È®ÀÎ°¡´É
+	@RequestMapping("certiInfo")
+	public String certiInfo(String cnum, Model model) {
 		List<Object> list = service.getCertiInfo(cnum);
 		model.addAttribute("cnum", cnum);
 		model.addAttribute("info", list.get(0));
@@ -64,12 +81,12 @@ public class AdminController {
 		}
 		return "admin/certi/modCerti";
 	}
-	@RequestMapping("modCertiPro")
-	public String modCertiPro(String cnum, CertiInfoDTO info, CertiDetailDTO detail, Model model) {
-		model.addAttribute("cnum", cnum);
-		model.addAttribute("result",service.modCerti(cnum, info, detail));
-		return "admin/certi/modCertiPro";
-	}
+//	@RequestMapping("modCerti")
+//	public String modCertiPro(String cnum, CertiInfoDTO info, CertiDetailDTO detail, Model model) {
+//		model.addAttribute("cnum", cnum);
+//		model.addAttribute("result",service.modCerti(cnum, info, detail));
+//		return "admin/certi/modCertiPro";
+//	}
 	
 	@RequestMapping("deleteForm")
 	public String deleteForm(String[] cnumList, Model model) {
@@ -85,28 +102,7 @@ public class AdminController {
 		return "admin/certi/deletePro";
 	}
 	
-	@RequestMapping("certiList")
-	public String getCertiList(String pageNum, String sort, String order, Model model) {
-		//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±Û¼ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-		int pageSize = 30;
-		PagingDTO page = pageService.getPaging(pageSize, pageNum);
-		
-		
-		List<CertiInfoDTO> list = service.getCertList(page, sort, order);
-		int count = service.getCertCnt();
-		model.addAttribute("list", list);
-		model.addAttribute("count",count);
-		model.addAttribute("page",page);
-		model.addAttribute("sort", sort);
-		model.addAttribute("order", order);
-		return "admin/certi/certiList";
-	}
 	
-	private static String trimQuote(String str) {
-		str = str.replaceAll("\"=\"\"", "");
-		str = str.replaceAll("\"\"\"", "");
-		return str;
-	}
 	
 	@RequestMapping("search")
 	public String searchList(String pageNum, String search, String keyword, String category, Model model) {
@@ -144,10 +140,33 @@ public class AdminController {
 		return "/admin/member/memberFilter";
 	}
 	
-	@RequestMapping("/member/searchList")
+	@RequestMapping("/member/filterPro")
 	public String getSearchList(MemberFilterDTO dto, String pageNum, Model model) {
 		PagingDTO page = pageService.getPaging(10, pageNum);
-		model.addAttribute("list", service.getSearchList(dto, page));
+		List<MemberInfoDTO> list = service.getMemberFilter(dto, page);
+		model.addAttribute("list", list);
 		return "/admin/member/searchList";
+	}
+	
+	@RequestMapping("/member/reportList")
+	public String getMemberReport(String status, Model model) {
+		model.addAttribute("status", status);
+		model.addAttribute("list", service.getMemberReport(status));
+		return "/admin/member/reportList";
+	}
+	
+	@RequestMapping("/member/reportMemInfo")
+	public String getReportMemInfo(String memid, String reportCnt, Model model) {
+		model.addAttribute("memid", memid);
+		model.addAttribute("reportCnt", reportCnt);
+		model.addAttribute("dto", service.getMemberInfo(memid));
+		model.addAttribute("list", service.getreportMemInfo(memid));
+		return "/admin/member/reportMemInfo";
+	}
+	
+	@RequestMapping("/member/memReportPro")
+	public String modReportMember(String memid, String status, Model model) {
+		model.addAttribute("result", service.updateRepMemStatus(memid, status));
+		return "/admin/member/memReportPro";
 	}
 }

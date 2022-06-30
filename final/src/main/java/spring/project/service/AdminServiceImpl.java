@@ -8,12 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import spring.project.mapper.AdminMapper;
-import spring.project.model.CertiDetailDTO;
+import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
-import spring.project.model.QnetDateDTO;
 import spring.project.pagination.PagingDTO;
 
 @Service
@@ -26,22 +25,22 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Transactional
 	@Override
-	public int addCerti(CertiInfoDTO info, CertiScheduleDTO sch) {
+	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO certiDate) {
 		String cnum = "";
 		String sequence = "";
 		
-		if(info.getCategory().equals("êµ­ê°€ê¸°ìˆ ")) {
+		if(info.getCategory().equals("êµ?ê°?ê¸°ìˆ ")) {
 			cnum = "N";
 			sequence = "NAT_SEQ";
 		}else if(info.getCategory().equals("ê³µì¸ë¯¼ê°„")) {
 			cnum = "P";
 			sequence = "PRV_SEQ";
-		}else if(info.getCategory().equals("ì–´í•™")) {
+		}else if(info.getCategory().equals("?–´?•™")) {
 			cnum = "L";
 			sequence = "LANG_SEQ";
 		}
 		
-		//å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ 0å ì™ì˜™ å ì™ì˜™å ï¿½ å ì‹­ê¸°ê°’ å ì™ì˜™å ì™ì˜™ (+1)
+		//? ?™?˜™? ?™?˜™? ?™?˜™? ?™?˜™? ?™?˜™ 0? ?™?˜™ ? ?™?˜™? ï¿? ? ?‹­ê¸°ê°’ ? ?™?˜™? ?™?˜™ (+1)
 		if(mapper.findCurrseq(sequence)==0) {
 			mapper.findNextseq(sequence);
 		}
@@ -49,30 +48,46 @@ public class AdminServiceImpl implements AdminService{
 		cnum += String.format("%05d", mapper.findCurrseq(sequence));
 		
 		info.setCnum(cnum); 
-		sch.setCnum(cnum);
+		schedule.setCnum(cnum);
+		//CSV¿¡¼­ Á÷Á¢ µ¥ÀÌÅÍ ³ÖÀ» °æ¿ì ´ëºñ
+		if(certiDate != null) {
+			certiDate.setCnum(cnum);
+			
+			String cyearStr = certiDate.getDocTestStart().split("-")[0];
+			//view¿¡¼­ ±¹°¡±â¼úÀ» µî·ÏÇÒ °æ¿ì ´ëºñ - certiDate°¡ ÀüºÎ null
+			if(cyearStr!=null && cyearStr != "") {
+				int cyear = Integer.parseInt(cyearStr);
+				certiDate.setCyear(cyear);
+			}
+		}
 		
-		int result = mapper.addCerti(info);
-		result += mapper.addCertiDetail(detail);
+		int result = 0;
+		if(info.getCategory().equals("±¹°¡±â¼ú")) {
+			result += mapper.addCertiInfo(info);
+			result += mapper.addCertiSchedule(schedule);
+		}else {
+			result += mapper.addCertiInfo(info);
+			result += mapper.addCertiDate(certiDate);
+		}
 		
 		if(result==2) mapper.findNextseq(sequence);
 		return result;
 	}
 
-	@Override
-	public int modCerti(String cnum, CertiInfoDTO info, CertiDetailDTO detail) {
-		info.setCnum(cnum); detail.setCnum(cnum);
-		int result = mapper.modCertInfo(info);
-		System.out.println("===info==="+result);
-		//result += mapper.modCertDetail(info);
-		System.out.println("===detail==="+result);
-		return result;
-	}
+//	@Override
+//	public int modCerti(String cnum, CertiInfoDTO info, CertiDetailDTO detail) {
+//		info.setCnum(cnum); detail.setCnum(cnum);
+//		int result = mapper.modCertInfo(info);
+//		System.out.println("===info==="+result);
+//		//result += mapper.modCertDetail(info);
+//		System.out.println("===detail==="+result);
+//		return result;
+//	}
 
 	@Override
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order) {
 		int startRow = page.getStartRow();
 		int endRow = page.getEndRow();
-		System.out.println("order by : "+sort+" "+order);
 		return mapper.getCertList(startRow, endRow, sort, order);
 	}
 	@Override
@@ -85,13 +100,19 @@ public class AdminServiceImpl implements AdminService{
 	public List<Object> getCertiInfo(String cnum) {
 		List<Object> list = new ArrayList<Object>();
 		
-		list.add(mapper.getCertiInfo(cnum));
-		list.add(mapper.getCertiDetail(cnum));
+		CertiInfoDTO info = mapper.getCertiInfo(cnum);
+		CertiDateDTO date = null;
 		
-		//å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™å¾®å ì™ì˜™å ï¿½ å ì™ì˜™å ï¿½ qnetdateå ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™
+		//±¹°¡±â¼úÀÚ°İÀÎ °æ¿ì CertiScheduleÁ¤º¸¸¦ ³Ñ°Ü¼­ ÀÏÁ¤Á¤º¸ °¡Á®¿À±â
 		if(cnum.substring(0,1).equals("N")) {
-			list.add(mapper.getQnetdate(mapper.getCertiInfo(cnum)));
+			CertiScheduleDTO schedule = mapper.getQnetDateInfo(cnum);
+			date = mapper.getQnetDate(schedule);
+		}else {
+			date = mapper.getCertiDate(cnum);
 		}
+		list.add(info);
+		list.add(date);
+		
 		return list;
 	}
 
@@ -124,7 +145,6 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order) {
-		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("startRow", page.getStartRow());
 		map.put("endRow", page.getEndRow());
 		map.put("sort", sort);
@@ -139,20 +159,43 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<MemberInfoDTO> getSearchList(MemberFilterDTO filter, PagingDTO page) {
+	public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page) {
 		map.put("startRow", page.getStartRow());
 		map.put("endRow", page.getEndRow());
-		try {
-			for(Field field : filter.getClass().getDeclaredFields()) {
-				field.setAccessible(true);
-				String key = field.getName();
-				map.put(key, field.get(key));
-			}
-		}catch(Exception e) { e.printStackTrace();}
+		
+		map.put("search", filter.getSearch());
+		map.put("keyword", filter.getKeyword());
+		map.put("status", filter.getStatus());
+		map.put("mem_level", filter.getMem_level());
+		map.put("mem_point1", filter.getMem_point1());
+		map.put("mem_point2", filter.getMem_point2());
+		map.put("regDate1", filter.getRegDate1());
+		map.put("regDate2", filter.getRegDate2());
+		
+		
+		
 		return mapper.getMemberFilter(map);
 	}
 
+	@Override
+	public List<MemberInfoDTO> getMemberReport(String status) {
+		return mapper.getReportMemList(status);
+	}
 
-	
+	@Override
+	public List<Map<String, Object>> getreportMemInfo(String memid) {
+		return mapper.getreportMemInfo(memid);
+	}
+
+	@Override
+	public MemberInfoDTO getMemberInfo(String memid) {
+		return mapper.getMemberInfo(memid);
+	}
+
+	@Override
+	public int updateRepMemStatus(String memid, String status) {
+		return mapper.updateRepMemStatus(memid, status);
+	}
+
 	
 }
