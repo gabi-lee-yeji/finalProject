@@ -31,19 +31,37 @@ public class AdminController {
 	@Autowired
 	private PagingService pageService;
 	
-	
+	//자격증 등록 페이지 
 	@RequestMapping("addCerti")
 	public String addCerti() {
 		return "admin/certi/addCerti";
 	}
 	@RequestMapping("addCertiPro")
 	public String addCertiPro(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO certiDate, Model model) {
-		//model.addAttribute("result", result);
+		model.addAttribute("category", info.getCategory());
+		model.addAttribute("result", service.addCertiInfo(info, schedule, certiDate));
 		return "admin/certi/addCertiPro";
 	}
 	
-	@RequestMapping("modCerti")
-	public String modCerti(String cnum, Model model) {
+	//자격증 목록 페이지 
+	@RequestMapping("certiList")
+	public String getCertiList(String pageNum, String sort, String order, Model model) {
+		//한 페이지에 보여주고 싶은 게시글수 매개변수로 전달
+		int pageSize = 30;
+		PagingDTO page = pageService.getPaging(pageSize, pageNum);
+		
+		model.addAttribute("list", service.getCertList(page, sort, order));
+		model.addAttribute("count", service.getCertCnt());
+		
+		model.addAttribute("page",page);
+		model.addAttribute("sort", sort);
+		model.addAttribute("order", order);
+		return "admin/certi/infoList";
+	}
+	
+	//자격증 상세정보 - 수정 및 일정 목록 확인가능
+	@RequestMapping("certiInfo")
+	public String certiInfo(String cnum, Model model) {
 		List<Object> list = service.getCertiInfo(cnum);
 		model.addAttribute("cnum", cnum);
 		model.addAttribute("info", list.get(0));
@@ -53,7 +71,7 @@ public class AdminController {
 		}
 		return "admin/certi/modCerti";
 	}
-//	@RequestMapping("modCertiPro")
+//	@RequestMapping("modCerti")
 //	public String modCertiPro(String cnum, CertiInfoDTO info, CertiDetailDTO detail, Model model) {
 //		model.addAttribute("cnum", cnum);
 //		model.addAttribute("result",service.modCerti(cnum, info, detail));
@@ -74,22 +92,7 @@ public class AdminController {
 		return "admin/certi/deletePro";
 	}
 	
-	@RequestMapping("certiList")
-	public String getCertiList(String pageNum, String sort, String order, Model model) {
-		//한 페이지에 보여주고 싶은 게시글수 매개변수로 전달
-		int pageSize = 30;
-		PagingDTO page = pageService.getPaging(pageSize, pageNum);
-		
-		
-		List<CertiInfoDTO> list = service.getCertList(page, sort, order);
-		int count = service.getCertCnt();
-		model.addAttribute("list", list);
-		model.addAttribute("count",count);
-		model.addAttribute("page",page);
-		model.addAttribute("sort", sort);
-		model.addAttribute("order", order);
-		return "admin/certi/certiList";
-	}
+	
 	
 	@RequestMapping("search")
 	public String searchList(String pageNum, String search, String keyword, String category, Model model) {

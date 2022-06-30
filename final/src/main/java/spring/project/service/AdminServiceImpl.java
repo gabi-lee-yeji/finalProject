@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Transactional
 	@Override
-	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO date) {
+	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO certiDate) {
 		String cnum = "";
 		String sequence = "";
 		
@@ -49,13 +49,28 @@ public class AdminServiceImpl implements AdminService{
 		
 		info.setCnum(cnum); 
 		schedule.setCnum(cnum);
-		date.setCnum(cnum);
+		//CSV에서 직접 데이터 넣을 경우 대비
+		if(certiDate != null) {
+			certiDate.setCnum(cnum);
+			
+			String cyearStr = certiDate.getDocTestStart().split("-")[0];
+			//view에서 국가기술을 등록할 경우 대비 - certiDate가 전부 null
+			if(cyearStr!=null && cyearStr != "") {
+				int cyear = Integer.parseInt(cyearStr);
+				certiDate.setCyear(cyear);
+			}
+		}
 		
-		int result = mapper.addCertiInfo(info);
-		result += mapper.addCertiSchedule(schedule);
-		result += mapper.addCertiDate(date);
+		int result = 0;
+		if(info.getCategory().equals("국가기술")) {
+			result += mapper.addCertiInfo(info);
+			result += mapper.addCertiSchedule(schedule);
+		}else {
+			result += mapper.addCertiInfo(info);
+			result += mapper.addCertiDate(certiDate);
+		}
 		
-		if(result==3) mapper.findNextseq(sequence);
+		if(result==2) mapper.findNextseq(sequence);
 		return result;
 	}
 
@@ -73,7 +88,6 @@ public class AdminServiceImpl implements AdminService{
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order) {
 		int startRow = page.getStartRow();
 		int endRow = page.getEndRow();
-		System.out.println("order by : "+sort+" "+order);
 		return mapper.getCertList(startRow, endRow, sort, order);
 	}
 	@Override
@@ -82,19 +96,25 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 
-//	@Override
-//	public List<Object> getCertiInfo(String cnum) {
-//		List<Object> list = new ArrayList<Object>();
-//		
-//		list.add(mapper.getCertiInfo(cnum));
-//		list.add(mapper.getCertiDetail(cnum));
-//		
-//		//국가기술자격인 경우 qnetdate에서 일정정보 가져오기
-//		if(cnum.substring(0,1).equals("N")) {
-//			list.add(mapper.getQnetdate(mapper.getCertiInfo(cnum)));
-//		}
-//		return list;
-//	}
+	@Override
+	public List<Object> getCertiInfo(String cnum) {
+		List<Object> list = new ArrayList<Object>();
+		
+		CertiInfoDTO info = mapper.getCertiInfo(cnum);
+		CertiDateDTO date = null;
+		
+		//국가기술자격인 경우 CertiSchedule정보를 넘겨서 일정정보 가져오기
+		if(cnum.substring(0,1).equals("N")) {
+			CertiScheduleDTO schedule = mapper.getQnetDateInfo(cnum);
+			date = mapper.getQnetDate(schedule);
+		}else {
+			date = mapper.getCertiDate(cnum);
+		}
+		list.add(info);
+		list.add(date);
+		
+		return list;
+	}
 
 	@Override
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword) {
@@ -177,19 +197,5 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.updateRepMemStatus(memid, status);
 	}
 
-	@Override
-	public List<Object> getCertiInfo(String cnum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	
-
-	
-//	@Override
-//	public void addQnetDate(QnetDateDTO dto) {
-//		mapper.addQnetDate(dto);
-//	}
 	
 }

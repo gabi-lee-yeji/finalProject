@@ -16,16 +16,20 @@ public interface AdminService {
 	//자격증 등록
 	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO date);
 	
-	//자격증 수정
-	//public int modCerti(String cnum, CertiInfoDTO dto, CertiDetailDTO detail);
-	
-	//등록된 자격증 정보 
-	public List<Object> getCertiInfo(String cnum);
-	
 	//등록된 자격증 전체 목록
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order);
 	//등록된 자격증 전체 개수
 	public int getCertCnt();
+	
+	//등록된 자격증 정보 - 상세정보, 일정목록
+	public List<Object> getCertiInfo(String cnum);
+		
+	//자격증 수정
+	//public int modCerti(String cnum, CertiInfoDTO dto, CertiDetailDTO detail);
+	
+	
+	
+	
 	
 	//자격증 검색 
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword);

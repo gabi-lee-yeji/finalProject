@@ -20,17 +20,29 @@ public interface AdminMapper {
 	public int findNextseq(String sequence);
 	public int findCurrseq(String sequence);
 	
+	//자격증 목록 
+	public List<CertiInfoDTO> getCertList(@Param("startRow")int startRow,
+			@Param("endRow")int endRow,
+			@Param("sort")String sort, 
+			@Param("order")String order);
+	//등록된 자격증 개수
+	public int getCertCnt();
+	
+	//자격증 상세정보 페이지
+	public CertiInfoDTO getCertiInfo(String cnum);
+	public CertiDateDTO getCertiDate(String cnum);
+	
+	public CertiScheduleDTO getQnetDateInfo(String cnum);
+	public CertiDateDTO getQnetDate(CertiScheduleDTO dto);
+	
+	
 	public int modCertInfo(CertiInfoDTO dto);
 	public int modCertDetail(CertiInfoDTO dto);
 	
-	public List<CertiInfoDTO> getCertList(@Param("startRow")int startRow,
-										@Param("endRow")int endRow,
-										@Param("sort")String sort, 
-										@Param("order")String order);
-	public int getCertCnt();
 	
 	
-	public CertiInfoDTO getCertiInfo(String cnum);
+	
+	
 
 	
 	public List<CertiInfoDTO> getSearchList(@Param("startRow")int startRow,
