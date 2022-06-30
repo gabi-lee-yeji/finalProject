@@ -3,7 +3,7 @@
 <title>Insert title here</title>
 
 <h1>공지 삭제</h1>
-<form action="/help/delNoticePro" method="get">
+<form action="/help/notice/delNoticePro" method="get">
 	<input type="hidden" name="pnum" value="${pnum}" />
 	<input type="hidden" name="pageNum" value="${pageNum}" />
 	<input type="hidden" name="memid" value="${memid}" />

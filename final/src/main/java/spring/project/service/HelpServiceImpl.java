@@ -15,8 +15,10 @@ public class HelpServiceImpl implements HelpService {
 	private HelpMapper mapper;
 
 	@Override
-	public void addNotice(Post_BoardDTO dto) {
-		mapper.addNotice(dto);
+	public void addPost_Board(Post_BoardDTO dto) {
+		
+		int post_group = mapper.;
+		mapper.addPost_Board(dto);
 	}
 
 	@Override
@@ -30,18 +32,18 @@ public class HelpServiceImpl implements HelpService {
 	}
 
 	@Override
-	public Post_BoardDTO noticeContent(int pnum) {
-		return mapper.noticeContent(pnum);
+	public Post_BoardDTO post_BoardContent(int pnum) {
+		return mapper.post_BoardContent(pnum);
 	}
 
 	@Override
-	public int modNotice(Post_BoardDTO dto) {
-		return mapper.modNotice(dto);
+	public int modPost_Board(Post_BoardDTO dto) {
+		return mapper.modPost_Board(dto);
 	}
 
 	@Override
-	public int delNotice(int pnum) {
-		return mapper.delNotice(pnum);
+	public int delPost_Board(int pnum) {
+		return mapper.delPost_Board(pnum);
 	}
 
 	@Override
@@ -53,6 +55,16 @@ public class HelpServiceImpl implements HelpService {
 	@Override
 	public int upReadCnt(Post_BoardDTO dto) {
 		return mapper.upReadCnt(dto);
+	}
+	
+	@Override
+	public int qnaCount() {
+		return mapper.qnaCount();
+	}
+
+	@Override
+	public List<Post_BoardDTO> qnaLists(int StartRow, int endRow) {
+		return mapper.qnaLists(StartRow, endRow);
 	}
 
 }

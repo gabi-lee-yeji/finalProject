@@ -5,7 +5,7 @@
 <c:if test="${result == 1}">
 	<script>
 		alert("삭제되었습니다.");
-		window.location="/help/noticeList";		
+		window.location="/help/notice/noticeList";		
 	</script>
 	
 </c:if>

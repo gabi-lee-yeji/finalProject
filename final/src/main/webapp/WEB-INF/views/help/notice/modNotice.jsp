@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>공지사항 글 수정</h1>
-	<form action="/help/modNoticePro" method="get" >
+	<form action="/help/notice/modNoticePro" method="get" >
 	<input type="hidden" name="pnum" value="${dto.pnum}" />
 	<input type="hidden" name="pageNum" value="${pageNum}" />
 		<table border=1>

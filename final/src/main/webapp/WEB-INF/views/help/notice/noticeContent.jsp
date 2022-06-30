@@ -19,9 +19,9 @@
 			<td>${dto.post_content}</td>
 		</tr>
 	</table>
-	<input type="button" value="수정" onclick="location='/help/modNotice?pnum=${dto.pnum}&pageNum=${pageNum}'" />
-	<input type="button" value="삭제" onclick="location='/help/delNotice?pnum=${dto.pnum}&pageNum=${pageNum}&memid=test4'" />
-	<input type="button" value="글목록" onclick="location='/help/noticeList?pnum=${dto.pnum}&pageNum=${pageNum}'" />
+	<input type="button" value="수정" onclick="window.location='/help/notice/modNotice?pnum=${dto.pnum}&pageNum=${pageNum}'" />
+	<input type="button" value="삭제" onclick="window.location='/help/notice/delNotice?pnum=${dto.pnum}&pageNum=${pageNum}&memid=test4'" />
+	<input type="button" value="글목록" onclick="window.location='/help/notice/noticeList'" />
 </body>
 
 

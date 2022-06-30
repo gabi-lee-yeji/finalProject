@@ -30,7 +30,7 @@
 	<c:forEach var="notice" items="${noticeList}">
 		<tr>
 			<td>${notice.pnum}</td>
-			<td><a href="/help/noticeContent?pnum=${notice.pnum}&pageNum=${currentPage}">${notice.subject}</a> 
+			<td><a href="/help/notice/noticeContent?pnum=${notice.pnum}&pageNum=${currentPage}">${notice.subject}</a></td> 
 			<td>${notice.writer}</td>
 			<td>${notice.reg}</td>
 			<td>${notice.readCnt}</td>
@@ -50,16 +50,16 @@
 	</c:if>
 	
 	<c:if test="${startPage > 10}" >
-        <a href="/help/noticeList?pageNum=${startPage - 10}">[이전]</a>
+        <a href="/help/notice/noticeList?pageNum=${startPage - 10}">[이전]</a>
     </c:if>
     
     <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">    
-        <a href="/help/noticeList?pageNum=${i}">[${i}]</a>
+        <a href="/help/notice/noticeList?pageNum=${i}">[${i}]</a>
     </c:forEach>
     
     <c:if test="${endPage < pageCount}" >
-       <a href="/help/noticeList?pageNum=${startPage + 10 }">[다음]</a>
+       <a href="/help/notice/noticeList?pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
 </body>
-<a href="/help/addNotice">글쓰기</a>
+<a href="/help/notice/addNotice">글쓰기</a>

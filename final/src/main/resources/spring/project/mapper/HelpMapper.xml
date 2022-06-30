@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.HelpMapper">
 	
-	<insert id="addNotice" parameterType="spring.project.model.Post_BoardDTO">
+	<insert id="addPost_Board" parameterType="spring.project.model.Post_BoardDTO">
 		insert into post_board values (
 			board_seq.nextval,   
 			#{subject},
@@ -19,12 +19,48 @@
 			)
 	</insert>
 	
+	<select id="maxPost_group" resultType="int">
+		select nvl(max(post_group), 0) from board
+	</select>
+	
+	<select id="post_BoardContent" resultType="spring.project.model.Post_BoardDTO">
+		select * from Post_Board where pnum=#{pnum}
+	</select>
+	
+	<update id="post_levelUp">
+		<![CDATA[
+			update post_board set post_group=post_group+1 where post_group=#{post_group} and 
+			
+		]]>
+	</update>
+	
+	<update id="modPost_Board">
+		update post_board set 
+			subject=#{subject},
+			post_content=#{post_content},	
+			reg=sysdate
+				where pnum=#{pnum}
+	</update>
+	
+	<update id="delPost_Board">
+		delete post_board where pnum=#{pnum}
+	</update>
+	
+	<update id="upReadCnt" parameterType="spring.project.model.Post_BoardDTO">
+		update post_board set readcnt=readcnt+1 where pnum=#{pnum}
+	</update>
+	
+	<select id="passwdCheck" parameterType="String"
+								resultType="int">
+		select count(*) from memberinfo where memid=#{memid} and passwd=#{passwd}
+	</select>
+	
 	<select id="noticeLists" resultType="spring.project.model.Post_BoardDTO"
 							parameterType="int">
 		<![CDATA[
 			select * from 
 				(select post_board.*, rownum r from 
-					(select * from post_board order by pNum desc, post_level) post_board where board_type='공지사항')
+					(select * from post_board order by pnum desc, post_level) post_board where board_type='공지사항')
 						where r >= #{startRow} and r <= #{endRow}
 		]]>
 	</select>
@@ -33,46 +69,19 @@
 		select count(*) from post_board where board_type='공지사항'
 	</select>
 	
-	<select id="noticeContent" resultType="spring.project.model.Post_BoardDTO">
-		select * from Post_Board where pnum=#{pnum}
+	<select id="qnaLists" resultType="spring.project.model.Post_BoardDTO"
+							parameterType="int">
+		<![CDATA[
+			select * from
+				(select post_board.*, rownum r from
+					(select * from post_board order by pnum desc, post_level) post_board where board_type='1:1문의')
+						where r >= #{startRow} and r <= #{endRow}
+		]]>	
 	</select>
 	
-	<update id="modNotice">
-		update post_board set 
-			subject=#{subject},
-			post_content=#{post_content},	
-			reg=sysdate
-				where pnum=#{pnum}
-	</update>
-	
-	<update id="delNotice">
-		delete post_board where pnum=#{pnum}
-	</update>
-	
-	<select id="passwdCheck" parameterType="String"
-								resultType="int">
-		select count(*) from memberinfo where memid=#{memid} and passwd=#{passwd}
+	<select id="qnaCount" resultType="int">
+		select count(*) from post_board where board_type='1:1문의'
 	</select>
-	
-	<insert id="addNotice111" parameterType="spring.project.model.Post_BoardDTO">
-		insert into post_board values (
-			board_seq.nextval,   
-			#{subject, jdbcType=VARCHAR},
-			#{post_content, jdbcType=VARCHAR},
-			#{writer, jdbcType=VARCHAR},
-			sysdate,
-			#{post_group, jdbcType=NUMERIC},
-			#{post_level, jdbcType=NUMERIC},
-			#{board_type},
-			#{readCnt, jdbcType=NUMERIC},
-			#{img, jdbcType=VARCHAR}
-			)
-	</insert>
-	
-	<update id="upReadCnt" parameterType="spring.project.model.Post_BoardDTO">
-		update post_board set readcnt=readcnt+1 where pnum=#{pnum}
-	</update>
-
 	
 	
 </mapper>

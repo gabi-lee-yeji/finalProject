@@ -5,9 +5,10 @@
 	<meta charset="UTF-8">
 	<title>공지사항</title>
 </head>
+
 <body>
 	<h1>공지사항 등록</h1>
-	<form action="/help/addNoticePro" name="addNotice" method="get" >
+	<form action="/help/notice/addNoticePro" name="addNotice" method="post" encType="multipart/form-data" >
 	<input type="hidden" name="board_type" value="공지사항" />
 		<table>
 			<tr>
@@ -16,7 +17,8 @@
 			</tr>
 			<tr>
 				<td>작성자</td>
-				<td><input type="text" name="writer" value="관리자"/></td>
+				<td>관리자</td>
+				<input type="hidden" name="writer" value="관리자"/>
 			</tr>
 			<tr>
 				<td>내용</td>
@@ -24,7 +26,7 @@
 			</tr>
 			<tr>
 				<td>이미지</td>
-				<td><input type="file" name="save"/></td>
+				<td><input type="file" name="img"/></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="등록" /></td>

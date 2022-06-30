@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,32 +25,52 @@ public class HelpController {
 	private HelpService service;
 	
 	@RequestMapping("notice/addNotice")
-	public String addNotice(Post_BoardDTO dto) {
+	public String addNotice() {
 		
 		log.info("addNotice 연결 확인");
 		
 		return "/help/notice/addNotice";
 	}
 	
+//	@RequestMapping("notice/addNoticePro")
+//	public String addNoticePro(Post_BoardDTO dto) {
+//		service.addNotice(dto);
+//		return "/help/notice/addNoticePro";
+//	}
 	
 	@RequestMapping("notice/addNoticePro")
-	public String addNoticePro(Post_BoardDTO dto) {
-		service.addNotice(dto);
-		return "/help/notice/addNoticePro";
-	}
-/*	
-	@RequestMapping("addNoticePro")
 	public String addNoticePro(Post_BoardDTO dto, MultipartFile img) throws Exception {
-		String fileName = img.getOriginalFilename(); // 업로드 = 저장되는 이름
-		File f = new File("c://spring//save//", fileName); // 파일 저장 경로
+		String fileName = img.getOriginalFilename();
+		File f = new File("c://spring//save//", fileName); // 파일 저장경로
+		
 		img.transferTo(f);
 		
-		System.out.println("fileName"+fileName);
+		System.out.println("writer="+dto.getWriter());
+		System.out.println("file name="+img.getOriginalFilename());
+/*		String uploadFolder = "c://spring//save//";
 		
-		service.addNotice(dto);
-		return "/help/addNoticePro";
+		for(MultipartFile multipartFile : uploadFile) {
+			log.info("---------------------");
+			log.info("uploaf File Name: "+ multipartFile.getOriginalFilename());
+			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
+			
+		try {
+			multipartFile.transferTo(saveFile);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		}
+		*/
+	//	String fileName = img.getOriginalFilename(); // 업로드 = 저장되는 이름
+	//	File f = new File(uploadFolder, img.getOriginalFilename()); // 파일 저장 경로
+	//	img.transferTo(f);
+	//	
+	//	System.out.println("fileName"+img.getOriginalFilename()+fileName);
+	//	
+		service.addPost_Board(dto);
+		return "/help/notice/addNoticePro";
 	}
-*/
+
 	@RequestMapping("notice/noticeList")
 	public String noticeList(Model model, String pageNum) {
 		if(pageNum == null) pageNum = "1";
@@ -83,7 +104,7 @@ public class HelpController {
 	
 	@RequestMapping("notice/noticeContent")
 	public String noticeContent(int pageNum, int pnum, Model model) {
-		Post_BoardDTO dto = service.noticeContent(pnum);
+		Post_BoardDTO dto = service.post_BoardContent(pnum);
 		
 		service.upReadCnt(dto);
 		
@@ -94,7 +115,7 @@ public class HelpController {
 	
 	@RequestMapping("notice/modNotice")
 	public String modNotice(int pageNum, int pnum, Model model) {
-		Post_BoardDTO dto = service.noticeContent(pnum);
+		Post_BoardDTO dto = service.post_BoardContent(pnum);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("dto", dto);
 		
@@ -103,7 +124,7 @@ public class HelpController {
 	
 	@RequestMapping("notice/modNoticePro")
 	public String modNoticePro(int pageNum, int pnum, Model model, Post_BoardDTO dto) {
-		service.modNotice(dto);
+		service.modPost_Board(dto);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pnum", pnum);
 		
@@ -126,7 +147,7 @@ public class HelpController {
 	public String delNoticePro(int pageNum, int pnum, String memid, String passwd, Model model) {
 		int result = service.passwdCheck(memid, passwd);
 		if(result == 1) {
-			service.delNotice(pnum);
+			service.delPost_Board(pnum);
 		}else {
 			model.addAttribute("pnum", pnum);
 		}
@@ -137,7 +158,82 @@ public class HelpController {
 		return "help/notice/delNoticePro";
 	}
 	
+	@RequestMapping("qna/addQna")
+	public String addQna(Post_BoardDTO dto) {
+		return "help/qna/addQna";
+	}
 	
+	@RequestMapping("qna/addQnaPro")
+	public String addQnaPro(Post_BoardDTO dto) {
+		service.addPost_Board(dto);
+		return "help/qna/addQnaPro";
+	}
 	
+	@RequestMapping("qna/qnaList")
+	public String qnaList(Model model, String pageNum) {
+		if(pageNum == null) pageNum = "1";
+		
+		int pageSize = 10;
+		int currentPage = Integer.parseInt(pageNum);
+		int startRow = (currentPage - 1) * pageSize + 1;
+		int endRow = currentPage * pageSize;
+		int count = 0;
+		int number = 0;
+		
+		count = service.qnaCount();
+		List<Post_BoardDTO> qnaList = null;
+		
+		if(count > 0) {
+			qnaList = service.qnaLists(startRow, endRow);
+		}
+		number = count - (currentPage - 1) * pageSize;
+				
+		model.addAttribute("count", count);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
+		model.addAttribute("number", number);
+		model.addAttribute("qnaList", qnaList);
+		
+		return "help/qna/qnaList";
+	}
+
+	@RequestMapping("qna/qnaContent")
+	public String qnaContent(int pnum, String pageNum, Model model) {
+		Post_BoardDTO dto = service.post_BoardContent(pnum);
+		service.upReadCnt(dto);
+
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("dto", dto);
+		return "help/qna/qnaContent";
+	}
 	
+	/*
+	@RequestMapping("qna/replyQna")
+	public String replyQna(int pnum, Model model) {
+		Post_BoardDTO dto = service.post_BoardContent(pnum);
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("pnum", pnum);
+		
+		return "help/qna/replyQna";
+	}
+*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

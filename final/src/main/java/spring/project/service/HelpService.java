@@ -6,8 +6,8 @@ import spring.project.model.Post_BoardDTO;
 
 public interface HelpService {
 	
-	// 공지사항 글 등록
-	public void addNotice(Post_BoardDTO dto);
+	// 게시판(고객센터) 글 등록
+	public void addPost_Board(Post_BoardDTO dto);
 
 	// 공지사항 글 목록
 	public List<Post_BoardDTO> noticeLists(int startRow, int endRow);
@@ -15,20 +15,28 @@ public interface HelpService {
 	// 공지사항 글 개수
 	public int noticeCount();
 	
-	// 공지사항 글 보기
-	public Post_BoardDTO noticeContent(int pnum);
+	// 게시판(고객센터) 글 보기
+	public Post_BoardDTO post_BoardContent(int pnum);
 	
-	// 공지사항 글 수정
-	public int modNotice(Post_BoardDTO dto);
+	// 게시판(고객센터) 글 수정
+	public int modPost_Board(Post_BoardDTO dto);
 	
 	// 공지사항 글 삭제
-	public int delNotice(int pnum);
+	public int delPost_Board(int pnum);
 	
 	// id/passwd 확인
 	public int passwdCheck(String memid, String passwd);
 	
-	// 공지사항 조회수 업데이트
+	// 게시판(고객센터) 조회수 업데이트
 	public int upReadCnt(Post_BoardDTO dto);
+	
+	// 1:1문의 글 개수
+	public int qnaCount();
+	
+	// 1:1문의 글 목록
+	public List<Post_BoardDTO> qnaLists(int StartRow, int endRow);
+	
+	
 }
 
 
