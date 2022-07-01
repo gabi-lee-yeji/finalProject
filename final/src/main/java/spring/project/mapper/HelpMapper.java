@@ -15,6 +15,7 @@ public interface HelpMapper {
 	
 	public int maxPost_group();
 	
+	public void post_levelUp(Post_BoardDTO dto);
 	
 	public int noticeCount();
 	
@@ -32,4 +33,5 @@ public interface HelpMapper {
 	
 	public List<Post_BoardDTO> qnaLists
 		(@Param("startRow") int startRow, @Param("endRow") int endRow);
+
 }

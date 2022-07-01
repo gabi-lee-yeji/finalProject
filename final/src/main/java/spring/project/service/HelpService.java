@@ -36,7 +36,6 @@ public interface HelpService {
 	// 1:1문의 글 목록
 	public List<Post_BoardDTO> qnaLists(int StartRow, int endRow);
 	
-	
 }
 
 

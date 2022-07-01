@@ -6,8 +6,9 @@
 	<title>1:1 문의</title>
 </head>
 <body>
-<c:if test="${dto.post_group == null}" >
+<c:if test="${dto.pnum == 0}" >
 	<h1>1:1 문의 글 쓰기</h1>
+	<!-- <form action="/help/qna/addQnaPro" name="addQna" method="post" enctype="multipart/form-data" > -->
 	<form action="/help/qna/addQnaPro" name="addQna" method="get" >
 	<input type="hidden" name="board_type" value="1:1문의" />
 		<table>
@@ -27,7 +28,7 @@
 				<td><textarea name="post_content" rows="13" cols="40" ></textarea></td>
 			</tr>
 			<tr>
-				<td>이미지</td>
+				<td>첨부 이미지</td>
 				<td><input type="file" name="img"/></td>
 			</tr>
 			<tr>
@@ -35,9 +36,10 @@
 			</tr>
 		</table>
 	</form>
+	<input type="button" value="1:1문의 목록" onclick="window.location='help/qna/qnaList' " />
 </c:if>
 
-<c:if test="${dto.post_group != null}" >
+<c:if test="${dto.pnum != 0}" >
 	<h1>1:1문의 답글</h1>
 	<input type="hidden" name="board_type" value="1:1문의" />
 	<h2> 고객문의 원글 </h2>
@@ -68,7 +70,7 @@
 		<table>
 			<tr>
 				<td>제목</td>
-				<td><input type="text" name="subject" /></td>
+				<td><input type="text" name="subject" value="[답변]"/></td>
 			</tr>
 			<tr>
 				<td>작성자</td>
@@ -84,7 +86,6 @@
 			</tr>
 		</table>
 	</form>
-	<input type="button" value="1:1문의 목록" onclick="location='help/qna/qnaList' " />
-	
+	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList' " />
 </c:if>
 </body>

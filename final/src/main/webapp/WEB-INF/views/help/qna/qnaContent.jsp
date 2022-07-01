@@ -29,9 +29,9 @@
 
 	<input type="button" value="수정" onclick="window.location = '/help/qna/modQna?pnum=${dto.pnum}&pageNum=${pageNum}' " />
 	<input type="button" value="삭제" onclick="window.location = '/help/qna/delQna?pnum=${dto.pnum}&pageNum=${pageNum}' " />
-	<input type="button" value="목록" onclick="window.location = '/help/qna/qnaList?' "/>
+	<input type="button" value="목록" onclick="window.location = '/help/qna/qnaList' "/>
 
-	<input type="button" value="답글" onclick="window.location = '/help/qna/replyQna?pnum=${dto.pnum}&' " />
+	<input type="button" value="답글" onclick="window.location = '/help/qna/addQna?pnum=${dto.pnum}&post_group=${dto.post_group}' " />
 <       onclick="document.location.href='/board/writeForm?num=${article.num}&ref=${article.ref}&re_step=${article.re_step}&re_level=${article.re_level}'">
 	   &nbsp;&nbsp;&nbsp;&nbsp;
 	

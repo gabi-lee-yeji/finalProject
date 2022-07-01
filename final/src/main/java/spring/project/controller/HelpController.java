@@ -1,14 +1,13 @@
 package spring.project.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -159,12 +158,46 @@ public class HelpController {
 	}
 	
 	@RequestMapping("qna/addQna")
-	public String addQna(Post_BoardDTO dto) {
-		return "help/qna/addQna";
-	}
+	public String addQna(Post_BoardDTO dto, Integer pnum, Model model) {
+//		int number = Integer.parseInt(pnum);
+	//	System.out.println(number);
+		
+	//	if(number == 0) {
+	//		return "help/qna/addQna";
+	//	}else if(number != 0)
+		if(pnum != 0) {
+			dto = service.post_BoardContent(pnum);
+			model.addAttribute("dto", dto);
+		}
+			
+			return "help/qna/addQna";
+		}
+		
 	
 	@RequestMapping("qna/addQnaPro")
-	public String addQnaPro(Post_BoardDTO dto) {
+	public String addQnaPro(MultipartFile img, Post_BoardDTO dto) throws IOException {
+/*		String uploadFolder = "C:\\spring\\src\\main\\webapp\\file";
+		
+		String fileName = img.getOriginalFilename();
+		System.out.println(fileName);
+		MultipartFile uploadFile = dto.getUploadFile();
+			System.out.println(uploadFile);
+		
+		if(!uploadFile.isEmpty()) {
+			fileName = uploadFile.getOriginalFilename();
+			System.out.println("fileName------------"+fileName);
+			String originalFileName = uploadFile.getOriginalFilename();
+			String ext = FilenameUtils.getExtension(originalFileName); // »Æ¿Â¿⁄
+			fileName = "."+ext;
+			uploadFile.transferTo(new File("c:/spring/save"+fileName));
+		}
+		
+		System.out.println(fileName);
+		
+		dto.setImg(fileName);
+		
+		System.out.println(dto.getImg());
+	*/	
 		service.addPost_Board(dto);
 		return "help/qna/addQnaPro";
 	}
