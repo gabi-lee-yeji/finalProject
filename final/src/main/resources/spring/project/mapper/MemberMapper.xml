@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.MemberMapper">
+	
+	<insert id="insertMember">
+		insert into memberInfo values (#{memid},
+											#{passwd},
+											#{mem_name},
+											#{email},
+											#{birthday},
+											#{gender},
+											#{postalCode},
+											#{address},
+											#{addr_detail},
+											#{mobile},
+											#{mem_degree},
+											#{major},
+											#{mem_job},
+											'일반',
+											0,
+											0,
+											sysdate)
+	</insert>
+	
+	<select id="userCheck" resultType="int">
+		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd}
+	</select>	
+	
+	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
+		select * from memberInfo where memid=#{memid}	
+	</select>
+	
+	<select id="deleteUser">
+		delete from MemberInfo where memid=#{memid} and passwd=#{passwd}
+	</select>
+	
+	<select id="findUser" resultType="spring.project.model.MemberInfoDTO">
+		select * from MemberInfo where memid=#{memid} and passwd=#{passwd}
+	</select>
+	
+	<update id="modifyList">
+		update MemberInfo 
+		<set>
+			<if test="passwd != null and passwd !=''">passwd = #{passwd},</if>	
+			<if test="mem_name != null">mem_name = #{mem_name},</if>
+			<if test="email != null">email=#{email},</if>
+			<if test="birthday != null">BIRTHDATE=TO_DATE(#{birthday},'YYYY-MM-DD'),</if>
+			<if test="gender != null">gender=#{gender},</if>
+			<if test="postalCode != null">postalCode=#{postalCode},</if>
+			<if test="address != null">address=#{address},</if>
+			<if test="addr_detail != null">addr_detail=#{addr_detail},</if>
+			<if test="mobile != null">mobile=#{mobile},</if>
+			<if test="mem_degree != null">mem_degree=#{mem_degree},</if>
+			<if test="major != null">major=#{major},</if>
+			<if test="mem_job != null">mem_job=#{mem_job}</if>
+		</set>
+		where memid=#{memid}
+	</update>
+		
+</mapper>
