@@ -39,7 +39,7 @@
 	<input type="button" value="1:1문의 목록" onclick="window.location='help/qna/qnaList' " />
 </c:if>
 
-<c:if test="${dto.pnum != 0}" >
+<c:if test="${pnum != 0}" >
 	<h1>1:1문의 답글</h1>
 	<input type="hidden" name="board_type" value="1:1문의" />
 	<h2> 고객문의 원글 </h2>
