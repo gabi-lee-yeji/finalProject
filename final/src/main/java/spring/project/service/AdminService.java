@@ -3,8 +3,10 @@ package spring.project.service;
 import java.util.List;
 import java.util.Map;
 
+import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
@@ -14,16 +16,21 @@ public interface AdminService {
 	
 	//자격증 관리 메서드 
 	//자격증 등록
-	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO date);
+	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, 
+							CertiDateDTO date, CertiRequirementDTO requirement);
 	
 	//등록된 자격증 전체 목록
-	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order);
+	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category);
 	//등록된 자격증 전체 개수
 	public int getCertCnt();
 	
-	//등록된 자격증 정보 - 상세정보, 일정목록
-	public List<Object> getCertiInfo(String cnum);
-		
+	//등록된 자격증 정보 - 상세정보
+	public Map<String, CertiAccessible> getCertiInfo(String cnum);
+	
+	//자격증별 일정정보 목록 조회 및 일정 검색
+	public List<CertiDateDTO> searchPeriod(Map<String, String> map);
+	public List<CertiDateDTO> searchNatPeriod(String cnum);
+	
 	//자격증 수정
 	//public int modCerti(String cnum, CertiInfoDTO dto, CertiDetailDTO detail);
 	

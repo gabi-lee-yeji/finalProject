@@ -4,7 +4,7 @@ package spring.project.model;
 import lombok.Data;
 
 @Data
-public class CertiInfoDTO {
+public class CertiInfoDTO implements CertiAccessible{
 	private String cnum; //자격증 고유번호 (PK)
 	private String cname;
 	private String category; // 국가기술, 민간, 어학
@@ -23,6 +23,7 @@ public class CertiInfoDTO {
 	
 	private String cjob; // 관련 직업, 진로, 전망
 	
+	private String expiry;
 	private String status; //시행현황 
 	
 	private String price; //시험 응시료

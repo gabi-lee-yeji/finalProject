@@ -16,6 +16,9 @@
 	</script>
 </head>
 <body>
+	
+	<c:set var="param_category" value="category=${category }"/>
+	
 	<h1>자격증 목록 [총 : ${count }]</h1>
 	<input type="button" value="자격증 등록" onclick="window.location='/admin/addCerti'"/>
 	<form action="/admin/search" method="post">
@@ -34,7 +37,7 @@
 				번호
 				<c:if test="${sort == null || sort != 'cnum' }">
 					<input type="button" value="&#61;" 
-						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=cnum&order=asc'"/>
+						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=cnum&order=asc&${param_category }'"/>
 				</c:if>
 				<c:if test="${sort == 'cnum' && order == 'desc' }">
 					<input type="button" value="&#129031;" 
@@ -49,9 +52,17 @@
 				종목명
 			</th>
 			<th>
-				종류
-				<select	name="category">
-					
+				<select	name="category" onchange="location.href=this.value">
+					<c:if test="${category != null || category != ''}">
+						<option value="">==${category }==</option>
+					</c:if>
+					<c:if test="${category == null || category == ''}">
+						<option value="">==자격증종류==</option>
+					</c:if>
+					<option value="certiList">전체</option>
+					<option value="certiList?${parameter}">국가기술</option>
+					<option value="certiList?category=공인민간&pageNum=${page.pageNum}&sort=${sort}&order=${order }">공인민간</option>
+					<option value="certiList?category=어학">어학</option>
 				</select>
 			</th>
 			<th>등급</th>
@@ -78,17 +89,21 @@
 		<c:forEach var="dto" items="${list }">
 			<tr>
 				<td>${dto.cnum }</td>
-				<td>${dto.cname }</td>
+				<td>	
+					<a href="사용자 자격증상세정보 페이지로 이동">${dto.cname }</a>
+				</td>
 				<td>${dto.category }</td>
 				<td>${dto.clevel }</td>
-				<td>${dto.company }</td>
+				<td>
+					<a href="시행기관에서 실시하는 자격증 모아서 보여주기">${dto.company }</a>
+				</td>
 				<td>${dto.status }</td>
 				<td>${dto.registDate }</td>
 				<td>
-					<input type="button" value="상세정보" onclick="window.location='/admin/certiInfo?cnum=${dto.cnum }'">
+					<input type="button" value="상세일정" onclick="window.location='/admin/certiDate?cnum=${dto.cnum }&cname=${dto.cname }'">
 				</td>
 				<td>
-					<input type="button" value="수정" onclick="window.location='/admin/modCerti?cnum=${dto.cnum }'">
+					<input type="button" value="수정" onclick="window.location='/admin/certiInfo?cnum=${dto.cnum }'">
 				</td>
 			</tr>
 		</c:forEach>

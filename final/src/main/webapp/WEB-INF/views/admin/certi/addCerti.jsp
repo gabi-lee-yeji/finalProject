@@ -68,26 +68,35 @@
 				</td>
 			</tr>
 			<tr>
-				<td>자격증 등급 (민간/어학)</td>
+				<td>자격증 등급</td>
 				<td>
 					<input type="text" name="clevel"/>
 				</td>
 			</tr>
 			<tr>
-				<td>자격증 타입 (국가기술)</td>
-				<td>
-					<select name="ctype">
-						<option value="">==선택==</option>
-						<option value="기능장">기능장</option>
-						<option value="기능사">기능사</option>
-						<option value="기사">기사</option>
-						<option value="산업기사">산업기사</option>
-						<option value="기술사">기술사</option>
-					</select>
-				</td>
+				<td>시행기관(접수처)</td>
+				<td><input type="text" name="company"/></td>
 			</tr>
 			<tr>
-				<td>자격증 회차 (국가기술)</td>
+				<td>시행기관 웹사이트</td>
+				<td><input type="text" name="website"/></td>
+			</tr>
+			<tr>
+				<td>응시료</td>
+				<td><input type="text" name="price"/></td>
+			</tr>
+			<tr>
+				<td>공인 유효날짜</td>
+				<td>
+					<input type="text" name="docResultStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+				</td>
+			</tr>
+		</table>
+		<hr>
+		<h2>시험 일정</h2>
+		<table>
+			<tr>
+				<td>자격증 회차</td>
 				<td><input type="text" name="cround"></td>
 			</tr>
 			<tr>
@@ -155,20 +164,44 @@
 			</tr>
 		</table>
 		<hr>
-		<h2>상세정보</h2>
+		<h2>응시자격</h2>
 		<table>
 			<tr>
-				<td>시행기관(접수처)</td>
-				<td><input type="text" name="company"/></td>
+				<td>학력</td>
+				<td>
+					<input type="radio" name="req_degree" value="고졸"/> 고졸 
+					<input type="radio" name="req_degree" value="전문학사"/> 전문학사 
+					<input type="radio" name="req_degree" value="학사"/> 학사 
+					<input type="radio" name="req_degree" value="석사"/> 석사 
+					<input type="radio" name="req_degree" value="박사"/> 박사 
+					<input type="radio" name="req_degree" value="기타"/> 기타 
+				</td>
 			</tr>
 			<tr>
-				<td>응시자격</td>
-				<td><input type="text" name="requirement"/></td>
+				<td>나이</td>
+				<td><input type="text" name="req_age"/></td>
 			</tr>
 			<tr>
-				<td>응시료</td>
-				<td><input type="text" name="price"/></td>
+				<td>경력</td>
+				<td>
+					<input type="text" name="req_exp"/><br>
+					(eg) 관련분야 종사 N년 이상
+				</td>
 			</tr>
+			<tr>
+				<td>전제조건</td>
+				<td>
+					<input type="text" name="pre_requisite"/> <br>
+					(eg) 1급위해 2급 자격증 필요한 경우 등
+				</td>
+			</tr>
+			<tr>
+				<td>참고사항</td>
+				<td><textarea name="ref"></textarea></td>
+			</tr>
+		</table>
+		<h2>상세정보</h2>
+		<table>
 			<tr>
 				<td>시험방식</td>
 				<td>
@@ -192,10 +225,7 @@
 				<td>관련직업 / 진로(전망)</td>
 				<td><input type="text" name="cjob"/></td>
 			</tr>
-			<tr>
-				<td>시행기관 웹사이트</td>
-				<td><input type="text" name="website"/></td>
-			</tr>
+			
 			<tr>
 				<td>NCS코드</td>
 				<td><input type="text" name="ncs_cat"/></td>
@@ -205,6 +235,7 @@
 				<td><textarea name="notice"></textarea></td>
 			</tr>
 		</table>
+
 		<input type="submit" value="등록"/>
 	</form>
 </body>

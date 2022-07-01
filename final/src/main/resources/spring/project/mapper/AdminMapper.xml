@@ -88,7 +88,7 @@
 	<select id="getSearchList" resultType="spring.project.model.CertiInfoDTO"
 								parameterType="spring.project.pagination.PagingDTO">
 		select * from (select rownum r, list.* from (select 
-			cnum,cname,category,ctype,cround,
+			cnum,cname,category,clevel,cround,
 			to_char(regStart,'YYYY-MM-DD') as regStart,
 			to_char(regEnd,'YYYY-MM-DD') as regEnd,
 			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
@@ -113,7 +113,7 @@
 			<if test="category != null">category=#{category},</if>
 			<if test="cyear != null">cyear=#{cyear},</if>
 			<if test="cround != null">cround=#{cround},</if>
-			<if test="ctype != null">ctype=#{ctype},</if>
+			<if test="clevel != null">clevel=#{clevel},</if>
 			<if test="regStart != null">
 				regStart=to_date(#{regStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
 			</if>
@@ -141,7 +141,53 @@
 		</set>
 		where cnum=#{cnum}
 	</update>
+	<select id="searchNatPeriod" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate 
+		where clevel=#{clevel}
+		and cyear in
+		<foreach collection="cyear_list" item="cyear" open="(" separator="," close=")">
+			#{cyear}
+		</foreach>
+		and cround in 
+		<foreach collection="cround_list" item="cround" open="(" separator="," close=")">
+			#{cround}
+		</foreach>
+	</select>
 	
+	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate 
+		where cnum=#{cnum}
+		<!-- search certain periods -->
+		<if test="search != null">
+			<if test="search == docRegStart">
+				and docRegStart1 between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
+					or docRegStart2 between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
+			</if>
+			<if test="search == docTestStart">
+				and docTestStart between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
+			</if>
+			<if test="search == pracRegStart">
+				and pracRegStart1 between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
+					or pracRegStart2 between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
+			</if>
+			<if test="search == pracTestStart">
+				and pracTestStart between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
+			</if>
+		</if>
+	</select>
+	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
+		select * from certi_requirement where cnum=#{cnum}
+	</select>
+	<select id="getQnetDate" resultType="spring.project.model.CertiDateDTO"
+							parameterType="spring.project.model.CertiScheduleDTO">
+		select * from certidate 
+			where cyear=#{cyear}
+			and cround=#{cround}
+			and clevel=#{clevel}						
+	</select>
+	<select id="getQnetDateInfo" resultType="spring.project.model.CertiScheduleDTO">
+		select * from certischedule where cnum=#{cnum}
+	</select>
 	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
 		select * from certidate
 	</select>
@@ -160,22 +206,23 @@
 	
 	<select id="getCertList" resultType="spring.project.model.CertiInfoDTO">
 		select * from (select rownum r, list.* from (select *
-		from certiinfo order by 
-			<choose>
-				<when test="sort != null">
-					${sort} ${order}
-				</when>
-				<otherwise>
-					cnum asc
-				</otherwise>
-			</choose>
+		from certiinfo 
+			<if test="sort != null and sort != 'null' and sort != '' ">
+				order by ${sort} ${order}
+			</if>
+			<if test="sort==null or sort=='' or sort == 'null' ">
+				order by cnum asc
+			</if>
 			nulls last) list)
         where r between #{startRow} and #{endRow}
+        <if	test="category != null and category != ''">
+        	and category = #{category}
+        </if>
 	</select>
 	
 	<select id="getDelList" resultType="spring.project.model.CertiInfoDTO"> 
 		select 
-			cnum,cname,category,ctype,cround,
+			cnum,cname,category,clevel,cround,
 			to_char(regStart,'YYYY-MM-DD') as regStart,
 			to_char(regEnd,'YYYY-MM-DD') as regEnd,
 			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
@@ -204,12 +251,23 @@
 		</foreach>
 	</delete>
 	
+	<insert id="addCertiReq">
+		insert into certi_requirement(
+			#{cnum},
+			#{req_degree},
+			#{req_age},
+			#{req_exp},
+			#{pre_requisite},
+			#{ref}
+		)
+	</insert>
+	
 	<insert id="addCertiSchedule">
 		insert into certiSchedule values (
 			#{cnum},
 			#{cyear,jdbcType=INTEGER},
-			nvl(#{cround,jdbcType=INTEGER}, 0),
-			#{ctype},
+			nvl(#{cround}, 0),
+			#{clevel},
 			sysdate
 		)
 	</insert>
@@ -228,6 +286,7 @@
 			#{cutline,jdbcType=VARCHAR},
 			#{cinfo,jdbcType=VARCHAR},
 			#{cjob,jdbcType=VARCHAR},
+			to_date(#{expiry, jdbcType=VARCHAR},'YYYY-MM-DD'),
 			#{status, jdbcType=VARCHAR},
 			#{price, jdbcType=VARCHAR},
 			#{ncs_cat,jdbcType=VARCHAR},
@@ -241,7 +300,7 @@
 			#{cnum, jdbcType=VARCHAR},
 			#{cyear},
 			#{cround},
-			#{ctype},
+			#{clevel},
 			TO_DATE(#{docRegStart1},'YYYY-MM-DD HH24:MI'),
 			TO_DATE(#{docRegEnd1},'YYYY-MM-DD HH24:MI'),
 			TO_DATE(#{docRegStart2},'YYYY-MM-DD HH24:MI'),
@@ -259,7 +318,8 @@
 			TO_DATE(#{pracTestStart},'YYYY-MM-DD HH24:MI'),
 			TO_DATE(#{pracTestEnd},'YYYY-MM-DD HH24:MI'),
 			TO_DATE(#{pracResStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResEnd},'YYYY-MM-DD HH24:MI')
+			TO_DATE(#{pracResEnd},'YYYY-MM-DD HH24:MI'),
+			CERTIDATE_SEQ.nextval
 		)
 	</insert>
 	

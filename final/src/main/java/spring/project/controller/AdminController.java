@@ -5,15 +5,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
@@ -31,45 +35,85 @@ public class AdminController {
 	@Autowired
 	private PagingService pageService;
 	
+	static Map<String,String> paramMap = new HashMap<String,String>();
+	
 	//자격증 등록 페이지 
 	@RequestMapping("addCerti")
 	public String addCerti() {
 		return "admin/certi/addCerti";
 	}
 	@RequestMapping("addCertiPro")
-	public String addCertiPro(CertiInfoDTO info, CertiScheduleDTO schedule, CertiDateDTO certiDate, Model model) {
+	public String addCertiPro(CertiInfoDTO info, CertiScheduleDTO schedule, 
+								CertiDateDTO certiDate, CertiRequirementDTO requirement,
+								Model model) {
+		int result = service.addCertiInfo(info, schedule, certiDate, requirement);
 		model.addAttribute("category", info.getCategory());
-		model.addAttribute("result", service.addCertiInfo(info, schedule, certiDate));
+		model.addAttribute("result", result);
 		return "admin/certi/addCertiPro";
 	}
 	
 	//자격증 목록 페이지 
 	@RequestMapping("certiList")
-	public String getCertiList(String pageNum, String sort, String order, Model model) {
+	public String getCertiList(String pageNum, String sort, String order, String category, Model model) {
 		//한 페이지에 보여주고 싶은 게시글수 매개변수로 전달
 		int pageSize = 30;
 		PagingDTO page = pageService.getPaging(pageSize, pageNum);
 		
-		model.addAttribute("list", service.getCertList(page, sort, order));
+		model.addAttribute("list", service.getCertList(page, sort, order, category));
 		model.addAttribute("count", service.getCertCnt());
 		
 		model.addAttribute("page",page);
 		model.addAttribute("sort", sort);
 		model.addAttribute("order", order);
+		model.addAttribute("category", category);
 		return "admin/certi/infoList";
 	}
 	
-	//자격증 상세정보 - 수정 및 일정 목록 확인가능
+	//자격증 수정 - 상세정보 확인가능 
 	@RequestMapping("certiInfo")
 	public String certiInfo(String cnum, Model model) {
-		List<Object> list = service.getCertiInfo(cnum);
+		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
 		model.addAttribute("cnum", cnum);
-		model.addAttribute("info", list.get(0));
-		model.addAttribute("detail", list.get(1));
-		if(list.size()>2) {
-			model.addAttribute("qnet", list.get(2));
+		model.addAttribute("info", map.get("info"));
+		model.addAttribute("req", map.get("requirement"));
+		return "admin/certi/certiInfo";
+	}
+	
+	//자격증별 상세일정 목록
+	@RequestMapping("certiDate")
+	public String certiDateInfo(String cnum, String cname, Model model) {
+		List<CertiDateDTO> dateList = null;
+		if(cnum.substring(0, 1).equals("N")) {
+			dateList = service.searchNatPeriod(cnum);
+		}else {
+			paramMap.put("cnum", cnum);
+			dateList = service.searchPeriod(paramMap);
 		}
-		return "admin/certi/modCerti";
+	
+		model.addAttribute("dateList", dateList);
+		model.addAttribute("cnum",cnum);
+		model.addAttribute("cname",cname);
+		
+		return "admin/certi/certiDate";
+	}
+	//자격증별 상세일정 - 기간 검색
+	@RequestMapping("certi/searchPeriod")
+	public String searchPeriod(String cname, String cnum, String startDay, String endDay, String search, Model model) {
+		paramMap.put("cnum", cnum); paramMap.put("search", search); 
+		paramMap.put("startDay", startDay); paramMap.put("endDay", endDay); 
+		
+		model.addAttribute("dateList", service.searchPeriod(paramMap));
+		return "admin/certi/searchPeriod";
+	}
+	@RequestMapping("certi/addDate")
+	public String addDate(String cnum, String cname, Model model) {
+		model.addAttribute("cnum", cnum);
+		model.addAttribute("cname", cname);
+		return "admin/certi/addDate";
+	}
+	@RequestMapping("certi/addDatePro")
+	public String addDate(CertiDateDTO date, Model model) {
+		return "admin/certi/addDatePro";
 	}
 //	@RequestMapping("modCerti")
 //	public String modCertiPro(String cnum, CertiInfoDTO info, CertiDetailDTO detail, Model model) {
