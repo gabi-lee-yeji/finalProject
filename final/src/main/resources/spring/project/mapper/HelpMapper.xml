@@ -73,7 +73,7 @@
 		<![CDATA[
 			select * from
 				(select post_board.*, rownum r from
-					(select * from post_board order by post_group, post_level) post_board where board_type='1:1문의')
+					(select * from post_board order by post_group desc, post_level) post_board where board_type='1:1문의')
 						where r >= #{startRow} and r <= #{endRow}
 		]]>	
 	</select>

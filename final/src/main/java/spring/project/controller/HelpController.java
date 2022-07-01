@@ -158,16 +158,15 @@ public class HelpController {
 	}
 	
 	@RequestMapping("qna/addQna")
-	public String addQna(Post_BoardDTO dto, Integer pnum, Model model) {
-//		int number = Integer.parseInt(pnum);
-	//	System.out.println(number);
+	public String addQna(int pnum, Post_BoardDTO dto, Model model) {
+		System.out.println(pnum);
 		
-	//	if(number == 0) {
-	//		return "help/qna/addQna";
-	//	}else if(number != 0)
 		if(pnum != 0) {
 			dto = service.post_BoardContent(pnum);
 			model.addAttribute("dto", dto);
+		}else {
+			pnum = 0;
+			model.addAttribute("pnum", pnum);
 		}
 			
 			return "help/qna/addQna";
