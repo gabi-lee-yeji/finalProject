@@ -88,7 +88,7 @@
 	<select id="getSearchList" resultType="spring.project.model.CertiInfoDTO"
 								parameterType="spring.project.pagination.PagingDTO">
 		select * from (select rownum r, list.* from (select 
-			cnum,cname,category,ctype,cround,
+			cnum,cname,category,clevel,cround,
 			to_char(regStart,'YYYY-MM-DD') as regStart,
 			to_char(regEnd,'YYYY-MM-DD') as regEnd,
 			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
@@ -113,7 +113,7 @@
 			<if test="category != null">category=#{category},</if>
 			<if test="cyear != null">cyear=#{cyear},</if>
 			<if test="cround != null">cround=#{cround},</if>
-			<if test="ctype != null">ctype=#{ctype},</if>
+			<if test="clevel != null">clevel=#{clevel},</if>
 			<if test="regStart != null">
 				regStart=to_date(#{regStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
 			</if>
@@ -175,7 +175,7 @@
 	
 	<select id="getDelList" resultType="spring.project.model.CertiInfoDTO"> 
 		select 
-			cnum,cname,category,ctype,cround,
+			cnum,cname,category,clevel,cround,
 			to_char(regStart,'YYYY-MM-DD') as regStart,
 			to_char(regEnd,'YYYY-MM-DD') as regEnd,
 			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
@@ -207,9 +207,9 @@
 	<insert id="addCertiSchedule">
 		insert into certiSchedule values (
 			#{cnum},
-			#{cyear,jdbcType=INTEGER},
+			nvl(#{cyear,jdbcType=INTEGER},0),
 			nvl(#{cround,jdbcType=INTEGER}, 0),
-			#{ctype},
+			#{clevel},
 			sysdate
 		)
 	</insert>
@@ -228,6 +228,7 @@
 			#{cutline,jdbcType=VARCHAR},
 			#{cinfo,jdbcType=VARCHAR},
 			#{cjob,jdbcType=VARCHAR},
+			TO_DATE(#{expiry, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
 			#{status, jdbcType=VARCHAR},
 			#{price, jdbcType=VARCHAR},
 			#{ncs_cat,jdbcType=VARCHAR},
@@ -241,25 +242,25 @@
 			#{cnum, jdbcType=VARCHAR},
 			#{cyear},
 			#{cround},
-			#{ctype},
-			TO_DATE(#{docRegStart1},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegEnd1},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegStart2},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegEnd2},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docTestStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docTestEnd},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docResultStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docResultEnd},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docSubmitStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docSubmitEnd},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegStart1},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegEnd1},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegStart2},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegEnd2},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracTestStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracTestEnd},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResEnd},'YYYY-MM-DD HH24:MI')
+			#{clevel, jdbcType=VARCHAR},
+			TO_DATE(#{docRegStart1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegEnd1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegStart2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegEnd2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docTestStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docTestEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docResultStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docResultEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docSubmitStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docSubmitEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegStart1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegEnd1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegStart2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegEnd2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracTestStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracTestEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracResStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracResEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI')
 		)
 	</insert>
 	

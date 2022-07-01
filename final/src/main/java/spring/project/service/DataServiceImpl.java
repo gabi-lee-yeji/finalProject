@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import spring.project.mapper.DataMapper;
-import spring.project.model.CertiDetailDTO;
+import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiInfoDTO;
 import spring.project.model.PassDetailDTO;
-import spring.project.model.QnetDateDTO;
 
 @Service
 public class DataServiceImpl implements DataService {
@@ -15,7 +15,7 @@ public class DataServiceImpl implements DataService {
 	private DataMapper mapper;
 	
 	@Override
-	public void addQnetDate(QnetDateDTO dto) {
+	public void addQnetDate(CertiDateDTO dto) {
 		mapper.addQnetDate(dto);
 		
 	}
@@ -26,7 +26,7 @@ public class DataServiceImpl implements DataService {
 	}
 	
 	@Override
-	public int updateCertiDetail(CertiDetailDTO dto, String cname) {
+	public int updateCertiDetail(CertiInfoDTO dto, String cname) {
 		return mapper.updateCertiDetail(dto, cname);
 	}
 /*

@@ -1,21 +1,21 @@
 package spring.project.service;
 
-import spring.project.model.CertiDetailDTO;
+import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiInfoDTO;
 import spring.project.model.PassDetailDTO;
-import spring.project.model.QnetDateDTO;
 
 public interface DataService {
 
-	//Å¥³Ý ÀÏÁ¤ µ¥ÀÌÅÍ(csv) Ãß°¡
-	public void addQnetDate(QnetDateDTO dto);
+	//Å¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(csv) ï¿½ß°ï¿½
+	public void addQnetDate(CertiDateDTO dto);
 	
-	//PassDate csvµ¥ÀÌÅÍ Ãß°¡(N=±¹°¡±â¼ú)
+	//PassDate csvï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½(N=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	public void addPassDetailN(PassDetailDTO dto);
 	
-	//certidetail Å×ÀÌºí µ¥ÀÌÅÍ ¾÷µ¥ÀÌÆ®
-	public int updateCertiDetail(CertiDetailDTO dto, String cname);
+	//certidetail ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	public int updateCertiDetail(CertiInfoDTO dto, String cname);
 	/*
-	//ÀÚ°ÝÁõ ÀÌ¸§À¸·Î certiinfo ¿¡¼­ cnum Ã£±â
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ certiinfo ï¿½ï¿½ï¿½ï¿½ cnum Ã£ï¿½ï¿½
 	public String findCnum(String cname);
 	*/
 }

@@ -9,41 +9,41 @@ public class CertiDateDTO {
 	private String cnum; 
 	private int cyear;
 	private int cround;
-	private String ctype;
+	private String clevel;
 	
-	//ÇÊ±â½ÃÇè ¿ø¼­Á¢¼ö ½ÃÀÛ,¸¶°¨
+	//ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½
     private String docRegStart1;
     private String docRegEnd1;
     
-    //ÇÊ±â½ÃÇè Ãß°¡Á¢¼ö ½ÃÀÛ,¸¶°¨
+    //ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½
     private String docRegStart2;
     private String docRegEnd2;
     
-    //ÇÊ±â½ÃÇè ½ÃÀÛ, ¸¶°¨
+    //ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
     private String docTestStart;
     private String docTestEnd;
     
-    //ÇÊ±â½ÃÇè ÇÕ°ÝÀÚ ¹ßÇ¥
+    //ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ ï¿½Õ°ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
     private String docResultStart;
     private String docResultEnd;
     
-    //ÀÀ½ÃÀÚ°Ý ¼­·ù Á¢¼ö ½ÃÀÛ, ¸¶°¨
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
     private String docSubmitStart;
     private String docSubmitEnd;
     
-    //½Ç±â½ÃÇè ¿ø¼­ Á¢¼ö ½ÃÀÛ, ¸¶°¨
+    //ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
     private String pracRegStart1;
     private String pracRegEnd1;
     
-    //½Ç±â½ÃÇè Ãß°¡Á¢¼ö ½ÃÀÛ, ¸¶°¨
+    //ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
     private String pracRegStart2 ;
     private String pracRegEnd2 ;
     
-    //½Ç±â½ÃÇè ½ÃÀÛ, Á¾·á
+    //ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
     private String pracTestStart ;
     private String pracTestEnd ;
     
-    //½Ç±â½ÃÇè ÇÕ°ÝÀÚ ¹ßÇ¥ ½ÃÀÛ, ¸¶°¨
+    //ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ ï¿½Õ°ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
     private String pracResStart ;
     private String pracResEnd ;
     

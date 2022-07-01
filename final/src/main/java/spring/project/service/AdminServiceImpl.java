@@ -29,18 +29,18 @@ public class AdminServiceImpl implements AdminService{
 		String cnum = "";
 		String sequence = "";
 		
-		if(info.getCategory().equals("êµ?ê°?ê¸°ìˆ ")) {
+		if(info.getCategory().equals("êµ­ê°€ê¸°ìˆ ")) {
 			cnum = "N";
 			sequence = "NAT_SEQ";
 		}else if(info.getCategory().equals("ê³µì¸ë¯¼ê°„")) {
 			cnum = "P";
 			sequence = "PRV_SEQ";
-		}else if(info.getCategory().equals("?–´?•™")) {
+		}else if(info.getCategory().equals("ì–´í•™")) {
 			cnum = "L";
 			sequence = "LANG_SEQ";
 		}
 		
-		//? ?™?˜™? ?™?˜™? ?™?˜™? ?™?˜™? ?™?˜™ 0? ?™?˜™ ? ?™?˜™? ï¿? ? ?‹­ê¸°ê°’ ? ?™?˜™? ?™?˜™ (+1)
+		//ì‹œí€€ìŠ¤ ê°’ 0ì´ë©´ 1ë¶€í„° ì‹œì‘í•˜ê²Œ ì˜¬ë¦¼ (+1)
 		if(mapper.findCurrseq(sequence)==0) {
 			mapper.findNextseq(sequence);
 		}
@@ -48,21 +48,17 @@ public class AdminServiceImpl implements AdminService{
 		cnum += String.format("%05d", mapper.findCurrseq(sequence));
 		
 		info.setCnum(cnum); 
-		schedule.setCnum(cnum);
-		//CSV¿¡¼­ Á÷Á¢ µ¥ÀÌÅÍ ³ÖÀ» °æ¿ì ´ëºñ
+		if(schedule != null) {
+			schedule.setCnum(cnum);
+		}
+		//CSVì—ì„œ ì§ì ‘ ë°ì´í„° ë„£ì„ê²½ìš° ??
 		if(certiDate != null) {
 			certiDate.setCnum(cnum);
 			
-			String cyearStr = certiDate.getDocTestStart().split("-")[0];
-			//view¿¡¼­ ±¹°¡±â¼úÀ» µî·ÏÇÒ °æ¿ì ´ëºñ - certiDate°¡ ÀüºÎ null
-			if(cyearStr!=null && cyearStr != "") {
-				int cyear = Integer.parseInt(cyearStr);
-				certiDate.setCyear(cyear);
-			}
 		}
 		
 		int result = 0;
-		if(info.getCategory().equals("±¹°¡±â¼ú")) {
+		if(info.getCategory().equals("êµ­ê°€ê¸°ìˆ ")) {
 			result += mapper.addCertiInfo(info);
 			result += mapper.addCertiSchedule(schedule);
 		}else {
@@ -103,7 +99,7 @@ public class AdminServiceImpl implements AdminService{
 		CertiInfoDTO info = mapper.getCertiInfo(cnum);
 		CertiDateDTO date = null;
 		
-		//±¹°¡±â¼úÀÚ°İÀÎ °æ¿ì CertiScheduleÁ¤º¸¸¦ ³Ñ°Ü¼­ ÀÏÁ¤Á¤º¸ °¡Á®¿À±â
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ CertiScheduleï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if(cnum.substring(0,1).equals("N")) {
 			CertiScheduleDTO schedule = mapper.getQnetDateInfo(cnum);
 			date = mapper.getQnetDate(schedule);

@@ -5,31 +5,32 @@ import lombok.Data;
 
 @Data
 public class CertiInfoDTO {
-	private String cnum; //ÀÚ°ÝÁõ °íÀ¯¹øÈ£ (PK)
+	private String cnum; //ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ (PK)
 	private String cname;
-	private String category; // ±¹°¡±â¼ú, ¹Î°£, ¾îÇÐ
-	private String clevel; // ÀÚ°ÝÁõ µî±Þ
+	private String category; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Î°ï¿½, ï¿½ï¿½ï¿½ï¿½
+	private String clevel; // ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	
-	private String company; //Á¢¼öÃ³/½ÃÇà±â°ü(ÀÚ°Ý°ü¸®ÀÚ)
-	private String website; // ½ÃÇà±â°ü À¥»çÀÌÆ®
+	private String company; //ï¿½ï¿½ï¿½ï¿½Ã³/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ú°Ý°ï¿½ï¿½ï¿½ï¿½ï¿½)
+	private String website; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	
-	private String requirement; //ÀÀ½ÃÀÚ°Ý
+	private String requirement; //ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½
 	
-	private String cmethod; //°ËÁ¤¹æ¹ý eg) °´°ü½Ä / ¼­¼úÇü...
-	private String subject; // °ËÁ¤°ú¸ñ
+	private String cmethod; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ eg) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
+	private String subject; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	private String cutline; // ÇÕ°Ý±âÁØ
-	private String cinfo; // Á¤º¸, °³¿ä
+	private String cutline; // ï¿½Õ°Ý±ï¿½ï¿½ï¿½
+	private String cinfo; // ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
 	
-	private String cjob; // °ü·Ã Á÷¾÷, Áø·Î, Àü¸Á
+	private String cjob; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
 	
-	private String status; //½ÃÇàÇöÈ² 
+	private String expiry;
+	private String status; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² 
 	
-	private String price; //½ÃÇè ÀÀ½Ã·á
+	private String price; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã·ï¿½
 	
 	private String ncs_cat;
 	
-	private String notice; //ºñ°í»çÇ×
+	private String notice; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	private String registDate; //DB¿¡ µî·ÏµÈ ³¯Â¥	
+	private String registDate; //DBï¿½ï¿½ ï¿½ï¿½Ïµï¿½ ï¿½ï¿½Â¥	
 }

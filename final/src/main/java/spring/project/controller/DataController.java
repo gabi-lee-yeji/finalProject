@@ -3,12 +3,12 @@ package spring.project.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,11 +22,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import spring.project.model.CertiDateDTO;
-import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.PassDetailDTO;
-import spring.project.model.QnetDateDTO;
 import spring.project.service.AdminService;
 import spring.project.service.DataService;
 
@@ -39,18 +37,18 @@ public class DataController {
 	@Autowired
 	private DataService ds;
 	
-	
+	//í˜„ì¬ ë“¤ì–´ê°€ìˆëŠ” ê³µì¸ë¯¼ê°„ ë°ì´í„°ì— ë§Œë£Œì¼ì ì»¬ëŸ¼ ì—…ë°ì´íŠ¸
 	@RequestMapping("updateCertiDetail")
 	public void updateCertiDetail() throws IOException{
-		FileInputStream fis = new FileInputStream(new File("d:/proj2/062703.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+		FileInputStream fis = new FileInputStream(new File("f:/data/062703.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
 
 		String strLine;
 		while((strLine = br.readLine()) != null) {
 			//System.out.println(strLine);
 			
 			String [] datas = strLine.split(",");
-			CertiDetailDTO dto = new CertiDetailDTO();
+			CertiInfoDTO dto = new CertiInfoDTO();
 			
 			dto.setExpiry(datas[1].replaceAll("-", ""));
 			
@@ -61,10 +59,11 @@ public class DataController {
 		}
 	}
 	
-	@RequestMapping("addcertiDetailP1")
+	//ê³µì¸ë¯¼ê°„ìê²©ì¦ certiinfoì— ë°ì´í„° ì¶”ê°€
+	@RequestMapping("addCertiDetailP1")
 	public void addCertiDetailP1() throws IOException{
-		FileInputStream fis = new FileInputStream(new File("d:/proj2/062702.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+		FileInputStream fis = new FileInputStream(new File("f:/data/062702.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
@@ -72,26 +71,29 @@ public class DataController {
 			
 			String [] datas = strLine.split(",");
 			CertiInfoDTO info = new CertiInfoDTO();
-			CertiDetailDTO detail = new CertiDetailDTO();
+			
 			
 			info.setCname(datas[0]);
-			info.setCategory("°øÀÎ¹Î°£");
+			info.setCategory("ê³µì¸ë¯¼ê°„");
+			info.setStatus("Y");
 			
-			detail.setCompany(datas[2]);
+			info.setCompany(datas[2]);
+			//info.setExpiry(datas[3].replaceAll("-", ""));
 			if(datas.length <= 4) {
-				detail.setWebsite("");
+				info.setWebsite("");
 			}else {
-				detail.setWebsite(datas[4]);
+				info.setWebsite(datas[4]);
 			}
+			
 			if(!datas[2].equals("")) {
 				String [] levels = datas[1].split("@");
 				int len = levels.length;
 				
 				for(int i=0; i<len ; i++) {
 					//System.out.println("levels==="+levels[i].trim()); 
-					detail.setClevel(levels[i].trim());
+					info.setClevel(levels[i].trim());
 					//System.out.println("********************\n"+info+"\n"+ detail+"********************\n");
-					as.addCerti(info, detail);
+					as.addCertiInfo(info, null,new CertiDateDTO());
 				}
 			}
 			
@@ -99,6 +101,7 @@ public class DataController {
 		}
 	}
 	
+	//êµ­ê°€ê¸°ìˆ ìê²© ì—°ë ¹ë³„/ì„±ë³„ í•©ê²©ììˆ˜ í†µê³„ë°ì´í„° ì¶”ê°€
 	@RequestMapping("addPassDetailN")
 	public void addPassDetailN() throws IOException{
 		FileInputStream fis = new FileInputStream(new File("d:/proj2/062701.csv"));
@@ -137,11 +140,12 @@ public class DataController {
 		}
 	}
 	
+	//êµ­ê°€ê¸°ìˆ ìê²© ë°ì´í„° ì¶”ê°€ certiinfo
 	@RequestMapping("addQnetAll")
 	public String addQnetAll() throws IOException {
 		
 		FileInputStream fis = new FileInputStream(new File("F:/data/kki.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
@@ -150,41 +154,44 @@ public class DataController {
 			
 			CertiInfoDTO info = new CertiInfoDTO();
 			CertiScheduleDTO sch = new CertiScheduleDTO();
-			CertiDateDTO dat = new CertiDateDTO();
 			
-			info.setCategory("±¹°¡±â¼ú");
+			info.setCategory("êµ­ê°€ê¸°ìˆ ");
 			info.setCname(datas[3]);
 			info.setClevel(datas[2]);
-			sch.setCround(Integer.parseInt(datas[1]));
-			sch.setCyear(Integer.parseInt(datas[0]));
+			info.setCompany("í•œêµ­ì‚°ì—…ì¸ë ¥ê³µë‹¨");
+			info.setStatus("Y");
 			
-			info.setCompany("ÇÑ±¹»ê¾÷ÀÎ·Â°ø´Ü");
+			if(!datas[1].equals(""))
+				sch.setCround(Integer.parseInt(datas[1]));
+			if(!datas[0].equals(""))
+				sch.setCyear(Integer.parseInt(datas[0]));
+			sch.setClevel(datas[2]);
 			
-			as.addCerti(info,sch);
-			//System.out.println(info);
-			//System.out.println(detail);
+			
+			as.addCertiInfo(info, sch, null);
+			//System.out.println(info + "\n" + sch);
 		}
 		
 		return "admin/addQnetAll";
 	}
 	
-
+	//certidate í…Œì´ë¸”ì— êµ­ê°€ê¸°ìˆ ìê²© ë°ì´í„° ì¶”ê°€
 	@RequestMapping("addQnetDate")
-	public String addQnetDate() throws IOException {
+	public void addQnetDate() throws IOException {
 		
-		FileInputStream fis = new FileInputStream(new File("F:/R/qnetdate.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+		FileInputStream fis = new FileInputStream(new File("F:/data/qnetdate.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
 			//System.out.println(strLine);
-			QnetDateDTO qdto = new QnetDateDTO();
+			CertiDateDTO qdto = new CertiDateDTO();
 			String [] datas = strLine.split(",");
-			for(String s : datas) s = trimQuote(s); 
+			for(int i=0; i<datas.length; i++) datas[i] = trimQuote(datas[i]); 
 			
 			qdto.setCyear(Integer.parseInt(datas[0]));
 			qdto.setCround(Integer.parseInt(datas[1]));
-			qdto.setCtype(datas[2]);
+			qdto.setClevel(datas[2]);
 			qdto.setDocRegStart1(datas[3].substring(0, 8));
 			qdto.setDocRegEnd1(datas[3].substring(8, 16));
 			if(datas[3].length() > 16) {
@@ -195,7 +202,7 @@ public class DataController {
 			if(datas[4].length() > 8) {
 				qdto.setDocTestEnd(datas[4].substring(8,16));
 			}
-			qdto.setDocResult(datas[5]);
+			qdto.setDocResultStart(datas[5]);
 			if(datas[6].length() > 0) {
 				qdto.setDocSubmitStart(datas[6].substring(0, 8));
 				qdto.setDocSubmitEnd(datas[6].substring(8, 16));
@@ -218,23 +225,22 @@ public class DataController {
 			
 		}
 		
-		return "admin/addQnetDate";
 	}
 	
-	//csvÆÄÀÏ ºÒ·¯¿Ã¶§ ÀÏºÎ ¼ıÀÚ¿¡ ´Ş¸° =" " Á¦°Å
+	//csvíŒŒì¼ "=" """ ì œê±°
 	private static String trimQuote(String str) {
 		str = str.replaceAll("\"=\"\"", "");
 		str = str.replaceAll("\"\"\"", "");
 		return str;
 	}
 	
-	//±¹°¡±â¼úÀÚ°İ ¼¼ºÎ³»¿ë °¡Á®¿À±â(api csv)
-	@RequestMapping("getNDetail1")
-	public void getNDetail1() throws Exception {
+	//êµ­ê°€ê¸°ìˆ ìê²© ìƒì„¸ì •ë³´ ì—…ë°ì´íŠ¸(api csv)
+	@RequestMapping("updateNDetail1")
+	public void updateNDetail1() throws Exception {
 		
 
 		FileInputStream fis = new FileInputStream(new File("f:/data/ndetail.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
 
 		String strLine;
 		
@@ -242,56 +248,56 @@ public class DataController {
 			//System.out.println(strLine);
 			String [] datas = strLine.split(",", 3);
 			
-			CertiDetailDTO dto = new CertiDetailDTO();
+			CertiInfoDTO dto = new CertiInfoDTO();
 			int res = 0;
 			//dto.setCnum( ds.findCnum(datas[0]) );
 			
 			switch(datas[1]) {
-			case "°³¿ä":
+			case "ê°œìš”":
 				dto.setCinfo(datas[2]);
 				res=1;
 				break;
-			case "¼öÇàÁ÷¹«":
+			case "ìˆ˜í–‰ì§ë¬´":
 				dto.setCjob(datas[2]);
 				res=1;
 				break;
-			case "Áø·Î ¹× Àü¸Á":
+			case "ì§„ë¡œ ë° ì „ë§":
 				dto.setCjob(datas[2]);
 				res=1;
 				break;
-			case "½Ç½Ã±â°ü¸í":
-			case "½Ç½Ã±â°ü È¨ÆäÀÌÁö":
-			case "º¯Ãµ°úÁ¤":
-			case "À§ ÀÚ°İÃëµæÀÚ¿¡ ´ëÇÑ ¹ı·É»ó ¿ì´ëÇöÈ²":
+			case "ë³€ì²œê³¼ì •":
+			case "ì‹¤ì‹œê¸°ê´€ëª…":
+			case "ì‹¤ì‹œê¸°ê´€ í™ˆí˜ì´ì§€":
+			case "ìœ„ ìê²©ì·¨ë“ìì— ëŒ€í•œ ë²•ë ¹ìƒ ìš°ëŒ€í˜„í™©":
 				break;
-			case "ÃâÁ¦°æÇâ":
+			case "ì¶œì œê²½í–¥":
 				//?
 				break;
-			case "Ãëµæ¹æ¹ı":
+			case "ì·¨ë“ë°©ë²•":
 				//System.out.println(datas[2]);
-				if(datas[2].contains("½ÃÇè°ú¸ñ")) {
-					String datass = datas[2].split("½ÃÇè°ú¸ñ",2)[1].split("[¨ç-¨ğ]",2)[0].trim().replaceAll("[ ]{2,}", " ");
+				if(datas[2].contains("ì‹œí—˜ê³¼ëª©")) {
+					String datass = datas[2].split("ì‹œí—˜ê³¼ëª©",2)[1].split("[â‘ -â‘©]",2)[0].trim().replaceAll("[ ]{2,}", " ");
 					//System.out.println(datas[0] + "//" + datass);
-					//System.out.println("½ÃÇè°ú¸ñ");
+					//System.out.println("ì‹œí—˜ê³¼ëª©");
 					dto.setSubject(datass);
 				}
-				if(datas[2].contains("ÀÀ½ÃÀÚ°İ")) {
-					String datass = datas[2].split("ÀÀ½ÃÀÚ°İ",2)[1].split("[¨ç-¨ğ]",2)[0].trim().replaceAll("[ ]{2,}", " ").replaceAll(":", "").trim();
-					//System.out.println("ÀÀ½ÃÀÚ°İ");
+				if(datas[2].contains("ì‘ì‹œìê²©")) {
+					String datass = datas[2].split("ì‘ì‹œìê²©",2)[1].split("[â‘ -â‘©]",2)[0].trim().replaceAll("[ ]{2,}", " ").replaceAll(":", "").trim();
+					//System.out.println("ì‘ì‹œìê²©");
 					dto.setRequirement(datass);
 				}
-				if(datas[2].contains("°ËÁ¤±âÁØ")) {
-					String datass = datas[2].split("°ËÁ¤±âÁØ",2)[1].split("[¨ç-¨ğ]",2)[0].trim().replaceAll("[ ]{2,}", " ");
-					//System.out.println("°ËÁ¤±âÁØ");
+				if(datas[2].contains("ê²€ì •ê¸°ì¤€")) {
+					String datass = datas[2].split("ê²€ì •ê¸°ì¤€",2)[1].split("[â‘ -â‘©]",2)[0].trim().replaceAll("[ ]{2,}", " ");
+					//System.out.println("ê²€ì •ê¸°ì¤€");
 					dto.setCmethod(datass);
-				}else if(datas[2].contains("°ËÁ¤¹æ¹ı")) {
-					String datass = datas[2].split("°ËÁ¤¹æ¹ı",2)[1].split("[¨ç-¨ğ]",2)[0].trim().replaceAll("[ ]{2,}", " ");
-					//System.out.println("°ËÁ¤¹æ¹ı");
+				}else if(datas[2].contains("ê²€ì •ë°©ë²•")) {
+					String datass = datas[2].split("ê²€ì •ë°©ë²•",2)[1].split("[â‘ -â‘©]",2)[0].trim().replaceAll("[ ]{2,}", " ");
+					//System.out.println("ê²€ì •ë°©ë²•");
 					dto.setCmethod(datass);
 				}
-				if(datas[2].contains("ÇÕ°İ±âÁØ")) {
-					String datass = datas[2].split("ÇÕ°İ±âÁØ",2)[1].split("[¨ç-¨ğ]",2)[0].trim().replaceAll("[ ]{2,}", " ").replaceAll(":", "").trim();
-					//System.out.println("ÇÕ°İ±âÁØ");
+				if(datas[2].contains("í•©ê²©ê¸°ì¤€")) {
+					String datass = datas[2].split("í•©ê²©ê¸°ì¤€",2)[1].split("[â‘ -â‘©]",2)[0].trim().replaceAll("[ ]{2,}", " ").replaceAll(":", "").trim();
+					//System.out.println("í•©ê²©ê¸°ì¤€");
 					dto.setCutline(datass);
 				}
 				res=1;
@@ -302,61 +308,85 @@ public class DataController {
 			}
 			
 			if(res==1) {
-				ds.updateCertiDetail(dto, datas[0]);
-			}
-			
-			
-		}
-	}
-	/*
-	//ÃßÃµÀÚ°İÁõ ±â´É °ü·Ã ¸Ş¼­µå(¿À·ù)
-	@RequestMapping("certiMatchTest")
-	public String certiMatchTest() throws Exception {
-		
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		
-		Document document = builder.parse(new File("F:/data/jobCode.xml"));
-		document.getDocumentElement().normalize();
-		NodeList nodes = document.getElementsByTagName("content");
-		System.out.println("¸®½ºÆ® ¼ö: "+ nodes.getLength());
-		
-		
-		for(int i=0; i<nodes.getLength(); i++) {
-			Node node = nodes.item(i);
-			if(node.getNodeType() == Node.ELEMENT_NODE) {
-				Element e = (Element) node;
-				//System.out.println(getTagValue("jobdicSeq",e));
-				//list.add(getTagValue("jobdicSeq",e));
-				DocumentBuilderFactory factory2 = DocumentBuilderFactory.newInstance();
-				DocumentBuilder builder2 = factory2.newDocumentBuilder();
-				Document document2 = builder2.parse("http://www.career.go.kr/cnet/openapi/getOpenApi.xml?apiKey=34caf563dfd1941d93bc320d28211597&svcType=api&svcCode=JOB_VIEW&jobdicSeq="
-						+ getTagValue("jobdicSeq",e));
-				NodeList nodes2 = document2.getElementsByTagName("content");
-				Node node2 = nodes2.item(0);
-				Element f = (Element)node2;
-				if(getTagValue("capacity",f) != null) {
-					//System.out.println(getTagValue("job",f)+"("+ getTagValue("jobdicSeq",e) + ") : " + getTagValue("capacity",f));
-					String str = getTagValue("capacity",f).replaceAll("[(.)]", "");
-					String [] strs = str.split(",");
-					for(String s : strs) {
-						s=s.trim();
-						s=s.replaceAll(" ", "");
-						String data = "\"" + getTagValue("job",f)+ "\"," +s+"\n";
-						System.out.print(data);
-						
-						FileOutputStream fstream = new FileOutputStream(new File("f:/data/ttt.csv"),true);
-						fstream.write(data.getBytes());
-						fstream.close();
-					}
-					
+				//System.out.println("*******************************"+datas[0]+"\n"+dto);
+				if ( ds.updateCertiDetail(dto, datas[0]) == 0) {
+					System.out.println(datas[0]);
 				}
 			}
+			
+			
 		}
-		return "admin/test";
+	}
+	
+	//NCSë¶„ë¥˜1 - ìê²©ì¦ ì½”ë“œ ëª©ë¡ë”°ì˜¤ê¸°
+	@RequestMapping("certiGetNCS")
+	public void certiGetNCS() throws Exception{
+		ArrayList <String> jmCdList = new ArrayList<String>();
+		
+		String url = "https://c.q-net.or.kr/openapi/cjmncslist.do?serviceKey=";
+		url += "yapz%2B1EpEAK%2BuivcMayhbsLMyJrcxm7Bm3vYUA%2BAgsvrEyFKrVQllmU4ERm8b1jBS4ULE0ZOMIFEBvjfDbEZBQ%3D%3D";
+		url += "&type=xml&pageNo=1&numOfRows=200";
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(url);
+		doc.getDocumentElement().normalize();
+		//System.out.println("root element===" + doc.getDocumentElement().getChildNodes());
+		
+		NodeList nodes = doc.getDocumentElement().getElementsByTagName("jmInfo");//.item(0).getChildNodes();
+		//System.out.println(nodes);
+		//System.out.println(nodes.getLength());
+		for(int i=0; i<nodes.getLength(); i++) {
+			Node node = nodes.item(i);
+			//System.out.println("current element===="+node.getNodeName());
+			if(node.getNodeType() == Node.ELEMENT_NODE) {
+				Element e = (Element) node;
+				jmCdList.add(getTagValue("jmCd",e));
+				System.out.println(getTagValue("jmCd",e));
+			}
+		}
+		//System.out.println(jmCdList.size());
+		
+		url = "https://c.q-net.or.kr/openapi/cjmncsinfolist.do?serviceKey=";
+		url += "yapz%2B1EpEAK%2BuivcMayhbsLMyJrcxm7Bm3vYUA%2BAgsvrEyFKrVQllmU4ERm8b1jBS4ULE0ZOMIFEBvjfDbEZBQ%3D%3D";
+		url += "&type=xml&jmCd=";
+		for(String jmCd : jmCdList) {
+			
+			try {doc = db.parse(url+jmCd);}
+			catch (Exception e) {System.out.println("*********************error********************");continue;}
+			doc.getDocumentElement().normalize();
+			
+			
+			nodes = doc.getDocumentElement().getElementsByTagName("compeUnitInfo");
+			ArrayList <String> temp=new ArrayList<String>();
+			for(int i=0; i<nodes.getLength(); i++) {
+				Node node = nodes.item(i);
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					Element e = (Element)node;
+
+					String tt = getTagValue("lclasCd", e) +getTagValue("mclasCd", e)+getTagValue("sclasCd", e);
+					/*System.out.println(tt);
+					if(!temp.contains(tt)) {
+						System.out.println(tt);
+						temp.add(tt);
+					}*/
+				}
+			}/*
+			if(temp.size()>3) {
+				System.out.println(getTagValue("jmNm", doc.getDocumentElement()) + " " + jmCd);
+				System.out.println(temp.size());
+			}*/
+		}
+	}
+	
+	/*
+	//ì—°ê´€ ìê²©ì¦ ì°¾ê¸°
+	@RequestMapping("certiMatchTest")
+	public void certiMatchTest() throws Exception {
 	}
 	*/
-	// xml ÆÄÀÏ tag°ªÀÇ Á¤º¸¸¦ °¡Á®¿À´Â ¸Ş¼Òµå
+	
+	// xml node ì´ë¦„ìœ¼ë¡œ ê°’ ë¶ˆëŸ¬ì˜¤ê¸°
 	private static String getTagValue(String tag, Element eElement) {
 	    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
 	    Node nValue = (Node) nlList.item(0);
