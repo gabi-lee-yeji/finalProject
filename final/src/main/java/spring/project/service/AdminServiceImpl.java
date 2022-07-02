@@ -45,7 +45,7 @@ public class AdminServiceImpl implements AdminService{
 			sequence = "LANG_SEQ";
 		}
 		
-		//시퀀스값이 0인 경우 초기값 설정 (+1)
+		//?떆????뒪 媛? 0?씠硫? 1遺??꽣 ?떆?옉?븯寃? ?삱由? (+1)
 		if(mapper.findCurrseq(sequence)==0) {
 			mapper.findNextseq(sequence);
 		}
@@ -59,12 +59,6 @@ public class AdminServiceImpl implements AdminService{
 		if(certiDate != null) {
 			certiDate.setCnum(cnum);
 			
-			String cyearStr = certiDate.getDocTestStart().split("-")[0];
-			//view에서 국가기술을 등록할 경우 대비 - certiDate가 전부 null
-			if(cyearStr!=null && cyearStr != "") {
-				int cyear = Integer.parseInt(cyearStr);
-				certiDate.setCyear(cyear);
-			}
 		}
 		
 		int result = 0;

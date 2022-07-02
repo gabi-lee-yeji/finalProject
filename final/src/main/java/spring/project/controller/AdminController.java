@@ -3,16 +3,26 @@ package spring.project.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
@@ -126,7 +136,7 @@ public class AdminController {
 	public String deleteForm(String[] cnumList, Model model) {
 		for(String cnum : cnumList)
 			System.out.print(cnum);
-		//»èÁ¦ÇÏ±âÀü ¼±ÅÃÇÑ ÀÚ°ÝÁõ ÄÁÆßÇÏ´Â ÆäÀÌÁö 
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 		model.addAttribute("list", service.getDelList(cnumList));
 		return "admin/certi/deleteForm";
 	}
