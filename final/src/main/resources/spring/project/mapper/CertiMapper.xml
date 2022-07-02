@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="spring.project.mapper.CertiMapper">
+	
+	<select id="getCertiNatList" resultType="spring.project.model.CertiInfoDTO">
+		select
+			cnum,cname
+		from certiinfo
+		<if test="category != null">
+			where category=#{category}
+		</if>
+	</select>
+	
+	<select id="getCertiDetailNatList" resultType="spring.project.model.CertiDetailDTO">
+		select 
+			clevel
+		from certiinfo
+		where category='국가기술'
+	</select>
+	
+	<select id="getCertiPrvList" resultType="spring.project.model.CertiInfoDTO">
+		select
+			cnum,cname
+		from certiinfo 
+		where category='공인민간'	
+	</select>
+	
+	<select id="getCertiLangList" resultType="spring.project.model.CertiInfoDTO">
+		select
+			cnum,cname
+		from certiinfo
+		where category='어학'	
+	</select>
+
+
+
+</mapper>
