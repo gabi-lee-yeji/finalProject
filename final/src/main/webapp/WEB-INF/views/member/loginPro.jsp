@@ -2,9 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <c:if test="${result == 1}">
-	<c:set var="memid" value="${MemberInfoDTO.id}" scope="session"/>
-	<c:redirect url="/member/main"/>
+	<c:redirect url="/member/main"/> 
 </c:if>
 
 <c:if test="${result != 1}">
@@ -13,8 +13,4 @@
 		history.go(-1);
 	</script>	
 </c:if>
-
-
-<title>loginPro</title>
-<h1>로그인Pro</h1>
 
