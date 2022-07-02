@@ -86,7 +86,7 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>runtime</scope>
+			<!-- <scope>runtime</scope> -->
 		</dependency>
 	
 		<!-- @Inject -->
@@ -179,6 +179,20 @@
 			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
 			<version>1.16</version>
 		</dependency> 
+		
+		<!-- commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		
+		<!-- MultipartHttpServletRequset -->
+		<dependency>
+	         <groupId>commons-io</groupId>
+	         <artifactId>commons-io</artifactId>
+	         <version>1.4</version>
+		</dependency>
 		
 	</dependencies>
     <build>

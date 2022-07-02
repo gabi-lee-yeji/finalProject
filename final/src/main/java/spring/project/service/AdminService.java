@@ -11,6 +11,9 @@ import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.pagination.PagingDTO;
+import spring.project.model.MemberInfoDTO;
+import spring.project.model.PagingDTO;
+import spring.project.model.QnetDateDTO;
 
 public interface AdminService {
 	
