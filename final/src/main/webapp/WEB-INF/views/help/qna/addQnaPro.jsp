@@ -2,4 +2,4 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
-<c:redirect url="/help/qna/qnaList" />
+<c:redirect url="/help/qna/qnaList?board_type=1:1문의" />

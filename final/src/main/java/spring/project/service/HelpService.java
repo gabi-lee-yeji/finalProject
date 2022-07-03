@@ -9,11 +9,11 @@ public interface HelpService {
 	// 게시판(고객센터) 글 등록
 	public void addPost_Board(Post_BoardDTO dto);
 
-	// 공지사항 글 목록
-	public List<Post_BoardDTO> noticeLists(int startRow, int endRow);
+	// 각 게시판 글 목록
+	public List<Post_BoardDTO> post_BoardLists(int startRow, int endRow, String board_type);
 	
-	// 공지사항 글 개수
-	public int noticeCount();
+	// 각 게시판 글 개수
+	public int post_BoardCount(String board_type);
 	
 	// 게시판(고객센터) 글 보기
 	public Post_BoardDTO post_BoardContent(int pnum);
@@ -31,10 +31,10 @@ public interface HelpService {
 	public int upReadCnt(Post_BoardDTO dto);
 	
 	// 1:1문의 글 개수
-	public int qnaCount();
+//	public int qnaCount();
 	
 	// 1:1문의 글 목록
-	public List<Post_BoardDTO> qnaLists(int StartRow, int endRow);
+//	public List<Post_BoardDTO> qnaLists(int StartRow, int endRow, String board_type);
 	
 }
 

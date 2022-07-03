@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import spring.project.mapper.HelpMapper;
 import spring.project.model.Post_BoardDTO;
@@ -32,13 +31,13 @@ public class HelpServiceImpl implements HelpService {
 	}
 
 	@Override
-	public List<Post_BoardDTO> noticeLists(int startRow, int endRow) {
-		return mapper.noticeLists(startRow, endRow);
+	public List<Post_BoardDTO> post_BoardLists(int startRow, int endRow, String board_type) {
+		return mapper. post_BoardLists(startRow, endRow, board_type);
 	}
 
 	@Override
-	public int noticeCount() {
-		return mapper.noticeCount();
+	public int post_BoardCount(String board_type) {
+		return mapper.post_BoardCount(board_type);
 	}
 
 	@Override
@@ -66,15 +65,4 @@ public class HelpServiceImpl implements HelpService {
 	public int upReadCnt(Post_BoardDTO dto) {
 		return mapper.upReadCnt(dto);
 	}
-	
-	@Override
-	public int qnaCount() {
-		return mapper.qnaCount();
-	}
-
-	@Override
-	public List<Post_BoardDTO> qnaLists(int StartRow, int endRow) {
-		return mapper.qnaLists(StartRow, endRow);
-	}
-
 }

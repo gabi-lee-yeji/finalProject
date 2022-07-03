@@ -20,8 +20,8 @@
 				<td>작성자</td>
 			<!-- <td>${memid}</td> -->
 				<!--	<input type="hidden" name="writer" value="${memid}" /> -->
-				<td>test4</td>
-					<input type="hidden" name="writer" value="test4" />
+				<td>안혜원</td>
+					<input type="hidden" name="writer" value="안혜원" />
 			</tr>
 			<tr>
 				<td>문의 내용</td>
@@ -36,7 +36,7 @@
 			</tr>
 		</table>
 	</form>
-	<input type="button" value="1:1문의 목록" onclick="window.location='help/qna/qnaList' " />
+	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList?board_type=1:1문의' " />
 </c:if>
 
 <c:if test="${pnum != 0}" >
@@ -86,6 +86,6 @@
 			</tr>
 		</table>
 	</form>
-	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList' " />
+	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList?board_type=1:1문의' " />
 </c:if>
 </body>

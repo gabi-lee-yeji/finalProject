@@ -4,20 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.log4j.Log4j;
 import spring.project.model.Post_BoardDTO;
 import spring.project.service.HelpService;
 
 @Controller
 @RequestMapping("/help/*")
-@Log4j
 public class HelpController {
 	
 	@Autowired
@@ -25,9 +22,6 @@ public class HelpController {
 	
 	@RequestMapping("notice/addNotice")
 	public String addNotice() {
-		
-		log.info("addNotice 연결 확인");
-		
 		return "/help/notice/addNotice";
 	}
 	
@@ -71,7 +65,7 @@ public class HelpController {
 	}
 
 	@RequestMapping("notice/noticeList")
-	public String noticeList(Model model, String pageNum) {
+	public String noticeList(Model model, String pageNum, String board_type) {
 		if(pageNum == null) pageNum = "1";
 		
 		int pageSize = 10;
@@ -81,11 +75,11 @@ public class HelpController {
 		int count = 0;
 		int number = 0;
 		
-		count = service.noticeCount();
+		count = service.post_BoardCount(board_type);
 		List<Post_BoardDTO> noticeList = null;
 		
 		if(count > 0) {
-			noticeList = service.noticeLists(startRow, endRow);
+			noticeList = service.post_BoardLists(startRow, endRow, board_type);
 		}
 		number = count - (currentPage - 1) * pageSize;
 				
@@ -202,7 +196,8 @@ public class HelpController {
 	}
 	
 	@RequestMapping("qna/qnaList")
-	public String qnaList(Model model, String pageNum) {
+	public String qnaList(Model model, String pageNum, String board_type) {
+		//System.out.println(board_type);
 		if(pageNum == null) pageNum = "1";
 		
 		int pageSize = 10;
@@ -212,11 +207,11 @@ public class HelpController {
 		int count = 0;
 		int number = 0;
 		
-		count = service.qnaCount();
+		count = service.post_BoardCount(board_type);
 		List<Post_BoardDTO> qnaList = null;
 		
 		if(count > 0) {
-			qnaList = service.qnaLists(startRow, endRow);
+			qnaList = service.post_BoardLists(startRow, endRow, board_type);
 		}
 		number = count - (currentPage - 1) * pageSize;
 				
@@ -228,6 +223,7 @@ public class HelpController {
 		model.addAttribute("endRow", endRow);
 		model.addAttribute("number", number);
 		model.addAttribute("qnaList", qnaList);
+		model.addAttribute("board_type", board_type);
 		
 		return "help/qna/qnaList";
 	}
@@ -242,17 +238,6 @@ public class HelpController {
 		return "help/qna/qnaContent";
 	}
 	
-	/*
-	@RequestMapping("qna/replyQna")
-	public String replyQna(int pnum, Model model) {
-		Post_BoardDTO dto = service.post_BoardContent(pnum);
-		
-		model.addAttribute("dto", dto);
-		model.addAttribute("pnum", pnum);
-		
-		return "help/qna/replyQna";
-	}
-*/
 }
 
 

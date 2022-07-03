@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 글 수정</title>
+<title>공지사항</title>
 </head>
 <body>
 	<h1>공지사항 글 수정</h1>

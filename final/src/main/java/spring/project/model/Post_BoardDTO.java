@@ -2,8 +2,6 @@ package spring.project.model;
 
 import java.sql.Timestamp;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.Data;
 
 @Data
@@ -19,6 +17,7 @@ public class Post_BoardDTO {
 	private int readCnt;			// 읽은 수
 	private Timestamp reg;			// 작성시간
 	private String img;				// 첨부이미지
-	private MultipartFile uploadFile; 
+	// private MultipartFile uploadFile; 
+	private String status;			// 글 존재 유무(0-존재, 1-삭제)
 
 }
