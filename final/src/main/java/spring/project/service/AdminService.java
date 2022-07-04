@@ -11,65 +11,62 @@ import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.pagination.PagingDTO;
-import spring.project.model.MemberInfoDTO;
-import spring.project.model.PagingDTO;
-import spring.project.model.QnetDateDTO;
 
 public interface AdminService {
 	
-	//ÀÚ°ÝÁõ °ü¸® ¸Þ¼­µå 
-	//ÀÚ°ÝÁõ µî·Ï
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ 
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, 
 							CertiDateDTO date, CertiRequirementDTO requirement);
 	
-	//µî·ÏµÈ ÀÚ°ÝÁõ ÀüÃ¼ ¸ñ·Ï
+	//ï¿½ï¿½Ïµï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category);
-	//µî·ÏµÈ ÀÚ°ÝÁõ ÀüÃ¼ °³¼ö
+	//ï¿½ï¿½Ïµï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	public int getCertCnt();
 	
-	//µî·ÏµÈ ÀÚ°ÝÁõ Á¤º¸ - »ó¼¼Á¤º¸
+	//ï¿½ï¿½Ïµï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Map<String, CertiAccessible> getCertiInfo(String cnum);
 	
-	//ÀÚ°ÝÁõº° ÀÏÁ¤Á¤º¸ ¸ñ·Ï Á¶È¸ ¹× ÀÏÁ¤ °Ë»ö
+	//ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	public List<CertiDateDTO> searchPeriod(Map<String, String> map);
 	public List<CertiDateDTO> searchNatPeriod(String cnum);
 	
-	//ÀÚ°ÝÁõ ¼öÁ¤
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//public int modCerti(String cnum, CertiInfoDTO dto, CertiDetailDTO detail);
 	
 	
 	
 	
 	
-	//ÀÚ°ÝÁõ °Ë»ö 
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ 
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword);
-	//°Ë»ö °á°ú ÀüÃ¼ °³¼ö
+	//ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	public int getSearchCnt(String search, String keyword);
 	
-	//»èÁ¦È®ÀÎ ÆäÀÌÁö - ¼±ÅÃÇÑ ÀÚ°ÝÁõ Á¤º¸ ¸ñ·Ï
+	//ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public List<CertiInfoDTO> getDelList(String[] cnumList);
-	//ÀÚ°ÝÁõ »èÁ¦ 
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	public int delCerti(String[] cnumList);
 	
 	
 	
-	//È¸¿ø °ü¸® ¸Þ¼­µå
-	//È¸¿ø ÀüÃ¼ ¸ñ·Ï 
+	//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+	//È¸ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ 
 	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order);
-	//È¸¿ø ÀüÃ¼ ¼ö Á¶È¸
+	//È¸ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½ï¿½È¸
 	public int getMemberCnt();
 	
-	//È¸¿ø »ó¼¼ Á¤º¸
+	//È¸ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public MemberInfoDTO getMemberInfo(String memid);
 	
-	//½Å°íµÈ È¸¿ø ¸ñ·Ï
+	//ï¿½Å°ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public List<MemberInfoDTO> getMemberReport(String status);
-	//½Å°íµÈ È¸¿øÀÇ »ó¼¼ Á¤º¸ - ½Å°í´çÇÑ ±Û/´ñ±Û ¸ñ·Ï, ½Å°íÇÑ È¸¿ø
+	//ï¿½Å°ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½/ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Å°ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
 	public List<Map<String,Object>> getreportMemInfo(String memid);
-	//½Å°íµÈ È¸¿øÀÇ »óÅÂ º¯°æ
+	//ï¿½Å°ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int updateRepMemStatus(String memid, String status);
 	
 	
-	//È¸¿ø¸ñ·Ï - ÇÊÅÍ¸µ / °Ë»ö
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½Í¸ï¿½ / ï¿½Ë»ï¿½
 	public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page);
 }

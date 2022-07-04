@@ -4,11 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
 	
-	<!-- 
+	<insert id="addNatCertiInfo" parameterType="spring.project.model.CertiInfoDTO">
+		insert into CertiInfo(cnum,category, cname, clevel, company, status)
+			values(#{cnum}, #{category}, #{cname}, #{clevel}, #{company}, #{status})
+	</insert>
+	
+	<insert id="addNatCertiSchedule" parameterType="spring.project.model.CertiSchedule">
+		insert into CertiSchedule(cnum, cround, cyear, clevel)
+			values(#{cnum}, #{cround}, #{cyear}, #{clevel})
+	</insert>
+	
 	<select id="findCnum" resultType="String">
 		select cnum from certiinfo where cname=#{cname}
 	</select>
-	 -->
+	 
 	
 	<insert id="addPassDetailN" parameterType="spring.project.model.PassDetailDTO">
 		insert into pass_detail values(

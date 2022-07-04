@@ -93,7 +93,7 @@ public class DataController {
 					//System.out.println("levels==="+levels[i].trim()); 
 					info.setClevel(levels[i].trim());
 					//System.out.println("********************\n"+info+"\n"+ detail+"********************\n");
-					as.addCertiInfo(info, null,new CertiDateDTO());
+					as.addCertiInfo(info, null,new CertiDateDTO(),null);
 				}
 			}
 			
@@ -142,25 +142,36 @@ public class DataController {
 	
 	//국가기술자격 데이터 추가 certiinfo
 	@RequestMapping("addQnetAll")
-	public String addQnetAll() throws IOException {
-		
+	public void addQnetAll() throws IOException {
+		System.out.println("aa");
 		FileInputStream fis = new FileInputStream(new File("F:/data/kki.csv"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
+			System.out.println(strLine);
 			String [] datas = strLine.split(",");
 			
-			CertiInfoDTO info = new CertiInfoDTO();
+			String bef = "";
+			String cnum = "";
+			CertiInfoDTO info = null;
 			CertiScheduleDTO sch = new CertiScheduleDTO();
-			
-			info.setCategory("국가기술");
-			info.setCname(datas[3]);
-			info.setClevel(datas[2]);
-			info.setCompany("한국산업인력공단");
-			info.setStatus("Y");
-			
+
+			if(!datas[3].equals(bef)) {
+				//중복이 아니면 certiinfo / certischedule 모두 입력
+				bef = datas[3];
+				
+				info = new CertiInfoDTO();
+				info.setCategory("국가기술");
+				info.setCname(datas[3]);
+				info.setClevel(datas[2]);
+				info.setCompany("한국산업인력공단");
+				info.setStatus("Y");
+				cnum = ds.findCnum(datas[3]);
+			}
+
+			//중복데이터면 certischedule에만 들어간다
+			sch.setCnum(cnum);
 			if(!datas[1].equals(""))
 				sch.setCround(Integer.parseInt(datas[1]));
 			if(!datas[0].equals(""))
@@ -168,11 +179,10 @@ public class DataController {
 			sch.setClevel(datas[2]);
 			
 			
-			as.addCertiInfo(info, sch, null);
-			//System.out.println(info + "\n" + sch);
+			ds.addNatCerti(info, sch);
+			System.out.println("********************************\n" + info + "\n" + sch);
 		}
 		
-		return "admin/addQnetAll";
 	}
 	
 	//certidate 테이블에 국가기술자격 데이터 추가
