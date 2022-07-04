@@ -30,12 +30,6 @@ public interface HelpService {
 	// 게시판(고객센터) 조회수 업데이트
 	public int upReadCnt(Post_BoardDTO dto);
 	
-	// 1:1문의 글 개수
-//	public int qnaCount();
-	
-	// 1:1문의 글 목록
-//	public List<Post_BoardDTO> qnaLists(int StartRow, int endRow, String board_type);
-	
 }
 
 

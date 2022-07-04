@@ -29,9 +29,4 @@ public interface HelpMapper {
 	
 	public int upReadCnt(Post_BoardDTO dto);
 	
-//	public int qnaCount();
-	
-//	public List<Post_BoardDTO> qnaLists
-//		(@Param("startRow") int startRow, @Param("endRow") int endRow, @Param("board_type") String board_type);
-
 }

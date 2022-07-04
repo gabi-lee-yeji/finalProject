@@ -69,7 +69,7 @@
 		<table>
 			<tr>
 				<td>제목</td>
-				<td><input type="text" name="subject" value="[답변]"/></td>
+				<td><input type="text" name="subject" value="[re] ${dto.subject}"/></td>
 			</tr>
 			<tr>
 				<td>작성자</td>
