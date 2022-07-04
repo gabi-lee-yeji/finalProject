@@ -13,7 +13,7 @@ public class Post_BoardDTO {
 	private String writer;			// 작성자
 	private int post_group;			// 글 그룹
 	private int post_level;			// 답글 그룹
-	private String board_type;		// 게시판 종류(1-공지사항 등) 
+	private String board_type;		// 게시판 종류
 	private int readCnt;			// 읽은 수
 	private Timestamp reg;			// 작성시간
 	private String img;				// 첨부이미지

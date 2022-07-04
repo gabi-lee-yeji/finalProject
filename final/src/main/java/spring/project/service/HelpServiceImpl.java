@@ -17,16 +17,14 @@ public class HelpServiceImpl implements HelpService {
 	@Override
 	public void addPost_Board(Post_BoardDTO dto) {
 		int post_group = mapper.maxPost_group()+1;
-	
-		System.out.println(post_group);
 		
 		if(dto.getPost_group() != 0) {
-			mapper.post_levelUp(dto);
-				System.out.println(dto.getPost_group());
-			dto.setPost_level(dto.getPost_level()+1);
+			dto.setPost_group(dto.getPost_group());
+			dto.setPost_level(1);
 		}else {
 			dto.setPost_group(post_group);
 		}
+
 		mapper.addPost_Board(dto);
 	}
 

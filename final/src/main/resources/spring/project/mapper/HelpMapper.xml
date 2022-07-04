@@ -35,13 +35,14 @@
 	</select>
 	
 	<select id="post_BoardCount" resultType="int">
-		select count(*) from post_board where board_type=#{board_type}
+		select count(*) from post_board where board_type=#{board_type} and status='0'
 	</select>
 	
 	<select id="post_BoardContent" resultType="spring.project.model.Post_BoardDTO">
 		select * from post_board where pnum=#{pnum}
 	</select>
 	
+	<!-- 왜필요하지? 삭제 예정 -->
 	<update id="post_levelUp" parameterType="spring.project.model.Post_BoardDTO">
 		<![CDATA[
 			update post_board set post_level=post_level+1 where post_group=#{post_group}

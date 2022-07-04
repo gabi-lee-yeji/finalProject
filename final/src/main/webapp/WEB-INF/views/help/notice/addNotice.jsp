@@ -30,6 +30,7 @@
 			</tr>
 			<tr>
 				<td><input type="submit" value="등록" /></td>
+				<td><input type="button" value="글 목록" onclick="window.location='/help/notice/noticeList?board_type=공지사항' "/></td>
 			</tr>
 		</table>
 	</form>

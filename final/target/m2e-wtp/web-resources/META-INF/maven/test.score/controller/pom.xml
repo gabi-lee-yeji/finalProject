@@ -188,20 +188,21 @@
 			<version>1.16</version>
 		</dependency> 
 		
-		<!-- commons-fileupload -->
+		<!-- commons-fileupload
 		<dependency>
 		    <groupId>commons-fileupload</groupId>
 		    <artifactId>commons-fileupload</artifactId>
 		    <version>1.4</version>
 		</dependency>
+		 -->
 		
-		<!-- MultipartHttpServletRequset -->
+		<!-- MultipartHttpServletRequset
 		<dependency>
 	         <groupId>commons-io</groupId>
 	         <artifactId>commons-io</artifactId>
 	         <version>1.4</version>
 		</dependency>
-		
+		 -->
 	</dependencies>
     <build>
         <plugins>

@@ -8,7 +8,6 @@
 <body>
 <c:if test="${pnum == 0}" >
 	<h1>1:1 문의 글 쓰기</h1>
-	<!-- <form action="/help/qna/addQnaPro" name="addQna" method="post" enctype="multipart/form-data" > -->
 	<form action="/help/qna/addQnaPro" name="addQna" method="get" >
 	<input type="hidden" name="board_type" value="1:1문의" />
 		<table>
