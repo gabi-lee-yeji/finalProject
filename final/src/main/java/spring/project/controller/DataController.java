@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -23,6 +20,7 @@ import org.w3c.dom.NodeList;
 
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.PassDetailDTO;
 import spring.project.service.AdminService;
@@ -93,7 +91,7 @@ public class DataController {
 					//System.out.println("levels==="+levels[i].trim()); 
 					info.setClevel(levels[i].trim());
 					//System.out.println("********************\n"+info+"\n"+ detail+"********************\n");
-					as.addCertiInfo(info, null,new CertiDateDTO(),null);
+					as.addCertiInfo(info, new CertiScheduleDTO(),new CertiDateDTO(),new CertiRequirementDTO());
 				}
 			}
 			
@@ -143,35 +141,22 @@ public class DataController {
 	//국가기술자격 데이터 추가 certiinfo
 	@RequestMapping("addQnetAll")
 	public void addQnetAll() throws IOException {
-		System.out.println("aa");
 		FileInputStream fis = new FileInputStream(new File("F:/data/kki.csv"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
-			System.out.println(strLine);
 			String [] datas = strLine.split(",");
 			
-			String bef = "";
-			String cnum = "";
-			CertiInfoDTO info = null;
+			CertiInfoDTO info = new CertiInfoDTO();
 			CertiScheduleDTO sch = new CertiScheduleDTO();
 
-			if(!datas[3].equals(bef)) {
-				//중복이 아니면 certiinfo / certischedule 모두 입력
-				bef = datas[3];
-				
-				info = new CertiInfoDTO();
-				info.setCategory("국가기술");
-				info.setCname(datas[3]);
-				info.setClevel(datas[2]);
-				info.setCompany("한국산업인력공단");
-				info.setStatus("Y");
-				cnum = ds.findCnum(datas[3]);
-			}
+			info.setCategory("국가기술");
+			info.setCname(datas[3]);
+			info.setClevel(datas[2]);
+			info.setCompany("한국산업인력공단");
+			info.setStatus("Y");
 
-			//중복데이터면 certischedule에만 들어간다
-			sch.setCnum(cnum);
 			if(!datas[1].equals(""))
 				sch.setCround(Integer.parseInt(datas[1]));
 			if(!datas[0].equals(""))
@@ -180,7 +165,7 @@ public class DataController {
 			
 			
 			ds.addNatCerti(info, sch);
-			System.out.println("********************************\n" + info + "\n" + sch);
+			//System.out.println("********************************\n" + info + "\n" + sch);
 		}
 		
 	}
@@ -375,17 +360,17 @@ public class DataController {
 					Element e = (Element)node;
 
 					String tt = getTagValue("lclasCd", e) +getTagValue("mclasCd", e)+getTagValue("sclasCd", e);
-					/*System.out.println(tt);
+					//System.out.println(tt);
 					if(!temp.contains(tt)) {
-						System.out.println(tt);
+						//System.out.println(tt);
 						temp.add(tt);
-					}*/
+					}
 				}
-			}/*
-			if(temp.size()>3) {
-				System.out.println(getTagValue("jmNm", doc.getDocumentElement()) + " " + jmCd);
-				System.out.println(temp.size());
-			}*/
+			}
+			String codes = "";
+			for(String code : temp) {
+				codes += code+"@";
+			}
 		}
 	}
 	
@@ -403,5 +388,30 @@ public class DataController {
 	    if(nValue == null) 
 	        return null;
 	    return nValue.getNodeValue();
+	}
+	
+	@RequestMapping("splitCmethod")
+	public void splitCmethod() {
+		ds.splitCmethod();
+	}
+	
+	@RequestMapping("splitSubject")
+	public void splitSubject() {
+		ds.splitSubject();
+	}
+	
+	@RequestMapping("updateMingan")
+	public void updateMingan() throws Exception {
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/mingan3.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+
+		String strLine;
+		ArrayList<String> strList = new ArrayList<String>();
+		
+		while((strLine = br.readLine()) != null) {
+			strList.add(strLine);
+		}
+		ds.updateMingan(strList);
 	}
 }

@@ -1,5 +1,7 @@
 package spring.project.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.CertiDateDTO;
@@ -19,4 +21,9 @@ public interface DataMapper {
 	
 	public void addNatCertiInfo(CertiInfoDTO info);
 	public void addNatCertiSchedule(CertiScheduleDTO sch);
+	public List<CertiInfoDTO> getCmethods();
+	public void updateCmethods(CertiInfoDTO dto);
+	public List<CertiInfoDTO> getSubjects();
+	public void updateSubject(CertiInfoDTO dto);
+	public List<CertiInfoDTO> getMingan();
 }

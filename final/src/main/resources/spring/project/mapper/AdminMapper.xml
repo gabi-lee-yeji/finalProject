@@ -252,13 +252,13 @@
 	</delete>
 	
 	<insert id="addCertiReq">
-		insert into certi_requirement(
+		insert into certi_requirement values(
 			#{cnum},
-			#{req_degree},
-			#{req_age},
-			#{req_exp},
-			#{pre_requisite},
-			#{ref}
+			#{req_degree, jdbcType=VARCHAR},
+			#{req_age, jdbcType=VARCHAR},
+			#{req_exp, jdbcType=VARCHAR},
+			#{pre_requisite, jdbcType=VARCHAR},
+			#{ref, jdbcType=VARCHAR}
 		)
 	</insert>
 	
@@ -298,27 +298,27 @@
 	<insert id="addCertiDate" parameterType="spring.project.model.CertiDateDTO">
 		insert into certidate values(
 			#{cnum, jdbcType=VARCHAR},
-			#{cyear},
-			#{cround},
-			#{clevel},
-			TO_DATE(#{docRegStart1},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegEnd1},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegStart2},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegEnd2},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docTestStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docTestEnd},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docResultStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docResultEnd},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docSubmitStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docSubmitEnd},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegStart1},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegEnd1},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegStart2},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegEnd2},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracTestStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracTestEnd},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResStart},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResEnd},'YYYY-MM-DD HH24:MI'),
+			nvl(#{cyear},0),
+			nvl(#{cround},0),
+			#{clevel, jdbcType=VARCHAR},
+			TO_DATE(#{docRegStart1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegEnd1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegStart2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegEnd2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docTestStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docTestEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docResultStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docResultEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docSubmitStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docSubmitEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegStart1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegEnd1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegStart2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegEnd2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracTestStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracTestEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracResStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracResEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
 			CERTIDATE_SEQ.nextval
 		)
 	</insert>

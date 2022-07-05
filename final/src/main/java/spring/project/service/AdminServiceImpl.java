@@ -34,13 +34,13 @@ public class AdminServiceImpl implements AdminService{
 		String cnum = "";
 		String sequence = "";
 		
-		if(info.getCategory().equals("�������")) {
+		if(info.getCategory().equals("국가기술")) {
 			cnum = "N";
 			sequence = "NAT_SEQ";
-		}else if(info.getCategory().equals("���ιΰ�")) {
+		}else if(info.getCategory().equals("공인민간")) {
 			cnum = "P";
 			sequence = "PRV_SEQ";
-		}else if(info.getCategory().equals("����")) {
+		}else if(info.getCategory().equals("어학")) {
 			cnum = "L";
 			sequence = "LANG_SEQ";
 		}

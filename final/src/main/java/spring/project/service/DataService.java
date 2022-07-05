@@ -1,5 +1,7 @@
 package spring.project.service;
 
+import java.util.ArrayList;
+
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiScheduleDTO;
@@ -21,5 +23,14 @@ public interface DataService {
 	
 	//국가기술자격 추가
 	public void addNatCerti(CertiInfoDTO info, CertiScheduleDTO sch);
+	
+	//certiinfo의 cmethod문자열을 필기/실기/면접 항목으로 분리한다
+	public void splitCmethod();
+	
+	//certiinfo의 subject문자열을 필기/실기/면접 항목으로 분리
+	public void splitSubject();
+	
+	//mingan2.csv 파일-민간자격증 cname, company, cjob, clevel, cinfo 정보
+	public void updateMingan(ArrayList<String> strList);
 	
 }
