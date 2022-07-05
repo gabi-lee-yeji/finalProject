@@ -100,7 +100,20 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.getCertCnt();
 	}
 	
-
+	//자격증 검색 결과
+	@Override
+	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword) {
+		int startRow = page.getStartRow();
+		int endRow = page.getEndRow();
+		return mapper.getSearchList(startRow, endRow, search, keyword);
+	}
+	@Override
+	public int getSearchCnt(String search, String keyword) {
+		return mapper.getSearchCnt(search, keyword);
+	}
+	
+	
+	//자격증 상세정보
 	@Override
 	public Map<String, CertiAccessible> getCertiInfo(String cnum) {
 		CertiInfoDTO info = mapper.getCertiInfo(cnum);
@@ -111,24 +124,10 @@ public class AdminServiceImpl implements AdminService{
 		return certiMap;
 	}
 	
+	//자격증 상세일정
 	@Override
-	public List<CertiDateDTO> searchPeriod(Map<String, String> map){
-		//국가기술자격인 경우 CertiSchedule정보를 넘겨서 일정정보 먼저 가져오기
-		String cnum = map.get("cnum");
-		if(cnum.substring(0,1).equals("N")) {
-			List<Integer> cyear_list = new ArrayList<Integer>();
-			List<Integer> cround_list = new ArrayList<Integer>();
-			
-			List<CertiScheduleDTO> schedule = mapper.getQnetDateInfo(cnum);
-			for(CertiScheduleDTO dto : schedule ) {
-				cyear_list.add(dto.getCyear());
-				cround_list.add(dto.getCround());
-			}
-			String clevel = schedule.get(0).getClevel();
-			return mapper.searchNatPeriod(clevel, cyear_list, cround_list);
-		}
-		
-		return mapper.searchPeriod(map);
+	public List<CertiDateDTO> searchPeriod(String cnum){
+		return mapper.searchPeriod(cnum);
 	}
 	@Override
 	public List<CertiDateDTO> searchNatPeriod(String cnum){
@@ -142,36 +141,52 @@ public class AdminServiceImpl implements AdminService{
 			cround_list.add(dto.getCround());
 		}
 		String clevel = schedule.get(0).getClevel();
+	
 		return mapper.searchNatPeriod(clevel, cyear_list, cround_list);
 	}
-
+	
+	//자격증 일정 추가
 	@Override
-	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword) {
-		int startRow = page.getStartRow();
-		int endRow = page.getEndRow();
-		return mapper.getSearchList(startRow, endRow, search, keyword);
+	public int addCertiDate(CertiDateDTO dto) {
+		return mapper.addCertiDate(dto);
+	}
+	
+	//자격증 일정 삭제 
+	@Override
+	public int deleteCertiDate(String[] dateList) {
+		int[] date = new int[dateList.length];
+		for(int i=0;i<dateList.length;i++) {
+			int d = Integer.parseInt(dateList[i]);
+			date[i] = d;
+		}
+		return mapper.deleteCertiDate(date);
+	}
+	
+	//자격증 일정 수정
+	@Override
+	public CertiDateDTO getCertiDate(int datePK) {
+		return mapper.getCertiDate(datePK);
 	}
 
 	@Override
-	public int getSearchCnt(String search, String keyword) {
-		return mapper.getSearchCnt(search, keyword);
+	public int modCertiDate(CertiDateDTO dto) {
+		return mapper.modCertiDate(dto);
 	}
-
+	
 	@Override
-	public List<CertiInfoDTO> getDelList(String[] cnumList) {
-		return mapper.getDelList(cnumList);
+	public int delCerti(String cnum, String name) {
+		String status = "D-"+name;
+		return mapper.delCerti(status, cnum);
 	}
 	
 	@Transactional
 	@Override
-	public int delCerti(String[] cnumList) {
-		int result = mapper.delCertiInfo(cnumList);
-		System.out.println("==info=="+result);
-		result += mapper.delCertiDetail(cnumList);
-		System.out.println("==detail=="+result);
+	public int modCerti(CertiInfoDTO info, CertiRequirementDTO req) {
+		int result = mapper.modCertiInfo(info);
+		result += mapper.modCertiReq(req);
 		return result;
 	}
-
+	
 	@Override
 	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order) {
 		map.put("startRow", page.getStartRow());
@@ -226,5 +241,6 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.updateRepMemStatus(memid, status);
 	}
 
-	
+
+
 }

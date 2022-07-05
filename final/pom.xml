@@ -192,6 +192,21 @@
 	         <groupId>commons-io</groupId>
 	         <artifactId>commons-io</artifactId>
 	         <version>1.4</version>
+		<!-- google analytics api -->
+		<dependency>
+		    <groupId>com.google.apis</groupId>
+		    <artifactId>google-api-services-analyticsreporting</artifactId>
+		    <version>v4-rev153-1.25.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.api-client</groupId>
+		    <artifactId>google-api-client-gson</artifactId>
+		    <version>1.30.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-analytics</artifactId>
+			<version>v3-rev20190807-1.30.10</version>
 		</dependency>
 		
 	</dependencies>

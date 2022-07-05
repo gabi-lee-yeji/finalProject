@@ -6,6 +6,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>자격증 목록</title>
+	
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'UA-233548942-1');
+	</script>
+	
+	
 	<script>
 		function setBg(t){
 			td = t.parentNode;
@@ -16,9 +28,6 @@
 	</script>
 </head>
 <body>
-	
-	<c:set var="param_category" value="category=${category }"/>
-	
 	<h1>자격증 목록 [총 : ${count }]</h1>
 	<input type="button" value="자격증 등록" onclick="window.location='/admin/addCerti'"/>
 	<form action="/admin/search" method="post">
@@ -37,15 +46,15 @@
 				번호
 				<c:if test="${sort == null || sort != 'cnum' }">
 					<input type="button" value="&#61;" 
-						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=cnum&order=asc&${param_category }'"/>
+						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=cnum&order=asc&category=${category}'"/>
 				</c:if>
 				<c:if test="${sort == 'cnum' && order == 'desc' }">
 					<input type="button" value="&#129031;" 
-						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=cnum&order=asc'"/>
+						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=cnum&order=asc&category=${category}'"/>
 				</c:if>
 				<c:if test="${sort == 'cnum' && order == 'asc' }">
 					<input type="button" value="&#129029;" 
-						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=cnum&order=desc'"/>
+						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=cnum&order=desc&category=${category}'"/>
 				</c:if>
 			</th>
 			<th>
@@ -60,9 +69,9 @@
 						<option value="">==자격증종류==</option>
 					</c:if>
 					<option value="certiList">전체</option>
-					<option value="certiList?${parameter}">국가기술</option>
-					<option value="certiList?category=공인민간&pageNum=${page.pageNum}&sort=${sort}&order=${order }">공인민간</option>
-					<option value="certiList?category=어학">어학</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=국가기술">국가기술</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=공인민간">공인민간</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=어학">어학</option>
 				</select>
 			</th>
 			<th>등급</th>
@@ -72,17 +81,18 @@
 				등록일
 				<c:if test="${sort == null || sort != 'registDate' }">
 					<input type="button" value="&#61;" 
-						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=registDate&order=asc'"/>
+						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=registDate&order=asc&category=${category}'"/>
 				</c:if>
 				<c:if test="${sort == 'registDate' && order == 'desc' }">
 					<input type="button" value="&#129031;" 
-						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=registDate&order=asc'"/>
+						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=registDate&order=asc&category=${category}'"/>
 				</c:if>
 				<c:if test="${sort == 'registDate' && order == 'asc' }">
 					<input type="button" value="&#129029;" 
-						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=registDate&order=desc'"/>
+						onclick="window.location='/admin/certiList?pageNum=${page.pageNum}&sort=registDate&order=desc&category=${category}'"/>
 				</c:if>
 			</th>
+			<th></th>
 			<th></th>
 			<th></th>
 		</tr>
@@ -105,6 +115,9 @@
 				<td>
 					<input type="button" value="수정" onclick="window.location='/admin/certiInfo?cnum=${dto.cnum }'">
 				</td>
+				<td>
+					<input type="button" value="삭제" onclick="window.location='certi/deleteForm?cnum=${dto.cnum}'">
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -123,15 +136,15 @@
 		</c:if>
         
         <c:if test="${startPage > 10 }">
-        	<a href="/admin/certiList?pageNum=${startPage-10}&sort=${sort}&order=${order}">[이전]</a>
+        	<a href="/admin/certiList?pageNum=${startPage-10}&sort=${sort}&order=${order}&category=${category}">[이전]</a>
         </c:if>
         
         <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-        	<a href="/admin/certiList?pageNum=${i}&sort=${sort}&order=${order}">[${i}]</a>
+        	<a href="/admin/certiList?pageNum=${i}&sort=${sort}&order=${order}&category=${category}">[${i}]</a>
 		</c:forEach>
 		
 		<c:if test="${endPage < pageCount}">
-        	<a href="/admin/certiList?pageNum=${startPage + 10}&sort=${sort}&order=${order}">[다음]</a>
+        	<a href="/admin/certiList?pageNum=${startPage + 10}&sort=${sort}&order=${order}&category=${category}">[다음]</a>
 		</c:if>
     </c:if>
 </body>

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class CertiDateDTO implements CertiAccessible{
-	private int datePK; //일정구분 위한 pk (일정 삭제, 수정 필요)
+	private int datePK; //일정구분 위한 pk (일정 삭제, 수정시 필요)
 	
 	private String cnum; 
 	private int cyear;

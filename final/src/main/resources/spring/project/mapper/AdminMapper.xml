@@ -3,6 +3,78 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
+
+	<update id="delCerti">
+		update certiinfo set status = #{status} where cnum=#{cnum}
+	</update>
+	
+	<update id="modCertiDate">
+		update certidate 
+		<set>
+			docRegStart1 = NVL(TO_DATE(#{docRegStart1},'YYYY-MM-DD HH24:MI'), docRegStart1),
+			<if test="docRegEnd1 != null">
+				docRegEnd1 = TO_DATE(#{docRegEnd1},'YYYY-MM-DD HH24:MI'),
+			</if>
+			docRegStart2 = NVL(TO_DATE(#{docRegStart2},'YYYY-MM-DD HH24:MI'),docRegStart2),
+			<if test="docRegEnd2 != null">
+				docRegEnd2 = TO_DATE(#{docRegEnd2},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docTestStart != null">
+				docTestStart = TO_DATE(#{docTestStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docTestEnd != null">
+				docTestEnd = TO_DATE(#{docTestEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docResultStart != null">
+				docResultStart = TO_DATE(#{docResultStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docResultEnd != null">
+				docResultEnd = TO_DATE(#{docResultEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docSubmitStart != null">
+				docSubmitStart = TO_DATE(#{docSubmitStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docSubmitEnd != null">
+				docSubmitEnd = TO_DATE(#{docSubmitEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracRegStart1 != null">
+				pracRegStart1 = TO_DATE(#{pracRegStart1},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracRegEnd1 != null">
+				pracRegEnd1 = TO_DATE(#{pracRegEnd1},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracRegStart2 != null">
+				pracRegStart2 = TO_DATE(#{pracRegStart2},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracRegEnd2 != null">
+				pracRegEnd2 = TO_DATE(#{pracRegEnd2},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracTestStart != null">
+				pracTestStart = TO_DATE(#{pracTestStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracTestEnd != null">
+				pracTestEnd = TO_DATE(#{pracTestEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracResStart != null">
+				pracResStart = TO_DATE(#{pracResStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracResEnd != null">
+				pracResEnd = TO_DATE(#{pracResEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+		</set>
+		where datepk = #{datePK}
+	</update>
+	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate where datepk = #{datePK}
+	</select>
+
+	<delete id="deleteCertiDate">
+		delete from certidate
+		where datepk in 
+		<foreach collection="array" item="datePK" open="(" separator="," close=")">
+			#{datePK}
+		</foreach>
+	</delete>
 	
 	<update id="updateRepMemStatus">
 		update memberinfo 
@@ -85,20 +157,12 @@
 	<select id="getSearchCnt" resultType="int">
 		select count(*) from certiinfo where ${search} like '%${keyword}%'
 	</select>
-	<select id="getSearchList" resultType="spring.project.model.CertiInfoDTO"
-								parameterType="spring.project.pagination.PagingDTO">
-		select * from (select rownum r, list.* from (select 
-			cnum,cname,category,clevel,cround,
-			to_char(regStart,'YYYY-MM-DD') as regStart,
-			to_char(regEnd,'YYYY-MM-DD') as regEnd,
-			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
-			to_char(reg_addEnd,'YYYY-MM-DD') as reg_addEnd,
-			to_char(regStartTime,'HH24:MI') as regStartTime,
-			to_char(regEndTime,'HH24:MI') as regEndTime,
-			to_char(testDate,'YYYY-MM-DD') as testDate,
-			to_char(resDate,'YYYY-MM-DD') as resDate
-		from certiinfo where ${search} like '%${keyword}%') list)
+	<select id="getSearchList" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select	* from certiinfo where ${search} like '%${keyword}%') list)
         where r between #{startRow} and #{endRow}
+        order by cnum
 	</select>
 	
 	<select id="getCertCnt" resultType="int">
@@ -106,41 +170,37 @@
 	</select>
 	
 	
-	<update id="modCertInfo">
+	<update id="modCertiInfo">
 		update certiinfo
 		<set>
 			<if test="cname != null">cname=#{cname},</if>
 			<if test="category != null">category=#{category},</if>
-			<if test="cyear != null">cyear=#{cyear},</if>
-			<if test="cround != null">cround=#{cround},</if>
 			<if test="clevel != null">clevel=#{clevel},</if>
-			<if test="regStart != null">
-				regStart=to_date(#{regStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			</if>
-			<if test="regEnd != null">
-				regEnd=to_date(#{regEnd, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			</if>
-			<if test="reg_addStart != null">
-				reg_addStart=to_date(#{reg_addStart, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			</if>
-			<if test="reg_addEnd != null">
-				reg_addEnd=to_date(#{reg_addEnd, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			</if>
-			<if test="regStartTime != null">
-				regStartTime=to_date(#{regStartTime, jdbcType=VARCHAR},'HH24:MI'),
-			</if>
-			<if test="regEndTime != null">
-				regEndTime=to_date(#{regEndTime, jdbcType=VARCHAR},'HH24:MI'),
-			</if>
-			<if test="testDate != null">
-				testDate=to_date(#{testDate, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			</if>
-			<if test="resDate != null">
-				resDate=to_date(#{resDate, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			</if>
+			company = NVL(#{company}, company),
+			website = NVL(#{website}, website),
+			price = NVL(#{price}, price),
+			cmethod = NVL(#{cmethod}, cmethod),
+			subject = NVL(#{subject}, subject),
+			cutline = NVL(#{cutline}, cutline),
+			cinfo = NVL(#{cinfo}, cinfo),
+			cjob = NVL(#{cjob}, cjob),
+			ncs_cat = NVL(#{ncs_cat}, ncs_cat),
+			notice = NVL(#{notice}, notice)
 		</set>
 		where cnum=#{cnum}
 	</update>
+	<update id="modCertiReq">
+		update certi_requirement
+		<set>
+			req_degree = NVL(#{req_degree}, req_degree),
+			req_age = NVL(#{req_age}, req_age),
+			req_exp = NVL(#{req_exp}, req_exp),
+			pre_requisite = NVL(#{pre_requisite}, pre_requisite),
+			ref = NVL(#{ref}, ref)
+		</set>
+		where cnum=#{cnum}
+	</update>
+	
 	<select id="searchNatPeriod" resultType="spring.project.model.CertiDateDTO">
 		select * from certidate 
 		where clevel=#{clevel}
@@ -157,23 +217,6 @@
 	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">
 		select * from certidate 
 		where cnum=#{cnum}
-		<!-- search certain periods -->
-		<if test="search != null">
-			<if test="search == docRegStart">
-				and docRegStart1 between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
-					or docRegStart2 between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
-			</if>
-			<if test="search == docTestStart">
-				and docTestStart between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
-			</if>
-			<if test="search == pracRegStart">
-				and pracRegStart1 between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
-					or pracRegStart2 between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
-			</if>
-			<if test="search == pracTestStart">
-				and pracTestStart between to_date(#{startDay},'YYYY-MM-DD') and to_date(#{endDay},'YYYY-MM-DD')
-			</if>
-		</if>
 	</select>
 	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
 		select * from certi_requirement where cnum=#{cnum}
@@ -188,9 +231,7 @@
 	<select id="getQnetDateInfo" resultType="spring.project.model.CertiScheduleDTO">
 		select * from certischedule where cnum=#{cnum}
 	</select>
-	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate
-	</select>
+	
 	<select id="getCertiInfo" resultType="spring.project.model.CertiInfoDTO">
 		select * from certiinfo where cnum=#{cnum}
 	</select>
@@ -207,6 +248,9 @@
 	<select id="getCertList" resultType="spring.project.model.CertiInfoDTO">
 		select * from (select rownum r, list.* from (select *
 		from certiinfo 
+			<if	test="category != null and category != ''">
+        		where category = #{category}
+        	</if>
 			<if test="sort != null and sort != 'null' and sort != '' ">
 				order by ${sort} ${order}
 			</if>
@@ -215,9 +259,6 @@
 			</if>
 			nulls last) list)
         where r between #{startRow} and #{endRow}
-        <if	test="category != null and category != ''">
-        	and category = #{category}
-        </if>
 	</select>
 	
 	<select id="getDelList" resultType="spring.project.model.CertiInfoDTO"> 
@@ -237,19 +278,6 @@
 		</foreach>
 		order by cnum
 	</select>
-	
-	<delete id="delCertiInfo">
-		delete from certiinfo where cnum in
-		<foreach collection="array" item="cnum" open="(" separator="," close=")">
-			#{cnum}
-		</foreach>
-	</delete>
-	<delete id="delCertiDetail">
-		delete from certidetail where cnum in
-		<foreach collection="array" item="cnum" open="(" separator="," close=")">
-			#{cnum}
-		</foreach>
-	</delete>
 	
 	<insert id="addCertiReq">
 		insert into certi_requirement(

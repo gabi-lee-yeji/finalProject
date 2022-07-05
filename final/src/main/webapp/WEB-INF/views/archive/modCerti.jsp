@@ -43,76 +43,7 @@
 					</select>
 				</td>		
 			</tr>
-			<tr>
-				<td>시행연도</td>
-				<td><input type="text" name="cyear" value="${info.cyear }"/></td>
-			</tr>
-			<tr>
-				<td>자격증 회차 (국가기술)</td>
-				<td><input type="text" name="cround" value="${info.cround }"/></td>
-			</tr>
-			<tr>
-				<td>필기시험 접수기간</td>
-				<td>
-					<input type="text" name="docRegStart1" value="${qnet.docRegStart1 }" readonly/>
-					~ <input type="text" name="docRegEnd1" value="${qnet.docRegEnd1 }" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td>필기시험 추가접수기간</td>
-				<td>
-					<input type="text" name="docRegStart2" value="${qnet.docRegStart2 }" readonly/>
-					~ <input type="text" name="docRegEnd2" value="${qnet.docRegEnd2 }" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td>필기시험 응시기간</td>
-				<td>
-					<input type="text" name="docTestStart" value="${qnet.docTestStart }" readonly/>
-					~ <input type="text" name="docTestEnd" value="${qnet.docTestEnd }" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td>필기시험 합격자 발표</td>
-				<td>
-					<input type="text" name="docResult" value="${qnet.docResult }" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td>응시자격 증명서류 제출기간</td>
-				<td>
-					<input type="text" name="docSubmitStart" value="${qnet.docSubmitStart }" readonly/>
-					~ <input type="text" name="docSubmitEnd" value="${qnet.docSubmitEnd }" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td>실기시험 접수기간</td>
-				<td>
-					<input type="text" name="pracRegStart1" value="${qnet.pracRegStart1 }" readonly/>
-					~ <input type="text" name="pracRegEnd1" value="${qnet.pracRegEnd1 }" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td>실기시험 추가접수기간</td>
-				<td>
-					<input type="text" name="pracRegStart2" value="${qnet.pracRegStart2 }" readonly/>
-					~ <input type="text" name="pracRegEnd2" value="${qnet.pracRegEnd2 }" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td>실기시험 응시기간</td>
-				<td>
-					<input type="text" name="pracTestStart" value="${qnet.pracTestStart }" readonly/>
-					~ <input type="text" name="pracTestEnd" value="${qnet.pracTestEnd }" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td>실기시험 합격자 발표기간</td>
-				<td>
-					<input type="text" name="pracResStart" value="${qnet.pracResStart }" readonly/>
-					~ <input type="text" name="pracResEnd" value="${qnet.pracResEnd }" readonly/>
-				</td>
-			</tr>
+			
 		</table>
 	</c:if>
 	<c:if test="${info.category != '국가기술'}">
