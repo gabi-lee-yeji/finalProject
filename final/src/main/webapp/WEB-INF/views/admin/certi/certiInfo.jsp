@@ -6,11 +6,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>자격증 정보 - ${info.cname }</title>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
+	<script language="JavaScript" src="/resources/js/gtag.js"></script>
 </head>
 <body>
 	<h2>자격증 정보</h2>
 	<input type="button" value="자격증 목록" onclick="window.location='/admin/certiList'">
-	<form action="/admin/modCerti?cnum=${cnum }">
+	<form action="/admin/modCertiPro?cnum=${cnum }">
 		<table>
 			<tr>
 				<td>자격증 번호</td>
@@ -142,5 +144,5 @@
 		</details>
 		<input type="submit" value="수정">
 	</form>
-	<input type="button" value="자격증 삭제" onclick="window.location=''">
+	<input type="button" value="자격증 삭제" onclick="window.location='certi/deleteForm?cnum=${cnum}'">
 </body>

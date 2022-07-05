@@ -5,7 +5,7 @@
 <c:if test="${result >= 1}">
 	<script>
 		alert("수정이 완료되었습니다.");
-		window.location="/admin/modCerti?cnum=${cnum}";
+		window.location="/admin/certiInfo?cnum=${cnum}";
 	</script>
 </c:if>
 <c:if test="${result == 0 }">

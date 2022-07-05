@@ -4,6 +4,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>자격증 정보 등록</title>
+	
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'UA-233548942-1');
+	</script>
+
+	
 	<script>
 		function inputDate(obj){
 			if(event.keyCode != 8){
