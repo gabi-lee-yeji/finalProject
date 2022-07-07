@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.google.api.services.analyticsreporting.v4.AnalyticsReportingScopes;
 import com.google.api.services.analyticsreporting.v4.AnalyticsReporting;
 
@@ -30,6 +32,7 @@ import com.google.api.services.analyticsreporting.v4.model.Report;
 import com.google.api.services.analyticsreporting.v4.model.ReportRequest;
 import com.google.api.services.analyticsreporting.v4.model.ReportRow;
 
+@Component
 public class AnalyticsService {
 	private static final String APPLICATION_NAME = "Hello Analytics Reporting";
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
@@ -48,7 +51,7 @@ public class AnalyticsService {
 	        .setApplicationName(APPLICATION_NAME).build();
 	}
 	
-	private static GetReportsResponse getCustomReport(String startDate, String endDate, String metric ) throws IOException {
+	private static GetReportsResponse getCustomReport(AnalyticsReporting service, String startDate, String endDate) throws IOException {
 		
 		// Create the DateRange object.
 		DateRange dateRange = new DateRange();
@@ -56,9 +59,7 @@ public class AnalyticsService {
 	    dateRange.setEndDate(endDate);
 
 	    // Create the Metrics object.
-	    Metric sessions = new Metric().setExpression("ga:"+metric);
-
-	    //Dimension pageTitle = new Dimension().setName("ga:pageTitle");
+	    Metric sessions = new Metric().setExpression("ga:users");
 
 	    // Create the ReportRequest object.
 	    ReportRequest request = new ReportRequest()
@@ -74,54 +75,48 @@ public class AnalyticsService {
 	    								.setReportRequests(requests);
 
 	    // Call the batchGet method.
-	    AnalyticsReporting service;
-	    GetReportsResponse response = null;
-		try {
-			service = initializeAnalyticsReporting();
-			response = service.reports().batchGet(getReport).execute();
-		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    GetReportsResponse response = service.reports().batchGet(getReport).execute();
+	    
 	    // Return the response.
 	    return response;
 	}
 	
-	public Map<String, String>  getStatsMap(String startDate, String endDate, String metric) throws IOException{
-		Map<String,String> map = new HashMap<String,String>();
+	public int getUsersStats(String startDate, String endDate) throws IOException{
+		int users = 0;
 		
-		GetReportsResponse response = getCustomReport(startDate, endDate, metric);
+		try {
+			AnalyticsReporting service = initializeAnalyticsReporting();
+			GetReportsResponse response = getCustomReport(service, startDate, endDate);
 		
-		for (Report report: response.getReports()) {
-			ColumnHeader header = report.getColumnHeader();
-		    //List<String> dimensionHeaders = header.getDimensions();
-		    List<MetricHeaderEntry> metricHeaders = header.getMetricHeader().getMetricHeaderEntries();
-		    List<ReportRow> rows = report.getData().getRows();
-
-		    if (rows == null) {
-		    	System.out.println("No data found for " + VIEW_ID);
-		        return map;
-		    }
-
-            for (ReportRow row: rows) {
-            	//List<String> dimensions = row.getDimensions();
-		        List<DateRangeValues> metrics = row.getMetrics();
-
-//		        for (int i = 0; i < dimensionHeaders.size() && i < dimensions.size(); i++) {
-//		          System.out.println(dimensionHeaders.get(i) + ": " + dimensions.get(i));
-//		       	}
-
-		        for (int j = 0; j < metrics.size(); j++) {
-		          System.out.print("Date Range (" + j + "): ");
-		          DateRangeValues values = metrics.get(j);
-		          for (int k = 0; k < values.getValues().size() && k < metricHeaders.size(); k++) {
-		            System.out.println(metricHeaders.get(k).getName() + ": " + values.getValues().get(k));
-		          }
-		        }
-		      }
+			for (Report report: response.getReports()) {
+				ColumnHeader header = report.getColumnHeader();
+			    //List<String> dimensionHeaders = header.getDimensions();
+			    List<MetricHeaderEntry> metricHeaders = header.getMetricHeader().getMetricHeaderEntries();
+			    List<ReportRow> rows = report.getData().getRows();
+	
+			    if (rows == null) {
+			    	System.out.println("No data found for " + VIEW_ID);
+			    	return users;
+			    }
+	
+	            for (ReportRow row: rows) {
+	            	//List<String> dimensions = row.getDimensions();
+			        List<DateRangeValues> metrics = row.getMetrics();
+	
+			        for (int j = 0; j < metrics.size(); j++) {
+			          System.out.print("Date Range (" + j + "): ");
+			          DateRangeValues values = metrics.get(j);
+			          for (int k = 0; k < values.getValues().size() && k < metricHeaders.size(); k++) {
+			            System.out.println(metricHeaders.get(k).getName() + ": " + values.getValues().get(k));
+			            users += Integer.parseInt(values.getValues().get(k));
+			          }
+			        }
+			      }
+			}
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 		
-		return map;
+		return users;
 	}
 }

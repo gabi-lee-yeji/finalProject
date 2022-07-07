@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import google.analytics.reportingAPI.AnalyticsService;
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
@@ -48,6 +49,9 @@ public class AdminController {
 	
 	@Autowired
 	private PagingService pageService;
+	
+	@Autowired
+	private AnalyticsService gaService;
 	
 	static Map<String, Object> paramMap = new HashMap<String, Object>();
 	
@@ -275,5 +279,16 @@ public class AdminController {
 	public String adminMainVisitor() {
 		//구글 통계에서 방문자수 조회해서 view로 보내기
 		return "/admin/ajax/visitor";
+	}
+	
+	//ga tester
+	@RequestMapping("test")
+	public String googleTest(Model model) throws Exception {
+		String start = "7daysAgo";
+		String today = "today";
+		//구글 통계에서 방문자수 조회해서 view로 보내기
+		model.addAttribute("usersToday", gaService.getUsersStats(start, today));
+		model.addAttribute("users7Days", gaService.getUsersStats(today, today));
+		return "/admin/stats/test";
 	}
 }
