@@ -10,10 +10,9 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.Post_BoardDTO;
 import spring.project.pagination.PagingDTO;
 import spring.project.model.MemberInfoDTO;
-import spring.project.model.PagingDTO;
-import spring.project.model.QnetDateDTO;
 
 public interface AdminService {
 	
@@ -67,7 +66,7 @@ public interface AdminService {
 	public MemberInfoDTO getMemberInfo(String memid);
 	
 	//신고된 회원 목록
-	public List<MemberInfoDTO> getMemberReport(String status);
+	public List<MemberInfoDTO> getReportMemList(String status);
 	//신고된 회원의 상세 정보 - 신고당한 글/댓글 목록, 신고한 회원
 	public List<Map<String,Object>> getreportMemInfo(String memid);
 	//신고된 회원의 상태 변경
@@ -78,4 +77,14 @@ public interface AdminService {
 	
 	
 	//1:1문의 답변 안달린 글 모아보기
+	public List<Post_BoardDTO> getNewRequestList(PagingDTO page);
+	//1:1문의 답변 안달린 글 개수 조회
+	public int getNewRequestCnt();
+	
+	
+	//관리자 메인에 필요한 데이터 조회
+	public Map<String,Integer> getNewMemberData();
+	public int getNewCertiCnt();
+	public int getNewReportCnt();
+
 }

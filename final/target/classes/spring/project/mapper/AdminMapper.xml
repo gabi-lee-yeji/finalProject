@@ -3,7 +3,41 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
-
+	
+	<select id="getNewReportCnt" resultType="int">
+		select count(*) from 
+			(select memid, count(*) as reportCnt from member_report group by memid) rep,
+      		memberinfo info
+		where info.memid=rep.memid
+		and info.status='일반'
+	</select>
+	<select id="getNewCertiCnt" resultType="int">
+		select count(*) from certiinfo 
+		    where to_char(registDate,'YYYY-MM-DD') 
+		    between to_char(sysdate-5, 'YYYY-MM-DD') and to_char(sysdate, 'YYYY-MM-DD')
+	</select>
+	<select id="getMemberLastWeekCnt" resultType="int">
+		select count(*) from memberinfo 
+	    	where to_char(regDate,'YYYY-MM-DD') 
+	    	between to_char(sysdate-7, 'YYYY-MM-DD') and to_char(sysdate, 'YYYY-MM-DD')
+	</select>
+	<select id="getMemberTodayCnt" resultType="int">
+		select count(*) from memberinfo 
+			where to_char(regDate,'YYYY-MM-DD') = to_char(sysdate, 'YYYY-MM-DD')
+	</select>
+	<select id="getNewRequestCnt" resultType="int">
+		select count(*) from post_board 
+				where board_type = '1:1문의' and post_level=0 
+	</select>
+	<select id="getNewRequestList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from post_board 
+				where board_type = '1:1문의' and post_level=0 
+				order by reg) list)
+			where r between #{startRow} and #{endRow}
+	</select>
+	
 	<update id="delCerti">
 		update certiinfo set status = #{status} where cnum=#{cnum}
 	</update>
@@ -100,17 +134,16 @@
 			a.wr_num=b.pnum
 	</select>
 	<select id="getReportMemList" resultType="spring.project.model.MemberInfoDTO">
-			select * from 
-				(select memid, count(*) as reportCnt from member_report group by memid) a, 
-				memberinfo b 
-			where 
-				<![CDATA[ a.reportCnt >= 1	]]>
-				and a.memid=b.memid
-				<if test="status != null"> 
-					and b.status = #{status} 
-				</if>
-			order by a.reportCnt
-		
+		select * from 
+			(select memid, count(*) as reportCnt from member_report group by memid) a, 
+			memberinfo b 
+		where 
+			<![CDATA[ a.reportCnt >= 1	]]>
+			and a.memid=b.memid
+			<if test="status != null"> 
+				and b.status = #{status} 
+			</if>
+		order by a.reportCnt
 	</select>
 	
 	<select id="getMemberFilter" resultType="spring.project.model.MemberInfoDTO"

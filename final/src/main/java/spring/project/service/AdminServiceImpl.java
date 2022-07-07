@@ -15,6 +15,7 @@ import spring.project.model.CertiScheduleDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.Post_BoardDTO;
 import spring.project.pagination.PagingDTO;
 
 @Service
@@ -34,18 +35,18 @@ public class AdminServiceImpl implements AdminService{
 		String cnum = "";
 		String sequence = "";
 		
-		if(info.getCategory().equals("±¹°¡±â¼ú")) {
+		if(info.getCategory().equals("êµ­ê°€ê¸°ìˆ ")) {
 			cnum = "N";
 			sequence = "NAT_SEQ";
-		}else if(info.getCategory().equals("°øÀÎ¹Î°£")) {
+		}else if(info.getCategory().equals("ê³µì¸ë¯¼ê°„")) {
 			cnum = "P";
 			sequence = "PRV_SEQ";
-		}else if(info.getCategory().equals("¾îÇĞ")) {
+		}else if(info.getCategory().equals("ì–´í•™")) {
 			cnum = "L";
 			sequence = "LANG_SEQ";
 		}
 		
-		//?‹œ????Š¤ ê°? 0?´ë©? 1ë¶??„° ?‹œ?‘?•˜ê²? ?˜¬ë¦? (+1)
+		//?ï¿½ï¿½????ï¿½ï¿½ ï¿½? 0?ï¿½ï¿½ï¿½? 1ï¿½??ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ï¿½? (+1)
 		if(mapper.findCurrseq(sequence)==0) {
 			mapper.findNextseq(sequence);
 		}
@@ -55,14 +56,14 @@ public class AdminServiceImpl implements AdminService{
 		info.setCnum(cnum); 
 		schedule.setCnum(cnum);
 		requirement.setCnum(cnum);
-		//CSV¿¡¼­ Á÷Á¢ µ¥ÀÌÅÍ ³ÖÀ» °æ¿ì ´ëºñ
+		//CSVï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		if(certiDate != null) {
 			certiDate.setCnum(cnum);
 			
 		}
 		
 		int result = 0;
-		if(info.getCategory().equals("±¹°¡±â¼ú")) {
+		if(info.getCategory().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")) {
 			result += mapper.addCertiInfo(info);
 			result += mapper.addCertiSchedule(schedule);
 			if(result==2) mapper.findNextseq(sequence);
@@ -100,7 +101,7 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.getCertCnt();
 	}
 	
-	//ÀÚ°İÁõ °Ë»ö °á°ú
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½
 	@Override
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword) {
 		int startRow = page.getStartRow();
@@ -113,7 +114,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	
-	//ÀÚ°İÁõ »ó¼¼Á¤º¸
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public Map<String, CertiAccessible> getCertiInfo(String cnum) {
 		CertiInfoDTO info = mapper.getCertiInfo(cnum);
@@ -124,14 +125,14 @@ public class AdminServiceImpl implements AdminService{
 		return certiMap;
 	}
 	
-	//ÀÚ°İÁõ »ó¼¼ÀÏÁ¤
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public List<CertiDateDTO> searchPeriod(String cnum){
 		return mapper.searchPeriod(cnum);
 	}
 	@Override
 	public List<CertiDateDTO> searchNatPeriod(String cnum){
-		//±¹°¡±â¼úÀÚ°İÀÎ °æ¿ì CertiScheduleÁ¤º¸¸¦ ³Ñ°Ü¼­ ÀÏÁ¤Á¤º¸ ¸ÕÀú °¡Á®¿À±â
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ CertiScheduleï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<Integer> cyear_list = new ArrayList<Integer>();
 		List<Integer> cround_list = new ArrayList<Integer>();
 		
@@ -145,13 +146,13 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.searchNatPeriod(clevel, cyear_list, cround_list);
 	}
 	
-	//ÀÚ°İÁõ ÀÏÁ¤ Ãß°¡
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	@Override
 	public int addCertiDate(CertiDateDTO dto) {
 		return mapper.addCertiDate(dto);
 	}
 	
-	//ÀÚ°İÁõ ÀÏÁ¤ »èÁ¦ 
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	@Override
 	public int deleteCertiDate(String[] dateList) {
 		int[] date = new int[dateList.length];
@@ -162,7 +163,7 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.deleteCertiDate(date);
 	}
 	
-	//ÀÚ°İÁõ ÀÏÁ¤ ¼öÁ¤
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public CertiDateDTO getCertiDate(int datePK) {
 		return mapper.getCertiDate(datePK);
@@ -222,7 +223,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<MemberInfoDTO> getMemberReport(String status) {
+	public List<MemberInfoDTO> getReportMemList(String status) {
 		return mapper.getReportMemList(status);
 	}
 
@@ -239,6 +240,34 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int updateRepMemStatus(String memid, String status) {
 		return mapper.updateRepMemStatus(memid, status);
+	}
+
+	@Override
+	public List<Post_BoardDTO> getNewRequestList(PagingDTO page) {
+		return mapper.getNewRequestList(page);
+	}
+
+	@Override
+	public int getNewRequestCnt() {
+		return mapper.getNewRequestCnt();
+	}
+
+	@Override
+	public Map<String,Integer> getNewMemberData() {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("memberToday", mapper.getMemberTodayCnt());
+		map.put("memberLastWeek", mapper.getMemberLastWeekCnt());
+		return map;
+	}
+
+	@Override
+	public int getNewCertiCnt() {
+		return mapper.getNewCertiCnt();
+	}
+
+	@Override
+	public int getNewReportCnt() {
+		return mapper.getNewReportCnt();
 	}
 
 

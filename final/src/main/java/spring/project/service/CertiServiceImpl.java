@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import spring.project.mapper.CertiMapper;
-import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
 
 @Service
@@ -21,10 +20,10 @@ public class CertiServiceImpl implements CertiService {
 		return mapper.getCertiNatList();
 	}
 	
-	public List<CertiDetailDTO> getCertiDetailNatList() {
-		
-		return mapper.getCertiDetailNatList();
-	}
+//	public List<CertiDetailDTO> getCertiDetailNatList() {
+//		
+//		return mapper.getCertiDetailNatList();
+//	}
 
 	@Override
 	public List<CertiInfoDTO> getCertiPrvList() {

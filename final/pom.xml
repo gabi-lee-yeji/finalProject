@@ -192,6 +192,8 @@
 	         <groupId>commons-io</groupId>
 	         <artifactId>commons-io</artifactId>
 	         <version>1.4</version>
+	    </dependency>
+	    
 		<!-- google analytics api -->
 		<dependency>
 		    <groupId>com.google.apis</groupId>
@@ -208,7 +210,6 @@
 			<artifactId>google-api-services-analytics</artifactId>
 			<version>v3-rev20190807-1.30.10</version>
 		</dependency>
-		
 	</dependencies>
     <build>
         <plugins>
