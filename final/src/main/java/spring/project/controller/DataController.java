@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiMatchDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.PassDetailDTO;
@@ -337,7 +338,7 @@ public class DataController {
 			if(node.getNodeType() == Node.ELEMENT_NODE) {
 				Element e = (Element) node;
 				jmCdList.add(getTagValue("jmCd",e));
-				System.out.println(getTagValue("jmCd",e));
+				//System.out.println(getTagValue("jmCd",e));
 			}
 		}
 		//System.out.println(jmCdList.size());
@@ -359,7 +360,12 @@ public class DataController {
 				if(node.getNodeType() == Node.ELEMENT_NODE) {
 					Element e = (Element)node;
 
-					String tt = getTagValue("lclasCd", e) +getTagValue("mclasCd", e)+getTagValue("sclasCd", e);
+					String tt = getTagValue("lclasCd", e) 
+								+getTagValue("mclasCd", e)
+								+getTagValue("sclasCd", e)
+								+getTagValue("subdCd",e) 
+								+getTagValue("compeUnitCd", e)
+								;
 					//System.out.println(tt);
 					if(!temp.contains(tt)) {
 						//System.out.println(tt);
@@ -371,15 +377,51 @@ public class DataController {
 			for(String code : temp) {
 				codes += code+"@";
 			}
+			System.out.println(codes);
 		}
 	}
 	
-	/*
 	//연관 자격증 찾기
-	@RequestMapping("certiMatchTest")
-	public void certiMatchTest() throws Exception {
+	@RequestMapping("addCertiRelated")
+	public void addCertiRelated() throws Exception {
+		String url = "http://openapi.q-net.or.kr/api/service/rest/InquiryAttenQualSVC/getList?ServiceKey=yapz%2B1EpEAK%2BuivcMayhbsLMyJrcxm7Bm3vYUA%2BAgsvrEyFKrVQllmU4ERm8b1jBS4ULE0ZOMIFEBvjfDbEZBQ%3D%3D&numOfRows=10&pageNo=";
+		int i=1;
+
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		
+		//ArrayList<CertiMatchDTO> list = new ArrayList<CertiMatchDTO>();
+		while(true) {
+			Document doc = db.parse(url+i);
+			i++;
+			doc.getDocumentElement().normalize();
+			
+			NodeList nodes = doc.getDocumentElement().getElementsByTagName("item");
+			if(nodes.getLength() == 0) break;
+			for(int j=0; j<nodes.getLength(); j++) {
+				Node node = nodes.item(j);
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					Element e = (Element)node;
+					CertiMatchDTO dto = new CertiMatchDTO();
+					dto.setCfrom(getTagValue("jmNm",e));
+					dto.setCto(getTagValue("recomJmNm1",e));
+					//list.add(dto);
+					System.out.println(dto);
+					ds.addCertiRelated(dto);
+					dto = new CertiMatchDTO();
+					dto.setCfrom(getTagValue("jmNm",e));
+					dto.setCto(getTagValue("recomJmNm2",e));
+					//list.add(dto);
+					System.out.println(dto);
+					ds.addCertiRelated(dto);
+				}
+
+			}
+		
+		}
+		
+		//for(CertiMatchDTO dto : list) System.out.println(dto);
 	}
-	*/
 	
 	// xml node 이름으로 값 불러오기
 	private static String getTagValue(String tag, Element eElement) {
@@ -403,7 +445,7 @@ public class DataController {
 	@RequestMapping("updateMingan")
 	public void updateMingan() throws Exception {
 
-		FileInputStream fis = new FileInputStream(new File("f:/data/mingan3.csv"));
+		FileInputStream fis = new FileInputStream(new File("f:/data/mingan4.csv"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
 
 		String strLine;
@@ -414,4 +456,21 @@ public class DataController {
 		}
 		ds.updateMingan(strList);
 	}
+	
+	@RequestMapping("addPassRate")
+	public void addPassRate() throws Exception {
+		
+		FileInputStream fis = new FileInputStream(new File("f:/data/minganstat2.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		ArrayList<String> strList = new ArrayList<String>();
+		
+		while((strLine=br.readLine()) != null) {
+			strList.add(strLine);
+		}
+		ds.addPassRate(strList);
+	}
+	
+	
 }

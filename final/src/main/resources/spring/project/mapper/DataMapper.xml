@@ -3,10 +3,33 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
+
+	<insert id="addCertiRelated" parameterType="spring.project.model.CertiMatchDTO">
+		insert into certi_related values(#{cfrom}, #{cto})
+	</insert>
+
+	<insert id="addPassRate" parameterType="spring.project.model.PassRateDTO">
+		insert into pass_rate values(
+			#{cname},
+			#{clevel, jdbcType=VARCHAR},
+			#{cyear},
+			#{applied},
+			#{tested},
+			#{passed}
+		)
+	</insert>
 	
 	<select id="getMingan" resultType="spring.project.model.CertiInfoDTO">
 		select cnum, cname, company, clevel, cinfo from certiinfo where cnum like 'P%' order by cnum
 	</select>
+
+	<update id="updateMingan" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo 
+			set company=#{company}, cinfo=#{cinfo}, cjob=#{cjob}
+			where cname=#{cname} 
+				and (clevel=#{clevel, jdbcType = VARCHAR}
+					or	(clevel is null and #{clevel, jdbcType=VARCHAR} is null))
+	</update>
 	
 	<select id="getSubjects" resultType="spring.project.model.CertiInfoDTO">
 		select cnum, subject from certiinfo where cnum like 'N%' order by cnum

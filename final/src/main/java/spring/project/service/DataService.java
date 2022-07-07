@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiMatchDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.PassDetailDTO;
 
@@ -30,7 +31,13 @@ public interface DataService {
 	//certiinfo의 subject문자열을 필기/실기/면접 항목으로 분리
 	public void splitSubject();
 	
-	//mingan2.csv 파일-민간자격증 cname, company, cjob, clevel, cinfo 정보
+	//minganN.csv 파일-민간자격증 cname, company, cjob, clevel, cinfo 정보
 	public void updateMingan(ArrayList<String> strList);
+	
+	//minganstatN.csv 파일 - 민간자격증 급수별,연도별 접수/응시/합격자수
+	public void addPassRate(ArrayList<String> strList) ;
+	
+	//연관자격증 DB에 추가
+	public void addCertiRelated(CertiMatchDTO dto);
 	
 }

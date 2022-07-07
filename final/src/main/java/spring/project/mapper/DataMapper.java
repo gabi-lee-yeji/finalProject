@@ -6,8 +6,10 @@ import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiMatchDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateDTO;
 
 public interface DataMapper {
 
@@ -26,4 +28,7 @@ public interface DataMapper {
 	public List<CertiInfoDTO> getSubjects();
 	public void updateSubject(CertiInfoDTO dto);
 	public List<CertiInfoDTO> getMingan();
+	public int updateMingan(CertiInfoDTO dto);
+	public int addPassRate(PassRateDTO dto);
+	public void addCertiRelated(CertiMatchDTO dto);
 }

@@ -11,8 +11,10 @@ import spring.project.mapper.AdminMapper;
 import spring.project.mapper.DataMapper;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiMatchDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateDTO;
 
 @Service
 public class DataServiceImpl implements DataService {
@@ -186,20 +188,63 @@ public class DataServiceImpl implements DataService {
 		}
 	}
 	
+	@Override
 	public void updateMingan(ArrayList<String> strList) {
 		List<CertiInfoDTO> list = mapper.getMingan();
-		ArrayList<String> cname = new ArrayList<String>();
 		
-		for(int i=0; i<list.size(); i++) {
-			cname.add(list.get(i).getCname().replaceAll(" ", ""));
-		}
 		for(int i=0; i<strList.size(); i++) {
-			if(cname.contains(strList.get(i).split(",",2)[0]) ) {
-				
-			}else {
-				System.out.println(strList.get(i).split(",",2)[0]);
+
+			CertiInfoDTO dto = new CertiInfoDTO();
+			dto.setCname(strList.get(i).split(";")[0]);
+			dto.setClevel(strList.get(i).split(";")[2]);
+			if(dto.getClevel().equals("")) dto.setClevel(null);
+			dto.setCompany(strList.get(i).split(";")[1]);
+			dto.setCinfo(strList.get(i).split(";")[3]);
+			dto.setCjob(strList.get(i).split(";")[4]);
+			
+			if(mapper.updateMingan(dto) != 1) {
+				System.out.println(dto);
 			}
 		}
+	}
+	
+	@Override
+	public void addPassRate(ArrayList<String> strList) {
+		List<CertiInfoDTO> list = mapper.getMingan();
+		
+		for(int i=0; i<strList.size(); i++) {
+			
+			PassRateDTO dto = new PassRateDTO();
+			dto.setCname(strList.get(i).split(";")[0]);
+			dto.setClevel(strList.get(i).split(";")[1]);
+			dto.setCyear(Integer.parseInt(strList.get(i).split(";")[2]));
+			dto.setApplied(Integer.parseInt(strList.get(i).split(";")[3]));
+			dto.setTested(Integer.parseInt(strList.get(i).split(";")[4]));
+			dto.setPassed(Integer.parseInt(strList.get(i).split(";")[5]));
+			
+			if(mapper.addPassRate(dto) != 1) {
+				System.out.println(dto);
+			}
+			/*
+			boolean f = false;
+			for(int j =0 ; j<list.size(); j++) {
+				
+				if(list.get(j).getCname().equals(strList.get(i).split(";")[0]) &&
+						strList.get(i).split(";")[1].equals(list.get(j).getClevel()==null?"":list.get(j).getClevel())) {
+					f = true;
+					break;
+				}
+				
+			}
+			if(!f)	System.out.println(strList.get(i).split(";")[0] + " // " + strList.get(i).split(";")[1]);
+			*/
+			
+		}
+	}
+	
+	@Override
+	public void addCertiRelated(CertiMatchDTO dto) {
+		mapper.addCertiRelated(dto);
 	}
 }
 
