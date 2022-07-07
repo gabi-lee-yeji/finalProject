@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <h1>탈퇴Pro</h1>
 
+${result}
+
 <c:if test="${sessionScope.sid == null}">
 	<script>
 		window.location="/member/loginForm";
