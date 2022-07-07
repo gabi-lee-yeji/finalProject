@@ -313,7 +313,7 @@ public class DataController {
 			
 		}
 	}
-	
+	/*
 	//NCS분류1 - 자격증 코드 목록따오기
 	@RequestMapping("certiGetNCS")
 	public void certiGetNCS() throws Exception{
@@ -362,9 +362,9 @@ public class DataController {
 
 					String tt = getTagValue("lclasCd", e) 
 								+getTagValue("mclasCd", e)
-								+getTagValue("sclasCd", e)
-								+getTagValue("subdCd",e) 
-								+getTagValue("compeUnitCd", e)
+//								+getTagValue("sclasCd", e)
+//								+getTagValue("subdCd",e) 
+//								+getTagValue("compeUnitCd", e)
 								;
 					//System.out.println(tt);
 					if(!temp.contains(tt)) {
@@ -380,7 +380,7 @@ public class DataController {
 			System.out.println(codes);
 		}
 	}
-	
+	*/
 	//연관 자격증 찾기
 	@RequestMapping("addCertiRelated")
 	public void addCertiRelated() throws Exception {
@@ -472,5 +472,19 @@ public class DataController {
 		ds.addPassRate(strList);
 	}
 	
+	@RequestMapping("updateCertiPrice")
+	public void updateCertiPrice() throws IOException {
+		
+		FileInputStream fis = new FileInputStream(new File("f:/data/susu.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+		
+		String strLine;
+		ArrayList<String> strList = new ArrayList<String>();
+		
+		while((strLine=br.readLine()) != null) {
+			strList.add(strLine);
+		}
+		ds.updateCertiPrice(strList);
+	}
 	
 }

@@ -31,4 +31,6 @@ public interface DataMapper {
 	public int updateMingan(CertiInfoDTO dto);
 	public int addPassRate(PassRateDTO dto);
 	public void addCertiRelated(CertiMatchDTO dto);
+	public List<CertiInfoDTO> getNatPrices();
+	public void updatePrice(CertiInfoDTO dto);
 }

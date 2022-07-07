@@ -40,4 +40,7 @@ public interface DataService {
 	//연관자격증 DB에 추가
 	public void addCertiRelated(CertiMatchDTO dto);
 	
+	//certiinfo 응시료, 접수처, ncs코드 수정
+	public void updateCertiPrice(ArrayList<String> strList);
+	
 }

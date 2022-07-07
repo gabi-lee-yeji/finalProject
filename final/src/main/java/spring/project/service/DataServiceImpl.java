@@ -246,6 +246,31 @@ public class DataServiceImpl implements DataService {
 	public void addCertiRelated(CertiMatchDTO dto) {
 		mapper.addCertiRelated(dto);
 	}
+	
+	@Override
+	public void updateCertiPrice(ArrayList<String> strList) {
+		List<CertiInfoDTO> list = mapper.getNatPrices();
+		
+		for(int i=0; i<strList.size(); i++) {
+			
+			CertiInfoDTO dto = new CertiInfoDTO();
+			dto.setCname(strList.get(i).split(";")[0]);
+			dto.setPrice(strList.get(i).split(";")[1]);
+			dto.setNcs_cat(String.format("%04d", Integer.parseInt(strList.get(i).split(";")[2])));
+			dto.setCompany(strList.get(i).split(";")[3]);
+			/*
+			boolean f= false;
+			for(int j=0 ; j<list.size(); j++) {
+				if(list.get(j).getCname().equals(strList.get(i).split(";")[0])) {
+					f=true;
+					break;
+				}
+			}
+			if(!f)	{ System.out.println(strList.get(i).split(";")[0]); }
+			*/
+			mapper.updatePrice(dto);
+		}
+	}
 }
 
 
