@@ -157,7 +157,6 @@ public class DataServiceImpl implements DataService {
 								continue;
 							}
 						}
-						
 						if(ch=='(') {
 							br=true;
 						}
