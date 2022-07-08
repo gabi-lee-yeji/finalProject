@@ -62,19 +62,42 @@ function execDaumPostcode() {
 	window.open("/member/idDuplicate?memid="+id,'중복체크','width=500,height=500');
 } */
 	function idDuplicate(){
+			var id = RegExp(/^[a-zA-Z0-9]+$/)
+			document.frm.result.value = "";
 			var memid = document.getElementById("memid").value;
 /* 			window.open("/member/idDuplicate?memid="+memid,'중복체크','width=500,height=500'); */	
-
+			
 			$.ajax({
 				url : '/member/idDuplicate?memid=' + memid,
 				type : 'get',
 				success : function(data){
 					console.log("1 = 중복o / 0 = 중복x" + data);
+					document.frm.result.value = data;
+				if(document.frm.result.value == ""){
+					$("#checkId").html("아이디를 입력해주세요")
+					$("#checkId").attr("color","yellow");
+				}
+				if(document.frm.memid.value == ""){
+					$("#checkId").html("아이디를 입력해주세요")
+					$("#checkId").attr("color","yellow");
+				}
+				if(!id.test($("#memid").val())){
+		             $("#checkId").html("아이디는 영문과 숫자로 조합해야합니다.");
+		             $("#checkId").attr("color","red");
+				}
+				if(document.frm.result.value == 0){
+					$("#checkId").html("사용할 수 있는 아이디입니다.");
+					$("#checkId").attr("color","green");
+				}else{
+					$("#checkId").html("사용할 수 없는 아이디입니다.");
+					$("#checkId").attr("color","red");
+				}		
 			}
 		})
 	};
 	
 function Check(){
+		var rtn = true;
         var email = RegExp(/^[A-Za-z0-9]+$/)
         var id= RegExp(/^[a-zA-Z0-9]+$/)
         var pass= RegExp(/^[a-zA-Z0-9]{4,12}$/)
@@ -83,6 +106,7 @@ function Check(){
         var phone1 = RegExp(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})$/)
         var phone2 = RegExp(/^[0-9]{3,4}$/)
         var phone3 = RegExp(/^[0-9]{4}$/)
+        var memid = document.getElementById("memid").value;
 
         //아이디 공백 확인
 
@@ -234,18 +258,26 @@ function Check(){
        		$("#mem_job").focus();
        		return false;
        	}
-       	$("#memid").blur(function(){
-			var memid = $("#memid").val();
-			$.ajax({
-				url : '${pageContext.request.contextPath}/member/idDuplicateFinal?memid=' + memid,
-				type : 'get',
-				data : memid,
-				success : function(data){
-					console.log("1 = 중복o / 0 = 중복x" + data);
-				}
-			})
-		})	
-	};
+		$.ajax({
+			url : '/member/idDuplicate?memid=' + memid,
+			type : 'get',
+			async : false,
+			success : function(data){
+				console.log("1 = 중복o / 0 = 중복x" + data);
+				document.frm.result.value = data;
+			if(document.frm.result.value == 0){
+				alert("가입을 축하드립니다")
+			}
+			if(document.frm.result.value == 1){
+				alert("존재하는 아이디 입니다. 검사를 다시해주세요")
+				$("#memid").val("");
+				$("#memid").focus();
+				rtn = false;
+			}		
+		}
+	})
+	return rtn;
+};
 	
 function noSpaceForm(obj){
 	var str_space = /\s/;
@@ -305,7 +337,9 @@ $(document).ready(function (){
 
 <form action="/member/signUpPro" name="frm" id="frm" method="post" name="memberInput" onSubmit="return Check()" >
 			아이디 : <input type="text" id="memid" name="memid" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/> 
-				   <input type="button" value="아이디중복체크" onclick="idDuplicate();"><br/>
+				   <input type="button" value="아이디중복체크" onclick="idDuplicate();"> <font id = "checkId" size = "2"></font>
+				<br/>
+				   
 			비밀번호 : <input type="password" name="passwd" id="passwd" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			비밀번호 확인 : <input type="password" name="passwd2" id="passwd2"/><br/>
 			이름 : <input type="text" name="mem_name" id="mem_name" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
