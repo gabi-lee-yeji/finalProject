@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="spring.project.mapper.CertiMapper">
+	
+	<select id="getCertiList" resultType="spring.project.model.CertiInfoDTO"
+								parameterType="spring.project.model.CertiInfoDTO">
+			select * from
+				(select certiinfo.*, rownum r from
+					(select * from certiinfo 
+					<if test="category != null">
+						where category=#{category} 
+					</if>
+					order by cnum) certiinfo)
+			where r between #{startRow} and #{endRow}	
+	</select>
+	
+	<select id="getCertCnt" resultType="int">
+		select count(*) from certiinfo
+	</select>
+		
+	<select id="getCertiLangList" resultType="spring.project.model.CertiInfoDTO">
+		select
+			cnum,cname
+		from certiinfo
+		where category='어학'	
+	</select>
+
+	<select id="getCertiFIlter" resultType="spring.project.model.CertiRequirementDTO"
+                        parameterType="spring.project.model.CertiRequirementDTO">
+      select * from certi_requirement where
+      <if test="req_degree != null">
+         req_degree in
+         <foreach collection="req_degree" item="degree" index="index" open="(" close=")" separator=",">>
+            #{degree}
+         </foreach>
+      </if>
+      <if test="req_age != null">
+         and req_age in
+         <foreach collection="req_age" item="age" index="index" open="(" close=")" separator=",">>
+            #{age}
+         </foreach>
+      </if>
+      <if test="req_exp != null">
+         and req_exp in
+         <foreach collection="req_exp" item="exp" index="index" open="(" close=")" separator=",">>
+            #{exp}
+         </foreach>
+      </if>
+   </select>
+	
+	
+	
+
+</mapper>

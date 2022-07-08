@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class PagingService {
 	
 	@Autowired
-	private PagingDTO page;
+	public PagingDTO page;
 	
 	public PagingDTO getPaging(int pageSize, String pageNum) {
 		
