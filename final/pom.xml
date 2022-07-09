@@ -210,6 +210,7 @@
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-analytics</artifactId>
 			<version>v3-rev20190807-1.30.10</version>
+		</dependency>
 		<!-- javax.mail/mail -->
 		<dependency>
 		    <groupId>javax.mail</groupId>
