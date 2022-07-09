@@ -14,13 +14,6 @@
 		</if>
 	</select>
 	
-	<select id="getCertiDetailNatList" resultType="spring.project.model.CertiDetailDTO">
-		select 
-			clevel
-		from certiinfo
-		where category='국가기술'
-	</select>
-	
 	<select id="getCertiPrvList" resultType="spring.project.model.CertiInfoDTO">
 		select
 			cnum,cname

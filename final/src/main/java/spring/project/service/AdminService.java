@@ -11,25 +11,22 @@ import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.pagination.PagingDTO;
-import spring.project.model.MemberInfoDTO;
-import spring.project.model.PagingDTO;
-import spring.project.model.QnetDateDTO;
 
 public interface AdminService {
 	
-	//ÀÚ°ÝÁõ °ü¸® ¸Þ¼­µå 
-	//ÀÚ°ÝÁõ µî·Ï
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ 
+	//ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
 	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, 
 							CertiDateDTO date, CertiRequirementDTO requirement);
 	
-	//µî·ÏµÈ ÀÚ°ÝÁõ ÀüÃ¼ ¸ñ·Ï
+	//ï¿½ï¿½Ïµï¿? ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿?
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category);
-	//µî·ÏµÈ ÀÚ°ÝÁõ ÀüÃ¼ °³¼ö
+	//ï¿½ï¿½Ïµï¿? ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	public int getCertCnt();
 	
 	//ÀÚ°ÝÁõ °Ë»ö 
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword);
-	//°Ë»ö °á°ú ÀüÃ¼ °³¼ö
+	//ï¿½Ë»ï¿½ ï¿½ï¿½ï¿? ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	public int getSearchCnt(String search, String keyword);
 		
 	
@@ -57,20 +54,20 @@ public interface AdminService {
 	
 	
 	
-	//È¸¿ø °ü¸® ¸Þ¼­µå
-	//È¸¿ø ÀüÃ¼ ¸ñ·Ï 
+	//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+	//È¸ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿? 
 	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order);
-	//È¸¿ø ÀüÃ¼ ¼ö Á¶È¸
+	//È¸ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½ï¿½È¸
 	public int getMemberCnt();
 	
-	//È¸¿ø »ó¼¼ Á¤º¸
+	//È¸ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public MemberInfoDTO getMemberInfo(String memid);
 	
-	//½Å°íµÈ È¸¿ø ¸ñ·Ï
+	//ï¿½Å°ï¿½ï¿? È¸ï¿½ï¿½ ï¿½ï¿½ï¿?
 	public List<MemberInfoDTO> getMemberReport(String status);
-	//½Å°íµÈ È¸¿øÀÇ »ó¼¼ Á¤º¸ - ½Å°í´çÇÑ ±Û/´ñ±Û ¸ñ·Ï, ½Å°íÇÑ È¸¿ø
+	//ï¿½Å°ï¿½ï¿? È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½Å°ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½/ï¿½ï¿½ï¿? ï¿½ï¿½ï¿?, ï¿½Å°ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
 	public List<Map<String,Object>> getreportMemInfo(String memid);
-	//½Å°íµÈ È¸¿øÀÇ »óÅÂ º¯°æ
+	//ï¿½Å°ï¿½ï¿? È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int updateRepMemStatus(String memid, String status);
 	
 	//È¸¿ø¸ñ·Ï - ÇÊÅÍ¸µ / °Ë»ö
