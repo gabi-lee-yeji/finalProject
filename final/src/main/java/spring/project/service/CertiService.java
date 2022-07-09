@@ -3,19 +3,21 @@ package spring.project.service;
 import java.util.List;
 
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiRequirementDTO;
 
 public interface CertiService {
 	
-	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
-	public List<CertiInfoDTO> getCertiNatList();
+	// ÀüÃ¼ ÀÚ°İÁõ ¸ñ·Ï
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow, String category);
 	
-	// ±¹°¡ ÀÚ°İÁõ ¼¼ºÎ
-	//public List<CertiDetailDTO> getCertiDetailNatList();
+	//µî·ÏµÈ ÀÚ°İÁõ ÀüÃ¼ °³¼ö
+	public int getCertCnt();
 	
-	// ¹Î°£ ÀÚ°İÁõ ¸ñ·Ï
-	public List<CertiInfoDTO> getCertiPrvList();
-	
-	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
+	// ¾îÇĞ ÀÚ°İÁõ ¸ñ·Ï
 	public List<CertiInfoDTO> getCertiLangList();
+	
+	// ÀÚ°İÁõ ÇÊÅÍ
+	public List<CertiRequirementDTO> getCertiFilter();
+
 
 }
