@@ -11,5 +11,7 @@ public interface MemberService {
 	public void deleteUser(MemberInfoDTO dto);
 	public MemberInfoDTO findUser(MemberInfoDTO dto);
 	public void modifyList(MemberInfoDTO dto);
+	public int idDuplicate(String memid);
+	public MemberInfoDTO idFind(MemberInfoDTO dto);
 }
  

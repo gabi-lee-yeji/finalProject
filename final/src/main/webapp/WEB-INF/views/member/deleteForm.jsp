@@ -9,10 +9,10 @@
 </c:if>
 
 <c:if test="${sessionScope.sid != null}">
-<form name="myForm" action="/member/deletePro">
+<form action="/member/deletePro" method="post">
 	<input type="text" name="memid" value="${sessionScope.sid}" readonly/><br/>
-	<input type="password" name="passwd"/><br/>
-	<input type="submit" value="탈퇴" required/>
+	<input type="password" name="passwd" required/><br/>
+	<input type="submit" value="탈퇴" />
 	<button type="button" onclick="window.location='/member/main'">돌아가기</button>
 </form>
 </c:if>

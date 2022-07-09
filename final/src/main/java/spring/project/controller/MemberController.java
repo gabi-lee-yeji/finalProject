@@ -1,30 +1,49 @@
 package spring.project.controller;
 
 import java.io.IOException;
+import java.net.http.HttpRequest;
+import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import spring.project.model.MemberInfoDTO;
+import spring.project.service.MailSendService;
 import spring.project.service.MemberService;
 
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
-
+	
+	
+	@Autowired
+	private MailSendService mailService;
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
 	@Autowired
 	private MemberService service;
 	
 	@RequestMapping("loginForm")
-	public String loginForm() {
+	public String loginForm(HttpSession session,Model model,String memid, HttpServletRequest request) {
+		if(memid != null) model.addAttribute("memid",memid);
 		return "member/loginForm";
 	}
 	@RequestMapping("loginPro")
@@ -46,7 +65,9 @@ public class MemberController {
 				if(cname.equals("cauto")) auto = c.getValue();
 			}
 		}
+		
 		int result = service.userCheck(dto);
+		System.out.println(result);
 		if(result==1) {
 			if(auto != null) {
 				Cookie cid = new Cookie("cid",memid);
@@ -75,8 +96,31 @@ public class MemberController {
 		
 		return "member/loginPro";
 	}
-	
-	
+	@RequestMapping("logout")
+	public String logout(HttpSession session,HttpServletRequest request,HttpServletResponse response) {
+		session.invalidate();
+		Cookie [] cookies = request.getCookies();
+		for(Cookie c : cookies) {
+			String cname = c.getName();
+			if(cname.equals("cid")) {
+				c.setPath("/");
+				c.setMaxAge(0);
+				response.addCookie(c);
+			}
+			if(cname.equals("cpw")) {
+			c.setPath("/");
+			c.setMaxAge(0);
+			response.addCookie(c);
+			}
+			if(cname.equals("cauto")) {
+				c.setPath("cauto");
+				c.setMaxAge(0);
+				response.addCookie(c);
+			}
+		}
+		
+		return "member/logout";
+	}
 	@RequestMapping("main")
 	public String main(HttpServletResponse response,HttpSession session,Model model,HttpServletRequest request) {
 		
@@ -108,6 +152,28 @@ public class MemberController {
 		}
 		return "member/main";
 	}
+
+	/*
+	 * @RequestMapping("idDuplicate") public String idDuplicate(String
+	 * memid,HttpServletRequest request,Model model) { memid =
+	 * (String)request.getParameter("memid"); int result =
+	 * service.idDuplicate(memid); model.addAttribute("result",result); return
+	 * "member/idDuplicate"; }
+	 */
+	@RequestMapping(value = "idDuplicate", method = RequestMethod.GET)
+	public @ResponseBody String idDuplicate(String memid,HttpServletRequest request,Model model) {
+		
+		memid = (String)request.getParameter("memid");
+		System.out.println(memid);
+		int result = service.idDuplicate(memid);
+		return result+"";
+	}
+	@RequestMapping(value = "idDuplicateFinal", method = RequestMethod.GET)
+	public int idDuplicateFinal(String memid,HttpServletRequest request,Model model) {
+		memid = (String)request.getParameter("memid");
+		int result = service.idDuplicate(memid);
+		return result;
+	}
 	
 	@RequestMapping("modifyConfirm")
 	public String modifyConfirm() {
@@ -128,6 +194,9 @@ public class MemberController {
 				dto.setPhone1(phone.split("-")[0]);
 				dto.setPhone2(phone.split("-")[1]);
 				dto.setPhone3(phone.split("-")[2]);
+				
+				dto.setBirthday(dto.getBirthday().split(" ")[0]);
+				dto.setExtraAddress(dto.getAddr_detail());
 				
 				String pC = dto.getMobile().substring(0,3).trim();
 				model.addAttribute("dto",dto);
@@ -158,24 +227,63 @@ public class MemberController {
 		return "member/deleteForm";
 	}
 	@RequestMapping("deletePro")
-	public String deletePro(HttpSession session,MemberInfoDTO dto,Model model) {
-		String memid = (String)session.getAttribute("sid");
-		dto.setMemid(memid);
+	public String deletePro(HttpServletRequest request,HttpServletResponse response,HttpSession session,MemberInfoDTO dto,Model model) {
 		int result = service.userCheck(dto);
 			if(result == 1) {
 				service.deleteUser(dto);
+				Cookie [] cookies = request.getCookies();
+				for(Cookie c : cookies) {
+					String cname = c.getName();
+					if(cname.equals("cid")) {
+						c.setPath("/");
+						c.setMaxAge(0);
+						response.addCookie(c);
+					}
+					if(cname.equals("cpw")) {
+						c.setPath("/");
+						c.setMaxAge(0);
+						response.addCookie(c);
+					}
+					if(cname.equals("cauto")) {
+						c.setPath("/");
+						c.setMaxAge(0);
+						response.addCookie(c);
+					}
+				}
 			}
 		model.addAttribute("result",result);
 	return "member/deletePro";
 	}
-	
+ 	
 	@RequestMapping("idFindForm")
 	public String idFindForm() {
 		return "member/idFindForm";
 	}
+	@RequestMapping("idFindPro")
+	public String idFindPro(MemberInfoDTO dto,Model model) {
+		int result = 0;
+		MemberInfoDTO dto2 = service.idFind(dto);
+		if(dto2 != null) {
+			result = 1;
+		}
+		model.addAttribute("result",result);
+		model.addAttribute("dto",dto2);
+		
+		return "member/idFindPro";
+	}
 	@RequestMapping("pwFindForm")
 	public String pwFindForm() {
 		return "member/pwFindForm";
+	}
+
+	//이메일 인증
+	@GetMapping("/mailCheck")
+	@ResponseBody
+	public String mailCheck(String email) {
+		System.out.println("이메일 인증 요청이 들어옴!");
+		System.out.println("이메일 인증 이메일 : " + email);
+		return mailService.joinEmail(email);
+		
 	}
 	
 }

@@ -18,9 +18,10 @@ public class MemberInfoDTO {
 	private String mail2;
 	private String birthday;
 	private String gender;
-	private int postalCode;
+	private String postalCode;
 	private String address;
 	private String addr_detail;
+	private String extraAddress;
 	private String pC; //phone company 추가할지 고민중 > 필요하다면 추가해도 OK
 	private String mobile;
 	private String phone1;

@@ -21,23 +21,23 @@
 											'일반',
 											0,
 											0,
-											sysdate)
+											sysdate) 
 	</insert>
 	
 	<select id="userCheck" resultType="int">
-		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd}
+		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd} and status = '일반'
 	</select>	
 	
 	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
-		select * from memberInfo where memid=#{memid}	
+		select * from memberInfo where memid=#{memid} and status = '일반'	
 	</select>
 	
 	<select id="deleteUser">
-		delete from MemberInfo where memid=#{memid} and passwd=#{passwd}
+		update MemberInfo set status = '활동중지' where memid=#{memid} and passwd=#{passwd}
 	</select>
 	
 	<select id="findUser" resultType="spring.project.model.MemberInfoDTO">
-		select * from MemberInfo where memid=#{memid} and passwd=#{passwd}
+		select * from MemberInfo where memid=#{memid} and passwd=#{passwd} and status = '일반'
 	</select>
 	
 	<update id="modifyList">
@@ -46,7 +46,7 @@
 			<if test="passwd != null and passwd !=''">passwd = #{passwd},</if>	
 			<if test="mem_name != null">mem_name = #{mem_name},</if>
 			<if test="email != null">email=#{email},</if>
-			<if test="birthday != null">BIRTHDATE=TO_DATE(#{birthday},'YYYY-MM-DD'),</if>
+			<if test="birthday != null">BIRTHDAY=TO_String(#{birthday},'YYYY-MM-DD'),</if>
 			<if test="gender != null">gender=#{gender},</if>
 			<if test="postalCode != null">postalCode=#{postalCode},</if>
 			<if test="address != null">address=#{address},</if>
@@ -56,7 +56,15 @@
 			<if test="major != null">major=#{major},</if>
 			<if test="mem_job != null">mem_job=#{mem_job}</if>
 		</set>
-		where memid=#{memid}
+		where memid=#{memid} and status = '일반'
 	</update>
+	
+	<select id="idDuplicate" resultType="int">
+		select count(*) from memberInfo where memid = #{memid}
+	</select>	
+	
+	<select id="idFind" resultType="spring.project.model.MemberInfoDTO">
+		select memid,status from memberInfo where mem_name=#{mem_name} and mobile=#{mobile}
+	</select>
 		
 </mapper>
