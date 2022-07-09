@@ -59,6 +59,7 @@
 	
 	<mybatis-spring:scan base-package="spring.project.mapper"/>
 	<context:component-scan base-package="spring.project" />
+	<context:component-scan base-package="google.analytics.reportingAPI" />
 	
 	
 	 <!-- daummail설정 -->

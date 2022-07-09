@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import google.analytics.reportingAPI.AnalyticsService;
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
@@ -48,6 +49,9 @@ public class AdminController {
 	
 	@Autowired
 	private PagingService pageService;
+	
+	@Autowired
+	private AnalyticsService gaService;
 	
 	static Map<String, Object> paramMap = new HashMap<String, Object>();
 	
@@ -218,7 +222,7 @@ public class AdminController {
 	@RequestMapping("member/reportList")
 	public String getMemberReport(String status, Model model) {
 		model.addAttribute("status", status);
-		model.addAttribute("list", service.getMemberReport(status));
+		model.addAttribute("list", service.getReportMemList(status));
 		return "/admin/member/reportList";
 	}
 	
@@ -238,7 +242,53 @@ public class AdminController {
 	}
 	
 	@RequestMapping("board/request")
-	public String getUserRequestList() {
+	public String getUserRequestList(String PageNum, Model model) {
+		PagingDTO page = pageService.getPaging(20, PageNum);
+		model.addAttribute("page",page);
+		model.addAttribute("count",service.getNewRequestCnt());
+		model.addAttribute("list", service.getNewRequestList(page));
 		return "/admin/board/request";
+	}
+	
+	
+	@RequestMapping("main")
+	public String adminMain(Model model) {
+		model.addAttribute("newCertCnt", service.getNewCertiCnt());
+		model.addAttribute("newReportCnt",service.getNewReportCnt());
+		
+		PagingDTO page = pageService.getPaging(5, null);
+		model.addAttribute("certList",service.getCertList(page, "registDate", "desc", null));
+		model.addAttribute("memReportList", service.getReportMemList("일반"));
+		
+		return "/admin/main";
+	}
+	@RequestMapping("ajax/newMember")
+	public String adminMainMember(Model model) {
+		model.addAttribute("map", service.getNewMemberData());
+		
+		return "/admin/ajax/newMember";
+	}
+	@RequestMapping("ajax/newRequest")
+	public String adminMainRequest(Model model) {
+		PagingDTO page = pageService.getPaging(5, null);
+		model.addAttribute("reqList",service.getNewRequestList(page));
+		model.addAttribute("count", service.getNewRequestCnt());
+		return "/admin/ajax/newRequest";
+	}
+	@RequestMapping("ajax/visitor")
+	public String adminMainVisitor() {
+		//구글 통계에서 방문자수 조회해서 view로 보내기
+		return "/admin/ajax/visitor";
+	}
+	
+	//ga tester
+	@RequestMapping("test")
+	public String googleTest(Model model) throws Exception {
+		String start = "7daysAgo";
+		String today = "today";
+		//구글 통계에서 방문자수 조회해서 view로 보내기
+		model.addAttribute("usersToday", gaService.getUsersStats(start, today));
+		model.addAttribute("users7Days", gaService.getUsersStats(today, today));
+		return "/admin/stats/test";
 	}
 }

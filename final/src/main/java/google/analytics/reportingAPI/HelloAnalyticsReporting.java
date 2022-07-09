@@ -74,8 +74,8 @@ public class HelloAnalyticsReporting {
   private static GetReportsResponse getReport(AnalyticsReporting service) throws IOException {
     // Create the DateRange object.
     DateRange dateRange = new DateRange();
-    dateRange.setStartDate("2022-07-05");
-    dateRange.setEndDate("2022-07-05");
+    dateRange.setStartDate("2022-07-01");
+    dateRange.setEndDate("2022-07-07");
 
     // Create the Metrics object.
     Metric sessions = new Metric()
@@ -111,7 +111,7 @@ public class HelloAnalyticsReporting {
    * @param response An Analytics Reporting API V4 response.
    */
   private static void printResponse(GetReportsResponse response) {
-
+	int value = 0;
     for (Report report: response.getReports()) {
       ColumnHeader header = report.getColumnHeader();
       List<String> dimensionHeaders = header.getDimensions();
@@ -136,9 +136,14 @@ public class HelloAnalyticsReporting {
           DateRangeValues values = metrics.get(j);
           for (int k = 0; k < values.getValues().size() && k < metricHeaders.size(); k++) {
             System.out.println(metricHeaders.get(k).getName() + ": " + values.getValues().get(k));
+            
+            value += Integer.parseInt(values.getValues().get(k));
+            System.out.println("value::"+value);
+            
           }
         }
       }
     }
   }
+
 }

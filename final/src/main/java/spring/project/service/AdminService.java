@@ -10,7 +10,9 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.Post_BoardDTO;
 import spring.project.pagination.PagingDTO;
+import spring.project.model.MemberInfoDTO;
 
 public interface AdminService {
 	
@@ -63,9 +65,9 @@ public interface AdminService {
 	//È¸ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public MemberInfoDTO getMemberInfo(String memid);
 	
-	//ï¿½Å°ï¿½ï¿? È¸ï¿½ï¿½ ï¿½ï¿½ï¿?
-	public List<MemberInfoDTO> getMemberReport(String status);
-	//ï¿½Å°ï¿½ï¿? È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½Å°ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½/ï¿½ï¿½ï¿? ï¿½ï¿½ï¿?, ï¿½Å°ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
+	//½Å°íµÈ È¸¿ø ¸ñ·Ï
+	public List<MemberInfoDTO> getReportMemList(String status);
+	//½Å°íµÈ È¸¿øÀÇ »ó¼¼ Á¤º¸ - ½Å°í´çÇÑ ±Û/´ñ±Û ¸ñ·Ï, ½Å°íÇÑ È¸¿ø
 	public List<Map<String,Object>> getreportMemInfo(String memid);
 	//ï¿½Å°ï¿½ï¿? È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int updateRepMemStatus(String memid, String status);
@@ -75,4 +77,14 @@ public interface AdminService {
 	
 	
 	//1:1¹®ÀÇ ´äº¯ ¾È´Þ¸° ±Û ¸ð¾Æº¸±â
+	public List<Post_BoardDTO> getNewRequestList(PagingDTO page);
+	//1:1¹®ÀÇ ´äº¯ ¾È´Þ¸° ±Û °³¼ö Á¶È¸
+	public int getNewRequestCnt();
+	
+	
+	//°ü¸®ÀÚ ¸ÞÀÎ¿¡ ÇÊ¿äÇÑ µ¥ÀÌÅÍ Á¶È¸
+	public Map<String,Integer> getNewMemberData();
+	public int getNewCertiCnt();
+	public int getNewReportCnt();
+
 }

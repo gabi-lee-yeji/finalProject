@@ -20,6 +20,10 @@ public class CertiServiceImpl implements CertiService {
 		return mapper.getCertiNatList();
 	}
 	
+//	public List<CertiDetailDTO> getCertiDetailNatList() {
+//		
+//		return mapper.getCertiDetailNatList();
+//	}
 
 	@Override
 	public List<CertiInfoDTO> getCertiPrvList() {

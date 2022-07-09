@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.UserMainMapper">
+	
+	<select id="getNatSchedules" resultType="spring.project.model.CertiDateDTO">
+		select 
+			cnum, cyear, cround, clevel,
+			TO_CHAR(docRegStart1,'""YYYY-MM-DD"T"HH24:MI') as docRegStart1,
+			TO_CHAR(docRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd1,
+			TO_CHAR(docRegStart2,'""YYYY-MM-DD"T"HH24:MI') as docRegStart2,
+			TO_CHAR(docRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd2,
+			TO_CHAR(docTestStart,'""YYYY-MM-DD"T"HH24:MI') as docTestStart,
+			TO_CHAR(docTestEnd,'""YYYY-MM-DD"T"HH24:MI') as docTestEnd,
+			TO_CHAR(docResultStart,'""YYYY-MM-DD"T"HH24:MI') as docResultStart,
+			TO_CHAR(docResultEnd,'""YYYY-MM-DD"T"HH24:MI') as docResultEnd,
+			TO_CHAR(docSubmitStart,'""YYYY-MM-DD"T"HH24:MI') as docSubmitStart,
+			TO_CHAR(docSubmitEnd,'""YYYY-MM-DD"T"HH24:MI') as docSubmitEnd,
+			TO_CHAR(pracRegStart1,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart1,
+			TO_CHAR(pracRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd1,
+			TO_CHAR(pracRegStart2,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart2,
+			TO_CHAR(pracRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd2,
+			TO_CHAR(pracTestStart,'""YYYY-MM-DD"T"HH24:MI') as pracTestStart,
+			TO_CHAR(pracTestEnd,'""YYYY-MM-DD"T"HH24:MI') as pracTestEnd,
+			TO_CHAR(pracResStart,'""YYYY-MM-DD"T"HH24:MI') as pracResStart,
+			TO_CHAR(pracResEnd,'""YYYY-MM-DD"T"HH24:MI') as pracResEnd
+		from certidate where cnum is null
+	</select>
+	
+</mapper>

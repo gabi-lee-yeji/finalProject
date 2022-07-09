@@ -15,6 +15,7 @@ import spring.project.model.CertiScheduleDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.Post_BoardDTO;
 import spring.project.pagination.PagingDTO;
 
 @Service
@@ -222,7 +223,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<MemberInfoDTO> getMemberReport(String status) {
+	public List<MemberInfoDTO> getReportMemList(String status) {
 		return mapper.getReportMemList(status);
 	}
 
@@ -242,9 +243,31 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Post_BoardDTO> getNewRequestList(PagingDTO page) {
+		return mapper.getNewRequestList(page);
+	}
+
+	@Override
+	public int getNewRequestCnt() {
+		return mapper.getNewRequestCnt();
+	}
+
+	@Override
+	public Map<String,Integer> getNewMemberData() {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("memberToday", mapper.getMemberTodayCnt());
+		map.put("memberLastWeek", mapper.getMemberLastWeekCnt());
+		return map;
+	}
+
+	@Override
+	public int getNewCertiCnt() {
+		return mapper.getNewCertiCnt();
+	}
+
+	@Override
+	public int getNewReportCnt() {
+		return mapper.getNewReportCnt();
 	}
 
 

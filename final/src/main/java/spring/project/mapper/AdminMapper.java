@@ -11,6 +11,8 @@ import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.Post_BoardDTO;
+import spring.project.pagination.PagingDTO;
 
 public interface AdminMapper {
 	
@@ -77,4 +79,20 @@ public interface AdminMapper {
 	public List<Map<String, Object>> getreportMemInfo(String memid);
 	//신고당한 회원 상태 변경
 	public int updateRepMemStatus(@Param("memid")String memid, @Param("status")String status);
+	
+	
+	//문의 안달린 글 모아보기 (1:1문의 게시판) 
+	public List<Post_BoardDTO> getNewRequestList(PagingDTO page);
+	public int getNewRequestCnt();
+	
+	
+	//관리자 메인
+	//오늘 가입한 회원수
+	public int getMemberTodayCnt();
+	//지난 7일간 가입한 회원수
+	public int getMemberLastWeekCnt();
+	//새로 등록된 자격증
+	public int getNewCertiCnt();
+	//신고당한 회원 중 상태변경 안된 회원수 
+	public int getNewReportCnt();
 }
