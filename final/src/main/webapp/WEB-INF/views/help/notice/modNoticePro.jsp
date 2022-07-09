@@ -3,4 +3,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <title>공지사항</title>
 
-<c:redirect url="/help/notice/noticeList?board_type=공지사항" />
+<c:redirect url="/help/notice/noticeList?board_type=1" />

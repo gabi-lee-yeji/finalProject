@@ -11,7 +11,7 @@
 <c:if test="${result == 1}" >
 	<script>
 		alert("삭제되었습니다.");
-		window.location="/help/faq/faqList?board_type=faq";
+		window.location="/help/faq/faqList?board_type=2";
 	</script>
 </c:if>
 

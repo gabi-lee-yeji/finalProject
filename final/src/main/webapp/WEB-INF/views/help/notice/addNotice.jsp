@@ -9,7 +9,7 @@
 <body>
 	<h1>공지사항 등록</h1>
 	<form action="/help/notice/addNoticePro" name="addNotice" method="post" encType="multipart/form-data" >
-	<input type="hidden" name="board_type" value="공지사항" />
+	<input type="hidden" name="board_type" value="1" />
 		<table>
 			<tr>
 				<td>제목</td>
@@ -26,11 +26,11 @@
 			</tr>
 			<tr>
 				<td>이미지</td>
-				<td><input type="file" name="img"/></td>
+				<td><input type="file" name="file" multiple="multiple"/></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="등록" /></td>
-				<td><input type="button" value="글 목록" onclick="window.location='/help/notice/noticeList?board_type=공지사항' "/></td>
+				<td><input type="button" value="글 목록" onclick="window.location='/help/notice/noticeList?board_type=1' "/></td>
 			</tr>
 		</table>
 	</form>

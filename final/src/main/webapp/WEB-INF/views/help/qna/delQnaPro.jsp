@@ -11,7 +11,7 @@
 <c:if test="${result == 1}">
 	<script>
 		alert("삭제되었습니다.");
-		window.location="/help/qna/qnaList?board_type=1:1문의";		
+		window.location="/help/qna/qnaList?board_type=3";		
 	</script>
 	
 </c:if>

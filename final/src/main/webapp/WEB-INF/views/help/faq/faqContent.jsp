@@ -28,6 +28,6 @@
 	</table>
 	<input type="button" value="수정" onclick="window.location = '/help/faq/modFaq?pnum=${dto.pnum}&pageNum=${pageNum}' " />
 	<input type="button" value="삭제" onclick="window.location = '/help/faq/delFaq?pnum=${dto.pnum}&pageNum=${pageNum}' " />
-	<input type="button" value="목록" onclick="window.location = '/help/faq/faqList?board_type=faq' "/>
+	<input type="button" value="목록" onclick="window.location = '/help/faq/faqList?board_type=2' "/>
 </body>
 </html>

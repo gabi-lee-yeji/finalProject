@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.project.mapper.AdminMapper;
 import spring.project.model.CertiDetailDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.MemberInfoDTO;
 import spring.project.model.PagingDTO;
 import spring.project.model.QnetDateDTO;
 
@@ -120,6 +121,12 @@ public class AdminServiceImpl implements AdminService{
 		result += mapper.delCertiDetail(cnumList);
 		System.out.println("==detail=="+result);
 		return result;
+	}
+
+	@Override
+	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

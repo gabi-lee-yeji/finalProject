@@ -9,7 +9,7 @@
 <c:if test="${pnum == 0}" >
 	<h1>1:1 문의 글 쓰기</h1>
 	<form action="/help/qna/addQnaPro" name="addQna" method="get" >
-	<input type="hidden" name="board_type" value="1:1문의" />
+	<input type="hidden" name="board_type" value="3" />
 		<table>
 			<tr>
 				<td>제목</td>
@@ -35,7 +35,7 @@
 			</tr>
 		</table>
 	</form>
-	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList?board_type=1:1문의' " />
+	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList?board_type=3' " />
 </c:if>
 
 <c:if test="${pnum != 0}" >

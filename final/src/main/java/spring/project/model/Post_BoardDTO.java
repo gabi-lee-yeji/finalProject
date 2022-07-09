@@ -1,6 +1,7 @@
 package spring.project.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.Data;
 
@@ -13,11 +14,11 @@ public class Post_BoardDTO {
 	private String writer;			// 작성자
 	private int post_group;			// 글 그룹
 	private int post_level;			// 답글 그룹
-	private String board_type;		// 게시판 종류
+	private String board_type;		// 게시판 종류(0-직원공지, 1-notice, 2-faq, 3-qna, 4-review, 5-question, 6-info, 7-job_seeker)
 	private int readCnt;			// 읽은 수
 	private Timestamp reg;			// 작성시간
-	private String img;				// 첨부이미지
-	// private MultipartFile uploadFile; 
+	private String img;				// 첨부파일 - transaction으로 넣어주면 삭제 필요
+	private List<Post_BoardAttachDTO> attachList; // 게시글과 해당하는 파일 리스트
 	private String status;			// 글 존재 유무(0-존재, 1-삭제)
 
 }

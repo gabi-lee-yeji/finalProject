@@ -8,6 +8,6 @@
 <title>FAQ</title>
 </head>
 <body>
-	<c:redirect url="/help/faq/faqList?board_type=faq" />
+	<c:redirect url="/help/faq/faqList?board_type=2" />
 </body>
 </html>

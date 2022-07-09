@@ -6,7 +6,7 @@
 <c:if test="${result == 1}">
 	<script>
 		alert("삭제되었습니다.");
-		window.location="/help/notice/noticeList?board_type=공지사항";		
+		window.location="/help/notice/noticeList?board_type=1";		
 	</script>
 	
 </c:if>

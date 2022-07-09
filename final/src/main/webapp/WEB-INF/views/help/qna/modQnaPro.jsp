@@ -8,6 +8,6 @@
 <title>1:1 문의</title>
 </head>
 <body>
-	<c:redirect url="/help/qna/qnaList?board_type=1:1문의" />
+	<c:redirect url="/help/qna/qnaList?board_type=3" />
 </body>
 </html>

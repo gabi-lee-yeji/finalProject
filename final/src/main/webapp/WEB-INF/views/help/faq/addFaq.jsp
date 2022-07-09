@@ -9,7 +9,7 @@
 <body>
 	<h1>자주하는 질문 등록</h1>
 	<form action="/help/faq/addFaqPro" method="get">
-	<input type="hidden" name="board_type" value="faq"/>
+	<input type="hidden" name="board_type" value="2"/>
 		<table>
 			<tr>
 				<td>제목</td>

@@ -18,9 +18,6 @@
 			#{img, jdbcType=VARCHAR},
 			0
 			)
-		<selectKey resultType="int" keyProperty="pnum" order="AFTER">
-  			SELECT MAX(pnum) FROM post_board
-  		</selectKey>
 	</insert>
 	
 	<select id="maxPost_group" resultType="int">
