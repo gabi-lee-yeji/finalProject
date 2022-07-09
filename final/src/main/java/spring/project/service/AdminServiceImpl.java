@@ -241,6 +241,12 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.updateRepMemStatus(memid, status);
 	}
 
+	@Override
+	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }
