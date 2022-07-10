@@ -62,7 +62,7 @@
 			},
 			{
 	          title: '${dto.cround}회차 ${dto.clevel} 추가접수(실기)',
-	          start: '${dto.pracRegStart2}',
+	          start: '${dto.pracRegStart2}', 
 	          end: '${dto.pracRegEnd2}',
 	          constraint: 'businessHours'
 			},
@@ -80,7 +80,6 @@
 	          color: '#257e4a'
 			},
   		</c:forEach>
-        
       ]
     });
 
@@ -108,8 +107,5 @@
 
   <div id='calendar'></div>
   
-  <c:forEach var="dto" items="${natList}">
-	${dto.docRegStart1} - ${dto.docRegEnd1 } <br>
-  </c:forEach>
 </body>
 </html>

@@ -62,7 +62,7 @@
 			</th>
 			<th>
 				<select	name="category" onchange="location.href=this.value">
-					<c:if test="${category != null || category != ''}">
+					<c:if test="${category != null and category != '' and category != 'null'}">
 						<option value="">==${category }==</option>
 					</c:if>
 					<c:if test="${category == null || category == ''}">
