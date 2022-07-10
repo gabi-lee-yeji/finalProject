@@ -10,16 +10,14 @@ public interface Post_BoardAttachMapper {
 	
 //	public Post_BoardAttachDTO getPost_BoardAtach(String uuid);
 	
-	public void delPost_BoardAttach(int pnum);
+	public int delPost_BoardAttachList(int pnum);
 	
 	public List<Post_BoardAttachDTO> getPost_BoardAtachList(int pnum);
-	
-	public void delPost_BoardAttachList(int pnum);
 	
 	//public void insert(Post_BoardAttachVO vo);
 	
 	//public void delete(String uuid);
 	
-	//public List<Post_BoardAttachVO> findByPnum(int pnum);
-
+	// 첨부파일 목록
+	public List<Post_BoardAttachDTO> getPost_BoardAttach(int pnum);
 }

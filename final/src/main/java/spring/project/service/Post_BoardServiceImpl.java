@@ -79,7 +79,7 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 			board.setPost_group(post_group);
 		}
 		int result = pbMapper.addPost_Board(board);
-		System.out.println("pnum 값?:"+result);
+		System.out.println("addPost_Board가 실행되었는지 여부:"+result);
 		// Post_BoardDTO에 attachList값이 없으면 그대로 종료
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			System.out.println("도대체가 작동을 하는건가요!");
@@ -98,54 +98,58 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	
 	@Override
 	public List<Post_BoardDTO> post_BoardLists(int startRow, int endRow, String board_type) {
-		// TODO Auto-generated method stub
-		return null;
+		return pbMapper.post_BoardLists(startRow, endRow, board_type);
 	}
 
 	@Override
 	public int post_BoardCount(String board_type) {
-		// TODO Auto-generated method stub
-		return 0;
+		return pbMapper.post_BoardCount(board_type);
 	}
 
 	@Override
 	public Post_BoardDTO post_BoardContent(int pnum) {
-		List<Post_BoardAttachDTO> fileList = pbAMapper.getPost_BoardAtachList(pnum);
-		Post_BoardDTO dto = pbMapper.post_BoardContent(pnum);
-//		dto.setFileList(fileList);
-		return dto;
+		Post_BoardDTO board = pbMapper.post_BoardContent(pnum);
+		pbMapper.upReadCnt(board);
+		return board;
 	}
-	
 
 	@Override
 	public int modPost_Board(Post_BoardDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		 return pbMapper.modPost_Board(dto);
 	}
 
 	@Override
+	@Transactional
 	public int delPost_Board(int pnum) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int delPost_BoardAttach(int pnum) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		List resultAttach = pbAMapper.getPost_BoardAtachList(pnum);
+		if(resultAttach != null) {
+			result += pbAMapper.delPost_BoardAttachList(pnum);
+			result += pbMapper.delPost_Board(pnum);
+			
+		}else {
+			result += pbMapper.delPost_Board(pnum);
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int passwdCheck(String memid, String passwd) {
-		// TODO Auto-generated method stub
-		return 0;
+		return pbMapper.passwdCheck(memid, passwd);
 	}
 
 	@Override
 	public int upReadCnt(Post_BoardDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		return pbMapper.upReadCnt(dto);
 	}
+	
+	
+	@Override
+	public List<Post_BoardAttachDTO> post_BoardAttachLists(int pnum){
+		return pbAMapper.getPost_BoardAtachList(pnum);
+	}
+	
 
 
 	

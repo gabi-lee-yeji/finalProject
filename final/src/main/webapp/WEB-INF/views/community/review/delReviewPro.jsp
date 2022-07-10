@@ -7,17 +7,16 @@
 <meta charset="UTF-8">
 <title>꿀팁, 후기</title>
 </head>
-<body>
-<c:if test="${result == 0 }">
+<c:if test="${result == 0}">
 	<script>
-	  alert("꿀팁, 후기 등록에 실패했습니다. 다시 입력해주세요!");
+	  alert("꿀팁, 후기 삭제에 실패했습니다. 비밀번호를 다시 입력해주세요!");
 	  history.go(-1);
 	</script>
 </c:if>
-<c:if test="${result == 1 }">
+<c:if test="${result >= 1}">
 	<script>
-		alert("꿀팁, 후기 등록이 완료되었습니다.");
-		window.location="/community/review/reviewList?board_type=4";
+		alert("꿀팁, 후기 삭제가 완료되었습니다.");
+		window.location="/community/review/reviewList?board_type=4&pageNum=${pageNum}";		
 	</script>
 </c:if>
 </body>

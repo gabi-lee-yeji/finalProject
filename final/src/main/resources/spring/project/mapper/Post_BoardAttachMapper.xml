@@ -18,7 +18,6 @@
 		delete from post_boardattach where uuid=#{uuid}
 	</delete>
 	
-	
 	<select id="getPost_BoardAtachList" resultType="spring.project.model.Post_BoardAttachDTO">
 		select * from post_boardattach where pnum=#{pnum}
 	</select>

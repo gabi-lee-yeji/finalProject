@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import spring.project.model.Post_BoardAttachDTO;
 import spring.project.model.Post_BoardDTO;
 
 public interface Post_BoardService {
@@ -26,15 +27,17 @@ public interface Post_BoardService {
 	// 게시판 글 삭제
 	public int delPost_Board(int pnum);
 	
-	// 게시판 글 연계된 첨부파일 삭제
-	public int delPost_BoardAttach(int pnum);
-	
 	// id/passwd 확인
 	public int passwdCheck(String memid, String passwd);
 	
 	// 게시판 조회수 업데이트
 	public int upReadCnt(Post_BoardDTO dto);
 
+	// 게시판 글에 연동된 첨부파일 목록
+	public List<Post_BoardAttachDTO> post_BoardAttachLists(int pnum);
+	
+
+	
 	
 
 }

@@ -31,13 +31,13 @@
 			<th>조회수</th>
 		</tr>
 	</c:if>
-	<c:forEach var="review" items="${reviewList}">
+	<c:forEach var="board" items="${boardList}">
 		<tr>
-			<td>${notice.pnum}</td>
-			<td><a href="/community/review/reviewContent?pnum=${review.pnum}&pageNum=${currentPage}">${review.subject}</a></td> 
-			<td>${review.writer}</td>
-			<td>${review.reg}</td>
-			<td>${review.readCnt}</td>
+			<td>${board.pnum}</td>
+			<td><a href="/community/review/reviewContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td> 
+			<td>${board.writer}</td>
+			<td>${board.regdate}</td>
+			<td>${board.readCnt}</td>
 		</tr>
 	</c:forEach>
 	</table>
@@ -54,15 +54,15 @@
 	</c:if>
 	
 	<c:if test="${startPage > 10}" >
-        <a href="/community/review/reviewList?pageNum=${startPage - 10}">[이전]</a>
+        <a href="/community/review/reviewList?board_type=4&pageNum=${startPage - 10}">[이전]</a>
     </c:if>
     
     <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">    
-        <a href="/community/review/reviewList?pageNum=${i}">[${i}]</a>
+        <a href="/community/review/reviewList?board_type=4&pageNum=${i}">[${i}]</a>
     </c:forEach>
     
     <c:if test="${endPage < pageCount}" >
-       <a href="/community/review/reviewList?pageNum=${startPage + 10 }">[다음]</a>
+       <a href="/community/review/reviewList?board_type=4&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
 </body>
