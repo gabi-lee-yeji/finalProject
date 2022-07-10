@@ -159,8 +159,6 @@ public class AdminController {
 	}
 	@RequestMapping("certi/modDatePro")
 	public String modifyDatePro(CertiDateDTO dto, Model model) {
-		System.out.println("DATEPK========"+dto.getDatePK());
-		System.out.println("CNUM========"+dto.getCnum());
 		model.addAttribute("result", service.modCertiDate(dto));
 		model.addAttribute("cnum", dto.getCnum());
 		return "admin/certi/modDatePro";
@@ -287,8 +285,8 @@ public class AdminController {
 		String start = "7daysAgo";
 		String today = "today";
 		//구글 통계에서 방문자수 조회해서 view로 보내기
-		model.addAttribute("usersToday", gaService.getUsersStats(start, today));
-		model.addAttribute("users7Days", gaService.getUsersStats(today, today));
+		model.addAttribute("usersToday", gaService.getUsersStats(today, today));
+		model.addAttribute("users7Days", gaService.getUsersStats(start, today));
 		return "/admin/stats/test";
 	}
 }

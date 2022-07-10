@@ -40,6 +40,12 @@
 					$("#requestCnt").html(data);
 				}
 			});
+			$.ajax({
+				url:"/admin/test",
+				success : function(data){
+					$("#userStats").html(data);
+				}
+			});
 		}
 	</script>
 </head>
@@ -50,17 +56,14 @@
 	<h4>D-DAY : 2022-08-02 </h4>
 	<h4 id="today"></h4>
 	<hr>
-	<div>
-		- 방문자 수 
-		- today (+ajax)
-		- last 7 days (+ajax)
+	<div id="userStats">
 	</div>
 	<hr>
 	<div id="memberCnt">
 	</div>	
 	<hr>
 	<div id="requestCnt"></div>
-		
+	<hr>	
 	<div>
 		<table>
 			<tr>
@@ -83,6 +86,7 @@
 			</c:forEach>		
 		</table>
 	</div>
+	<hr>
 	<div>
 		<table>
 			<tr><th colspan=4>회원 BlackList (new +${newReportCnt})</th></tr>

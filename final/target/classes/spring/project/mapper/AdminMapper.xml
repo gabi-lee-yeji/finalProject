@@ -319,7 +319,7 @@
 			#{req_age, jdbcType=VARCHAR},
 			#{req_exp, jdbcType=VARCHAR},
 			#{pre_requisite, jdbcType=VARCHAR},
-			#{ref, jdbcType=VARCHAR}
+			#{ref}
 		)
 	</insert>
 	
@@ -359,27 +359,27 @@
 	<insert id="addCertiDate" parameterType="spring.project.model.CertiDateDTO">
 		insert into certidate values(
 			#{cnum, jdbcType=VARCHAR},
-			nvl(#{cyear},0),
-			nvl(#{cround},0),
-			#{clevel, jdbcType=VARCHAR},
-			TO_DATE(#{docRegStart1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegEnd1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegStart2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docRegEnd2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docTestStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docTestEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docResultStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docResultEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docSubmitStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{docSubmitEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegStart1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegEnd1, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegStart2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracRegEnd2, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracTestStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracTestEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResStart, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResEnd, jdbcType=VARCHAR},'YYYY-MM-DD HH24:MI'),
+			#{cyear},
+			#{cround},
+			#{clevel},
+			to_date(#{docRegStart1} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docRegEnd1} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docRegStart2} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docRegEnd2} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docTestStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docTestEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docResultStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docResultEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docSubmitStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docSubmitEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracRegStart1} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracRegEnd1} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracRegStart2} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracRegEnd2} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracTestStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracTestEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracResStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracResEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
 			CERTIDATE_SEQ.nextval
 		)
 	</insert>
