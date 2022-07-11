@@ -16,7 +16,7 @@
 					order by cnum) certiinfo)
 			where r between #{startRow} and #{endRow}	
 	</select>
-	
+		
 	<select id="getCertCnt" resultType="int">
 		select count(*) from certiinfo
 	</select>
@@ -28,6 +28,48 @@
 		where category='어학'	
 	</select>
 
+	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
+		select * from certi_requirement where cnum=#{cnum}
+	</select>
+	
+	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate where datepk = #{datePK}
+	</select>
+	
+	<select id="getQnetDate" resultType="spring.project.model.CertiDateDTO"
+							parameterType="spring.project.model.CertiScheduleDTO">
+		select * from certidate 
+			where cyear=#{cyear}
+			and cround=#{cround}
+			and clevel=#{clevel}						
+	</select>
+	
+	<select id="getQnetDateInfo" resultType="spring.project.model.CertiScheduleDTO">
+		select * from certischedule where cnum=#{cnum}
+	</select>
+	
+	<select id="getCertiInfo" resultType="spring.project.model.CertiInfoDTO">
+		select * from certiinfo where cnum=#{cnum,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="searchNatPeriod" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate 
+		where clevel=#{clevel}
+		and cyear in
+		<foreach collection="cyear_list" item="cyear" open="(" separator="," close=")">
+			#{cyear}
+		</foreach>
+		and cround in 
+		<foreach collection="cround_list" item="cround" open="(" separator="," close=")">
+			#{cround}
+		</foreach>
+	</select>
+	
+	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate 
+		where cnum=#{cnum}
+	</select>
+		
 	<select id="getCertiFIlter" resultType="spring.project.model.CertiRequirementDTO"
                         parameterType="spring.project.model.CertiRequirementDTO">
       select * from certi_requirement where

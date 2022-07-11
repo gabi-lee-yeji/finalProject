@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 
-<form name="frm" action="/certificate/filterPro" method="post" >
+<form name="frm" action="spring.project.controller.CertiController" method="post" >
 	<h3>분야</h3>
 		<input type="checkbox" name="" value=""> 기계ㆍ금속ㆍ화공 <br/>
 		<input type="checkbox" name="" value=""> 전기ㆍ전자ㆍ통신 <br/>
