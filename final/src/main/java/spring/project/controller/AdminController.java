@@ -239,6 +239,36 @@ public class AdminController {
 		return "/admin/member/memReportPro";
 	}
 	
+	@RequestMapping("board/reportDetails")
+	public String getReportReason(Model model) {
+		
+		return "/admin/board/reportReason";
+	}
+	
+	@RequestMapping("board/list")
+	public String getBoardList(String pageNum, String status, String board_type, Model model) {
+		PagingDTO page = pageService.getPaging(20, pageNum);
+		model.addAttribute("list", service.getBoardList(page, status));
+		model.addAttribute("count", service.getBoardCnt(status));
+		model.addAttribute("page", page);
+		
+		model.addAttribute("status", status);
+		return "/admin/board/list";
+	}
+	@RequestMapping("board/search")
+	public String getBoardSearchList(String pageNum, String board_type, String search, String keyword, Model model) {
+		PagingDTO page = pageService.getPaging(20, pageNum);
+		
+		model.addAttribute("board_type", board_type);
+		model.addAttribute("search", search);
+		model.addAttribute("keyword", keyword);
+		
+		model.addAttribute("list", service.getBoardSearchList(page, board_type, search, keyword));
+		model.addAttribute("count",service.getBoardSearchCnt(board_type, search, keyword));
+		model.addAttribute("page", page);
+		return "/admin/board/search";
+	}
+	
 	@RequestMapping("board/request")
 	public String getUserRequestList(String PageNum, Model model) {
 		PagingDTO page = pageService.getPaging(20, PageNum);
@@ -289,4 +319,5 @@ public class AdminController {
 		model.addAttribute("users7Days", gaService.getUsersStats(start, today));
 		return "/admin/stats/test";
 	}
+	
 }

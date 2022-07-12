@@ -43,8 +43,9 @@
 	        게시판관리
 	      </a>
 	      <div class="dropdown-menu">
+	      	<a class="dropdown-item" href="/admin/board/list">전체 게시판 목록</a>
 	      	<a class="dropdown-item" href="/admin/board/request">1:1문의(신규)</a>
-	      	<a class="dropdown-item" href="">커뮤니티 게시판관리</a>
+	      	<a class="dropdown-item" href="/help/notice/noticeList">공지사항(사용자)</a>
 	      </div>
 	    </li>
 	    

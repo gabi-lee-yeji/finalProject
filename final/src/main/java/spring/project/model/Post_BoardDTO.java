@@ -20,5 +20,11 @@ public class Post_BoardDTO {
 	private Timestamp reg;			// 작성시간
 	private String img;				// 첨부이미지
 	private MultipartFile uploadFile; 
-
+	
+	private int status;		//게시글 상태 (1- 삭제 / 0 - 게시됨)
+	
+	//boardtype 테이블 join 할 경우 사용할 변수 
+	//**변수가 2개뿐이라서 그냥 같은 DTO에 빌려쓸게요!
+	private String board_name;
+	private String board_mapping;
 }

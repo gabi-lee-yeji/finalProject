@@ -95,4 +95,17 @@ public interface AdminMapper {
 	public int getNewCertiCnt();
 	//신고당한 회원 중 상태변경 안된 회원수 
 	public int getNewReportCnt();
+	
+	//전체게시글 목록 조회
+	public List<Post_BoardDTO> getBoardList(Map map);
+	public int getBoardCnt(String status);
+	
+	//전체게시글 - 검색 결과 조회
+	//글제목+내용 검색
+	public List<Post_BoardDTO> getBoardSearchBoth(Map map);
+	public int getSearchBothCnt(Map map);
+	//작성자 검색
+	public List<Post_BoardDTO> getBoardSearchWriter(Map map);
+	public int getSearchWriterCnt(Map map);
+	
 }

@@ -3,7 +3,62 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
-	
+	<select id="getSearchBothCnt" resultType="int">
+		select count(*) from post_board 
+		<trim prefix="where">
+			<if test="board_type != null and board_type != ''">
+				board_type=#{board_type} and
+			</if>
+			subject like '%${keyword}%' or post_content like '%${keyword}%'
+		</trim>
+	</select>
+	<select id="getBoardSearchBoth" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from post_board 
+					<trim prefix="where">
+						<if test="board_type != null and board_type != ''">
+							board_type = #{board_type} and
+						</if>
+						subject like '%${keyword}%' or post_content like '%${keyword}%'
+					</trim>
+				order by reg desc) list )
+		where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getSearchWriterCnt" resultType="int">
+		select count(*) from post_board 
+			where writer like '%${keyword}%'
+			<if test="board_type != null and board_type != ''">
+				and board_type=#{board_type}
+			</if>
+	</select>
+	<select id="getBoardSearchWriter" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from post_board 
+				where writer like '%${keyword}%'
+				<if test="board_type != null and board_type != ''">
+					and board_type = #{board_type}
+				</if>
+				order by reg desc) list )
+		where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getBoardCnt" resultType="int">
+		select count(*) from post_board
+		<if test="status != null">
+			where status = #{status}
+		</if>
+	</select>
+	<select id="getBoardList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from post_board
+				<if test="status != null">
+					where status = #{status}
+				</if>	
+				) list)
+		where r between #{startRow} and #{endRow}
+	</select>
 	<select id="getNewReportCnt" resultType="int">
 		select count(*) from 
 			(select memid, count(*) as reportCnt from member_report group by memid) rep,

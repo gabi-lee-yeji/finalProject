@@ -86,5 +86,11 @@ public interface AdminService {
 	public Map<String,Integer> getNewMemberData();
 	public int getNewCertiCnt();
 	public int getNewReportCnt();
-
+	
+	//전체 게시글목록 조회 (삭제된 글 포함)
+	public List<Post_BoardDTO> getBoardList(PagingDTO page, String status);
+	public int getBoardCnt(String status);
+	//전체게시글 - 검색 기능
+	public List<Post_BoardDTO> getBoardSearchList(PagingDTO page, String board_type, String search, String keyword);
+	public int getBoardSearchCnt(String board_type, String search, String keyword);
 }

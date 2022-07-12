@@ -270,6 +270,50 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.getNewReportCnt();
 	}
 
+	@Override
+	public List<Post_BoardDTO> getBoardList(PagingDTO page, String status) {
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		
+		map.put("status", status);
+		return mapper.getBoardList(map);
+	}
+	@Override
+	public int getBoardCnt(String status) {
+		return mapper.getBoardCnt(status);
+	}
+
+	@Override
+	public List<Post_BoardDTO> getBoardSearchList(PagingDTO page, String board_type, String search, String keyword) {
+		List<Post_BoardDTO> list = null;
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		map.put("board_type", board_type);
+		map.put("keyword", keyword);
+		
+		if(search.equals("both")) {
+			list = mapper.getBoardSearchBoth(map);
+		}
+		if(search.equals("writer")) {
+			list = mapper.getBoardSearchWriter(map);
+		}
+		return list;
+	}
+
+	@Override
+	public int getBoardSearchCnt(String board_type, String search, String keyword) {
+		int result = 0;
+		map.put("board_type", board_type);
+		map.put("keyword", keyword);
+		if(search.equals("both")) {
+			result = mapper.getSearchBothCnt(map);
+		}
+		if(search.equals("writer")) {
+			result = mapper.getSearchWriterCnt(map);
+		}
+		return result;
+	}
+
 
 
 }

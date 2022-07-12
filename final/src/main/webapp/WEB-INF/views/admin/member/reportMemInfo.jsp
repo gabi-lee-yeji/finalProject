@@ -57,7 +57,7 @@
 				<td>${map.PNUM }</td>
 				<td>${map.BOARD_TYPE }</td>
 				<td>
-					<a href="include reportReason to boardContent"> 
+					<a href="/admin/board/reportReason?pnum=${map.PNUM}"> 
 						<if test="${map.SUBJECT == null }">(제목없음)</if>
 						<if test="${map.SUBJECT != null }">${map.SUBJECT }</if>
 					</a>
