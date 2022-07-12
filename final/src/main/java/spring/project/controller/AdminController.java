@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,7 +19,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,6 +33,7 @@ import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
+import spring.project.model.EmpBoardDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.pagination.PagingDTO;
@@ -55,7 +59,7 @@ public class AdminController {
 	
 	static Map<String, Object> paramMap = new HashMap<String, Object>();
 	
-	//ÀÚ°İÁõ µî·Ï ÆäÀÌÁö 
+	//ìê²©ì¦ ë“±ë¡ í˜ì´ì§€ 
 	@RequestMapping("addCerti")
 	public String addCerti() {
 		return "admin/certi/addCerti";
@@ -70,10 +74,10 @@ public class AdminController {
 		return "admin/certi/addCertiPro";
 	}
 	
-	//ÀÚ°İÁõ ¸ñ·Ï ÆäÀÌÁö 
+	//ìê²©ì¦ ëª©ë¡ í˜ì´ì§€
 	@RequestMapping("certiList")
 	public String getCertiList(String pageNum, String sort, String order, String category, Model model) {
-		//ÇÑ ÆäÀÌÁö¿¡ º¸¿©ÁÖ°í ½ÍÀº °Ô½Ã±Û¼ö ¸Å°³º¯¼ö·Î Àü´Ş
+		//í•œ í˜ì´ì§€ì— ë³´ì—¬ì£¼ê³  ì‹¶ì€ ê²Œì‹œê¸€ìˆ˜ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬
 		int pageSize = 30;
 		PagingDTO page = pageService.getPaging(pageSize, pageNum);
 		
@@ -87,7 +91,7 @@ public class AdminController {
 		return "admin/certi/certiList";
 	}
 	
-	//ÀÚ°İÁõ °Ë»ö±â´É (°á°úÆäÀÌÁö)
+	//ìê²©ì¦ ê²€ìƒ‰ê¸°ëŠ¥ (ê²°ê³¼í˜ì´ì§€)
 	@RequestMapping("search")
 	public String searchList(String pageNum, String search, String keyword, Model model) {
 		PagingDTO page = pageService.getPaging(30, pageNum);
@@ -101,7 +105,7 @@ public class AdminController {
 		return "/admin/certi/searchList";
 	}
 	
-	//ÀÚ°İÁõ ¼öÁ¤ - »ó¼¼Á¤º¸ È®ÀÎ°¡´É 
+	//ìê²©ì¦ ìˆ˜ì • - ìƒì„¸ì •ë³´ í™•ì¸ê°€ëŠ¥ 
 	@RequestMapping("certiInfo")
 	public String certiInfo(String cnum, Model model) {
 		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
@@ -111,7 +115,7 @@ public class AdminController {
 		return "admin/certi/certiInfo";
 	}
 	
-	//ÀÚ°İÁõº° »ó¼¼ÀÏÁ¤ ¸ñ·Ï
+	//ìê²©ì¦ë³„ ìƒì„¸ì¼ì • ëª©ë¡
 	@RequestMapping("certiDate")
 	public String certiDateInfo(String cnum, Model model) {
 		List<CertiDateDTO> dateList = null;
@@ -126,7 +130,7 @@ public class AdminController {
 		
 		return "admin/certi/certiDate";
 	}
-	//ÀÚ°İÁõ ÀÏÁ¤ Ãß°¡
+	//ìê²©ì¦ ì¼ì • ì¶”ê°€
 	@RequestMapping("certi/addDate")
 	public String addDate(String cnum, Model model) {
 		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
@@ -139,7 +143,7 @@ public class AdminController {
 		return "admin/certi/addDatePro";
 	}
 	
-	//ÀÚ°İÁõ ÀÏÁ¤ »èÁ¦ 
+	//ìê²©ì¦ ì¼ì • ì‚­ì œ  
 	@RequestMapping("certi/deleteDate")
 	public String deleteDate(String cnum, String[] dateList, Model model){
 		model.addAttribute("cnum", cnum);
@@ -151,7 +155,7 @@ public class AdminController {
 	public String modifyDate(String datepk, String cnum, Model model) {
 		if(datepk ==null) return "admin/certi/certiDate?cnum="+cnum;
 		
-		if(cnum.startsWith("N")) return "±¹°¡±â¼ú ÀÏÁ¤ Å×ÀÌºí·Î º¸³»±â?";
+		if(cnum.startsWith("N")) return "êµ­ê°€ê¸°ìˆ  ì¼ì • í…Œì´ë¸”ë¡œ ë³´ë‚´ê¸°?";
 		
 		int datePK = Integer.parseInt(datepk);
 		model.addAttribute("dto", service.getCertiDate(datePK));
@@ -164,21 +168,21 @@ public class AdminController {
 		return "admin/certi/modDatePro";
 	}
 	
-	//ÀÚ°İÁõ Á¤º¸ »èÁ¦ (update status)
+	//ìê²©ì¦ ì •ë³´ ì‚­ì œ (update status)
 	@RequestMapping("certi/deleteForm")
 	public String deleteForm(String cnum, MemberInfoDTO dto, Model model) {
-		//»èÁ¦ÇÏ±â Àü ¼±ÅÃÇÑ ÀÚ°İÁõ ¹× ±ÇÇÑ È®ÀÎ
+		//ì‚­ì œí•˜ê¸° ì „ ì„ íƒí•œ ìê²©ì¦ ë° ê¶Œí•œ í™•ì¸
 		model.addAttribute("dto", service.getCertiInfo(cnum).get("info"));
 		return "admin/certi/deleteForm";
 	}
 	@RequestMapping("deletePro")
 	public String deletePro(String cnum, String name, MemberInfoDTO dto, Model model) {
-		//ID || ps ¹ÌÀÔ·Â½Ã À¯È¿¼º °Ë»ç (2Â÷) -> view¿¡¼­µµ ºóÄ­ Ã¼Å©ÇÏ±â! 
+		//ID || ps ë¯¸ì…ë ¥ì‹œ ìœ íš¨ì„± ê²€ì‚¬ (2ì°¨) -> viewì—ì„œë„ ë¹ˆì¹¸ ì²´í¬í•˜ê¸°! 
 		if(dto.getMemid()==null || dto.getPasswd()==null) return "member/loginForm";
 		
-		//ÀÔ·ÂÇÑ ID°¡ °ü¸®ÀÚ IDÀÎÁö 
+		//ì…ë ¥í•œ IDê°€ ê´€ë¦¬ì IDì¸ì§€ 
 		if(dto.getMemid().contains("admin")) {
-			//id, pw Ã¼Å©
+			//id, pw ì²´í¬
 			if(memService.userCheck(dto)==1) {
 				model.addAttribute("result",service.delCerti(cnum, name));
 			}
@@ -246,17 +250,19 @@ public class AdminController {
 	}
 	
 	@RequestMapping("board/list")
-	public String getBoardList(String pageNum, String status, String board_type, Model model) {
+	public String getBoardList(String pageNum, Integer status, 
+							Integer board_type, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
-		model.addAttribute("list", service.getBoardList(page, status));
-		model.addAttribute("count", service.getBoardCnt(status));
+		model.addAttribute("list", service.getBoardList(page, status, board_type));
+		model.addAttribute("count", service.getBoardCnt(status, board_type));
 		model.addAttribute("page", page);
 		
 		model.addAttribute("status", status);
+		model.addAttribute("board_type", board_type);
 		return "/admin/board/list";
 	}
 	@RequestMapping("board/search")
-	public String getBoardSearchList(String pageNum, String board_type, String search, String keyword, Model model) {
+	public String getBoardSearchList(String pageNum, Integer board_type, String search, String keyword, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
 		
 		model.addAttribute("board_type", board_type);
@@ -286,7 +292,7 @@ public class AdminController {
 		
 		PagingDTO page = pageService.getPaging(5, null);
 		model.addAttribute("certList",service.getCertList(page, "registDate", "desc", null));
-		model.addAttribute("memReportList", service.getReportMemList("ÀÏ¹İ"));
+		model.addAttribute("memReportList", service.getReportMemList("ì¼ë°˜"));
 		
 		return "/admin/main";
 	}
@@ -305,7 +311,7 @@ public class AdminController {
 	}
 	@RequestMapping("ajax/visitor")
 	public String adminMainVisitor() {
-		//±¸±Û Åë°è¿¡¼­ ¹æ¹®ÀÚ¼ö Á¶È¸ÇØ¼­ view·Î º¸³»±â
+		//êµ¬ê¸€ í†µê³„ì—ì„œ ë°©ë¬¸ììˆ˜ ì¡°íšŒí•´ì„œ viewë¡œ ë³´ë‚´ê¸°
 		return "/admin/ajax/visitor";
 	}
 	
@@ -314,10 +320,36 @@ public class AdminController {
 	public String googleTest(Model model) throws Exception {
 		String start = "7daysAgo";
 		String today = "today";
-		//±¸±Û Åë°è¿¡¼­ ¹æ¹®ÀÚ¼ö Á¶È¸ÇØ¼­ view·Î º¸³»±â
+		//êµ¬ê¸€ í†µê³„ì—ì„œ ë°©ë¬¸ììˆ˜ ì¡°íšŒí•´ì„œ viewë¡œ ë³´ë‚´ê¸°
 		model.addAttribute("usersToday", gaService.getUsersStats(today, today));
 		model.addAttribute("users7Days", gaService.getUsersStats(start, today));
 		return "/admin/stats/test";
 	}
 	
+	
+	//ê´€ë¦¬ì - ì§ì›ê²Œì‹œíŒ - ì§ì›ê³µì§€
+	@RequestMapping("emp/noticeList")
+	public String getEmpNoticeList(String pageNum, Model model) {
+		PagingDTO page = pageService.getPaging(10, pageNum);
+		model.addAttribute("page", page);
+		model.addAttribute("list", service.getEmpNoticeList(page));
+		model.addAttribute("count", service.getEmpNoticeCnt());
+		return "/admin/emp/board/noticeList";
+	}
+	@RequestMapping("emp/addNotice")
+	public String addEmpNotice(HttpSession session, Model model){
+		//model.addAttribute("id", session.getAttribute("memid"));
+		model.addAttribute("id", "test");
+		return "/admin/emp/board/noticeForm";
+	}
+	@RequestMapping("emp/addNoticePro")
+	public String addEmpNoticePro(EmpBoardDTO dto, Model model){
+		model.addAttribute("result", service.addEmpNotice(dto));
+		return "/admin/emp/board/noticePro";
+	}
+	@RequestMapping("emp/notice")
+	public String getEmpNotice(int ebnum, Model model) {
+		model.addAttribute("dto",service.getEmpNotice(ebnum));
+		return "/admin/emp/board/notice";
+	}
 }

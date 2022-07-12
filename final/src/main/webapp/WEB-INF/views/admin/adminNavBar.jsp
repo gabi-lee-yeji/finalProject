@@ -40,12 +40,21 @@
 	    
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	        게시판관리
+	        사용자게시판관리
 	      </a>
 	      <div class="dropdown-menu">
 	      	<a class="dropdown-item" href="/admin/board/list">전체 게시판 목록</a>
 	      	<a class="dropdown-item" href="/admin/board/request">1:1문의(신규)</a>
 	      	<a class="dropdown-item" href="/help/notice/noticeList">공지사항(사용자)</a>
+	      </div>
+	    </li>
+	    
+	    <li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+	        직원게시판
+	      </a>
+	      <div class="dropdown-menu">
+	      	<a class="dropdown-item" href="/admin/board/notice">직원공지</a>
 	      </div>
 	    </li>
 	    

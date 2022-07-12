@@ -46,18 +46,18 @@
 					<th>조회수</th>
 					<th>
 						<select name="status" onchange="location.href=this.value">
-							<c:if test="${status eq '1' }">
+							<c:if test="${status eq 1 }">
 								<option value="">==삭제==</option>
 							</c:if>
-							<c:if test="${status eq '0' }">
+							<c:if test="${status eq 0 }">
 								<option value="">==일반==</option>
 							</c:if>
 							<c:if test="${status == null }">
 								<option value="">==전체글==</option>
 							</c:if>
-							<option value="/admin/board/list">전체글</option>
-							<option value="/admin/board/list?status=1">삭제</option>
-							<option value="/admin/board/list?status=0">일반</option>
+							<option value="/admin/board/list?board_type=${board_type }">전체글</option>
+							<option value="/admin/board/list?board_type=${board_type }&status=1">삭제</option>
+							<option value="/admin/board/list?board_type=${board_type }&status=0">일반</option>
 						</select>
 					</th>
 				</tr>
@@ -65,7 +65,7 @@
 					<tr>
 						<td>${dto.pnum }</td>
 						<td>
-							<a href="">${dto.subject}</a>
+							<a href="/${dto.board_mapping }?pnum=${dto.pnum}">${dto.subject}</a>
 						</td>
 						<td>${dto.writer }</td>
 						<td>${dto.board_type }</td>

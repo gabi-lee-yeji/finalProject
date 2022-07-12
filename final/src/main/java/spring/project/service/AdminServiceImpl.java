@@ -12,6 +12,7 @@ import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiScheduleDTO;
+import spring.project.model.EmpBoardDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
@@ -75,16 +76,6 @@ public class AdminServiceImpl implements AdminService{
 		}
 		return result;
 	}
-
-//	@Override
-//	public int modCerti(String cnum, CertiInfoDTO info, CertiDetailDTO detail) {
-//		info.setCnum(cnum); detail.setCnum(cnum);
-//		int result = mapper.modCertInfo(info);
-//		System.out.println("===info==="+result);
-//		//result += mapper.modCertDetail(info);
-//		System.out.println("===detail==="+result);
-//		return result;
-//	}
 
 	@Override
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category) {
@@ -271,47 +262,71 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<Post_BoardDTO> getBoardList(PagingDTO page, String status) {
+	public List<Post_BoardDTO> getBoardList(PagingDTO page, Integer status, Integer board_type) {
 		map.put("startRow", page.getStartRow());
 		map.put("endRow", page.getEndRow());
 		
 		map.put("status", status);
+		map.put("board_type", board_type);
 		return mapper.getBoardList(map);
 	}
 	@Override
-	public int getBoardCnt(String status) {
-		return mapper.getBoardCnt(status);
+	public int getBoardCnt(Integer status, Integer board_type) {
+		return mapper.getBoardCnt(status, board_type);
 	}
 
 	@Override
-	public List<Post_BoardDTO> getBoardSearchList(PagingDTO page, String board_type, String search, String keyword) {
+	public List<Post_BoardDTO> getBoardSearchList(PagingDTO page, Integer board_type, String search, String keyword) {
 		List<Post_BoardDTO> list = null;
+		
 		map.put("startRow", page.getStartRow());
 		map.put("endRow", page.getEndRow());
-		map.put("board_type", board_type);
 		map.put("keyword", keyword);
+		map.put("board_type", board_type);
 		
 		if(search.equals("both")) {
 			list = mapper.getBoardSearchBoth(map);
-		}
-		if(search.equals("writer")) {
+		}else if(search.equals("writer")) {
 			list = mapper.getBoardSearchWriter(map);
 		}
+		
 		return list;
 	}
 
 	@Override
-	public int getBoardSearchCnt(String board_type, String search, String keyword) {
+	public int getBoardSearchCnt(Integer board_type, String search, String keyword) {
 		int result = 0;
-		map.put("board_type", board_type);
 		map.put("keyword", keyword);
+		map.put("board_type", board_type);
+		
 		if(search.equals("both")) {
 			result = mapper.getSearchBothCnt(map);
-		}
-		if(search.equals("writer")) {
+		}else if(search.equals("writer")) {
 			result = mapper.getSearchWriterCnt(map);
 		}
 		return result;
+	}
+
+	@Override
+	public List<EmpBoardDTO> getEmpNoticeList(PagingDTO page) {
+		return mapper.getEmpNoticeList(page);
+	}
+
+	@Override
+	public int getEmpNoticeCnt() {
+		return mapper.getEmpNoticeCnt();
+	}
+
+	@Override
+	public int addEmpNotice(EmpBoardDTO dto) {
+		return mapper.addEmpNotice(dto);
+	}
+
+	@Override
+	public EmpBoardDTO getEmpNotice(int ebnum) {
+		//조회수 +1
+		mapper.updateReadCnt(ebnum);
+		return mapper.getEmpNotice(ebnum);
 	}
 
 

@@ -3,6 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
+	<update id="updateReadCnt">
+		update emp_board set readCnt = readCnt+1 where ebnum=#{ebnum}
+	</update>
+	<select id="getEmpNotice" resultType="spring.project.model.EmpBoardDTO">
+		select * from emp_board where ebnum=#{ebnum}
+	</select>
+	<insert id="addEmpNotice">
+		insert into emp_board values(
+			eb_seq.nextval,
+			#{subject},
+			#{post_content},
+			#{writer},
+			1,
+			0,
+			sysdate
+		)
+	</insert>
+	<select id="getEmpNoticeCnt" resultType="int">
+		select count(*) from emp_board
+	</select>
+	<select id="getEmpNoticeList" resultType="spring.project.model.EmpBoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from emp_board) list)
+		where r between #{startRow} and #{endRow}
+	</select>
 	<select id="getSearchBothCnt" resultType="int">
 		select count(*) from post_board 
 		<trim prefix="where">
@@ -14,48 +40,64 @@
 	</select>
 	<select id="getBoardSearchBoth" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
-			(select rownum r, list.* from 
-				(select * from post_board 
-					<trim prefix="where">
-						<if test="board_type != null and board_type != ''">
-							board_type = #{board_type} and
-						</if>
-						subject like '%${keyword}%' or post_content like '%${keyword}%'
-					</trim>
+    		(select rownum r, list.* from 
+		        (select * from post_board a 
+		        left join boardtype b 
+		        on a.board_type=b.board_type
+				<trim prefix="where">
+					<if test="board_type != null ">
+						a.board_type = #{board_type} and
+					</if>
+					subject like '%${keyword}%' or post_content like '%${keyword}%'
+				</trim>
 				order by reg desc) list )
 		where r between #{startRow} and #{endRow}
 	</select>
 	<select id="getSearchWriterCnt" resultType="int">
 		select count(*) from post_board 
 			where writer like '%${keyword}%'
-			<if test="board_type != null and board_type != ''">
+			<if test="board_type != null ">
 				and board_type=#{board_type}
 			</if>
 	</select>
 	<select id="getBoardSearchWriter" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
-			(select rownum r, list.* from 
-				(select * from post_board 
-				where writer like '%${keyword}%'
-				<if test="board_type != null and board_type != ''">
-					and board_type = #{board_type}
-				</if>
-				order by reg desc) list )
+    		(select rownum r, a.* from 
+		        (select * from post_board a 
+		        left join boardtype b 
+		        on a.board_type=b.board_type
+		        where writer like '%안%' 
+		        <if test="board_type != null">
+		        	and a.board_type = #{board_type}
+		        </if>
+		        order by reg desc) a)
 		where r between #{startRow} and #{endRow}
 	</select>
 	<select id="getBoardCnt" resultType="int">
 		select count(*) from post_board
-		<if test="status != null">
-			where status = #{status}
-		</if>
+		<where>
+			<if test="board_type != null">
+				board_type = #{board_type}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
 	</select>
 	<select id="getBoardList" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
-			(select rownum r, list.* from 
-				(select * from post_board
-				<if test="status != null">
-					where status = #{status}
-				</if>	
+    		(select rownum r, list.* from 
+		        (select * from post_board a 
+		        left join boardtype b 
+		        on a.board_type=b.board_type
+				<where>
+					<if test="board_type != null">
+						a.board_type = #{board_type}
+					</if>
+					<if test="status != null">
+						and status = #{status}
+					</if>
+				</where>	
 				) list)
 		where r between #{startRow} and #{endRow}
 	</select>
@@ -183,10 +225,10 @@
 	
 	<select id="getreportMemInfo" resultType="map">
 		select b.pnum, b.board_type, b.subject, a.reportcnt from 
-		( select wr_num, count(*) as reportCnt from member_report where memid=#{memid} group by wr_num) a, 
+		( select pnum, count(*) as reportCnt from member_report where memid=#{memid} group by pnum) a, 
 		post_board b
 		where
-			a.wr_num=b.pnum
+			a.pnum=b.pnum
 	</select>
 	<select id="getReportMemList" resultType="spring.project.model.MemberInfoDTO">
 		select * from 
@@ -368,7 +410,7 @@
 	</select>
 	
 	<insert id="addCertiReq">
-		insert into certi_requirement(
+		insert into certi_requirement values (
 			#{cnum},
 			#{req_degree, jdbcType=VARCHAR},
 			#{req_age, jdbcType=VARCHAR},

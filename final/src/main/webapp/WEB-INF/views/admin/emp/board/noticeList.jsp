@@ -2,42 +2,38 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <head>
 	<meta charset="UTF-8">
-	<title>게시글 검색 결과</title>
+	<title>직원공지 목록</title>
 </head>
+
 <body>
-	<h1> 검색결과 [총 : ${count}개]</h1>
+	<h1>직원공지 [total : ${count}]</h1>
 	<table>
 		<tr>
 			<th>번호</th>
 			<th>제목</th>
 			<th>작성자</th>
-			<th>게시판</th>
 			<th>작성일</th>
 			<th>조회수</th>
-			<th>상태</th>
 		</tr>
+		<c:if test="${count == 0}">
+			<tr>
+				<td colspan=5>공지글이 없습니다.</td>
+			</tr>
+		</c:if>
 		<c:forEach var="dto" items="${list }">
 			<tr>
-				<td>${dto.pnum }</td>
+				<td>${dto.ebnum }</td>
 				<td>
-					<a href="/${dto.board_mapping }?pnum=${dto.pnum}">${dto.subject}</a>
+					<a href="/admin/emp/notice?ebnum=${dto.ebnum }">${dto.subject}</a>
 				</td>
 				<td>${dto.writer }</td>
-				<td>${dto.board_type }</td>
 				<td>
 					<fmt:formatDate pattern="yy/MM/dd" value="${dto.reg }"/>
 				</td>
 				<td>${dto.readCnt }</td>
-				<td>
-					<c:if test="${dto.status eq 1 }">
-						삭제됨
-					</c:if>
-					<c:if test="${dto.status eq 0 }">
-						일반
-					</c:if>
-				</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -54,17 +50,17 @@
 		<c:if test="${endPage > pageCount}">
 			<c:set var="endPage" value="${pageCount}" />
 		</c:if>
-        
-        <c:if test="${startPage > 10 }">
-        	<a href="/admin/board/search?pageNum=${startPage-10}&board_type=${board_type}&search=${search }&keyword=${keyword }">[이전]</a>
-        </c:if>
-        
-        <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-        	<a href="/admin/board/search?pageNum=${i}&board_type=${board_type}&search=${search }&keyword=${keyword }">[${i}]</a>
+	       
+	       <c:if test="${startPage > 10 }">
+	       	<a href="/admin/emp/notice?pageNum=${startPage-10}">[이전]</a>
+	       </c:if>
+	       
+	       <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
+	       	<a href="/admin/emp/notice?pageNum=${i}">[${i}]</a>
 		</c:forEach>
 		
 		<c:if test="${endPage < pageCount}">
-        	<a href="/admin/board/search?pageNum=${startPage + 10}&board_type=${board_type}&search=${search }&keyword=${keyword }">[다음]</a>
+	       	<a href="/admin/emp/notice?pageNum=${startPage + 10}">[다음]</a>
 		</c:if>
     </c:if>
 </body>

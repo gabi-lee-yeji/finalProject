@@ -10,36 +10,37 @@ import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
+import spring.project.model.EmpBoardDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.Post_BoardDTO;
 import spring.project.pagination.PagingDTO;
 
 public interface AdminMapper {
 	
-	//ÀÚ°İÁõ µî·Ï = ¼¼°³ÀÇ Å×ÀÌºí¿¡ µ¿½Ã¿¡ insert
+	//ìê²©ì¦ ë“±ë¡ = ì„¸ê°œì˜ í…Œì´ë¸”ì— ë™ì‹œì— insert
 	public int addCertiInfo(CertiInfoDTO dto);
 	public int addCertiSchedule(CertiScheduleDTO dto);
-	public int addCertiDate(CertiDateDTO dto);    // ÀÚ°İÁõ ÀÏÁ¤ Ãß°¡ 
+	public int addCertiDate(CertiDateDTO dto);    // ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ 
 	public int addCertiReq(CertiRequirementDTO dto); 
 	
 	public int findNextseq(String sequence);
 	public int findCurrseq(String sequence);
 	
-	//ÀÚ°İÁõ ¸ñ·Ï 
+	//ìê²©ì¦ ëª©ë¡ 
 	public List<CertiInfoDTO> getCertList(Map map);
-	//µî·ÏµÈ ÀÚ°İÁõ °³¼ö
+	//ë“±ë¡ëœ ìê²©ì¦ ê°œìˆ˜
 	public int getCertCnt();
-	//ÀÚ°İÁõ °Ë»ö °á°ú ¸ñ·Ï
+	//ìê²©ì¦ ê²€ìƒ‰ ê²°ê³¼ ëª©ë¡
 	public List<CertiInfoDTO> getSearchList(@Param("startRow")int startRow,
 											@Param("endRow")int endRow,
 											@Param("search")String search, 
 											@Param("keyword")String keyword);
-	//°Ë»öµÈ ÀÚ°İÁõ °³¼ö
+	//ê²€ìƒ‰ëœ ìê²©ì¦ ê°œìˆ˜
 	public int getSearchCnt(@Param("search")String search, 
 							@Param("keyword")String keyword);
 
 	
-	//ÀÚ°İÁõ »ó¼¼Á¤º¸ ÆäÀÌÁö
+	//ìê²©ì¦ ìƒì„¸ì •ë³´ í˜ì´ì§€
 	public CertiInfoDTO getCertiInfo(String cnum);
 	public CertiRequirementDTO getCertiReqInfo(String cnum);
 	
@@ -49,16 +50,16 @@ public interface AdminMapper {
 											@Param("cyear_list")List<Integer> cyear_list,
 											@Param("cround_list")List<Integer> cround_list);
 	
-	//ÀÚ°İÁõ ÀÏÁ¤ »èÁ¦
+	//ìê²©ì¦ ì¼ì • ì‚­ì œ
 	public int deleteCertiDate(int[] dateList);
-	//ÀÚ°İÁõ ÀÏÁ¤ ¼öÁ¤
+	//ìê²©ì¦ ì¼ì • ìˆ˜ì •
 	public CertiDateDTO getCertiDate(int datePK);
 	public int modCertiDate(CertiDateDTO dto);
 	
-	//ÀÚ°İÁõ Á¤º¸ »èÁ¦
+	//ìê²©ì¦ ì •ë³´ ì‚­ì œ
 	public int delCerti(@Param("status")String status, @Param("cnum")String cnum);
 	
-	//ÀÚ°İÁõ Á¤º¸ ¼öÁ¤
+	//ìê²©ì¦ ì •ë³´ ìˆ˜ì •
 	public int modCertiInfo(CertiInfoDTO dto);
 	public int modCertiReq(CertiRequirementDTO dto);
 	
@@ -68,44 +69,53 @@ public interface AdminMapper {
 	public List<MemberInfoDTO> getMemberList(Map map);
 	public int getMemberCnt();
 	
-	//È¸¿ø»ó¼¼Á¤º¸ Á¶È¸
+	//íšŒì›ìƒì„¸ì •ë³´ ì¡°íšŒ
 	public MemberInfoDTO getMemberInfo(String memid);
 	
 	public List<MemberInfoDTO> getMemberFilter(Map map);
 	
-	//½Å°í´çÇÑ È¸¿ø¸ñ·Ï °¡Á®¿À±â 
+	//ì‹ ê³ ë‹¹í•œ íšŒì›ëª©ë¡ ê°€ì ¸ì˜¤ê¸° 
 	public List<MemberInfoDTO> getReportMemList(String status);
-	//½Å°í´çÇÑ È¸¿øÀÇ Á¤º¸ °¡Á®¿À±â
+	//ì‹ ê³ ë‹¹í•œ íšŒì›ì˜ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
 	public List<Map<String, Object>> getreportMemInfo(String memid);
-	//½Å°í´çÇÑ È¸¿ø »óÅÂ º¯°æ
+	//ì‹ ê³ ë‹¹í•œ íšŒì› ìƒíƒœ ë³€ê²½
 	public int updateRepMemStatus(@Param("memid")String memid, @Param("status")String status);
 	
 	
-	//¹®ÀÇ ¾È´Ş¸° ±Û ¸ğ¾Æº¸±â (1:1¹®ÀÇ °Ô½ÃÆÇ) 
+	//ë¬¸ì˜ ì•ˆë‹¬ë¦° ê¸€ ëª¨ì•„ë³´ê¸° (1:1ë¬¸ì˜ ê²Œì‹œíŒ) 
 	public List<Post_BoardDTO> getNewRequestList(PagingDTO page);
 	public int getNewRequestCnt();
 	
 	
-	//°ü¸®ÀÚ ¸ŞÀÎ
-	//¿À´Ã °¡ÀÔÇÑ È¸¿ø¼ö
+	//ê´€ë¦¬ì ë©”ì¸
+	//ì˜¤ëŠ˜ ê°€ì…í•œ íšŒì›ìˆ˜
 	public int getMemberTodayCnt();
-	//Áö³­ 7ÀÏ°£ °¡ÀÔÇÑ È¸¿ø¼ö
+	//ì§€ë‚œ 7ì¼ê°„ ê°€ì…í•œ íšŒì›ìˆ˜
 	public int getMemberLastWeekCnt();
-	//»õ·Î µî·ÏµÈ ÀÚ°İÁõ
+	//ìƒˆë¡œ ë“±ë¡ëœ ìê²©ì¦
 	public int getNewCertiCnt();
-	//½Å°í´çÇÑ È¸¿ø Áß »óÅÂº¯°æ ¾ÈµÈ È¸¿ø¼ö 
+	//ì‹ ê³ ë‹¹í•œ íšŒì› ì¤‘ ìƒíƒœë³€ê²½ ì•ˆëœ íšŒì›ìˆ˜ 
 	public int getNewReportCnt();
 	
-	//ÀüÃ¼°Ô½Ã±Û ¸ñ·Ï Á¶È¸
+	//ì „ì²´ê²Œì‹œê¸€ ëª©ë¡ ì¡°íšŒ
 	public List<Post_BoardDTO> getBoardList(Map map);
-	public int getBoardCnt(String status);
+	public int getBoardCnt(@Param("status")Integer status, 
+						@Param("board_type")Integer board_type);
 	
-	//ÀüÃ¼°Ô½Ã±Û - °Ë»ö °á°ú Á¶È¸
-	//±ÛÁ¦¸ñ+³»¿ë °Ë»ö
+	//ì „ì²´ê²Œì‹œê¸€ - ê²€ìƒ‰ ê²°ê³¼ ì¡°íšŒ
+	//ê¸€ì œëª©+ë‚´ìš© ê²€ìƒ‰
 	public List<Post_BoardDTO> getBoardSearchBoth(Map map);
 	public int getSearchBothCnt(Map map);
-	//ÀÛ¼ºÀÚ °Ë»ö
+	//ì‘ì„±ì ê²€ìƒ‰
 	public List<Post_BoardDTO> getBoardSearchWriter(Map map);
 	public int getSearchWriterCnt(Map map);
 	
+	//ì§ì›ê³µì§€ëª©ë¡ ì¡°íšŒ
+	public List<EmpBoardDTO> getEmpNoticeList(PagingDTO page);
+	public int getEmpNoticeCnt();
+	//ì§ì›ê³µì§€ ë“±ë¡
+	public int addEmpNotice(EmpBoardDTO dto);
+	//ì§ì›ê³µì§€ ë‚´ìš©
+	public void updateReadCnt(int ebnum);
+	public EmpBoardDTO getEmpNotice(int ebnum);
 }
