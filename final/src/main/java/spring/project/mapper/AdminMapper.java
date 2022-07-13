@@ -74,6 +74,8 @@ public interface AdminMapper {
 	
 	//회원상세정보 조회
 	public MemberInfoDTO getMemberInfo(String memid);
+	public List<CertiInfoDTO> getMemberCertList(String memid);
+	public List<CertiInfoDTO> getMemberLikeList(String memid);
 	
 	public List<MemberInfoDTO> getMemberFilter(Map map);
 	

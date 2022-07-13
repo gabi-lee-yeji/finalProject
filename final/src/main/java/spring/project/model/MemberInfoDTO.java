@@ -21,12 +21,8 @@ public class MemberInfoDTO {
 	private String postalCode;
 	private String address;
 	private String addr_detail;
-<<<<<<< HEAD
-	private String pC; //phone company ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ê¿ï¿½ï¿½Ï´Ù¸ï¿½ ï¿½ß°ï¿½ï¿½Øµï¿½ OK
-=======
 	private String extraAddress;
-	private String pC; //phone company Ãß°¡ÇÒÁö °í¹ÎÁß > ÇÊ¿äÇÏ´Ù¸é Ãß°¡ÇØµµ OK
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
+	private String pC; //phone company ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ê¿ï¿½ï¿½Ï´Ù¸ï¿½ ï¿½ß°ï¿½ï¿½Øµï¿½ OK
 	private String mobile;
 	private String phone1;
 	private String phone2;

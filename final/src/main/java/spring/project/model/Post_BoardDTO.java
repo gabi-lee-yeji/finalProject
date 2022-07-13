@@ -3,34 +3,32 @@ package spring.project.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
 public class Post_BoardDTO {
 	
-	private int pnum;				// ±Û°íÀ¯¹øÈ£	
-	private String subject;			// ±ÛÁ¦¸ñ
-	private String post_content;	// ±Û³»¿ë
-	private String writer;			// ÀÛ¼ºÀÚ
-	private int post_group;			// ±Û ±×·ì
-	private int post_level;			// ´ä±Û ±×·ì
-	private String board_type;		// °Ô½ÃÆÇ Á¾·ù(0-Á÷¿ø°øÁö, 1-notice, 2-faq, 3-qna, 4-review, 5-question, 6-info, 7-job_seeker)
-	private int readCnt;			// ÀÐÀº ¼ö
-	private Timestamp reg;			// ÀÛ¼º½Ã°£
-<<<<<<< HEAD
-	private String img;				// Ã·ºÎÀÌ¹ÌÁö
+	private int pnum;				// ï¿½Û°ï¿½ï¿½ï¿½ï¿½ï¿½È£	
+	private String subject;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String post_content;	// ï¿½Û³ï¿½ï¿½ï¿½
+	private String writer;			// ï¿½Û¼ï¿½ï¿½ï¿½
+	private int post_group;			// ï¿½ï¿½ ï¿½×·ï¿½
+	private int post_level;			// ï¿½ï¿½ï¿½ ï¿½×·ï¿½
+	private String board_type;		// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(0-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 1-notice, 2-faq, 3-qna, 4-review, 5-question, 6-info, 7-job_seeker)
+	private int readCnt;			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private Timestamp reg;			// ï¿½Û¼ï¿½ï¿½Ã°ï¿½
+	private String img;				// Ã·ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½
 	private MultipartFile uploadFile; 
 	
-	private int status;		//°Ô½Ã±Û »óÅÂ (1- »èÁ¦ / 0 - °Ô½ÃµÊ)
+	private int status;		//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ (1- ï¿½ï¿½ï¿½ï¿½ / 0 - ï¿½Ô½Ãµï¿½)
 	
-	//boardtype Å×ÀÌºí join ÇÒ °æ¿ì »ç¿ëÇÒ º¯¼ö 
-	//**º¯¼ö°¡ 2°³»ÓÀÌ¶ó¼­ ±×³É °°Àº DTO¿¡ ºô·Á¾µ°Ô¿ä!
+	//boardtype ï¿½ï¿½ï¿½Ìºï¿½ join ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	//**ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ DTOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½!
 	private String board_name;
 	private String board_mapping;
-=======
-	private String img;				// Ã·ºÎÆÄÀÏ - transactionÀ¸·Î ³Ö¾îÁÖ¸é »èÁ¦ ÇÊ¿ä
-	private List<Post_BoardAttachDTO> attachList; // °Ô½Ã±Û°ú ÇØ´çÇÏ´Â ÆÄÀÏ ¸®½ºÆ®
-	private String status;			// ±Û Á¸Àç À¯¹«(0-Á¸Àç, 1-»èÁ¦)
+	//private String img;				// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - transactionï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ö¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
+	private List<Post_BoardAttachDTO> attachList; // ï¿½Ô½Ã±Û°ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 }

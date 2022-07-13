@@ -212,6 +212,14 @@ public class AdminController {
 		return "/admin/member/list";
 	}
 	
+	@RequestMapping("member/info")
+	public String getMemberInfo(String memid, Model model) {
+		model.addAttribute("dto", service.getMemberInfo(memid));
+		model.addAttribute("age", service.getMemberAge(memid));
+		model.addAttribute("obtained", service.getMemberCertList(memid));
+		model.addAttribute("liked", service.getMemberLikeList(memid));
+		return "/admin/member/memberInfo";
+	}
 	
 	@RequestMapping("member/filter")
 	public String memberFilter() {
@@ -382,4 +390,5 @@ public class AdminController {
 		model.addAttribute("result", service.delEmpNotice(ebnum));
 		return "/admin/emp/board/delNotice";
 	}
+	
 }

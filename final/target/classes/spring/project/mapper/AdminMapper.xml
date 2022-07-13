@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
+	
 	<update id="delEmpNotice">
 		update emp_board
 			set status=1
@@ -238,10 +239,22 @@
 	
 	<select id="getMemberInfo" resultType="spring.project.model.MemberInfoDTO">
 		select a.*, b.status_name from memberinfo a, member_status b 
-			where a.memid=b.memid 
+			where a.status=b.status 
 			and memid=#{memid}
 	</select>
 	
+	<select id="getMemberCertList" resultType="spring.project.model.CertiInfoDTO">
+		select a.cert_name, a.expirydate, b.* from 
+			(select * from member_cert where memid=#{memid}) a
+		left join certiinfo b
+		on a.cnum=b.cnum
+	</select>
+	<select id="getMemberLikeList" resultType="spring.project.model.CertiInfoDTO">
+		select b.* from 
+			(select * from member_like where memid=#{memid}) a, 
+			certiinfo b
+		where a.cnum=b.cnum
+	</select>
 	<select id="getreportMemInfo" resultType="map">
 		select b.pnum, b.subject, a.reportcnt, c.board_type, c.board_mapping, c.board_name from 
 			(select pnum, count(*) as reportCnt from member_report 
@@ -448,11 +461,7 @@
 	</select>
 	
 	<insert id="addCertiReq">
-<<<<<<< HEAD
-		insert into certi_requirement values (
-=======
 		insert into certi_requirement values(
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 			#{cnum},
 			#{req_degree, jdbcType=VARCHAR},
 			#{req_age, jdbcType=VARCHAR},

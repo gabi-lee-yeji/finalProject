@@ -200,6 +200,16 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
+	public List<CertiInfoDTO> getMemberCertList(String memid){
+		return mapper.getMemberCertList(memid);
+	}
+	@Override
+	public List<CertiInfoDTO> getMemberLikeList(String memid){
+		return mapper.getMemberLikeList(memid);
+	}
+	
+	
+	@Override
 	public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page) {
 		map.put("startRow", page.getStartRow());
 		map.put("endRow", page.getEndRow());
@@ -240,9 +250,29 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public MemberInfoDTO getMemberInfo(String memid) {
-		return mapper.getMemberInfo(memid);
+		MemberInfoDTO dto = mapper.getMemberInfo(memid);
+		
+		if(dto.getBirthday()!=null) {
+			dto.setBirthday(dto.getBirthday().split(" ")[0]);
+		}
+		return dto;
 	}
-
+	
+	@Override
+	public int getMemberAge(String memid) {
+		int age = 0;
+		
+		String birthY = mapper.getMemberInfo(memid).getBirthday();
+		int birthYear = 0;
+		if(birthY != null) birthYear = Integer.parseInt(birthY.substring(0, 4));
+		
+		Calendar cal = Calendar.getInstance();
+		int currentYear = cal.get(Calendar.YEAR);
+		
+		age = currentYear - birthYear;
+		return age;
+	}
+	
 	@Override
 	public int updateRepMemStatus(String memid, String status) {
 		return mapper.updateRepMemStatus(memid, status);

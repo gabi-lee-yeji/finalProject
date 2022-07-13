@@ -18,36 +18,19 @@ import spring.project.model.MemberInfoDTO;
 
 public interface AdminService {
 	
-<<<<<<< HEAD
 	//자격증 관리 메서드 
 	//자격증 등록
-=======
-	//�ڰ��� ���� �޼��� 
-	//�ڰ��� ���?
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, 
 							CertiDateDTO date, CertiRequirementDTO requirement);
 	
-<<<<<<< HEAD
 	//등록된 자격증 전체 목록
-=======
-	//��ϵ�? �ڰ��� ��ü ���?
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category);
-<<<<<<< HEAD
 	//등록된 자격증 전체 개수
-=======
-	//��ϵ�? �ڰ��� ��ü ����
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 	public int getCertCnt();
 	
 	//자격증 검색 
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword);
-<<<<<<< HEAD
 	//검색 결과 전체 개수
-=======
-	//�˻� ���? ��ü ����
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 	public int getSearchCnt(String search, String keyword);
 		
 	
@@ -75,7 +58,6 @@ public interface AdminService {
 	
 	
 	
-<<<<<<< HEAD
 	//회원 관리 메서드
 	//회원 전체 목록 
 	public List<MemberInfoDTO> getMemberList(PagingDTO page, Integer status);
@@ -83,32 +65,21 @@ public interface AdminService {
 	public int getMemberCnt(Integer status);
 	//회원 상태 조회
 	public String getMemStatusName(Integer status);
-=======
-	//ȸ�� ���� �޼���
-	//ȸ�� ��ü ���? 
-	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order);
-	//ȸ�� ��ü �� ��ȸ
-	public int getMemberCnt();
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
-	
-<<<<<<< HEAD
 	
 	//회원 상세 정보
-=======
-	//ȸ�� �� ����
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 	public MemberInfoDTO getMemberInfo(String memid);
+	public int getMemberAge(String memid);
+	//회원 보유자격증 목록 
+	public List<CertiInfoDTO> getMemberCertList(String memid);
+	//회원 관심자격증 목록
+	public List<CertiInfoDTO> getMemberLikeList(String memid);
 	
 	//신고된 회원 목록
 	public List<MemberInfoDTO> getReportMemList(Integer status);
 	public int getReportMemCnt(Integer status);
 	//신고된 회원의 상세 정보 - 신고당한 글/댓글 목록, 신고한 회원
 	public List<Map<String,Object>> getreportMemInfo(String memid);
-<<<<<<< HEAD
 	//신고된 회원의 상태 변경
-=======
-	//�Ű��? ȸ���� ���� ����
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 	public int updateRepMemStatus(String memid, String status);
 	
 	//신고된 글의 신고사유, 신고한 회원 목록

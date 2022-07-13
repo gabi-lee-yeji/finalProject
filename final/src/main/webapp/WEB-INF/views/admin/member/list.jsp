@@ -38,7 +38,7 @@
 		</tr>
 		<c:forEach var="dto" items="${list }">
 			<tr>
-				<td>${dto.memid }</td>
+				<td><a href="/admin/member/info?memid=${dto.memid }">${dto.memid }</a></td>
 				<td>${dto.mem_name }</td>
 				<td>${dto.email }</td>
 				<td>${dto.postalCode }</td>

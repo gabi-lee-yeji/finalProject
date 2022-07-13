@@ -10,12 +10,11 @@
 		</tr>
 		<c:forEach var="dto" items="${list }">
 			<tr>
-				<td>${dto.report_id }</td>
+				<td><a href="/admin/member/info?memid=${dto.report_id}">${dto.report_id }</a></td>
 				<td>${dto.reason }</td>
 				<td>${dto.reg }</td>
 			</tr>
 		</c:forEach>
 	</table>
-	/신고한 회원 상세정보로 href
 </body>
 </html>
