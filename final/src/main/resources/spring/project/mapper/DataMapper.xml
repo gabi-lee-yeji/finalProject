@@ -4,17 +4,59 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
 
-	<update id="updatePrice" parameterType="spring.project.model.CertiInfoDTO">
-		update certiinfo set 
-			company=#{company},
-			price=#{price},
-			ncs_cat=#{ncs_cat}
-			where cname=#{cname}
+	<update id="updatePrvInfo1" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo set
+			website=#{website},
+			expiry=#{expiry}
+				where cname=#{cname}
 	</update>
 
-	<select id="getNatPrices" resultType="spring.project.model.CertiInfoDTO">
-		select cname from certiinfo where cnum like 'N%'
-	</select>
+	<insert id="addPrvInfo" parameterType="spring.project.model.CertiInfoDTO">
+		insert into certiinfo(cnum, cname, category, clevel, company, cinfo, cjob, status, registdate)
+			values (#{cnum},#{cname},#{category},#{clevel, jdbcType=VARCHAR},
+			#{company},#{cinfo, jdbcType=VARCHAR},#{cjob, jdbcType=VARCHAR},#{status},sysdate)
+	</insert>
+
+	<insert id="addNcsCode" parameterType="spring.project.model.NcsDTO">
+		insert into ncs_code values(#{code},#{lname},#{mname})
+	</insert>
+
+	<insert id="addCertiSchedule" parameterType="spring.project.model.CertiScheduleDTO">
+		insert into certischedule values(
+			#{cnum},
+			#{cyear},
+			#{cround},
+			#{clevel},
+			sysdate
+		)
+	</insert>
+
+	<update id="updateNatClevel" parameterType="spring.project.model.CertiScheduleDTO">
+		update certiinfo set clevel=#{clevel} where cnum=#{cnum}
+	</update>
+
+	<insert id="addNatData" parameterType="spring.project.model.CertiInfoDTO">
+		insert into certiinfo values(
+			#{cnum},
+			#{cname},
+			#{category},
+			#{clevel, jdbcType=VARCHAR},
+			#{company, jdbcType=VARCHAR},
+			#{website, jdbcType=VARCHAR},
+			#{requirement, jdbcType=VARCHAR},
+			#{cmethod, jdbcType=VARCHAR},
+			#{subject, jdbcType=VARCHAR},
+			#{cutline, jdbcType=VARCHAR},
+			#{cinfo, jdbcType=VARCHAR},
+			#{cjob, jdbcType=VARCHAR},
+			#{expiry, jdbcType=VARCHAR},
+			#{status, jdbcType=VARCHAR},
+			#{price, jdbcType=VARCHAR},
+			#{ncs_cat},
+			#{notice, jdbcType=VARCHAR},
+			sysdate
+		)
+	</insert>
 
 	<insert id="addCertiRelated" parameterType="spring.project.model.CertiMatchDTO">
 		insert into certi_related values(#{cfrom}, #{cto})
@@ -71,6 +113,10 @@
 	
 	<select id="findCnum" resultType="String">
 		select cnum from certiinfo where cname=#{cname}
+	</select>
+	
+	<select id="findCnumCount" resultType="int">
+		select count(*) from certiinfo where cname=#{cname}
 	</select>
 	
 	

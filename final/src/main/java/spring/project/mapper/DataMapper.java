@@ -8,6 +8,7 @@ import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiMatchDTO;
 import spring.project.model.CertiScheduleDTO;
+import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
 import spring.project.model.PassRateDTO;
 
@@ -20,6 +21,7 @@ public interface DataMapper {
 	public int updateCertiDetail(@Param("dto") CertiInfoDTO dto, @Param("cname") String cname);
 	
 	public String findCnum(String cname);
+	public int findCnumCount(String cname);
 	
 	public void addNatCertiInfo(CertiInfoDTO info);
 	public void addNatCertiSchedule(CertiScheduleDTO sch);
@@ -33,4 +35,10 @@ public interface DataMapper {
 	public void addCertiRelated(CertiMatchDTO dto);
 	public List<CertiInfoDTO> getNatPrices();
 	public void updatePrice(CertiInfoDTO dto);
+	public void addNatData(CertiInfoDTO dto);
+	public void updateNatClevel(CertiScheduleDTO dto);
+	public void addCertiSchedule(CertiScheduleDTO dto);
+	public void addNcsCode(NcsDTO dto);
+	public void addPrvInfo(CertiInfoDTO dto);
+	public void updatePrvInfo1(CertiInfoDTO dto);
 }

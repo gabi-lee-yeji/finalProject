@@ -36,71 +36,7 @@ public class DataController {
 	@Autowired
 	private DataService ds;
 	
-	//현재 들어가있는 공인민간 데이터에 만료일자 컬럼 업데이트
-	@RequestMapping("updateCertiDetail")
-	public void updateCertiDetail() throws IOException{
-		FileInputStream fis = new FileInputStream(new File("f:/data/062703.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
-
-		String strLine;
-		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
-			
-			String [] datas = strLine.split(",");
-			CertiInfoDTO dto = new CertiInfoDTO();
-			
-			dto.setExpiry(datas[1].replaceAll("-", ""));
-			
-			//System.out.println(dto.getCnum() + dto.getExpiry());
-			if(ds.updateCertiDetail(dto, datas[0]) ==0 ) {
-				System.out.println(datas[0]);
-			}
-		}
-	}
-	
-	//공인민간자격증 certiinfo에 데이터 추가
-	@RequestMapping("addCertiDetailP1")
-	public void addCertiDetailP1() throws IOException{
-		FileInputStream fis = new FileInputStream(new File("f:/data/062702.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
-		
-		String strLine;
-		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
-			
-			String [] datas = strLine.split(",");
-			CertiInfoDTO info = new CertiInfoDTO();
-			
-			
-			info.setCname(datas[0]);
-			info.setCategory("공인민간");
-			info.setStatus("Y");
-			
-			info.setCompany(datas[2]);
-			//info.setExpiry(datas[3].replaceAll("-", ""));
-			if(datas.length <= 4) {
-				info.setWebsite("");
-			}else {
-				info.setWebsite(datas[4]);
-			}
-			
-			if(!datas[2].equals("")) {
-				String [] levels = datas[1].split("@");
-				int len = levels.length;
-				
-				for(int i=0; i<len ; i++) {
-					//System.out.println("levels==="+levels[i].trim()); 
-					info.setClevel(levels[i].trim());
-					//System.out.println("********************\n"+info+"\n"+ detail+"********************\n");
-					as.addCertiInfo(info, new CertiScheduleDTO(),new CertiDateDTO(),new CertiRequirementDTO());
-				}
-			}
-			
-			
-		}
-	}
-	
-	//국가기술자격 연령별/성별 합격자수 통계데이터 추가
+	//국가기술자격 연령별/성별 합격자수 통계데이터 추가(pass_detail)
 	@RequestMapping("addPassDetailN")
 	public void addPassDetailN() throws IOException{
 		FileInputStream fis = new FileInputStream(new File("d:/proj2/062701.csv"));
@@ -139,39 +75,7 @@ public class DataController {
 		}
 	}
 	
-	//국가기술자격 데이터 추가 certiinfo
-	@RequestMapping("addQnetAll")
-	public void addQnetAll() throws IOException {
-		FileInputStream fis = new FileInputStream(new File("F:/data/kki.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
-		
-		String strLine;
-		while((strLine = br.readLine()) != null) {
-			String [] datas = strLine.split(",");
-			
-			CertiInfoDTO info = new CertiInfoDTO();
-			CertiScheduleDTO sch = new CertiScheduleDTO();
-
-			info.setCategory("국가기술");
-			info.setCname(datas[3]);
-			info.setClevel(datas[2]);
-			info.setCompany("한국산업인력공단");
-			info.setStatus("Y");
-
-			if(!datas[1].equals(""))
-				sch.setCround(Integer.parseInt(datas[1]));
-			if(!datas[0].equals(""))
-				sch.setCyear(Integer.parseInt(datas[0]));
-			sch.setClevel(datas[2]);
-			
-			
-			ds.addNatCerti(info, sch);
-			//System.out.println("********************************\n" + info + "\n" + sch);
-		}
-		
-	}
-	
-	//certidate 테이블에 국가기술자격 데이터 추가
+	//국가기술자격 일정정보 추가(certidate)
 	@RequestMapping("addQnetDate")
 	public void addQnetDate() throws IOException {
 		
@@ -230,158 +134,25 @@ public class DataController {
 		return str;
 	}
 	
-	//국가기술자격 상세정보 업데이트(api csv)
-	@RequestMapping("updateNDetail1")
-	public void updateNDetail1() throws Exception {
-		
-
-		FileInputStream fis = new FileInputStream(new File("f:/data/ndetail.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
-
-		String strLine;
-		
-		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
-			String [] datas = strLine.split(",", 3);
-			
-			CertiInfoDTO dto = new CertiInfoDTO();
-			int res = 0;
-			//dto.setCnum( ds.findCnum(datas[0]) );
-			
-			switch(datas[1]) {
-			case "개요":
-				dto.setCinfo(datas[2]);
-				res=1;
-				break;
-			case "수행직무":
-				dto.setCjob(datas[2]);
-				res=1;
-				break;
-			case "진로 및 전망":
-				dto.setCjob(datas[2]);
-				res=1;
-				break;
-			case "변천과정":
-			case "실시기관명":
-			case "실시기관 홈페이지":
-			case "위 자격취득자에 대한 법령상 우대현황":
-				break;
-			case "출제경향":
-				//?
-				break;
-			case "취득방법":
-				//System.out.println(datas[2]);
-				if(datas[2].contains("시험과목")) {
-					String datass = datas[2].split("시험과목",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ");
-					//System.out.println(datas[0] + "//" + datass);
-					//System.out.println("시험과목");
-					dto.setSubject(datass);
-				}
-				if(datas[2].contains("응시자격")) {
-					String datass = datas[2].split("응시자격",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ").replaceAll(":", "").trim();
-					//System.out.println("응시자격");
-					dto.setRequirement(datass);
-				}
-				if(datas[2].contains("검정기준")) {
-					String datass = datas[2].split("검정기준",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ");
-					//System.out.println("검정기준");
-					dto.setCmethod(datass);
-				}else if(datas[2].contains("검정방법")) {
-					String datass = datas[2].split("검정방법",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ");
-					//System.out.println("검정방법");
-					dto.setCmethod(datass);
-				}
-				if(datas[2].contains("합격기준")) {
-					String datass = datas[2].split("합격기준",2)[1].split("[①-⑩]",2)[0].trim().replaceAll("[ ]{2,}", " ").replaceAll(":", "").trim();
-					//System.out.println("합격기준");
-					dto.setCutline(datass);
-				}
-				res=1;
-				break;
-			default:
-				System.out.println(datas[1]);
-				break;
-			}
-			
-			if(res==1) {
-				//System.out.println("*******************************"+datas[0]+"\n"+dto);
-				if ( ds.updateCertiDetail(dto, datas[0]) == 0) {
-					System.out.println(datas[0]);
-				}
-			}
-			
-			
-		}
+	//국가기술자격 상세정보 입력(certiinfo)
+	@RequestMapping("addNatInfo")
+	public void addNatInfo() throws Exception {
+		ds.addNatInfo();
 	}
-	/*
-	//NCS분류1 - 자격증 코드 목록따오기
-	@RequestMapping("certiGetNCS")
-	public void certiGetNCS() throws Exception{
-		ArrayList <String> jmCdList = new ArrayList<String>();
-		
-		String url = "https://c.q-net.or.kr/openapi/cjmncslist.do?serviceKey=";
-		url += "yapz%2B1EpEAK%2BuivcMayhbsLMyJrcxm7Bm3vYUA%2BAgsvrEyFKrVQllmU4ERm8b1jBS4ULE0ZOMIFEBvjfDbEZBQ%3D%3D";
-		url += "&type=xml&pageNo=1&numOfRows=200";
-		
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document doc = db.parse(url);
-		doc.getDocumentElement().normalize();
-		//System.out.println("root element===" + doc.getDocumentElement().getChildNodes());
-		
-		NodeList nodes = doc.getDocumentElement().getElementsByTagName("jmInfo");//.item(0).getChildNodes();
-		//System.out.println(nodes);
-		//System.out.println(nodes.getLength());
-		for(int i=0; i<nodes.getLength(); i++) {
-			Node node = nodes.item(i);
-			//System.out.println("current element===="+node.getNodeName());
-			if(node.getNodeType() == Node.ELEMENT_NODE) {
-				Element e = (Element) node;
-				jmCdList.add(getTagValue("jmCd",e));
-				//System.out.println(getTagValue("jmCd",e));
-			}
-		}
-		//System.out.println(jmCdList.size());
-		
-		url = "https://c.q-net.or.kr/openapi/cjmncsinfolist.do?serviceKey=";
-		url += "yapz%2B1EpEAK%2BuivcMayhbsLMyJrcxm7Bm3vYUA%2BAgsvrEyFKrVQllmU4ERm8b1jBS4ULE0ZOMIFEBvjfDbEZBQ%3D%3D";
-		url += "&type=xml&jmCd=";
-		for(String jmCd : jmCdList) {
-			
-			try {doc = db.parse(url+jmCd);}
-			catch (Exception e) {System.out.println("*********************error********************");continue;}
-			doc.getDocumentElement().normalize();
-			
-			
-			nodes = doc.getDocumentElement().getElementsByTagName("compeUnitInfo");
-			ArrayList <String> temp=new ArrayList<String>();
-			for(int i=0; i<nodes.getLength(); i++) {
-				Node node = nodes.item(i);
-				if(node.getNodeType() == Node.ELEMENT_NODE) {
-					Element e = (Element)node;
-
-					String tt = getTagValue("lclasCd", e) 
-								+getTagValue("mclasCd", e)
-//								+getTagValue("sclasCd", e)
-//								+getTagValue("subdCd",e) 
-//								+getTagValue("compeUnitCd", e)
-								;
-					//System.out.println(tt);
-					if(!temp.contains(tt)) {
-						//System.out.println(tt);
-						temp.add(tt);
-					}
-				}
-			}
-			String codes = "";
-			for(String code : temp) {
-				codes += code+"@";
-			}
-			System.out.println(codes);
-		}
+	
+	//국가기술자격 시험회차정보 입력(certischedule)
+	@RequestMapping("addNatSchedule")
+	public void addNatSchedule() throws Exception{
+		ds.addNatSchedule();
 	}
-	*/
-	//연관 자격증 찾기
+	
+	//NCS코드명 입력(ncs_code)
+	@RequestMapping("addNcsCode")
+	public void addNcsCode() throws Exception{
+		ds.addNcsCode();
+	}
+	
+	//연관 자격증 찾기(certi_related)
 	@RequestMapping("addCertiRelated")
 	public void addCertiRelated() throws Exception {
 		String url = "http://openapi.q-net.or.kr/api/service/rest/InquiryAttenQualSVC/getList?ServiceKey=yapz%2B1EpEAK%2BuivcMayhbsLMyJrcxm7Bm3vYUA%2BAgsvrEyFKrVQllmU4ERm8b1jBS4ULE0ZOMIFEBvjfDbEZBQ%3D%3D&numOfRows=10&pageNo=";
@@ -432,31 +203,7 @@ public class DataController {
 	    return nValue.getNodeValue();
 	}
 	
-	@RequestMapping("splitCmethod")
-	public void splitCmethod() {
-		ds.splitCmethod();
-	}
-	
-	@RequestMapping("splitSubject")
-	public void splitSubject() {
-		ds.splitSubject();
-	}
-	
-	@RequestMapping("updateMingan")
-	public void updateMingan() throws Exception {
-
-		FileInputStream fis = new FileInputStream(new File("f:/data/mingan4.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
-
-		String strLine;
-		ArrayList<String> strList = new ArrayList<String>();
-		
-		while((strLine = br.readLine()) != null) {
-			strList.add(strLine);
-		}
-		ds.updateMingan(strList);
-	}
-	
+	//합격률 정보 저장(pass_rate)
 	@RequestMapping("addPassRate")
 	public void addPassRate() throws Exception {
 		
@@ -472,19 +219,10 @@ public class DataController {
 		ds.addPassRate(strList);
 	}
 	
-	@RequestMapping("updateCertiPrice")
-	public void updateCertiPrice() throws IOException {
-		
-		FileInputStream fis = new FileInputStream(new File("f:/data/susu.csv"));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
-		
-		String strLine;
-		ArrayList<String> strList = new ArrayList<String>();
-		
-		while((strLine=br.readLine()) != null) {
-			strList.add(strLine);
-		}
-		ds.updateCertiPrice(strList);
+	//민간자격증 데이터 추가 (certiinfo)
+	@RequestMapping("addPrvInfo")
+	public void addPrvInfo() throws Exception{
+		ds.addPrvInfo();
 	}
 	
 }
