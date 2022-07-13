@@ -27,10 +27,21 @@
 		select nvl(max(post_group), 0) from post_board
 	</select>
 	
+<!-- view단에서 fmt사용하기
 	<select id="post_BoardLists" resultType="spring.project.model.Post_BoardDTO">
 		<![CDATA[
 			select * from 
 				(select post_board.*, rownum r, to_char(reg, 'YYYY-MM-DD HH24:MI') as regdate from 
+					(select * from post_board order by post_group desc, post_level) post_board 
+						where board_type=#{board_type} and status='0')
+							where r >= #{startRow} and r <= #{endRow}
+		]]>
+	</select>
+ -->	
+	<select id="post_BoardLists" resultType="spring.project.model.Post_BoardDTO">
+		<![CDATA[
+			select * from 
+				(select post_board.*, rownum r from 
 					(select * from post_board order by post_group desc, post_level) post_board 
 						where board_type=#{board_type} and status='0')
 							where r >= #{startRow} and r <= #{endRow}

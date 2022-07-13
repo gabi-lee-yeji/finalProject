@@ -18,6 +18,9 @@
 		<input type="button" value="답글" 
 			onclick="window.location = '/community/review/addReview?pnum=${board.pnum}&post_group=${board.post_group}' " />
 	</c:if>
-	
+	<br/><br/>
+	<div>
+		<jsp:include page="/WEB-INF/views/board/addCommForm.jsp" flush="false"/>
+	</div>
 </body>
 </html>

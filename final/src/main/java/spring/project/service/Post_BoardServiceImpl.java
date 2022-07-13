@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Setter;
+import spring.project.mapper.Comm_BoardMapper;
 import spring.project.mapper.Post_BoardAttachMapper;
 import spring.project.mapper.Post_BoardMapper;
+import spring.project.model.Comm_BoardDTO;
 import spring.project.model.Post_BoardAttachDTO;
 import spring.project.model.Post_BoardDTO;
 
@@ -25,6 +27,9 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	
 	@Setter(onMethod_= @Autowired)
 	private Post_BoardAttachMapper pbAMapper;
+	
+	@Setter(onMethod_= @Autowired)
+	private Comm_BoardMapper CommMapper;
 	
 	//httprequest servle>>> 매개변수 getrealpath
 	@Transactional
@@ -144,12 +149,37 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		return pbMapper.upReadCnt(dto);
 	}
 	
-	
 	@Override
 	public List<Post_BoardAttachDTO> post_BoardAttachLists(int pnum){
 		return pbAMapper.getPost_BoardAtachList(pnum);
 	}
 	
+	@Override
+	public int addComm_Board(Comm_BoardDTO comm) {
+		int comm_group = CommMapper.maxComm_group()+1;
+		if(comm.getComm_group() != 0) {
+			comm.setComm_group(comm.getComm_group());
+			comm.setComm_level(1);
+		}else {
+			comm.setComm_group(comm_group);
+		}
+		return CommMapper.addComm_Board(comm);
+	}
+
+	@Override
+	public List<Comm_BoardDTO> comm_BoardLists(int pnum) {
+		return CommMapper.comm_BoardLists(pnum);
+	}
+
+	@Override
+	public int comm_BoardCount(int pnum) {
+		return CommMapper.comm_BoardCount(pnum);
+	}
+
+	@Override
+	public int delComm_Board(int comm_num) {
+		return CommMapper.delComm_Board(comm_num);
+	}
 
 
 	

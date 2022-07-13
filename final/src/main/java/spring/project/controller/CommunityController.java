@@ -2,13 +2,17 @@ package spring.project.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import spring.project.model.Comm_BoardDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.Post_BoardAttachDTO;
 import spring.project.model.Post_BoardDTO;
@@ -20,6 +24,31 @@ public class CommunityController {
 	
 	@Autowired
 	private Post_BoardService service;
+	
+	// ¥Ò±€µÓ∑œ
+	@RequestMapping("addComm")
+	public String addComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr) {
+		System.out.println(comm.getComm_content());
+		System.out.println(comm.getComm_group());
+		System.out.println(comm.getComm_level());
+		System.out.println(comm.getPnum());
+		System.out.println(comm.getWriter());
+		
+		service.addComm_Board(comm);
+		rttr.addAttribute("pnum", comm.getPnum());
+		rttr.addAttribute("pageNum", pageNum);
+		return "redirect:/community/review/reviewContent";
+	}
+	
+	// ¥Ò±€ ªË¡¶
+	@RequestMapping("delComm")
+	public String delComm(Comm_BoardDTO comm, String memid, String pageNum, RedirectAttributes rttr) {
+		System.out.println(comm.getWriter());
+		int result = service.delComm_Board(comm.getComm_num());
+		rttr.addAttribute("pnum", comm.getPnum());
+		rttr.addAttribute("pageNum", pageNum);
+		return "redirect:/community/review/reviewContent";
+	}
 	
 	@RequestMapping("review/addReview")
 	public String addReview(String pnum, Post_BoardDTO board, Model model) {
@@ -77,14 +106,27 @@ public class CommunityController {
 		return "community/review/reviewList";
 	}
 	
+	
 	@RequestMapping("review/reviewContent")
-	public String reviewContent(int pnum, String pageNum, Model model) {
+	public String reviewContent(int pnum, String pageNum, Model model, HttpSession session) {
+		String memid = "rlawoduq";
+				//(String)session.getAttribute("memid");
+
 		Post_BoardDTO board = service.post_BoardContent(pnum);
 		List<Post_BoardAttachDTO> boardAttach = service.post_BoardAttachLists(pnum);
+		if(!boardAttach.isEmpty())
+			model.addAttribute("boardAttach", boardAttach);
+		
+		int comm_BoardCount = service.comm_BoardCount(pnum);
+			System.out.println(comm_BoardCount);
+		List<Comm_BoardDTO> commList = service.comm_BoardLists(pnum);
+			System.out.println(commList);
 
 		model.addAttribute("board", board);
-		model.addAttribute("boardAttach", boardAttach);
 		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("comm_BoardCount", comm_BoardCount);
+		model.addAttribute("commList", commList);
+		model.addAttribute("memid", memid);
 		
 		return "community/review/reviewContent";
 	}

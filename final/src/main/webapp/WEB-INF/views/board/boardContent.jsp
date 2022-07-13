@@ -15,22 +15,22 @@
 	</tr>
 	<tr>
 		<td>작성일</td>
-		<td>${board.regdate}</td>
+		<td>${board.reg}</td>
 	</tr>
 	<tr>
 		<td>내용</td>
 		<td>${board.post_content}</td>
 	</tr>
+	<c:if test="${boardAttach != null}">
 	<tr>
 	<td>첨부파일</td>
 		<td>
-			<c:if test="${boardAttach != null}">
 			<c:forEach var="list" items="${boardAttach}">
 				${list.fileName}<br/>
 			</c:forEach>
-			</c:if>
+			
 		</td>
 	</tr>
+	</c:if>
 </table>
-
 </html>
