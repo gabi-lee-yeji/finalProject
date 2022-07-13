@@ -65,7 +65,7 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 		int result = 0;
-		if(info.getCategory().equals("�������")) {
+		if(info.getCategory().equals("국가기술")) {
 			result += mapper.addCertiInfo(info);
 			result += mapper.addCertiSchedule(schedule);
 			if(result==2) mapper.findNextseq(sequence);

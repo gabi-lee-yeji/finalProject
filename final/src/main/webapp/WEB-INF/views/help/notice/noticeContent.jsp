@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <head>
 <meta charset="UTF-8">
-<title>notice 글 보기</title>
+<title>공지사항</title>
+
 </head>
 <body>
 	<table border=1>
@@ -20,8 +21,8 @@
 		</tr>
 	</table>
 	<input type="button" value="수정" onclick="window.location='/help/notice/modNotice?pnum=${dto.pnum}&pageNum=${pageNum}'" />
-	<input type="button" value="삭제" onclick="window.location='/help/notice/delNotice?pnum=${dto.pnum}&pageNum=${pageNum}&memid=test4'" />
-	<input type="button" value="글목록" onclick="window.location='/help/notice/noticeList'" />
+	<input type="button" value="삭제" onclick="window.location='/help/notice/delNotice?pnum=${dto.pnum}&pageNum=${pageNum}&memid=안혜원'" />
+	<input type="button" value="글목록" onclick="window.location='/help/notice/noticeList?board_type=1'" />
 </body>
 
 

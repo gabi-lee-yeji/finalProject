@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.project.model.CertiInfoDTO;
+
 import spring.project.service.CertiService;
 
 @Controller
@@ -15,25 +17,45 @@ import spring.project.service.CertiService;
 public class CertiController {
 	
 	@Autowired
-	private CertiService service;
+	public CertiService service;
 	
-	@RequestMapping("certiList")
-	public String getCertiNatList(String category, Model model){
-		List<CertiInfoDTO> nlist = service.getCertiNatList();
-		int count = nlist.size();
-		model.addAttribute("nlist", nlist);
+	// 전체 자격증 목록
+	@RequestMapping("certiMain")
+	public String getCertiList(String pageNum, String category, Model model){
+		
+		if(pageNum == null) pageNum = "1";
+	      int pageSize = 15;
+	      int currentPage = Integer.parseInt(pageNum);
+	      int startRow = (currentPage - 1) * pageSize + 1;
+	      int endRow = currentPage * pageSize;
+	      int count = 0;
+	      int number = 0;
+		
+		count = service.getCertCnt();
+		List<CertiInfoDTO> clist = null;
+		
+		
+		if(count > 0) {
+			clist = service.getCertiList(startRow, endRow, category);
+		}
+		
+		number = count - (currentPage - 1) * pageSize;
+	
 		model.addAttribute("count", count);
-		return "/certificate/certiNat";
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
+		model.addAttribute("number", number);
+		model.addAttribute("clist", clist);
+		model.addAttribute("category", category);
+		
+		System.out.println(startRow);
+		System.out.println(endRow);
+		return "/certificate/certiMain";
 	}
 	
-	@RequestMapping("certiPrv")
-	public String getCertiPriList(Model model) {
-		List<CertiInfoDTO> plist = service.getCertiPrvList();
-		int count = plist.size();
-		model.addAttribute("plist", plist);
-		model.addAttribute("count", count);
-		return "/certificate/certiPrv";
-	}
 	
 	@RequestMapping("certiLang")
 	public String getCertiLangList(Model model) {

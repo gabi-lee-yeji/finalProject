@@ -92,7 +92,7 @@ ${memberInfoDTO.memid}
 			이름 : <input type="text" name="mem_name" value="${dto.mem_name}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			이메일 : <input type="text" name="mail1" value="${dto.mail1}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>@
 			<input type="text" name="mail2" value="${dto.mail2}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			생일 : <fmt:formatDate pattern="yyyy-MM-dd" value="${dto.birthday }"/> <br/>
+			생일 : ${dto.birthday} <br/>
 			성별 <br/>
 			남<input type="radio" name="gender" value="M" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" checked/>
 			여<input type="radio" name="gender" value="F" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>

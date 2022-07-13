@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -23,6 +20,8 @@ import org.w3c.dom.NodeList;
 
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiMatchDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.PassDetailDTO;
 import spring.project.service.AdminService;
@@ -93,7 +92,7 @@ public class DataController {
 					//System.out.println("levels==="+levels[i].trim()); 
 					info.setClevel(levels[i].trim());
 					//System.out.println("********************\n"+info+"\n"+ detail+"********************\n");
-					as.addCertiInfo(info, null,new CertiDateDTO());
+					as.addCertiInfo(info, new CertiScheduleDTO(),new CertiDateDTO(),new CertiRequirementDTO());
 				}
 			}
 			
@@ -142,25 +141,23 @@ public class DataController {
 	
 	//국가기술자격 데이터 추가 certiinfo
 	@RequestMapping("addQnetAll")
-	public String addQnetAll() throws IOException {
-		
+	public void addQnetAll() throws IOException {
 		FileInputStream fis = new FileInputStream(new File("F:/data/kki.csv"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
 			String [] datas = strLine.split(",");
 			
 			CertiInfoDTO info = new CertiInfoDTO();
 			CertiScheduleDTO sch = new CertiScheduleDTO();
-			
+
 			info.setCategory("국가기술");
 			info.setCname(datas[3]);
 			info.setClevel(datas[2]);
 			info.setCompany("한국산업인력공단");
 			info.setStatus("Y");
-			
+
 			if(!datas[1].equals(""))
 				sch.setCround(Integer.parseInt(datas[1]));
 			if(!datas[0].equals(""))
@@ -168,11 +165,10 @@ public class DataController {
 			sch.setClevel(datas[2]);
 			
 			
-			as.addCertiInfo(info, sch, null);
-			//System.out.println(info + "\n" + sch);
+			ds.addNatCerti(info, sch);
+			//System.out.println("********************************\n" + info + "\n" + sch);
 		}
 		
-		return "admin/addQnetAll";
 	}
 	
 	//certidate 테이블에 국가기술자격 데이터 추가
@@ -317,7 +313,7 @@ public class DataController {
 			
 		}
 	}
-	
+	/*
 	//NCS분류1 - 자격증 코드 목록따오기
 	@RequestMapping("certiGetNCS")
 	public void certiGetNCS() throws Exception{
@@ -342,7 +338,7 @@ public class DataController {
 			if(node.getNodeType() == Node.ELEMENT_NODE) {
 				Element e = (Element) node;
 				jmCdList.add(getTagValue("jmCd",e));
-				System.out.println(getTagValue("jmCd",e));
+				//System.out.println(getTagValue("jmCd",e));
 			}
 		}
 		//System.out.println(jmCdList.size());
@@ -364,27 +360,68 @@ public class DataController {
 				if(node.getNodeType() == Node.ELEMENT_NODE) {
 					Element e = (Element)node;
 
-					String tt = getTagValue("lclasCd", e) +getTagValue("mclasCd", e)+getTagValue("sclasCd", e);
-					/*System.out.println(tt);
+					String tt = getTagValue("lclasCd", e) 
+								+getTagValue("mclasCd", e)
+//								+getTagValue("sclasCd", e)
+//								+getTagValue("subdCd",e) 
+//								+getTagValue("compeUnitCd", e)
+								;
+					//System.out.println(tt);
 					if(!temp.contains(tt)) {
-						System.out.println(tt);
+						//System.out.println(tt);
 						temp.add(tt);
-					}*/
+					}
 				}
-			}/*
-			if(temp.size()>3) {
-				System.out.println(getTagValue("jmNm", doc.getDocumentElement()) + " " + jmCd);
-				System.out.println(temp.size());
-			}*/
+			}
+			String codes = "";
+			for(String code : temp) {
+				codes += code+"@";
+			}
+			System.out.println(codes);
 		}
 	}
-	
-	/*
-	//연관 자격증 찾기
-	@RequestMapping("certiMatchTest")
-	public void certiMatchTest() throws Exception {
-	}
 	*/
+	//연관 자격증 찾기
+	@RequestMapping("addCertiRelated")
+	public void addCertiRelated() throws Exception {
+		String url = "http://openapi.q-net.or.kr/api/service/rest/InquiryAttenQualSVC/getList?ServiceKey=yapz%2B1EpEAK%2BuivcMayhbsLMyJrcxm7Bm3vYUA%2BAgsvrEyFKrVQllmU4ERm8b1jBS4ULE0ZOMIFEBvjfDbEZBQ%3D%3D&numOfRows=10&pageNo=";
+		int i=1;
+
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		
+		//ArrayList<CertiMatchDTO> list = new ArrayList<CertiMatchDTO>();
+		while(true) {
+			Document doc = db.parse(url+i);
+			i++;
+			doc.getDocumentElement().normalize();
+			
+			NodeList nodes = doc.getDocumentElement().getElementsByTagName("item");
+			if(nodes.getLength() == 0) break;
+			for(int j=0; j<nodes.getLength(); j++) {
+				Node node = nodes.item(j);
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					Element e = (Element)node;
+					CertiMatchDTO dto = new CertiMatchDTO();
+					dto.setCfrom(getTagValue("jmNm",e));
+					dto.setCto(getTagValue("recomJmNm1",e));
+					//list.add(dto);
+					System.out.println(dto);
+					ds.addCertiRelated(dto);
+					dto = new CertiMatchDTO();
+					dto.setCfrom(getTagValue("jmNm",e));
+					dto.setCto(getTagValue("recomJmNm2",e));
+					//list.add(dto);
+					System.out.println(dto);
+					ds.addCertiRelated(dto);
+				}
+
+			}
+		
+		}
+		
+		//for(CertiMatchDTO dto : list) System.out.println(dto);
+	}
 	
 	// xml node 이름으로 값 불러오기
 	private static String getTagValue(String tag, Element eElement) {
@@ -394,4 +431,60 @@ public class DataController {
 	        return null;
 	    return nValue.getNodeValue();
 	}
+	
+	@RequestMapping("splitCmethod")
+	public void splitCmethod() {
+		ds.splitCmethod();
+	}
+	
+	@RequestMapping("splitSubject")
+	public void splitSubject() {
+		ds.splitSubject();
+	}
+	
+	@RequestMapping("updateMingan")
+	public void updateMingan() throws Exception {
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/mingan4.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+
+		String strLine;
+		ArrayList<String> strList = new ArrayList<String>();
+		
+		while((strLine = br.readLine()) != null) {
+			strList.add(strLine);
+		}
+		ds.updateMingan(strList);
+	}
+	
+	@RequestMapping("addPassRate")
+	public void addPassRate() throws Exception {
+		
+		FileInputStream fis = new FileInputStream(new File("f:/data/minganstat2.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		ArrayList<String> strList = new ArrayList<String>();
+		
+		while((strLine=br.readLine()) != null) {
+			strList.add(strLine);
+		}
+		ds.addPassRate(strList);
+	}
+	
+	@RequestMapping("updateCertiPrice")
+	public void updateCertiPrice() throws IOException {
+		
+		FileInputStream fis = new FileInputStream(new File("f:/data/susu.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+		
+		String strLine;
+		ArrayList<String> strList = new ArrayList<String>();
+		
+		while((strLine=br.readLine()) != null) {
+			strList.add(strLine);
+		}
+		ds.updateCertiPrice(strList);
+	}
+	
 }

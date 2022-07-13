@@ -30,7 +30,14 @@
 	<c:forEach var="qna" items="${qnaList}">	
 		<tr>
 			<td>${qna.pnum}</td>
-			<td><a href="/help/qna/qnaContent?pnum=${qna.pnum}&pageNum=${currentPage}">${qna.subject}</a></td>
+			<td>
+				<c:if test="${qna.post_level == 0}">
+					<a href="/help/qna/qnaContent?pnum=${qna.pnum}&pageNum=${currentPage}">${qna.subject}</a>
+				</c:if>
+				<c:if test="${qna.post_level > 0}">
+					&nbsp;<a href="/help/qna/qnaContent?pnum=${qna.pnum}&pageNum=${currentPage}">${qna.subject}</a>
+				</c:if>
+			</td>
 			<td>${qna.writer}</td>
 			<td>${qna.reg}</td>
 			<td>${qna.readCnt}</td>

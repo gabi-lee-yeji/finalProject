@@ -7,28 +7,23 @@ import org.springframework.stereotype.Service;
 
 import spring.project.mapper.CertiMapper;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiRequirementDTO;
+import spring.project.pagination.PagingDTO;
 
 @Service
 public class CertiServiceImpl implements CertiService {
 
 	@Autowired
-	CertiMapper mapper;
-	
-	@Override
-	public List<CertiInfoDTO> getCertiNatList() {
-		
-		return mapper.getCertiNatList();
-	}
-	
-//	public List<CertiDetailDTO> getCertiDetailNatList() {
-//		
-//		return mapper.getCertiDetailNatList();
-//	}
+	private CertiMapper mapper;
 
 	@Override
-	public List<CertiInfoDTO> getCertiPrvList() {
-		
-		return mapper.getCertiPrvList();
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow, String category) {
+		return mapper.getCertiList(startRow, endRow, category);
+	}
+	
+	@Override
+	public int getCertCnt() {
+		return mapper.getCertCnt();
 	}
 
 	@Override
@@ -36,5 +31,11 @@ public class CertiServiceImpl implements CertiService {
 		
 		return mapper.getCertiLangList();
 	}
+
+	@Override
+	public List<CertiRequirementDTO> getCertiFilter() {
+	      return mapper.getCertiFilter();
+	   }
+
 
 }

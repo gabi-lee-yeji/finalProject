@@ -8,9 +8,8 @@
 <body>
 <c:if test="${pnum == 0}" >
 	<h1>1:1 문의 글 쓰기</h1>
-	<!-- <form action="/help/qna/addQnaPro" name="addQna" method="post" enctype="multipart/form-data" > -->
 	<form action="/help/qna/addQnaPro" name="addQna" method="get" >
-	<input type="hidden" name="board_type" value="1:1문의" />
+	<input type="hidden" name="board_type" value="3" />
 		<table>
 			<tr>
 				<td>제목</td>
@@ -20,8 +19,8 @@
 				<td>작성자</td>
 			<!-- <td>${memid}</td> -->
 				<!--	<input type="hidden" name="writer" value="${memid}" /> -->
-				<td>test4</td>
-					<input type="hidden" name="writer" value="test4" />
+				<td>안혜원</td>
+					<input type="hidden" name="writer" value="안혜원" />
 			</tr>
 			<tr>
 				<td>문의 내용</td>
@@ -36,7 +35,7 @@
 			</tr>
 		</table>
 	</form>
-	<input type="button" value="1:1문의 목록" onclick="window.location='help/qna/qnaList' " />
+	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList?board_type=3' " />
 </c:if>
 
 <c:if test="${pnum != 0}" >
@@ -70,7 +69,7 @@
 		<table>
 			<tr>
 				<td>제목</td>
-				<td><input type="text" name="subject" value="[답변]"/></td>
+				<td><input type="text" name="subject" value="[re] ${dto.subject}"/></td>
 			</tr>
 			<tr>
 				<td>작성자</td>
@@ -86,6 +85,6 @@
 			</tr>
 		</table>
 	</form>
-	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList' " />
+	<input type="button" value="1:1문의 목록" onclick="window.location='/help/qna/qnaList?board_type=1:1문의' " />
 </c:if>
 </body>

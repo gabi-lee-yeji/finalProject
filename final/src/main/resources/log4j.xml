@@ -32,19 +32,13 @@
 		<level value="warn" />
 	</logger>
 
-	<!-- Root Logger -->
-	<root>
-		<priority value="warn" />
-		<appender-ref ref="console" />
-	</root>
-	
 	<!-- SQL Logger -->
 	<logger name="jdbc.sqltiming" additivity="false">
 		<level value="warn"/>
 		<appender-ref ref="console"/>
 	</logger>
 	<logger name="jdbc.sqlonly" additivity="false">
-		<level value="info"/>
+		<level value="warn"/>
 		<appender-ref ref="console"/>
 	</logger>
 	<logger name="jdbc.audit" additivity="false">
@@ -59,5 +53,11 @@
 		<level value="warn"/>
 		<appender-ref ref="console"/>
 	</logger>
+	
+	<!-- Root Logger -->
+	<root>
+		<priority value="warn" />
+		<appender-ref ref="console" />
+	</root>
 	
 </log4j:configuration>

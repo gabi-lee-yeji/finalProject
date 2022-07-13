@@ -4,9 +4,12 @@
 <h1>회원가입</h1>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script language="javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script>
-	
+<script >
+
 function execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -54,15 +57,227 @@ function execDaumPostcode() {
         }
     }).open();
 }
+/* function idDuplicate(){
+	var id = document.getElementById("memid").value;
+	window.open("/member/idDuplicate?memid="+id,'중복체크','width=500,height=500');
+} */
+	function idDuplicate(){
+			var id = RegExp(/^[a-zA-Z0-9]+$/)
+			document.frm.result.value = "";
+			var memid = document.getElementById("memid").value;
+/* 			window.open("/member/idDuplicate?memid="+memid,'중복체크','width=500,height=500'); */	
+			
+			$.ajax({
+				url : '/member/idDuplicate?memid=' + memid,
+				type : 'get',
+				success : function(data){
+					console.log("1 = 중복o / 0 = 중복x" + data);
+					document.frm.result.value = data;
+				if(document.frm.result.value == ""){
+					$("#checkId").html("아이디를 입력해주세요")
+					$("#checkId").attr("color","yellow");
+				}
+				if(document.frm.memid.value == ""){
+					$("#checkId").html("아이디를 입력해주세요")
+					$("#checkId").attr("color","yellow");
+				}
+				if(!id.test($("#memid").val())){
+		             $("#checkId").html("아이디는 영문과 숫자로 조합해야합니다.");
+		             $("#checkId").attr("color","red");
+				}
+				if(document.frm.result.value == 0){
+					$("#checkId").html("사용할 수 있는 아이디입니다.");
+					$("#checkId").attr("color","green");
+				}else{
+					$("#checkId").html("사용할 수 없는 아이디입니다.");
+					$("#checkId").attr("color","red");
+				}		
+			}
+		})
+	};
 	
+function Check(){
+		var rtn = true;
+        var email = RegExp(/^[A-Za-z0-9]+$/)
+        var id= RegExp(/^[a-zA-Z0-9]+$/)
+        var pass= RegExp(/^[a-zA-Z0-9]{4,12}$/)
+        var named= RegExp(/^[가-힣]+$/)
+        var fmt = RegExp(/^\d{6}[1234]\d{6}$/)  //포멧 설정
+        var phone1 = RegExp(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})$/)
+        var phone2 = RegExp(/^[0-9]{3,4}$/)
+        var phone3 = RegExp(/^[0-9]{4}$/)
+        var memid = document.getElementById("memid").value;
 
-	function fn_submit(){
-		var text = document.getElementById('phone').value;
-		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-		if(regPhone.test(phone)===true){
-			alert("입력된 값은 휴대전화번호입니다")
+        //아이디 공백 확인
+
+        if($("#memid").val() == ""){
+         alert("아이디 입력바람");
+             $("#memid").focus();
+             return false;
+        }
+        //아이디 유효성검사
+         if(!id.test($("#memid").val())){
+             alert("아이디는 영문과 숫자로 조합해야합니다.");
+             $("#memid").val("");
+             // idCheck.value = "";
+             $("#memid").focus();
+             return false;
+        }
+         if($("#memid").val().length < 5 || $("#memid").val().length > 20){
+             alert("아이디의 길이는 5~20자 이내로 작성해주세요.");
+             $("#memid").val("");
+             // idCheck.value = "";
+             $("#memid").focus();
+             return false;
+        }
+       //비밀번호 공백 확인
+       if($("#passwd").val() == ""){
+             alert("패스워드 입력바람");
+             $("#passwd").focus();
+             return false;
+        }
+        //아이디 비밀번호 같음 확인
+           if($("#memid").val() == $("#passwd").val()){
+             alert("아이디와 비밀번호를 같게 할 수 없습니다.");
+             $("#passwd").val("");
+             $("#passwd2").val("");
+             $("#passwd").focus();
+              return false;
+        }
+         //비밀번호 유효성검사
+         if(!pass.test($("#passwd").val())){
+             alert("형식에 맞게 입력해주세요");
+             $("#passwd").val("");
+             $("#passwd").focus();
+              return false;
+        }
+        //비밀번호 확인란 공백 확인
+         if($("#passwd2").val() == ""){
+             alert("패스워드 확인란을 입력해주세요");
+             $("#passwd2").focus();
+             return false;
+        }
+        //비밀번호 서로확인
+         if($("#passwd").val() != $("#passwd2").val()){
+             alert("비밀번호가 일치하지 않습니다.");
+             $("#passwd").val("");
+             $("#passwd2").val("");
+             $("#passwd").focus();
+             return false;
+        }
+       //이름 공백 검사
+         if($("#mem_name").val() == ""){
+              alert("이름을 입력해주세요");
+              $("#mem_name").focus();
+              return false;
+         }
+         //이름 유효성 검사
+         if(!named.test($("#mem_name").val())){
+              alert("이름은 한글만 사용하실 수 있습니다.")
+              $("#mem_name").val("");
+              $("#mem_name").focus();
+              return false;
+         }
+        //이메일 공백 확인
+         if($("#userEmail1").val() == ""){
+             alert("이메일을 입력하시기 바랍니다");
+             $("#userEmail1").focus();
+             return false;
+        }
+        //이메일 유효성 검사
+        if(!email.test($("#userEmail1").val())){
+             alert("이메일형식에 맞게 입력해주세요")
+             $("#userEmail1").val("");
+             $("#userEmail1").focus();
+             return false;
+        }//생일 유효성 검사
+        if($("#birthday").val() == ""){
+        	alert("생일을 입력해주세요.")
+        	return false;
+        }//우편번호 유효성 검사
+        if($("#postcode").val() == ""){
+        	alert("우편번호를 입력해주세요.")
+        	return false;
+        }//주소 유효성 검사
+        if($("#Address").val() == ""){
+        	alert("주소를 입력해주세요.")
+        	return false;
+        }
+        if($("#detailAddress").val() == ""){
+        	alert("상세주소를 입력해주세요.")
+        	return false;
+        }
+        if(!email.test($("#userEmail1").val())){
+            alert("이메일형식에 맞게 입력해주세요")
+            $("#userEmail1").val("");
+            $("#userEmail1").focus();
+            return false;
+        }//번호 유효성 검사
+        if($("#phone1").val() == ""){
+        	alert("전화번호는 비워둘 수 없습니다.")
+        	$("#phone1").focus();
+        	return false;
+        }
+        if(!phone1.test($("#phone1").val())){
+        	alert("전화번호를 정확히 입력해주세요.")
+        	$("#phone1").val("");
+        	$("#phone1").focus();
+        	return false;
+        }
+        if($("#phone2").val() == ""){
+        	alert("전화번호는 비워둘 수 없습니다.")
+        	$("#phone2").focus();
+        	return false;
+        }
+        if(!phone2.test($("#phone2").val())){
+        	alert("전화번호를 정확히 입력해주세요.")
+        	$("#phone2").val("");
+        	$("#phone2").focus();
+        	return false;
+        }
+        if($("#phone3").val() == ""){
+        	alert("전화번호는 비워둘 수 없습니다.")
+        	$("#phone3").focus();
+        	return false;
+        }
+       	if(!phone3.test($("#phone3").val())){
+       		alert("전화번호를 정확히 입력해주세요");
+       		$("#phone3").val("");
+       		$("#phone3").focus();
+       		return false;
+       	}
+       	if($("#major").val() == ""){
+       		alert("전공을 입력하세요.")
+       		$("#major").val("")
+       		$("#major").focus();
+       		return false;
+       	}
+       	if($("#mem_job").val() == ""){
+       		alert("직업을 입력하세요.");
+       		$("#mem_job").val("")
+       		$("#mem_job").focus();
+       		return false;
+       	}
+		$.ajax({
+			url : '/member/idDuplicate?memid=' + memid,
+			type : 'get',
+			async : false,
+			success : function(data){
+				console.log("1 = 중복o / 0 = 중복x" + data);
+				document.frm.result.value = data;
+			if(document.frm.result.value == 0){
+				alert("가입을 축하드립니다")
+			}
+			if(document.frm.result.value == 1){
+				alert("존재하는 아이디 입니다. 검사를 다시해주세요")
+				$("#memid").val("");
+				$("#memid").focus();
+				rtn = false;
+			}		
 		}
-	}
+	})
+	return rtn;
+};
 	
 function noSpaceForm(obj){
 	var str_space = /\s/;
@@ -73,17 +288,82 @@ function noSpaceForm(obj){
 		return false
 	}
 }	
-	
-	
+
+var code = "";
+$(document).ready(function (){
+	$("#mail-Check-Btn").click(function(){
+		if($("#userEmail1").val() != ""){
+		const mail = document.getElementById("userEmail1").value;
+		const mail2 = document.getElementById("userEmail2").value;
+		const email = mail+"@"+mail2;
+		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
+		var cehckBox = $(".form-control mail-check-input");
+		$.ajax({
+			type:"GET",
+			url:"mailCheck?email=" + email,
+			success:function(data){
+				
+				//console.log("data :" + data);	
+				cehckBox.attr("disabled",false);
+				code = data;
+				alert("인증번호가 전송되었습니다")
+				}
+			});
+		}else{
+			alert("이메일을 입력하시기 바랍니다.")
+		}
+		});
+	$('.form-control mail-check-input').blur(function () {
+		const inputCode = $(this).val();
+		const $resultMsg = $('#mail-check-warn');
+		
+		if(inputCode === code){
+			$resultMsg.html('인증번호가 일치합니다.');
+			$resultMsg.css('color','green');
+			$('#mail-Check-Btn').attr('disabled',true);
+			$('#userEamil1').attr('readonly',true);
+			$('#userEamil2').attr('readonly',true);
+			$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+	         $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+		}else{
+			$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
+			$resultMsg.css('color','red');
+		}
+		
+	})
+});
+
 </script>
 
-<form action="/member/signUpPro" method="post" name="memberInput">
-			아이디 : <input type="text" name="memid" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/> <br/>
-			비밀번호 : <input type="password" name="passwd" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			이름 : <input type="text" name="mem_name"  onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>
-			이메일 : <input type="text" name="mail1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>@
-			<input type="text" name="mail2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			생일 : <input type="date" name="birthday" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+<form action="/member/signUpPro" name="frm" id="frm" method="post" name="memberInput" onSubmit="return Check()" >
+			아이디 : <input type="text" id="memid" name="memid" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/> 
+				   <input type="button" value="아이디중복체크" onclick="idDuplicate();"> <font id = "checkId" size = "2"></font>
+				<br/>
+				   
+			비밀번호 : <input type="password" name="passwd" id="passwd" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+			비밀번호 확인 : <input type="password" name="passwd2" id="passwd2"/><br/>
+			이름 : <input type="text" name="mem_name" id="mem_name" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+			<div class="form-group email-form">
+	 <label for="email">이메일</label>
+<div class="input-group">
+	<input type="text" class="form-control" name="mail1" id="userEmail1" placeholder="이메일">@
+	<select class="form-control" name="mail2" id="userEmail2">
+		<option>naver.com</option>
+		<option>daum.net</option>
+		<option>gmail.com</option>
+		<option>hanmail.com</option>
+		<option>yahoo.co.kr</option>
+	</select>
+</div>   
+<div class="input-group-addon">
+	<button type="button" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
+</div>
+	<div class="mail-check-box">
+<input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+</div>
+	<span id="mail-check-warn"></span>
+</div>
+			생일 : <input type="date" name="birthday" id="birthday" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			성별 <br/>
 			남<input type="radio" name="gender" value="M" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" checked/>
 			여<input type="radio" name="gender" value="F" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
@@ -98,12 +378,20 @@ function noSpaceForm(obj){
 				<option value="LG">LG</option>
 				<option value="알뜰폰">알뜰폰</option>
 			</select>
-			<input type="text" name="phone1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
-			<input type="text" name="phone2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
-			<input type="text" name="phone3" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" /><br/>
-			학위 : <input type="text" name="mem_degree" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			전공 : <input type="text" name="major" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			직업 : <input type="text" name="mem_job" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			<input type="submit" value="완료"/>
+			<input type="text" name="phone1" id="phone1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
+			<input type="text" name="phone2" id="phone2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
+			<input type="text" name="phone3" id="phone3" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" /><br/>
+			학위 : <select name="mem_degree" id="mem_degree">
+					<option>초등학교 졸업</option>			
+					<option>중학교 졸업</option>
+					<option>고등학교 졸업</option>
+					<option>2년제 대학 졸업</option>
+					<option>3년제 대학 졸업</option>
+					<option>4년제 대학 졸업</option>	
+				</select><br/> 
+			전공 : <input type="text" name="major" id="major" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+			직업 : <input type="text" name="mem_job" id="mem_job" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+				  <input type="hidden" name="result" id="result"/>
+			<input type="submit" id="btn" value="완료"/>
 	
 </form>

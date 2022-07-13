@@ -3,12 +3,76 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
+
+	<update id="updatePrice" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo set 
+			company=#{company},
+			price=#{price},
+			ncs_cat=#{ncs_cat}
+			where cname=#{cname}
+	</update>
+
+	<select id="getNatPrices" resultType="spring.project.model.CertiInfoDTO">
+		select cname from certiinfo where cnum like 'N%'
+	</select>
+
+	<insert id="addCertiRelated" parameterType="spring.project.model.CertiMatchDTO">
+		insert into certi_related values(#{cfrom}, #{cto})
+	</insert>
+
+	<insert id="addPassRate" parameterType="spring.project.model.PassRateDTO">
+		insert into pass_rate values(
+			#{cname},
+			#{clevel, jdbcType=VARCHAR},
+			#{cyear},
+			#{applied},
+			#{tested},
+			#{passed}
+		)
+	</insert>
 	
-	<!-- 
+	<select id="getMingan" resultType="spring.project.model.CertiInfoDTO">
+		select cnum, cname, company, clevel, cinfo from certiinfo where cnum like 'P%' order by cnum
+	</select>
+
+	<update id="updateMingan" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo 
+			set company=#{company}, cinfo=#{cinfo}, cjob=#{cjob}
+			where cname=#{cname} 
+				and (clevel=#{clevel, jdbcType = VARCHAR}
+					or	(clevel is null and #{clevel, jdbcType=VARCHAR} is null))
+	</update>
+	
+	<select id="getSubjects" resultType="spring.project.model.CertiInfoDTO">
+		select cnum, subject from certiinfo where cnum like 'N%' order by cnum
+	</select>
+	
+	<update id="updateSubject" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo set subject = #{subject} where cnum=#{cnum}
+	</update>
+	
+	<select id="getCmethods" resultType="spring.project.model.CertiInfoDTO">
+		select cnum, cmethod from certiinfo where cnum like 'N%' order by cnum
+	</select>
+	
+	<update id="updateCmethods" parameterType="spring.project.model.CertiInfoDTO">
+		update CertiInfo set cmethod = #{cmethod} where cnum = #{cnum}
+	</update>
+	
+	<insert id="addNatCertiInfo" parameterType="spring.project.model.CertiInfoDTO">
+		insert into CertiInfo(cnum,category, cname, clevel, company, status,registdate)
+			values(#{cnum}, #{category}, #{cname}, #{clevel}, #{company}, #{status},sysdate)
+	</insert>
+	
+	<insert id="addNatCertiSchedule" parameterType="spring.project.model.CertiScheduleDTO">
+		insert into CertiSchedule(cnum, cround, cyear, clevel,registdate)
+			values(#{cnum}, #{cround}, #{cyear}, #{clevel},sysdate)
+	</insert>
+	
 	<select id="findCnum" resultType="String">
 		select cnum from certiinfo where cname=#{cname}
 	</select>
-	 -->
+	
 	
 	<insert id="addPassDetailN" parameterType="spring.project.model.PassDetailDTO">
 		insert into pass_detail values(

@@ -10,14 +10,14 @@ public interface HelpMapper {
 	
 	public void addPost_Board(Post_BoardDTO dto);
 	
-	public List<Post_BoardDTO> noticeLists
-		(@Param("startRow") int startRow, @Param("endRow") int endRow);
+	public List<Post_BoardDTO> post_BoardLists
+		(@Param("startRow") int startRow, @Param("endRow") int endRow, @Param("board_type") String board_type);
 	
 	public int maxPost_group();
 	
 	public void post_levelUp(Post_BoardDTO dto);
 	
-	public int noticeCount();
+	public int post_BoardCount(String board_type);
 	
 	public Post_BoardDTO post_BoardContent(int pnum);
 
@@ -29,9 +29,4 @@ public interface HelpMapper {
 	
 	public int upReadCnt(Post_BoardDTO dto);
 	
-	public int qnaCount();
-	
-	public List<Post_BoardDTO> qnaLists
-		(@Param("startRow") int startRow, @Param("endRow") int endRow);
-
 }

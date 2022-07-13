@@ -448,7 +448,11 @@
 	</select>
 	
 	<insert id="addCertiReq">
+<<<<<<< HEAD
 		insert into certi_requirement values (
+=======
+		insert into certi_requirement values(
+>>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 			#{cnum},
 			#{req_degree, jdbcType=VARCHAR},
 			#{req_age, jdbcType=VARCHAR},
