@@ -9,6 +9,7 @@
 	<title>Insert title here</title>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<select name="list" onchange="location.href=this.value">
 		<option>===정렬===</option>
 		<option value="/admin/member/searchList?sort=regDate&order=desc">가입일 내림차순</option>

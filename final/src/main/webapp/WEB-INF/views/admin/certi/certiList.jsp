@@ -7,17 +7,6 @@
 	<meta charset="UTF-8">
 	<title>자격증 목록</title>
 	
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-	
-	  gtag('config', 'UA-233548942-1');
-	</script>
-	
-	
 	<script>
 		function setBg(t){
 			td = t.parentNode;
@@ -28,6 +17,7 @@
 	</script>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<h1>자격증 목록 [총 : ${count }]</h1>
 	<input type="button" value="자격증 등록" onclick="window.location='/admin/addCerti'"/>
 	<form action="/admin/search" method="post">

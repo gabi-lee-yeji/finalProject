@@ -8,6 +8,7 @@
 	<title>신고정보 - ${memid }</title>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<h1>회원정보</h1>
 	<form action="/admin/member/memReportPro" method="post">
 		<table>

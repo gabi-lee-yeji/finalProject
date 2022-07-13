@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import spring.project.service.UserMainService;
 
 @Controller
-@RequestMapping("/main/*")
+@RequestMapping("/main")
 public class UserMainController {
 	
 	@Autowired 
@@ -19,7 +19,7 @@ public class UserMainController {
 		return "/main";
 	}
 	
-	@RequestMapping("calendar")
+	@RequestMapping("/calendar")
 	public String calendarTest(Model model) {
 		model.addAttribute("natList", service.getNatSchedules());
 		return "/main/calendarTest";

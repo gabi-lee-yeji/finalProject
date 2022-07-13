@@ -16,6 +16,7 @@
 	</script>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<h2>시험 일정</h2>
 	<h3>자격증 번호 : ${dto.cnum }</h3>
 	<form action="/admin/certi/modDatePro" method="post">

@@ -7,6 +7,7 @@
 <title>HOME - 자격증모두모아</title>
 </head>
 <body>
+	<jsp:include page="userNavBar.jsp"/>
 	- 오늘의 자격증 (캘린더)
 		- 오늘 접수 시작하는 자격증
 		- 오늘 시험일인 자격증

@@ -6,10 +6,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>일정 추가 : ${info.cname }</title>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
-	<script language="JavaScript" src="/resources/js/gtag.js"></script>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<table>	
 		<tr>
 			<td>자격증번호</td>

@@ -8,6 +8,7 @@
 	<title>신고된 회원 목록 </title>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<h1>신고된 회원 목록</h1>
 	<table>
 		<tr>

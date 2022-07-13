@@ -7,6 +7,7 @@
 	<title> 검색결과 : ${keyword} </title>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<h1>
 		<c:if test="${search eq 'cnum' }">
 			자격증번호 

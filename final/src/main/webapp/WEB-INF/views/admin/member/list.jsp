@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>전체회원 목록</title>
 </head>
+	<jsp:include page="../adminNavBar.jsp">
 	<h1>회원목록 [총:${count}명]</h1>
 	<table>
 		<tr>

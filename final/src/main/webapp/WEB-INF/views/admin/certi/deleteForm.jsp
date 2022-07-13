@@ -6,6 +6,7 @@
 	<title>자격증 삭제 확인 페이지</title>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<h1>자격증 삭제</h1>
 	<form action="/admin/deletePro" method="post">
 		<table>

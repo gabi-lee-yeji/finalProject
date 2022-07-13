@@ -16,10 +16,9 @@
 			table.style.backgroundColor = (t.checked) ? "#D8D8D8" : "white";
 		}
 	</script>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
-	<script language="JavaScript" src="/resources/js/gtag.js"></script>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp">
 	<h1>${info.cnum}   ${info.cname }</h1>
 	<input type="button" value="자격증 목록" onclick="window.location='/admin/certiList'"/> 
 	

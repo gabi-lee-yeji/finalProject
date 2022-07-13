@@ -11,6 +11,7 @@
 	<title>직원공지 등록</title>
 </head>
 <body>
+	<jsp:include page="../../adminNavBar.jsp">
 	<c:set var="url" value="/admin/emp/addNoticePro"/>
 	<c:if test="${dto != null }">
 		<c:set var="url" value="/admin/emp/modNoticePro"/>
