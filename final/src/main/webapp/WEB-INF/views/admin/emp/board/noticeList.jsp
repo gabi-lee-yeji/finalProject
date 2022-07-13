@@ -10,6 +10,7 @@
 
 <body>
 	<h1>직원공지 [total : ${count}]</h1>
+	<input type="button" value="공지등록" onclick="window.location='/admin/emp/addNotice'">
 	<table>
 		<tr>
 			<th>번호</th>
@@ -52,15 +53,15 @@
 		</c:if>
 	       
 	       <c:if test="${startPage > 10 }">
-	       	<a href="/admin/emp/notice?pageNum=${startPage-10}">[이전]</a>
+	       	<a href="/admin/emp/noticeList?pageNum=${startPage-10}">[이전]</a>
 	       </c:if>
 	       
 	       <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-	       	<a href="/admin/emp/notice?pageNum=${i}">[${i}]</a>
+	       	<a href="/admin/emp/noticeList?pageNum=${i}">[${i}]</a>
 		</c:forEach>
 		
 		<c:if test="${endPage < pageCount}">
-	       	<a href="/admin/emp/notice?pageNum=${startPage + 10}">[다음]</a>
+	       	<a href="/admin/emp/noticeList?pageNum=${startPage + 10}">[다음]</a>
 		</c:if>
     </c:if>
 </body>

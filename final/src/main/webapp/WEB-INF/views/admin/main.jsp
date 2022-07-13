@@ -113,4 +113,24 @@
 			</c:if>
 		</table>
 	</div> 
+	<hr>
+	<div>
+		<h2>**직원공지**</h2>
+		<table>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>작성일</th>
+			</tr>
+			<c:forEach var="dto" items="${empNotice}">
+				<tr>
+					<td>${dto.ebnum }</td>
+					<td>${dto.subject }</td>
+					<td>${dto.writer }</td>
+					<td><fmt:formatDate value="${dto.reg }" pattern="yy/MM/dd"/></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 </body>

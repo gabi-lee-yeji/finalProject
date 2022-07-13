@@ -16,6 +16,7 @@ import spring.project.model.EmpBoardDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardDTO;
 import spring.project.pagination.PagingDTO;
 
@@ -180,18 +181,22 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order) {
+	public List<MemberInfoDTO> getMemberList(PagingDTO page, Integer status) {
 		map.put("startRow", page.getStartRow());
 		map.put("endRow", page.getEndRow());
-		map.put("sort", sort);
-		map.put("order", order);
+		map.put("status", status);
 		
 		return mapper.getMemberList(map);
 	}
 
 	@Override
-	public int getMemberCnt() {
-		return mapper.getMemberCnt();
+	public int getMemberCnt(Integer status) {
+		return mapper.getMemberCnt(status);
+	}
+	
+	@Override
+	public String getMemStatusName(Integer status) {
+		return mapper.getMemStatusName(status);
 	}
 
 	@Override
@@ -214,14 +219,24 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<MemberInfoDTO> getReportMemList(String status) {
+	public List<MemberInfoDTO> getReportMemList(Integer status) {
 		return mapper.getReportMemList(status);
 	}
-
+	@Override
+	public int getReportMemCnt(Integer status) {
+		return mapper.getReportMemCnt(status);
+	}
+	
+	
 	@Override
 	public List<Map<String, Object>> getreportMemInfo(String memid) {
 		return mapper.getreportMemInfo(memid);
 	}
+	@Override
+	public List<MemberReportDTO> getReportReasonList(int pnum){
+		return mapper.getReportReasonList(pnum);
+	}
+	
 
 	@Override
 	public MemberInfoDTO getMemberInfo(String memid) {
@@ -324,10 +339,24 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public EmpBoardDTO getEmpNotice(int ebnum) {
-		//조회수 +1
-		mapper.updateReadCnt(ebnum);
 		return mapper.getEmpNotice(ebnum);
 	}
+	@Override
+	public void updateReadCnt(int ebnum) {
+		mapper.updateReadCnt(ebnum);
+	}
+	
+	@Override
+	public int modEmpNotice(EmpBoardDTO dto) {
+		return mapper.modEmpNotice(dto);
+	}
+
+	@Override
+	public int delEmpNotice(int ebnum) {
+		return mapper.delEmpNotice(ebnum);
+	}
+
+	
 
 
 

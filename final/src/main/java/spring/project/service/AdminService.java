@@ -11,6 +11,7 @@ import spring.project.model.CertiScheduleDTO;
 import spring.project.model.EmpBoardDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardDTO;
 import spring.project.pagination.PagingDTO;
 import spring.project.model.MemberInfoDTO;
@@ -59,19 +60,26 @@ public interface AdminService {
 	
 	//회원 관리 메서드
 	//회원 전체 목록 
-	public List<MemberInfoDTO> getMemberList(PagingDTO page, String sort, String order);
+	public List<MemberInfoDTO> getMemberList(PagingDTO page, Integer status);
 	//회원 전체 수 조회
-	public int getMemberCnt();
+	public int getMemberCnt(Integer status);
+	//회원 상태 조회
+	public String getMemStatusName(Integer status);
+	
 	
 	//회원 상세 정보
 	public MemberInfoDTO getMemberInfo(String memid);
 	
 	//신고된 회원 목록
-	public List<MemberInfoDTO> getReportMemList(String status);
+	public List<MemberInfoDTO> getReportMemList(Integer status);
+	public int getReportMemCnt(Integer status);
 	//신고된 회원의 상세 정보 - 신고당한 글/댓글 목록, 신고한 회원
 	public List<Map<String,Object>> getreportMemInfo(String memid);
 	//신고된 회원의 상태 변경
 	public int updateRepMemStatus(String memid, String status);
+	
+	//신고된 글의 신고사유, 신고한 회원 목록
+	public List<MemberReportDTO> getReportReasonList(int pnum);
 	
 	//회원목록 - 필터링 / 검색
 	public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page);
@@ -103,7 +111,10 @@ public interface AdminService {
 	//직원공지 등록
 	public int addEmpNotice(EmpBoardDTO dto);
 	//직원공지 내용
+	public void updateReadCnt(int ebnum);
 	public EmpBoardDTO getEmpNotice(int ebnum);
 	//직원공지 수정
+	public int modEmpNotice(EmpBoardDTO dto);
 	//직원공지 삭제 
+	public int delEmpNotice(int ebnum);
 }

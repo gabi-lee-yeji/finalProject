@@ -48,21 +48,21 @@
 	<table>
 		<tr>
 			<th>글번호</th>
-			<th>게시판</th>
 			<th>글제목</th>
+			<th>게시판</th>
 			<th>신고(회)</th>  <!-- 누르면 신고한 회원 목록 볼수있게? -->
 		</tr>
 		<c:forEach var="map" items="${list }" >
 			<tr>
-				<td>${map.PNUM }</td>
-				<td>${map.BOARD_TYPE }</td>
+				<td>${map.pnum }</td>
 				<td>
-					<a href="/admin/board/reportReason?pnum=${map.PNUM}"> 
-						<if test="${map.SUBJECT == null }">(제목없음)</if>
-						<if test="${map.SUBJECT != null }">${map.SUBJECT }</if>
+					<a href="/${map.board_mapping }?pnum=${map.pnum}"> 
+						<if test="${map.subject == null }">(제목없음)</if>
+						<if test="${map.subject != null }">${map.subject}</if>
 					</a>
 				</td>
-				<td>${map.REPORTCNT }</td>
+				<td>${map.board_name }</td>
+				<td>${map.reportCnt }</td>
 			</tr>
 		</c:forEach>
 	</table>

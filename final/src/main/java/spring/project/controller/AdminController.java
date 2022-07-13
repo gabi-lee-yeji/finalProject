@@ -199,11 +199,16 @@ public class AdminController {
 	}
 	
 	@RequestMapping("member/list")
-	public String getMemberList(String pageNum, String sort, String order, Model model) {
+	public String getMemberList(String pageNum, Integer status, Model model) {
 		PagingDTO page = pageService.getPaging(30, pageNum);
 		model.addAttribute("page",page);
-		model.addAttribute("count",service.getMemberCnt());
-		model.addAttribute("list", service.getMemberList(page, sort, order));
+		model.addAttribute("count",service.getMemberCnt(status));
+		model.addAttribute("list", service.getMemberList(page, status));
+		model.addAttribute("status", status);
+		
+		if(status!=null)
+			model.addAttribute("status_name", service.getMemStatusName(status));
+		
 		return "/admin/member/list";
 	}
 	
@@ -222,9 +227,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping("member/reportList")
-	public String getMemberReport(String status, Model model) {
+	public String getMemberReport(Integer status, Model model) {
 		model.addAttribute("status", status);
+		if(status!=null)
+			model.addAttribute("status_name", service.getMemStatusName(status));
+		
 		model.addAttribute("list", service.getReportMemList(status));
+		model.addAttribute("count", service.getReportMemCnt(status));
 		return "/admin/member/reportList";
 	}
 	
@@ -232,7 +241,10 @@ public class AdminController {
 	public String getReportMemInfo(String memid, String reportCnt, Model model) {
 		model.addAttribute("memid", memid);
 		model.addAttribute("reportCnt", reportCnt);
+		
+		//신고당한 회원 정보
 		model.addAttribute("dto", service.getMemberInfo(memid));
+		//신고당한 회원의 신고된 글 목록 조회
 		model.addAttribute("list", service.getreportMemInfo(memid));
 		return "/admin/member/reportMemInfo";
 	}
@@ -244,8 +256,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping("board/reportDetails")
-	public String getReportReason(Model model) {
-		
+	public String getReportReason(int pnum, Model model) {
+		model.addAttribute("list", service.getReportReasonList(pnum));
 		return "/admin/board/reportReason";
 	}
 	
@@ -292,8 +304,8 @@ public class AdminController {
 		
 		PagingDTO page = pageService.getPaging(5, null);
 		model.addAttribute("certList",service.getCertList(page, "registDate", "desc", null));
-		model.addAttribute("memReportList", service.getReportMemList("일반"));
-		
+		model.addAttribute("memReportList", service.getReportMemList(0));
+		model.addAttribute("empNotice", service.getEmpNoticeList(page));
 		return "/admin/main";
 	}
 	@RequestMapping("ajax/newMember")
@@ -348,8 +360,26 @@ public class AdminController {
 		return "/admin/emp/board/noticePro";
 	}
 	@RequestMapping("emp/notice")
-	public String getEmpNotice(int ebnum, Model model) {
+	public String getEmpNotice(int ebnum, HttpSession session, Model model) {
+		//model.addAttribute("id", session.getAttribute("memid"));
+		model.addAttribute("id", "test");
+		service.updateReadCnt(ebnum);  //조회수+1
 		model.addAttribute("dto",service.getEmpNotice(ebnum));
 		return "/admin/emp/board/notice";
+	}
+	@RequestMapping("emp/modNotice")
+	public String modEmpNotice(int ebnum, Model model) {
+		model.addAttribute("dto",service.getEmpNotice(ebnum));
+		return "/admin/emp/board/noticeForm";
+	}
+	@RequestMapping("emp/modNoticePro")
+	public String modEmpNoticePro(EmpBoardDTO dto, Model model) {
+		model.addAttribute("result", service.modEmpNotice(dto));
+		return "/admin/emp/board/noticePro";
+	}
+	@RequestMapping("emp/delNotice")
+	public String delEmpNoticePro(int ebnum, Model model) {
+		model.addAttribute("result", service.delEmpNotice(ebnum));
+		return "/admin/emp/board/delNotice";
 	}
 }

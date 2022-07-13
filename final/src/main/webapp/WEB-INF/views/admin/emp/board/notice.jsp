@@ -6,6 +6,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>직원공지</title>
+	<script>
+		function confirmDel(){
+			if(confirm("공지를 삭제하시겠습니까?")==true){
+				window.location="/admin/emp/delNotice?ebnum=${dto.ebnum}";
+			}else{
+				return false;
+			}
+		}
+	</script>
 </head>
 
 <body>
@@ -32,4 +41,8 @@
 		</tr>
 	</table>
 	<input type="button" value="목록으로 돌아가기" onclick="window.location='/admin/emp/noticeList'">
+	<c:if test="${id eq dto.writer }">
+		<input type="button" value="수정" onclick="window.location='/admin/emp/modNotice?ebnum=${dto.ebnum}'">
+		<input type="button" value="삭제" onclick="confirmDel();">
+	</c:if>
 </body>

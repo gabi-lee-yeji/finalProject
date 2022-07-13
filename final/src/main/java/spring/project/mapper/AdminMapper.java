@@ -12,6 +12,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.EmpBoardDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardDTO;
 import spring.project.pagination.PagingDTO;
 
@@ -64,10 +65,12 @@ public interface AdminMapper {
 	public int modCertiReq(CertiRequirementDTO dto);
 	
 	
-	
-	
+	//회원 전체목록 조회
 	public List<MemberInfoDTO> getMemberList(Map map);
-	public int getMemberCnt();
+	public int getMemberCnt(Integer status);
+	
+	//회원상태테이블 조회
+	public String getMemStatusName(Integer status);
 	
 	//회원상세정보 조회
 	public MemberInfoDTO getMemberInfo(String memid);
@@ -75,12 +78,15 @@ public interface AdminMapper {
 	public List<MemberInfoDTO> getMemberFilter(Map map);
 	
 	//신고당한 회원목록 가져오기 
-	public List<MemberInfoDTO> getReportMemList(String status);
+	public List<MemberInfoDTO> getReportMemList(Integer status);
+	public int getReportMemCnt(Integer status);
 	//신고당한 회원의 정보 가져오기
 	public List<Map<String, Object>> getreportMemInfo(String memid);
 	//신고당한 회원 상태 변경
 	public int updateRepMemStatus(@Param("memid")String memid, @Param("status")String status);
 	
+	//신고된 게시글의 신고사유, 회원 목록
+	public List<MemberReportDTO> getReportReasonList(int pnum);
 	
 	//문의 안달린 글 모아보기 (1:1문의 게시판) 
 	public List<Post_BoardDTO> getNewRequestList(PagingDTO page);
@@ -118,4 +124,8 @@ public interface AdminMapper {
 	//직원공지 내용
 	public void updateReadCnt(int ebnum);
 	public EmpBoardDTO getEmpNotice(int ebnum);
+	//직원공지 수정
+	public int modEmpNotice(EmpBoardDTO dto);
+	//직원공지 삭제
+	public int delEmpNotice(int ebnum);
 }

@@ -16,7 +16,22 @@
 			<th>우편번호</th>
 			<th>주소</th>	
 			<th>핸드폰번호</th>	
-			<th>회원상태</th>	
+			<th>
+				<select name="status" onchange="location.href=this.value">
+					<c:if test="${status == null }">
+						<option value="list">==전체회원==</option>
+					</c:if>
+					<c:if test="${status != null }">
+						<option>==${status_name }==</option>
+					</c:if>
+					<option value="list">전체회원</option>
+					<option value="list?status=0">일반</option>
+					<option value="list?status=2">활동중지</option>
+					<option value="list?status=3">탈퇴</option>
+					<option value="list?status=4">강제탈퇴</option>
+					<option value="list?status=5">휴면</option>
+				</select>
+			</th>	
 			<th>회원등급</th>	
 			<th>포인트</th>	
 			<th>가입일</th>		
@@ -29,7 +44,7 @@
 				<td>${dto.postalCode }</td>
 				<td>${dto.address }</td>
 				<td>${dto.mobile }</td>
-				<td>${dto.status }</td>
+				<td>${dto.status_name }</td>
 				<td>${dto.mem_level }</td>
 				<td>${dto.mem_point }</td>
 				<td>
@@ -54,15 +69,15 @@
         
         <center>
         <c:if test="${startPage > 10 }">
-        	<a href="/admin/member/list?pageNum=${startPage-10}">[이전]</a>
+        	<a href="/admin/member/list?pageNum=${startPage-10}&status=${status}">[이전]</a>
         </c:if>
         
         <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-        	<a href="/admin/member/list?pageNum=${i}">[${i}]</a>
+        	<a href="/admin/member/list?pageNum=${i}&status=${status}">[${i}]</a>
 		</c:forEach>
 		
 		<c:if test="${endPage < pageCount}">
-        	<a href="/admin/member/list?pageNum=${startPage + 10}">[다음]</a>
+        	<a href="/admin/member/list?pageNum=${startPage + 10}&status=${status}">[다음]</a>
 		</c:if>
 		</center>
     </c:if>

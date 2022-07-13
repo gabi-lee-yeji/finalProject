@@ -16,4 +16,5 @@ public class EmpBoardDTO {
 	private int readCnt;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date reg;
+	private int status;
 }

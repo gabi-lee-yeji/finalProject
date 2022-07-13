@@ -3,6 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
+	<update id="delEmpNotice">
+		update emp_board
+			set status=1
+		where ebnum=#{ebnum}
+	</update>
+	<update id="modEmpNotice">
+		update emp_board 
+			set subject=#{subject},
+			post_content=#{post_content}
+		where ebnum=#{ebnum}
+	</update>
 	<update id="updateReadCnt">
 		update emp_board set readCnt = readCnt+1 where ebnum=#{ebnum}
 	</update>
@@ -17,16 +28,19 @@
 			#{writer},
 			1,
 			0,
-			sysdate
+			sysdate,
+			0
 		)
 	</insert>
 	<select id="getEmpNoticeCnt" resultType="int">
-		select count(*) from emp_board
+		select count(*) from emp_board where status=0
 	</select>
 	<select id="getEmpNoticeList" resultType="spring.project.model.EmpBoardDTO">
 		select * from 
 			(select rownum r, list.* from 
-				(select * from emp_board) list)
+				(select * from emp_board 
+					where status=0
+				order by reg desc) list)
 		where r between #{startRow} and #{endRow}
 	</select>
 	<select id="getSearchBothCnt" resultType="int">
@@ -124,13 +138,13 @@
 	</select>
 	<select id="getNewRequestCnt" resultType="int">
 		select count(*) from post_board 
-				where board_type = '1:1문의' and post_level=0 
+				where board_type = 3 and post_level=0 
 	</select>
 	<select id="getNewRequestList" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
 			(select rownum r, list.* from 
 				(select * from post_board 
-				where board_type = '1:1문의' and post_level=0 
+				where board_type = 3 and post_level=0 
 				order by reg) list)
 			where r between #{startRow} and #{endRow}
 	</select>
@@ -207,6 +221,9 @@
 		</foreach>
 	</delete>
 	
+	<select id="getReportReasonList" resultType="spring.project.model.MemberReportDTO">
+		select * from member_report where wr_option ='P' and pnum=#{pnum}
+	</select>
 	<update id="updateRepMemStatus">
 		update memberinfo 
 			<set>
@@ -224,17 +241,26 @@
 	</select>
 	
 	<select id="getreportMemInfo" resultType="map">
-		select b.pnum, b.board_type, b.subject, a.reportcnt from 
-		( select pnum, count(*) as reportCnt from member_report where memid=#{memid} group by pnum) a, 
-		post_board b
-		where
-			a.pnum=b.pnum
+		select b.pnum, b.subject, a.reportcnt, c.board_type, c.board_mapping, c.board_name from 
+			(select pnum, count(*) as reportCnt from member_report 
+				where memid=#{memid} group by pnum) a, 
+			post_board b
+            left join boardtype c
+                on b.board_type=c.board_type
+			where a.pnum=b.pnum
+	</select>
+	<select id="getReportMemCnt" resultType="int">
+		select count(*) from member_report a, memberinfo b
+		where a.memid=b.memid
+		<if test="status != null"> 
+			and b.status = #{status} 
+		</if>
 	</select>
 	<select id="getReportMemList" resultType="spring.project.model.MemberInfoDTO">
-		select * from 
+		select a.*, b.* from 
 			(select memid, count(*) as reportCnt from member_report group by memid) a, 
 			memberinfo b 
-		where 
+			where 
 			<![CDATA[ a.reportCnt >= 1	]]>
 			and a.memid=b.memid
 			<if test="status != null"> 
@@ -272,16 +298,26 @@
 			</if>
 			order by 
 	</select>
-	
+	<select id="getMemStatusName" resultType="String">
+		select status_name from member_status 
+		where status=#{status}
+	</select>
 	<select id="getMemberCnt" resultType="int">
 		select count(*) from memberinfo	
+			<if test="status != null">
+				where status=#{status}
+			</if>
 	</select>
 	<select id="getMemberList" resultType="spring.project.model.MemberInfoDTO">
-		select * from (select rownum r, list.* from (select * from memberInfo  
-				<if test="sort != null">
-					order by #{sort} #{order}
-				</if>
-				) list)
+		select * from 
+			(select rownum r, list.* from 
+				(select a.*, b.status_name from memberinfo a, member_status b
+					where a.status=b.status
+					<if test="status != null">
+						and a.status=#{status}
+					</if>
+					order by regdate desc ) list) 
+			where r between #{startRow} and #{endRow}
 	</select>
 	
 	<select id="getSearchCnt" resultType="int">
