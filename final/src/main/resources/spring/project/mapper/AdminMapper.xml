@@ -237,7 +237,9 @@
 	</update>
 	
 	<select id="getMemberInfo" resultType="spring.project.model.MemberInfoDTO">
-		select * from memberinfo where memid=#{memid}
+		select a.*, b.status_name from memberinfo a, member_status b 
+			where a.memid=b.memid 
+			and memid=#{memid}
 	</select>
 	
 	<select id="getreportMemInfo" resultType="map">

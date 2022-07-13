@@ -40,6 +40,7 @@ public class MemberInfoDTO {
 // �ڵ��� ��ȣ �ɰ��� ������� �ѹ��� ����Ϸ� �� �� �����ؾ��ϴµ� �ɰ��� ��ȿ���ϴ°� ���� ��?
 	
 	private String status_name;
-	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date ref_date;
 	
 }
