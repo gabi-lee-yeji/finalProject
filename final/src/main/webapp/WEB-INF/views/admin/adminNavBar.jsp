@@ -64,8 +64,8 @@
 	        직원게시판
 	      </a>
 	      <div class="dropdown-menu">
-	      	<a class="dropdown-item" href="/admin/board/noticeList">직원공지</a>
-	      	<a class="dropdown-item" href="/admin/board/addNotice">공지등록</a>
+	      	<a class="dropdown-item" href="/admin/emp/noticeList">직원공지</a>
+	      	<a class="dropdown-item" href="/admin/emp/addNotice">공지등록</a>
 	      	<hr>
 	      	<a class="dropdown-item" href="">사원목록</a>
 	      </div>

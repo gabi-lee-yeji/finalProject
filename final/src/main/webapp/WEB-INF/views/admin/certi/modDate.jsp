@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>자격증 상세일정 수정</title>
+	<title>자격증 상세일정 수정 - ${cnum }</title>
 	<script>
 		function dateFormat(obj){
 			var len = obj.value.length;
@@ -13,12 +15,18 @@
 			if(len == 10) obj.value += " ";
 			if(len == 13) obj.value += ":";
 		}
+		
+		function chkList(){
+			window.open("/admin/certi/sameSchedule?datepk=${dto.datePK}",
+						'변경되는 자격증 목록',
+						'width=500,height=500');
+		}
 	</script>
 </head>
 <body>
-	<jsp:include page="../adminNavBar.jsp">
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h2>시험 일정</h2>
-	<h3>자격증 번호 : ${dto.cnum }</h3>
+	<h3>자격증 번호 : ${cnum }</h3>
 	<form action="/admin/certi/modDatePro" method="post">
 		<table>
 			<tr>
@@ -121,8 +129,13 @@
 			</tr>
 		</table>
 		<input type="hidden" name="datePK" value="${dto.datePK }">		
-		<input type="hidden" name="cnum" value="${dto.cnum }">		
-		
+		<input type="hidden" name="cnum" value="${cnum }">
+		<div style="margin-top:20px; margin-bottom:20px">
+			<c:if test="${fn:startsWith(cnum, 'N')}">
+				<h5>상기일정을 수정하실 경우, [총 : ${count}개]의 자격증일정도 같이 변경됩니다.</h5>
+				<input type="button" value="변경되는 자격증 리스트 확인하기" onclick="chkList();">
+			</c:if>
+		</div>	
 		<input type="submit" value="수정">
 	</form>
 </body>

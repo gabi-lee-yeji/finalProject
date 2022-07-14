@@ -8,7 +8,7 @@
 	<title>신고된 회원 목록 </title>
 </head>
 <body>
-	<jsp:include page="../adminNavBar.jsp">
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>신고된 회원 목록</h1>
 	<table>
 		<tr>
@@ -32,7 +32,6 @@
 					<option value="reportList?status=4">강제탈퇴</option>
 				</select>
 			</th>
-			<th>회원등급</th>
 			<th>보유포인트</th>
 			<th>가입일</th>
 		</tr>
@@ -44,7 +43,6 @@
 				<td>${dto.email }</td>
 				<td>${dto.mobile }</td>
 				<td>${dto.status_name }</td>
-				<td>${dto.mem_level }</td>
 				<td>${dto.mem_point }</td>
 				<td><fmt:formatDate pattern="yyyy-MM-dd" value="${dto.regdate }"/></td>
 			</tr>

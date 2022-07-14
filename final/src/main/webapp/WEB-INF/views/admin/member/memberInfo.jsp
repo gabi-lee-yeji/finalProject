@@ -8,11 +8,12 @@
 	<title>${dto.memid}님의 회원정보</title>
 </head>
 <body>
-	<jsp:include page="../adminNavBar.jsp">
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h2>ID : ${dto.memid }</h2>
 	<h4>가입일 : <fmt:formatDate value="${dto.regdate }" pattern="yyyy-MM-dd HH:mm"/></h4>
 	<h4>회원등급 : ${dto.status_name } (<fmt:formatDate value="${dto.ref_date }" pattern="yyyy-MM-dd HH:mm"/>)</h4> 
 	<h4>보유포인트 : ${dto.mem_point }</h4>
+	<input type="button" value="사원 전환" onclick="window.location='/admin/emp/addEmp?memid=${dto.memid}'">
 	<details>
 		<summary>기본정보</summary>
 		<table>

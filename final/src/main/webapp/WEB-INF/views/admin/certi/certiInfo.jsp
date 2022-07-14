@@ -8,7 +8,7 @@
 	<title>자격증 정보 - ${info.cname }</title>
 </head>
 <body>
-	<jsp:include page="../adminNavBar.jsp">
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h2>자격증 정보</h2>
 	<input type="button" value="자격증 목록" onclick="window.location='/admin/certiList'">
 	<form action="/admin/modCertiPro?cnum=${cnum }">

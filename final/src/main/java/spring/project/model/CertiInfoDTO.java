@@ -30,7 +30,7 @@ public class CertiInfoDTO implements CertiAccessible{
 	
 	private String price; //���� ���÷�
 	
-	private String ncs_cat;
+	private Integer ncs_cat;
 	
 	private String notice; //������
 	

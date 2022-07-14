@@ -18,7 +18,7 @@
 </head>
 
 <body>
-	<jsp:include page="../../adminNavBar.jsp">
+	<jsp:include page="../../adminNavBar.jsp"/>
 	<table>
 		<tr>
 			<th>제목</th>

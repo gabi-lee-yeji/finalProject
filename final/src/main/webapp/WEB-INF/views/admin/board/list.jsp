@@ -68,7 +68,7 @@
 							<a href="/${dto.board_mapping }?pnum=${dto.pnum}">${dto.subject}</a>
 						</td>
 						<td>${dto.writer }</td>
-						<td>${dto.board_type }</td>
+						<td>${dto.board_name }</td>
 						<td>
 							<fmt:formatDate pattern="yy/MM/dd" value="${dto.reg }"/>
 						</td>

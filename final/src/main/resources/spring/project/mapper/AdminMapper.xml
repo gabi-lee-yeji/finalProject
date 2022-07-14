@@ -3,7 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
-	
+	<select id="getMemberSearchCnt" resultType="int">
+		select count(*) from memberinfo
+			where ${search} like '%${keyword}%'
+	</select>
+	<select id="getMemberSearchList" resultType="spring.project.model.MemberInfoDTO">
+		select * from
+			(select rownum r, a.*, b.status_name from
+				(select * from memberinfo
+					where ${search} like '%${keyword}%'
+					order by regdate desc) a,
+				member_status b
+				where a.status=b.status)
+			where r between #{startRow} and #{endRow}
+	</select>
+	<update id="updateFromBlock">
+		update memberinfo
+			set status=0, ref_date = sysdate
+		where status = 2 
+		<![CDATA[and ref_date <= sysdate-(interval'7'day)]]>
+	</update>
+	<update id="updateToSleep">
+		update memberinfo
+			set status=5, ref_date=sysdate
+		where status = 0 
+		<![CDATA[and to_char(ref_date,'YYYY-MM-DD') <= to_char(sysdate-(interval'1'year), 'YYYY-MM-DD')]]>
+	</update>
 	<update id="delEmpNotice">
 		update emp_board
 			set status=1
@@ -213,7 +238,20 @@
 	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
 		select * from certidate where datepk = #{datePK}
 	</select>
-
+	<select id="getNatSameScheduleList" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+		    (select rownum r, list.* from 
+		        (select b.* from certischedule a, certiinfo b 
+		            where a.cnum=b.cnum 
+		            and a.cyear=#{cyear} and a.cround=#{cround} and a.clevel=#{clevel}
+		            order by a.cnum) list)
+		    where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getNatSameCnt" resultType="int">
+		select count(*) from certidate a, certischedule b 
+			where a.datepk=#{datepk}
+			and a.cyear=b.cyear and a.cround=b.cround and a.clevel=b.clevel 
+	</select>
 	<delete id="deleteCertiDate">
 		delete from certidate
 		where datepk in 
@@ -229,10 +267,11 @@
 		update memberinfo 
 			<set>
 				status = #{status},
-				<if test="status=='강제탈퇴'">
+				<if test="status != 0">
 					mem_level = '',
-					mem_point = 0
+					mem_point = 0,
 				</if>
+				ref_date = sysdate
 			</set>
 		where memid=#{memid}
 	</update>
@@ -255,14 +294,48 @@
 			certiinfo b
 		where a.cnum=b.cnum
 	</select>
-	<select id="getreportMemInfo" resultType="map">
-		select b.pnum, b.subject, a.reportcnt, c.board_type, c.board_mapping, c.board_name from 
+	<select id="getReportMemCommCnt" resultType="int">
+		select count(*) from 
 			(select pnum, count(*) as reportCnt from member_report 
-				where memid=#{memid} group by pnum) a, 
-			post_board b
+				where memid=#{memid}
+				and wr_option='C' 
+				group by pnum)
+	</select>
+	<select id="getReportMemComment" resultType="map">
+		select 
+			a.reportcnt, a.comm_num, 
+            b.comm_content, b.reg, b.pnum, b.status 
+			from 
+				(select pnum as comm_num, count(*) as reportCnt from member_report 
+					where memid=#{memid} and wr_option='C' group by pnum) a
+			left join comm_board b
+                on a.comm_num=b.comm_num
+	</select>
+	<select id="getCommReportDetails" resultType="spring.project.model.MemberReportDTO">
+		select * from member_report 
+			where pnum=#{pnum}
+			and wr_option='C'
+	</select>
+	<select id="getReportMemPostingCnt" resultType="int">
+		select count(*) from 
+			(select pnum, count(*) as reportCnt from member_report 
+				where memid=#{memid}
+				and wr_option='P' 
+				group by pnum)
+	</select>
+	<select id="getReportMemPosting" resultType="map">
+		select 
+			a.pnum, b.subject, 
+			a.reportcnt,
+			c.board_type, c.board_mapping, c.board_name 
+			from 
+			(select pnum, count(*) as reportCnt from member_report 
+				where memid=#{memid} and wr_option='P'
+				group by pnum) a
+			left join post_board b
+                on a.pnum=b.pnum
             left join boardtype c
                 on b.board_type=c.board_type
-			where a.pnum=b.pnum
 	</select>
 	<select id="getReportMemCnt" resultType="int">
 		select count(*) from member_report a, memberinfo b
@@ -272,12 +345,18 @@
 		</if>
 	</select>
 	<select id="getReportMemList" resultType="spring.project.model.MemberInfoDTO">
-		select a.*, b.* from 
-			(select memid, count(*) as reportCnt from member_report group by memid) a, 
-			memberinfo b 
+		select 
+			a.*, 
+			b.email, b.mem_name, b.mobile, b.mem_point, b.regdate,
+			c.status_name 
+			from 
+				(select memid, count(*) as reportCnt from member_report group by memid) a, 
+				memberinfo b,
+	            member_status c
 			where 
 			<![CDATA[ a.reportCnt >= 1	]]>
 			and a.memid=b.memid
+			and b.status=c.status
 			<if test="status != null"> 
 				and b.status = #{status} 
 			</if>
@@ -498,7 +577,7 @@
 			to_date(#{expiry, jdbcType=VARCHAR},'YYYY-MM-DD'),
 			#{status, jdbcType=VARCHAR},
 			#{price, jdbcType=VARCHAR},
-			#{ncs_cat,jdbcType=VARCHAR},
+			#{ncs_cat,jdbcType=INTEGER},
 			#{notice, jdbcType=VARCHAR},
 			sysdate
 		)

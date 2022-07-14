@@ -17,7 +17,7 @@
 	</script>
 </head>
 <body>
-	<jsp:include page="../adminNavBar.jsp">
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>자격증 목록 [총 : ${count }]</h1>
 	<input type="button" value="자격증 등록" onclick="window.location='/admin/addCerti'"/>
 	<form action="/admin/search" method="post">

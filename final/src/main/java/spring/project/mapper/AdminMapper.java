@@ -55,6 +55,8 @@ public interface AdminMapper {
 	public int deleteCertiDate(int[] dateList);
 	//자격증 일정 수정
 	public CertiDateDTO getCertiDate(int datePK);
+	public List<CertiInfoDTO> getNatSameScheduleList(Map map);
+	public int getNatSameCnt(int datepk);
 	public int modCertiDate(CertiDateDTO dto);
 	
 	//자격증 정보 삭제
@@ -77,13 +79,21 @@ public interface AdminMapper {
 	public List<CertiInfoDTO> getMemberCertList(String memid);
 	public List<CertiInfoDTO> getMemberLikeList(String memid);
 	
-	public List<MemberInfoDTO> getMemberFilter(Map map);
+	//회원검색
+	public List<MemberInfoDTO> getMemberSearchList(Map map);
+	public int getMemberSearchCnt(String search, String keyword);
+	//public List<MemberInfoDTO> getMemberFilter(Map map);
 	
 	//신고당한 회원목록 가져오기 
 	public List<MemberInfoDTO> getReportMemList(Integer status);
 	public int getReportMemCnt(Integer status);
 	//신고당한 회원의 정보 가져오기
-	public List<Map<String, Object>> getreportMemInfo(String memid);
+	public List<Map<String, Object>> getReportMemPosting(String memid);
+	public int getReportMemPostingCnt(String memid);
+	
+	public List<Map<String, Object>> getReportMemComment(String memid);
+	public int getReportMemCommCnt(String memid);
+	public List<MemberReportDTO> getCommReportDetails(int pnum);
 	//신고당한 회원 상태 변경
 	public int updateRepMemStatus(@Param("memid")String memid, @Param("status")String status);
 	
@@ -104,6 +114,11 @@ public interface AdminMapper {
 	public int getNewCertiCnt();
 	//신고당한 회원 중 상태변경 안된 회원수 
 	public int getNewReportCnt();
+	//회원상태 자동 조정
+	public void updateToSleep();
+	public void updateFromBlock();
+	
+	
 	
 	//전체게시글 목록 조회
 	public List<Post_BoardDTO> getBoardList(Map map);

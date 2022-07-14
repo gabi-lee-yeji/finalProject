@@ -47,6 +47,9 @@ public interface AdminService {
 	public int deleteCertiDate(String[] dateList);
 	//자격증 일정 수정 - 정보불러오기
 	public CertiDateDTO getCertiDate(int datePK);
+	//국가기술자격증의 경우, 같은 일정을 가진 자격증 목록
+	public List<CertiInfoDTO> getNatSameScheduleList(int datepk, PagingDTO page);
+	public int getNatSameCnt(int datepk);
 	//자격증 일정 수정 
 	public int modCertiDate(CertiDateDTO dto);
 	
@@ -77,16 +80,29 @@ public interface AdminService {
 	//신고된 회원 목록
 	public List<MemberInfoDTO> getReportMemList(Integer status);
 	public int getReportMemCnt(Integer status);
-	//신고된 회원의 상세 정보 - 신고당한 글/댓글 목록, 신고한 회원
-	public List<Map<String,Object>> getreportMemInfo(String memid);
+	//신고된 회원의 상세 정보 
+	//신고당한 글 목록
+	public List<Map<String,Object>> getReportMemPosting(String memid);
+	public int getReportMemPostingCnt(String memid);
+	//신고당한 댓글 목록
+	public List<Map<String, Object>> getReportMemComment(String memid);
+	public int getReportMemCommCnt(String memid);
+	public List<MemberReportDTO> getCommReportDetails(int pnum);
+	
 	//신고된 회원의 상태 변경
 	public int updateRepMemStatus(String memid, String status);
 	
 	//신고된 글의 신고사유, 신고한 회원 목록
 	public List<MemberReportDTO> getReportReasonList(int pnum);
 	
-	//회원목록 - 필터링 / 검색
-	public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page);
+	//회원목록 - 검색
+	//public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page);
+	public List<MemberInfoDTO> getMemberSearchList(String search, String keyword, PagingDTO page);
+	public int getMemberSearchCnt(String search, String keyword);
+	
+	//회원등급 자동조정 (휴면 / 활동중지해제)
+	public void updateMemberStatus();
+	
 	
 	
 	//1:1문의 답변 안달린 글 모아보기

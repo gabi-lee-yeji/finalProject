@@ -117,7 +117,7 @@ public class AdminController {
 	
 	//자격증별 상세일정 목록
 	@RequestMapping("certiDate")
-	public String certiDateInfo(String cnum, Model model) {
+	public String getcertiDateInfo(String cnum, Model model) {
 		List<CertiDateDTO> dateList = null;
 		if(cnum.substring(0, 1).equals("N")) {
 			dateList = service.searchNatPeriod(cnum);
@@ -152,15 +152,24 @@ public class AdminController {
 	}
 	
 	@RequestMapping("certi/modDate")
-	public String modifyDate(String datepk, String cnum, Model model) {
+	public String modifyDate(Integer datepk, String cnum, Model model) {
 		if(datepk ==null) return "admin/certi/certiDate?cnum="+cnum;
 		
-		if(cnum.startsWith("N")) return "국가기술 일정 테이블로 보내기?";
-		
-		int datePK = Integer.parseInt(datepk);
-		model.addAttribute("dto", service.getCertiDate(datePK));
+		if(cnum.startsWith("N")) model.addAttribute("count", service.getNatSameCnt(datepk));
+		model.addAttribute("dto", service.getCertiDate(datepk));
+		model.addAttribute("cnum", cnum);
 		return "admin/certi/modDate";
 	}
+	@RequestMapping("certi/sameSchedule")
+	public String getSameSchedule(Integer datepk, String pageNum, Model model) {
+		PagingDTO page = pageService.getPaging(20, pageNum);
+		model.addAttribute("page", page);
+		model.addAttribute("natList", service.getNatSameScheduleList(datepk,page));
+		model.addAttribute("count", service.getNatSameCnt(datepk));
+		model.addAttribute("datepk", datepk);
+		return "admin/certi/sameSchedule";
+	}
+	
 	@RequestMapping("certi/modDatePro")
 	public String modifyDatePro(CertiDateDTO dto, Model model) {
 		model.addAttribute("result", service.modCertiDate(dto));
@@ -220,7 +229,7 @@ public class AdminController {
 		model.addAttribute("liked", service.getMemberLikeList(memid));
 		return "/admin/member/memberInfo";
 	}
-	
+	/*
 	@RequestMapping("member/filter")
 	public String memberFilter() {
 		return "/admin/member/memberFilter";
@@ -233,7 +242,17 @@ public class AdminController {
 		model.addAttribute("list", list);
 		return "/admin/member/searchList";
 	}
-	
+	*/
+	@RequestMapping("member/search")
+	public String getMemberSearchList(String search, String keyword, String pageNum, Model model) {
+		PagingDTO page = pageService.getPaging(20, pageNum);
+		model.addAttribute("page", page);
+		model.addAttribute("list", service.getMemberSearchList(search, keyword, page));
+		model.addAttribute("count", service.getMemberSearchCnt(search, keyword));
+		model.addAttribute("search", search);
+		model.addAttribute("keyword", keyword);
+		return "/admin/member/searchList";
+	}
 	@RequestMapping("member/reportList")
 	public String getMemberReport(Integer status, Model model) {
 		model.addAttribute("status", status);
@@ -253,8 +272,18 @@ public class AdminController {
 		//신고당한 회원 정보
 		model.addAttribute("dto", service.getMemberInfo(memid));
 		//신고당한 회원의 신고된 글 목록 조회
-		model.addAttribute("list", service.getreportMemInfo(memid));
+		model.addAttribute("postList", service.getReportMemPosting(memid));
+		model.addAttribute("postingCnt", service.getReportMemPostingCnt(memid));
+		//신고당한 회원의 신고된 댓글 목록 조회
+		model.addAttribute("commList", service.getReportMemComment(memid));
+		model.addAttribute("commCnt", service.getReportMemCommCnt(memid));
 		return "/admin/member/reportMemInfo";
+	}
+	@RequestMapping("member/commReport")
+	public String getCommReportDetails(String memid, Integer pnum, Model model) {
+		model.addAttribute("commNum", pnum);
+		model.addAttribute("list", service.getCommReportDetails(pnum));
+		return "/admin/member/commRepDetails";
 	}
 	
 	@RequestMapping("member/memReportPro")
@@ -314,6 +343,9 @@ public class AdminController {
 		model.addAttribute("certList",service.getCertList(page, "registDate", "desc", null));
 		model.addAttribute("memReportList", service.getReportMemList(0));
 		model.addAttribute("empNotice", service.getEmpNoticeList(page));
+		
+		//회원등급 자동조정 
+		service.updateMemberStatus();
 		return "/admin/main";
 	}
 	@RequestMapping("ajax/newMember")
@@ -391,4 +423,48 @@ public class AdminController {
 		return "/admin/emp/board/delNotice";
 	}
 	
+	//관리자 - 사원게시판 
+	//사원목록
+	@RequestMapping("emp/empList")
+	public String getEmpList(String pageNum, Model model) {
+		return "";
+	}
+	//사원정보
+	@RequestMapping("emp/empInfo")
+	public String getEmpInfo(Model model) {
+		return "";
+	}
+	//사원 등록
+	@RequestMapping("emp/addEmp")
+	public String addEmpForm(String memid, Model model) {
+		//이미 회원가입 되어있던 사원
+		//처음 가입 필요한 사원 -> 회원가입부터 
+		if(memid!=null)
+		model.addAttribute("dto", service.getMemberInfo(memid));
+		
+		model.addAttribute("memid", memid);
+		return "/admin/emp/info/addEmp";
+	}
+	@RequestMapping("emp/addEmpPro")
+	public String addEmpPro(Model model) {
+		return "";
+	}
+	//사원정보 수정
+	@RequestMapping("emp/modEmp")
+	public String modEmpInfo(Model model) {
+		return "";
+	}
+	@RequestMapping("emp/modEmpInfoPro")
+	public String modEmpPro(Model model) {
+		return "";
+	}
+	//사원정보 삭제
+	@RequestMapping("emp/delEmp")
+	public String delEmpInfo() {
+		return "";
+	}
+	@RequestMapping("emp/delEmpPro")
+	public String delEmpPro(Model model) {
+		return "";
+	}
 }

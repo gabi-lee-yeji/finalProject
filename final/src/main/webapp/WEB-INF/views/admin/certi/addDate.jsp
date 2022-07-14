@@ -8,7 +8,7 @@
 	<title>일정 추가 : ${info.cname }</title>
 </head>
 <body>
-	<jsp:include page="../adminNavBar.jsp">
+	<jsp:include page="../adminNavBar.jsp"/>
 	<table>	
 		<tr>
 			<td>자격증번호</td>
@@ -113,6 +113,7 @@
 				</td>
 			</tr>
 		</table>
+		<input type="submit" value="일정 등록">
 	</form>
 </body>
 </html>

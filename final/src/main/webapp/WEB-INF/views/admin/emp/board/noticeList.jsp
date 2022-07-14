@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<jsp:include page="../../adminNavBar.jsp">
+	<jsp:include page="../../adminNavBar.jsp"/>
 	<h1>직원공지 [total : ${count}]</h1>
 	<input type="button" value="공지등록" onclick="window.location='/admin/emp/addNotice'">
 	<table>

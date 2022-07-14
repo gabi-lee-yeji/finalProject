@@ -37,13 +37,13 @@ public class AdminServiceImpl implements AdminService{
 		String cnum = "";
 		String sequence = "";
 		
-		if(info.getCategory().equals("국가기술")) {
+		if(info.getCategory().equals("national")) {
 			cnum = "N";
 			sequence = "NAT_SEQ";
-		}else if(info.getCategory().equals("공인민간")) {
+		}else if(info.getCategory().equals("private")) {
 			cnum = "P";
 			sequence = "PRV_SEQ";
-		}else if(info.getCategory().equals("어학")) {
+		}else if(info.getCategory().equals("language")) {
 			cnum = "L";
 			sequence = "LANG_SEQ";
 		}
@@ -65,7 +65,7 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 		int result = 0;
-		if(info.getCategory().equals("국가기술")) {
+		if(info.getCategory().equals("national")) {
 			result += mapper.addCertiInfo(info);
 			result += mapper.addCertiSchedule(schedule);
 			if(result==2) mapper.findNextseq(sequence);
@@ -160,7 +160,21 @@ public class AdminServiceImpl implements AdminService{
 	public CertiDateDTO getCertiDate(int datePK) {
 		return mapper.getCertiDate(datePK);
 	}
-
+	@Override
+	public List<CertiInfoDTO> getNatSameScheduleList(int datepk, PagingDTO page){
+		CertiDateDTO date = mapper.getCertiDate(datepk);
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		map.put("cyear", date.getCyear());
+		map.put("cround", date.getCround());
+		map.put("clevel", date.getClevel());
+		return mapper.getNatSameScheduleList(map);
+	}
+	@Override
+	public int getNatSameCnt(int datepk) {
+		return mapper.getNatSameCnt(datepk);
+	}
+	
 	@Override
 	public int modCertiDate(CertiDateDTO dto) {
 		return mapper.modCertiDate(dto);
@@ -178,6 +192,14 @@ public class AdminServiceImpl implements AdminService{
 		int result = mapper.modCertiInfo(info);
 		result += mapper.modCertiReq(req);
 		return result;
+	}
+	
+	@Override
+	public void updateMemberStatus() {
+		//휴면회원 전환 (1년 이상 미접속 회원)
+		mapper.updateToSleep();
+		//활동중지 해제 (활동중지된 후 1주일 지난 회원)
+		mapper.updateFromBlock();
 	}
 	
 	@Override
@@ -207,8 +229,20 @@ public class AdminServiceImpl implements AdminService{
 	public List<CertiInfoDTO> getMemberLikeList(String memid){
 		return mapper.getMemberLikeList(memid);
 	}
-	
-	
+	@Override
+	public List<MemberInfoDTO> getMemberSearchList(String search, String keyword, PagingDTO page) {
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		map.put("search", search);
+		map.put("keyword", keyword);
+		
+		return mapper.getMemberSearchList(map);
+	}
+	@Override
+	public int getMemberSearchCnt(String search, String keyword) {
+		return mapper.getMemberSearchCnt(search, keyword);
+	}
+	/*
 	@Override
 	public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page) {
 		map.put("startRow", page.getStartRow());
@@ -227,7 +261,7 @@ public class AdminServiceImpl implements AdminService{
 		
 		return mapper.getMemberFilter(map);
 	}
-
+	*/
 	@Override
 	public List<MemberInfoDTO> getReportMemList(Integer status) {
 		return mapper.getReportMemList(status);
@@ -239,21 +273,41 @@ public class AdminServiceImpl implements AdminService{
 	
 	
 	@Override
-	public List<Map<String, Object>> getreportMemInfo(String memid) {
-		return mapper.getreportMemInfo(memid);
+	public List<Map<String, Object>> getReportMemPosting(String memid) {
+		return mapper.getReportMemPosting(memid);
+	}
+	@Override
+	public int getReportMemPostingCnt(String memid) {
+		return mapper.getReportMemPostingCnt(memid);
 	}
 	@Override
 	public List<MemberReportDTO> getReportReasonList(int pnum){
 		return mapper.getReportReasonList(pnum);
 	}
 	
+	@Override
+	public int getReportMemCommCnt(String memid) {
+		return mapper.getReportMemCommCnt(memid);
+	}
+	@Override
+	public List<Map<String, Object>> getReportMemComment(String memid) {
+		return mapper.getReportMemComment(memid);
+	}
+	@Override
+	public List<MemberReportDTO> getCommReportDetails(int pnum){
+		return mapper.getCommReportDetails(pnum);
+	}
+
+	
 
 	@Override
 	public MemberInfoDTO getMemberInfo(String memid) {
 		MemberInfoDTO dto = mapper.getMemberInfo(memid);
 		
-		if(dto.getBirthday()!=null) {
-			dto.setBirthday(dto.getBirthday().split(" ")[0]);
+		if(dto!=null) {
+			if(dto.getBirthday()!=null) {
+				dto.setBirthday(dto.getBirthday().split(" ")[0]);
+			}
 		}
 		return dto;
 	}
@@ -385,9 +439,6 @@ public class AdminServiceImpl implements AdminService{
 	public int delEmpNotice(int ebnum) {
 		return mapper.delEmpNotice(ebnum);
 	}
-
-	
-
 
 
 }

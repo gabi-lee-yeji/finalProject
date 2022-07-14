@@ -7,8 +7,18 @@
 	<meta charset="UTF-8">
 	<title>전체회원 목록</title>
 </head>
-	<jsp:include page="../adminNavBar.jsp">
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>회원목록 [총:${count}명]</h1>
+	<form action="/admin/member/search" method="post">
+		<select name="search">
+			<option value="memid">ID</option>
+			<option value="mem_name">이름</option>
+			<option value="mobile">전화번호</option>
+			<option value="email">이메일</option>
+		</select>
+		<input type="text" name="keyword">
+		<input type="submit" value="검색">
+	</form>
 	<table>
 		<tr>
 			<th>ID</th>	
@@ -33,7 +43,6 @@
 					<option value="list?status=5">휴면</option>
 				</select>
 			</th>	
-			<th>회원등급</th>	
 			<th>포인트</th>	
 			<th>가입일</th>		
 		</tr>
@@ -45,8 +54,10 @@
 				<td>${dto.postalCode }</td>
 				<td>${dto.address }</td>
 				<td>${dto.mobile }</td>
-				<td>${dto.status_name }</td>
-				<td>${dto.mem_level }</td>
+				<td>
+					${dto.status_name }
+					(ref:<fmt:formatDate pattern="yyyy-MM-dd" value="${dto.ref_date }"/>)
+				</td>
 				<td>${dto.mem_point }</td>
 				<td>
 					<fmt:formatDate pattern="yyyy-MM-dd" value="${dto.regdate }"/>

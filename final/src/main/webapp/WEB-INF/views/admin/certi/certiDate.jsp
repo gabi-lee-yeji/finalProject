@@ -18,7 +18,7 @@
 	</script>
 </head>
 <body>
-	<jsp:include page="../adminNavBar.jsp">
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>${info.cnum}   ${info.cname }</h1>
 	<input type="button" value="자격증 목록" onclick="window.location='/admin/certiList'"/> 
 	
@@ -28,16 +28,22 @@
 	<form action="/admin/certi/deleteDate" method="post">
 		<c:forEach var="date" items="${dateList }">
 			<table>
+				<tr>	
+					<th>선택(삭제)</th>
+					<td>
+						<input type="checkbox" value="${date.datePK}" name="dateList" onclick="setBg(this)">
+					</td>
+				</tr>
 				<tr>
 					<th>자격증일정</th>
 					<td>
 						<input type="button" value="수정" onclick="window.location='/admin/certi/modDate?datepk=${date.datePK}&cnum=${info.cnum}'">
 					</td>
 				</tr>
-				<tr>	
-					<th>선택(삭제)</th>
+				<tr>
+					<th>회차정보</th>
 					<td>
-						<input type="checkbox" value="${date.datePK}" name="dateList" onclick="setBg(this)">
+						${date.cyear} ${date.cround} ${date.clevel}
 					</td>
 				</tr>
 				<tr>
