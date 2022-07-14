@@ -25,12 +25,23 @@
 				where pnum=#{pnum} and status='0'
 	</select>
 	
+	<select id="getComm_Board" resultType="spring.project.model.Comm_BoardDTO">
+		select * from comm_board where comm_num=#{comm_num} and status='0'
+	</select>
+	
 	<select id="comm_BoardCount" parameterType="int" resultType="int">
 		select count(*) from comm_board where pnum=#{pnum} and status=0
 	</select>
 	
 	<update id="delComm_Board">
 		update comm_board set status='1' where comm_num=#{comm_num}
+	</update>
+	
+	<update id="modComm_Board">
+		update comm_board set 
+			comm_content = #{comm_content}, 
+			reg = sysdate 
+				where comm_num = #{comm_num}
 	</update>
 	
 </mapper>

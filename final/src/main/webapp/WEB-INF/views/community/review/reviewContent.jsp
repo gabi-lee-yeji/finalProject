@@ -13,14 +13,21 @@
 	<input type="button" value="수정" onclick="window.location = '/community/review/modReview?pnum=${board.pnum}&pageNum=${pageNum}' " />
 	<input type="button" value="삭제" onclick="window.location = '/community/review/delReview?pnum=${board.pnum}&pageNum=${pageNum}' " />
 	<input type="button" value="목록" onclick="window.location = '/community/review/reviewList?board_type=4' "/>
-	
 	<c:if test="${board.post_level == 0}">
 		<input type="button" value="답글" 
 			onclick="window.location = '/community/review/addReview?pnum=${board.pnum}&post_group=${board.post_group}' " />
 	</c:if>
+	<input type="button" value="신고" onclick="memberReport(${board.pnum});"/>
 	<br/><br/>
 	<div>
-		<jsp:include page="/WEB-INF/views/board/addCommForm.jsp" flush="false"/>
+		<jsp:include page="/WEB-INF/views/board/commForm.jsp" flush="false"/>
 	</div>
+	
+<script>
+	function memberReport(pnum){
+		window.open("/community/memberReportForm?pnum="+pnum, 
+			"게시글 신고", "width=400, height=300, left=100, top=50"); 
+	}
+</script>
 </body>
 </html>

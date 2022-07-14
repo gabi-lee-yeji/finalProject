@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardDTO;
 
 
@@ -27,5 +28,9 @@ public interface Post_BoardMapper {
 	public int passwdCheck(@Param("memid") String memid, @Param("passwd") String passwd);
 	
 	public int upReadCnt(Post_BoardDTO dto);
+	
+	public int addMemberReport(MemberReportDTO mr);
+	
+	public int getMemberReport(MemberReportDTO mr);
 	
 }

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import spring.project.model.Comm_BoardDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardAttachDTO;
 import spring.project.model.Post_BoardDTO;
 import spring.project.service.Post_BoardService;
@@ -28,13 +29,9 @@ public class CommunityController {
 	// 댓글등록
 	@RequestMapping("addComm")
 	public String addComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr) {
-		System.out.println(comm.getComm_content());
-		System.out.println(comm.getComm_group());
-		System.out.println(comm.getComm_level());
-		System.out.println(comm.getPnum());
-		System.out.println(comm.getWriter());
 		
 		service.addComm_Board(comm);
+		
 		rttr.addAttribute("pnum", comm.getPnum());
 		rttr.addAttribute("pageNum", pageNum);
 		return "redirect:/community/review/reviewContent";
@@ -42,14 +39,87 @@ public class CommunityController {
 	
 	// 댓글 삭제
 	@RequestMapping("delComm")
-	public String delComm(Comm_BoardDTO comm, String memid, String pageNum, RedirectAttributes rttr) {
-		System.out.println(comm.getWriter());
-		int result = service.delComm_Board(comm.getComm_num());
+	public String delComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr, HttpSession session) {
+		String memid = "rlawoduq";
+					//(String)session.getAttribute("memid");
+		if(memid.equals(comm.getWriter())) {
+			service.delComm_Board(comm.getComm_num());
+		}
+		
 		rttr.addAttribute("pnum", comm.getPnum());
 		rttr.addAttribute("pageNum", pageNum);
 		return "redirect:/community/review/reviewContent";
 	}
 	
+	// 댓글 수정
+	@RequestMapping("modComm")
+	public String modComm(int comm_num, Model model) {
+		
+		Comm_BoardDTO comm = service.getComm_Board(comm_num);
+		
+		model.addAttribute("comm", comm);
+		return "board/modCommForm";
+	}
+		
+	@RequestMapping("modCommPro")
+	public String modCommPro(Comm_BoardDTO comm, String pageNum, Model model, HttpSession session) {
+		String memid = "rlawoduq";
+			//(String)session.getAttribute("memid");
+
+		if(memid.equals(comm.getWriter())) {
+			int result = service.modComm_Board(comm);
+			model.addAttribute("result", result);
+		}
+		return "board/modCommPro";
+	}
+	
+	// 회원 글 신고
+	@RequestMapping("memberReportForm")
+	public String memberReportForm(Post_BoardDTO board, Comm_BoardDTO comm, Model model, HttpSession session) {
+		String report_id ="안혜원"; 
+		//(String)session.getAttribute("memid");
+		if(comm.getComm_num() == 0) {
+			board = service.post_BoardContent(board.getPnum());
+			model.addAttribute("board", board);
+		}else if(comm.getComm_num() != 0) {
+			comm = service.getComm_Board(comm.getComm_num());
+			model.addAttribute("comm", comm);
+		}
+		
+		model.addAttribute("report_id", report_id);
+		
+		return "board/memberReportForm";
+	}
+	
+	// member_report DB에 동일 신고자/신고당하는자/글번호에 해당하는 행이 있으면 신고 불가
+	@RequestMapping("memberReportPro")
+	public String memberReportPro(MemberReportDTO mr, Model model) {
+		System.out.println(mr);
+		
+		if(mr.getMemid().equals(mr.getReport_id())) {
+			int result = 0;
+			model.addAttribute("result", result);
+			System.out.println(result);
+		}else {
+			
+			int countMr = service.getMemberReport(mr);
+			System.out.println(mr);
+			if(countMr == 0) {
+				int result = service.addMemberReport(mr);
+				System.out.println(mr);
+				model.addAttribute("result", result);
+				System.out.println(result);
+			}else {
+				int result = 2;
+				model.addAttribute("result", result);
+				System.out.println(result);
+			}
+		}
+		
+		return "board/memberReportPro";
+	}
+	
+	// 꿀팁,리뷰 글 등록
 	@RequestMapping("review/addReview")
 	public String addReview(String pnum, Post_BoardDTO board, Model model) {
 		int number = 0;
@@ -74,6 +144,7 @@ public class CommunityController {
 		return "community/review/addReviewPro";
 	}
 	
+	// 꿀팁,리뷰 글 목록
 	@RequestMapping("review/reviewList")
 	public String reviewList(String pageNum, String board_type, Model model) {
 		

@@ -78,4 +78,19 @@
 		select count(*) from memberinfo where memid=#{memid} and passwd=#{passwd}
 	</select>
 	
+	<insert id="addMemberReport" parameterType="spring.project.model.MemberReportDTO">
+		insert into member_report (memid, report_id, wr_option, pnum, reason, reg)
+				values(#{memid},
+						#{report_id}, 
+						#{wr_option},
+						#{pnum},
+						#{reason},
+						sysdate)
+	</insert>
+	
+	<select id="getMemberReport" parameterType="spring.project.model.MemberReportDTO"
+									resultType="int">
+		select count(*) from member_report
+	</select>
+	
 </mapper>

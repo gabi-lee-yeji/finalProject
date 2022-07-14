@@ -16,6 +16,7 @@ import spring.project.mapper.Comm_BoardMapper;
 import spring.project.mapper.Post_BoardAttachMapper;
 import spring.project.mapper.Post_BoardMapper;
 import spring.project.model.Comm_BoardDTO;
+import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardAttachDTO;
 import spring.project.model.Post_BoardDTO;
 
@@ -180,7 +181,26 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	public int delComm_Board(int comm_num) {
 		return CommMapper.delComm_Board(comm_num);
 	}
+	
+	@Override
+	public int modComm_Board(Comm_BoardDTO comm) {
+		return CommMapper.modComm_Board(comm);
+	}
 
+	@Override
+	public Comm_BoardDTO getComm_Board(int Comm_num) {
+		return CommMapper.getComm_Board(Comm_num);
+	}
+
+	@Override
+	public int addMemberReport(MemberReportDTO mr) {
+		return pbMapper.addMemberReport(mr);
+	}
+
+	@Override
+	public int getMemberReport(MemberReportDTO mr) {
+		return pbMapper.getMemberReport(mr);
+	}
 
 	
 }
