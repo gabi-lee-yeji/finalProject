@@ -2,24 +2,27 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>꿀팁, 후기</title>
 </head>
-
 <body>
-	<h1>꿀팁, 후기 목록(전체 글:${count})</h1>
+	<h1>
+		<c:if test="${search eq 'writer' }">
+			작성자 
+		</c:if>
+		<c:if test="${search eq 'subject' }">
+			제목 
+		</c:if>
+		<c:if test="${search eq 'post_content' }">
+			내용 
+		</c:if>
+		'${keyword}' 검색 결과 [총: ${count}개] 
+	</h1>
 	
-	<c:if test="${count == 0}">
-		<table border=1>
-			<tr>
-				<td>꿀팁, 후기글이 없습니다. 꿀팁과 후기를 들려주세요!</td>
-			</tr>
-		</table>
-	</c:if>
+	<input type="button" value="목록" onclick="window.location='/community/review/reviewList?board_type=4' "/>
 	
 	<table border=1>
 	<c:if test="${count > 0}">
@@ -42,18 +45,6 @@
 	</c:forEach>
 	</table>
 	
-<form action="/community/review/searchList" method="get">
-	<select name="search" >
-		<option value="">==검색==</option>
-		<option value="writer">작성자</option>
-		<option value="subject">제목</option>
-		<option value="post_content">내용</option>
-	</select>
-	<input type="text" name="keyword"/>
-	<input type="submit" value="검색"/>
-	<input type="hidden" name="board_type" value="4"/>
-</form>
-
 <c:if test="${count > 0}">
 	<c:set var="pageCount" value="${count / pageSize + (count % pageSize == 0 ? 0 : 1)}"/>
 	<fmt:parseNumber var="result" value="${(currentPage/10)}" integerOnly="true" />
@@ -78,5 +69,4 @@
     </c:if>
 </c:if>
 </body>
-<a href="/community/review/addReview">글쓰기</a>
 </html>

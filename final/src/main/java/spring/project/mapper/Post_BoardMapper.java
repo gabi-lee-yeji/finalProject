@@ -12,9 +12,16 @@ public interface Post_BoardMapper {
 	
 	public int addPost_Board(Post_BoardDTO dto);
 
-	public List<Post_BoardDTO> post_BoardLists
-	(@Param("startRow") int startRow, @Param("endRow") int endRow, @Param("board_type") String board_type);
+	public List<Post_BoardDTO> post_BoardLists(@Param("startRow") int startRow,
+												@Param("endRow") int endRow, 
+												@Param("board_type") String board_type);
 
+	public List<Post_BoardDTO> getSearchList(@Param("startRow") int startRow,
+											@Param("endRow") int endRow, 
+											@Param("board_type") String board_type,
+											@Param("search")String search, 
+											@Param("keyword")String keyword);
+	
 	public int maxPost_group();
 	
 	public int post_BoardCount(String board_type);
@@ -32,5 +39,6 @@ public interface Post_BoardMapper {
 	public int addMemberReport(MemberReportDTO mr);
 	
 	public int getMemberReport(MemberReportDTO mr);
+	
 	
 }

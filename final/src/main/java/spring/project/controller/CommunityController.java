@@ -77,7 +77,7 @@ public class CommunityController {
 	@RequestMapping("memberReportForm")
 	public String memberReportForm(Post_BoardDTO board, Comm_BoardDTO comm, Model model, HttpSession session) {
 		String report_id ="¾ÈÇý¿ø"; 
-		//(String)session.getAttribute("memid");
+			//(String)session.getAttribute("memid");
 		if(comm.getComm_num() == 0) {
 			board = service.post_BoardContent(board.getPnum());
 			model.addAttribute("board", board);
@@ -177,6 +177,34 @@ public class CommunityController {
 		return "community/review/reviewList";
 	}
 	
+	// ²ÜÆÁ,¸®ºä ±Û °Ë»ö ¸ñ·Ï
+		@RequestMapping("review/searchList")
+		public String reviewSearch(String board_type, String search, String keyword, Model model) {
+			
+			int pageSize = 10;
+			int currentPage = 1;
+			int startRow = (currentPage - 1) * pageSize + 1;
+			int endRow = currentPage * pageSize;
+			int count = 0;
+			int number = 0;
+			
+			List<Post_BoardDTO> boardList = service.getSearchList(startRow, endRow, 
+																	board_type, search, keyword);
+			count = boardList.size();
+			number = count - (currentPage - 1) * pageSize;
+			
+			model.addAttribute("count", count);
+			model.addAttribute("pageSize", pageSize);
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("startRow", startRow);
+			model.addAttribute("endRow", endRow);
+			model.addAttribute("number", number);
+			model.addAttribute("boardList", boardList);
+			model.addAttribute("board_type", board_type);
+			model.addAttribute("search", search);
+			model.addAttribute("keyword", keyword);
+			return "community/review/searchList";
+		}
 	
 	@RequestMapping("review/reviewContent")
 	public String reviewContent(int pnum, String pageNum, Model model, HttpSession session) {

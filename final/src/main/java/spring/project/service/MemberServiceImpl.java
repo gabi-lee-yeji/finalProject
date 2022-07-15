@@ -56,4 +56,9 @@ public class MemberServiceImpl implements MemberService{
 		dto.setMobile(dto.getPC()+" "+dto.getPhone1()+"-"+dto.getPhone2()+"-"+dto.getPhone3());
 		return mapper.idFind(dto);
 	}
+
+	@Override
+	public int addMemberPoint(String memid, int pnum, int comm_num) {
+		return mapper.addMemberPoint(memid, pnum, comm_num);
+	}
 }

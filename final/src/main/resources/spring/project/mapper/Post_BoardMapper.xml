@@ -43,13 +43,20 @@
 			select * from 
 				(select post_board.*, rownum r from 
 					(select * from post_board order by post_group desc, post_level) post_board 
-						where board_type=#{board_type} and status='0')
+						where board_type=#{board_type} and status=0)
 							where r >= #{startRow} and r <= #{endRow}
 		]]>
 	</select>
+	<select id="getSearchList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select post_board.*, rownum r from 
+				(select * from post_board order by post_group desc, post_level) post_board 
+					where board_type=#{board_type} and status=0 and ${search} like '%${keyword}%')
+        				<![CDATA[ where r >= #{startRow} and r <= #{endRow} ]]>
+	</select>
 	
 	<select id="post_BoardCount" resultType="int">
-		select count(*) from post_board where board_type=#{board_type} and status='0'
+		select count(*) from post_board where board_type=#{board_type} and status=0
 	</select>
 	
 	<select id="post_BoardContent" resultType="spring.project.model.Post_BoardDTO">

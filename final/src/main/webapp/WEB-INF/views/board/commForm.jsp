@@ -62,15 +62,12 @@
 			"댓글 수정", "width=400, height=300, left=100, top=50"); 
 	}
 	
+	// 변수로 대입하는 방법 위와 같음
 	function addReport(comm_num){
 	     var url = "/community/memberReportForm?comm_num="+comm_num;
          var name = "댓글 신고";
          var option = "width=400, height=300, left=100, top=50"
          window.open(url, name, option);
-		
-	/*	window.open("/community/memberReportForm?comm_num="+comm_num ,
-			"댓글 신고", "width=400, height=300, left=100, top=50"); 
-	*/}
 </script>
 
 </html>

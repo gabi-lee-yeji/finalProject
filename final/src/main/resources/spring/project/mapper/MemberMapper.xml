@@ -58,6 +58,17 @@
 		</set>
 		where memid=#{memid} and status = '일반'
 	</update>
+
+	<update id="addMemberPoint">
+		update memberinfo 
+			<set>
+				<if test="pnum != 0">mem_point = mem_point+100</if>
+				<if test="comm_num != 0">mem_point = mem_point+10</if>
+			</set>
+			where memid=#{memid} and status=0
+			
+	
+	</update>
 	
 	<select id="idDuplicate" resultType="int">
 		select count(*) from memberInfo where memid = #{memid}

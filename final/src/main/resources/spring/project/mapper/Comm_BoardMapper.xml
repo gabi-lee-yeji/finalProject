@@ -13,6 +13,9 @@
 										#{comm_level},
 										#{pnum},
 										0 )
+		<selectKey resultType="int" keyProperty="comm_num" order="AFTER">
+  			select max(comm_num) from comm_board
+  		</selectKey>	
 	</insert>
 	
 	<select id="maxComm_group" resultType="int">

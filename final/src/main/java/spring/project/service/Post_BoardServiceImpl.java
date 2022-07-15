@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Setter;
 import spring.project.mapper.Comm_BoardMapper;
+import spring.project.mapper.MemberMapper;
 import spring.project.mapper.Post_BoardAttachMapper;
 import spring.project.mapper.Post_BoardMapper;
 import spring.project.model.Comm_BoardDTO;
@@ -32,13 +33,14 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Setter(onMethod_= @Autowired)
 	private Comm_BoardMapper CommMapper;
 	
+	@Setter(onMethod_= @Autowired)
+	private MemberMapper memMapper;
+	
 	//httprequest servle>>> 매개변수 getrealpath
 	@Transactional
 	@Override
 	public int addPost_Board(Post_BoardDTO board, 
 			@RequestParam("file") MultipartFile[] files) {
-		System.out.println(board);
-		System.out.println(files);
 		List<Post_BoardAttachDTO> list = new ArrayList<>();
 		String uploadFolder = "C:\\upload"; //여기
 	//	String uploadFolderPath = getFolder(); 경로는 나중에 시간 남으면 날짜별로 만들기
@@ -85,10 +87,16 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 			board.setPost_group(post_group);
 		}
 		int result = pbMapper.addPost_Board(board);
+		
 		System.out.println("addPost_Board가 실행되었는지 여부:"+result);
 		// Post_BoardDTO에 attachList값이 없으면 그대로 종료
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			System.out.println("도대체가 작동을 하는건가요!");
+			
+			
+			memMapper.addMemberPoint(board.getWriter(), board.getPnum(), 0);
+			System.out.println(board.getWriter());
+			System.out.println(board.getPnum());
 			return result;
 		}
 		
@@ -98,6 +106,11 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 			System.out.println("attach가 들어있는지 확인하기" + attach);
 			pbAMapper.addPost_BoardAttach(attach);
 		});
+		
+		// 포인트 추가
+		memMapper.addMemberPoint(board.getWriter(), 0, board.getPnum());
+		System.out.println(board.getWriter());
+		System.out.println(board.getPnum());
 		
 		return result;	// 정상 종료하면 post_board 실행만 카운트하므로 1
 	}
@@ -132,7 +145,6 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		if(resultAttach != null) {
 			result += pbAMapper.delPost_BoardAttachList(pnum);
 			result += pbMapper.delPost_Board(pnum);
-			
 		}else {
 			result += pbMapper.delPost_Board(pnum);
 		}
@@ -156,6 +168,12 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	}
 	
 	@Override
+	public List<Post_BoardDTO> getSearchList(int startRow, int endRow, String board_type, String search,
+			String keyword) {
+		return pbMapper.getSearchList(startRow, endRow, board_type, search, keyword);
+	}
+	
+	@Override
 	public int addComm_Board(Comm_BoardDTO comm) {
 		int comm_group = CommMapper.maxComm_group()+1;
 		if(comm.getComm_group() != 0) {
@@ -164,7 +182,10 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}else {
 			comm.setComm_group(comm_group);
 		}
-		return CommMapper.addComm_Board(comm);
+		int result = CommMapper.addComm_Board(comm);
+		memMapper.addMemberPoint(comm.getWriter(), 0, comm.getComm_num());
+		
+		return result;
 	}
 
 	@Override
@@ -201,6 +222,8 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	public int getMemberReport(MemberReportDTO mr) {
 		return pbMapper.getMemberReport(mr);
 	}
+
+
 
 	
 }

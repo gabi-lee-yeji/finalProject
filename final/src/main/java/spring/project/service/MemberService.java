@@ -13,5 +13,7 @@ public interface MemberService {
 	public void modifyList(MemberInfoDTO dto);
 	public int idDuplicate(String memid);
 	public MemberInfoDTO idFind(MemberInfoDTO dto);
+	public int addMemberPoint(String memid, int comm_num, int pnum);
+	
 }
  

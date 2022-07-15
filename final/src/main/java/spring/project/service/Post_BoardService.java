@@ -18,6 +18,9 @@ public interface Post_BoardService {
 	// 각 게시판 글 목록
 	public List<Post_BoardDTO> post_BoardLists(int startRow, int endRow, String board_type);
 	
+	// 게시판 글 검색 목록
+	public List<Post_BoardDTO> getSearchList(int startRow, int endRow, String board_type, String search, String keyword);
+	
 	// 게시판 글 개수
 	public int post_BoardCount(String board_type);
 	
