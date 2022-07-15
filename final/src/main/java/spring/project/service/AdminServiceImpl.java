@@ -1,6 +1,7 @@
 package spring.project.service;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.EmpBoardDTO;
+import spring.project.model.EmpInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
@@ -80,6 +82,9 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category) {
+		//자격증 목록 조회 전 유효날짜에 따라 시행현황 업데이트
+		mapper.updateCertiStatus();
+		
 		map.put("startRow", page.getStartRow());
 		map.put("endRow", page.getEndRow());
 		map.put("sort", sort);
@@ -439,6 +444,54 @@ public class AdminServiceImpl implements AdminService{
 	public int delEmpNotice(int ebnum) {
 		return mapper.delEmpNotice(ebnum);
 	}
+	
+	@Override
+	public String getCurrentDate() {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String currentDate = sdf.format(date);
+		return currentDate;
+	}
+	
+	@Transactional
+	@Override
+	public int addEmpInfo(EmpInfoDTO dto) {
+		int result = 0;
+		//memberinfo의 status 관리자로 변경
+		result += mapper.updateToAdmin(dto.getEmpid());
+		//emp_info 에 insert
+		result += mapper.addEmpInfo(dto);
+		return result;
+	}
 
+	@Override
+	public List<Map<String,Object>> getEmpList(PagingDTO page) {
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		
+		return mapper.getEmpList(map);
+	}
+	@Override
+	public int getEmpCnt() {
+		return mapper.getEmpCnt();
+	}
+	@Override
+	public EmpInfoDTO getEmpInfo(String empid){
+		return mapper.getEmpInfo(empid);
+	}
+
+	@Override
+	public int modEmpInfo(EmpInfoDTO dto) {
+		return mapper.modEmpInfo(dto);
+	}
+	
+	@Transactional
+	@Override
+	public int delEmpInfo(String empid, String leavingReason) {
+		int result = 0;
+		result += mapper.delEmpInfo(empid, leavingReason);
+		result += mapper.updateToMember(empid);
+		return result;
+	}
 
 }

@@ -3,6 +3,98 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.AdminMapper">
+	<resultMap type="spring.project.model.MemberInfoDTO" id="memberInfo">
+		<result property="memid" column="memid"/>
+		<result property="passwd" column="passwd"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="email" column="email"/>
+		<result property="birthday" column="birthday"/>
+		<result property="gender" column="gender"/>
+		<result property="postalCode" column="postalCode"/>
+		<result property="address" column="address"/>
+		<result property="addr_detail" column="addr_detail"/>
+		<result property="mobile" column="mobile"/>
+		<result property="mem_degree" column="mem_degree"/>
+		<result property="major" column="major"/>
+	</resultMap>
+	<resultMap type="spring.project.model.EmpInfoDTO" id="empInfo">
+		<result property="empid" column="empid"/>
+		<result property="job" column="job"/>
+		<result property="hiredate" column="hiredate"/>
+		<result property="sal" column="sal"/>
+		<result property="status" column="status"/>
+		<result property="ref_date" column="ref_date"/>
+		<collection property="memberInfo" resultMap="memberInfo"/>
+	</resultMap>
+	<update id="updateToMember">
+		update memberinfo
+			set
+			status = 0,
+			ref_date = sysdate
+		where memid=#{memid}
+	</update>
+	<update id="delEmpInfo">
+		update emp_info 
+			set
+			ref_date = sysdate,
+			status = '퇴사',
+			leaving_reason = #{leaving_reason}
+		where empid=#{empid}
+	</update>
+	<update id="modEmpInfo">
+		update emp_info 
+			set
+			hiredate = NVL(#{hiredate}, hiredate),
+			job = NVL(#{job}, job),
+			status = NVL(#{status}, status),
+			ref_date = NVL(#{ref_date}, ref_date),
+			sal = NVL(#{sal}, sal)
+		where empid = #{empid}
+	</update>
+	<select id="getEmpInfo" resultMap="empInfo">
+		select 
+			a.mem_name, a.email, 
+			to_char(a.birthday, 'YYYY.MM.DD') as birthday, a.gender,
+			a.postalCode, a.address, a.addr_detail,
+			a.mobile, a.mem_degree, a.major,
+			b.* 
+			from memberinfo a, emp_info b
+		where a.memid=b.empid
+		and b.empid=#{empid}
+	</select>
+	<select id="getEmpCnt" resultType="int">
+		select count(*) from emp_info
+	</select>
+	<select id="getEmpList" resultType="map">
+		select * from 
+    		(select rownum r, list.* from 
+		        (select 
+		            a.mem_name, a.email, a.mobile, a.birthday, 
+		            b.* from memberinfo a, emp_info b
+		            where a.memid=b.empid)list)
+    		where r between #{startRow} and #{endRow} 
+	</select>
+	<update id="updateToAdmin">
+		update memberinfo 
+			set status = 1,
+			ref_date = sysdate
+		where memid=#{memid}
+	</update>
+	<insert id="addEmpInfo">
+		insert into emp_info values(
+			#{empid},
+			#{job},
+			#{hiredate},
+			#{sal},
+			'일반',
+			sysdate
+		)
+	</insert>
+	<update id="updateCertiStatus">
+		update certiinfo 
+			set status = 'EXP'
+			<![CDATA[ where expiry < sysdate ]]>
+	</update>
 	<select id="getMemberSearchCnt" resultType="int">
 		select count(*) from memberinfo
 			where ${search} like '%${keyword}%'
@@ -146,7 +238,7 @@
 			(select memid, count(*) as reportCnt from member_report group by memid) rep,
       		memberinfo info
 		where info.memid=rep.memid
-		and info.status='일반'
+		and info.status=0
 	</select>
 	<select id="getNewCertiCnt" resultType="int">
 		select count(*) from certiinfo 

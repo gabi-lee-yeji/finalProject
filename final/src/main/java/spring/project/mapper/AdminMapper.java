@@ -11,6 +11,7 @@ import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.EmpBoardDTO;
+import spring.project.model.EmpInfoDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardDTO;
@@ -29,6 +30,7 @@ public interface AdminMapper {
 	
 	//자격증 목록 
 	public List<CertiInfoDTO> getCertList(Map map);
+	public void updateCertiStatus();
 	//등록된 자격증 개수
 	public int getCertCnt();
 	//자격증 검색 결과 목록
@@ -81,7 +83,7 @@ public interface AdminMapper {
 	
 	//회원검색
 	public List<MemberInfoDTO> getMemberSearchList(Map map);
-	public int getMemberSearchCnt(String search, String keyword);
+	public int getMemberSearchCnt(@Param("search")String search, @Param("keyword")String keyword);
 	//public List<MemberInfoDTO> getMemberFilter(Map map);
 	
 	//신고당한 회원목록 가져오기 
@@ -145,4 +147,20 @@ public interface AdminMapper {
 	public int modEmpNotice(EmpBoardDTO dto);
 	//직원공지 삭제
 	public int delEmpNotice(int ebnum);
+	
+	//사원관리
+	//사원등록
+	public int addEmpInfo(EmpInfoDTO dto);
+	public int updateToAdmin(String memid);
+	//전체사원 조회
+	public List<Map<String,Object>> getEmpList(Map map);
+	public int getEmpCnt();
+	//사원정보 
+	public EmpInfoDTO getEmpInfo(String empid);
+	//사원정보 수정
+	public int modEmpInfo(EmpInfoDTO dto);
+	//사원정보 삭제
+	public int delEmpInfo(@Param("empid")String empid, 
+						@Param("leaving_reason")String leavingReason);
+	public int updateToMember(String memid);
 }

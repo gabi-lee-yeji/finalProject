@@ -126,7 +126,7 @@
 			<c:forEach var="dto" items="${empNotice}">
 				<tr>
 					<td>${dto.ebnum }</td>
-					<td>${dto.subject }</td>
+					<td><a href="/admin/emp/notice?ebnum=${dto.ebnum}">${dto.subject }</a></td>
 					<td>${dto.writer }</td>
 					<td><fmt:formatDate value="${dto.reg }" pattern="yy/MM/dd"/></td>
 				</tr>

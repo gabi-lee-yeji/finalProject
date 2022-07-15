@@ -34,6 +34,7 @@ import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.EmpBoardDTO;
+import spring.project.model.EmpInfoDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.pagination.PagingDTO;
@@ -427,44 +428,62 @@ public class AdminController {
 	//사원목록
 	@RequestMapping("emp/empList")
 	public String getEmpList(String pageNum, Model model) {
-		return "";
+		PagingDTO page = pageService.getPaging(10, pageNum);
+		model.addAttribute("page",page);
+		model.addAttribute("list", service.getEmpList(page));
+		model.addAttribute("count", service.getEmpCnt());
+		return "/admin/emp/info/empList";
 	}
 	//사원정보
 	@RequestMapping("emp/empInfo")
-	public String getEmpInfo(Model model) {
-		return "";
+	public String getEmpInfo(String empid, HttpSession session, Model model) {
+		//model.addAttribute("sessionId", session.getAttribute("empid"));
+		model.addAttribute("sessionId","admin_mgr");
+		model.addAttribute("dto",service.getEmpInfo(empid));
+		model.addAttribute("age", service.getMemberAge(empid));
+		return "/admin/emp/info/empInfo";
 	}
 	//사원 등록
 	@RequestMapping("emp/addEmp")
 	public String addEmpForm(String memid, Model model) {
-		//이미 회원가입 되어있던 사원
+		//이미 회원가입 되어있던 사원만 가능
 		//처음 가입 필요한 사원 -> 회원가입부터 
-		if(memid!=null)
-		model.addAttribute("dto", service.getMemberInfo(memid));
-		
 		model.addAttribute("memid", memid);
+		
+		if(memid!=null)
+			model.addAttribute("dto", service.getMemberInfo(memid));
+		
+		model.addAttribute("currentDate", service.getCurrentDate());
 		return "/admin/emp/info/addEmp";
 	}
 	@RequestMapping("emp/addEmpPro")
-	public String addEmpPro(Model model) {
-		return "";
+	public String addEmpPro(EmpInfoDTO dto, Model model) {
+		model.addAttribute("result", service.addEmpInfo(dto));
+		return "/admin/emp/info/addEmpPro";
 	}
 	//사원정보 수정
 	@RequestMapping("emp/modEmp")
-	public String modEmpInfo(Model model) {
-		return "";
+	public String modEmpInfo(String empid, HttpSession session, Model model) {
+		//model.addAttribute("sessionId", session.getAttribute("empid"));
+		model.addAttribute("dto", service.getEmpInfo(empid));
+		return "/admin/emp/info/modEmpForm";
 	}
-	@RequestMapping("emp/modEmpInfoPro")
-	public String modEmpPro(Model model) {
-		return "";
+	@RequestMapping("emp/modEmpPro")
+	public String modEmpPro(EmpInfoDTO dto, Model model) {
+		model.addAttribute("result", service.modEmpInfo(dto));
+		model.addAttribute("empid", dto.getEmpid());
+		return "/admin/emp/info/modEmpPro";
 	}
 	//사원정보 삭제
 	@RequestMapping("emp/delEmp")
-	public String delEmpInfo() {
-		return "";
+	public String delEmpInfo(String empid, Model model) {
+		model.addAttribute("dto", service.getEmpInfo(empid));
+		return "/admin/emp/info/delEmpForm";
 	}
 	@RequestMapping("emp/delEmpPro")
-	public String delEmpPro(Model model) {
-		return "";
+	public String delEmpPro(String empid, String reason, String reason2, Model model) {
+		String leavingReason = reason+"-"+reason2;
+		model.addAttribute("result", service.delEmpInfo(empid, leavingReason));
+		return "/admin/emp/info/delEmpPro";
 	}
 }

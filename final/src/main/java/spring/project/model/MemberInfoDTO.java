@@ -43,5 +43,4 @@ public class MemberInfoDTO {
 	private String status_name;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date ref_date;
-	
 }

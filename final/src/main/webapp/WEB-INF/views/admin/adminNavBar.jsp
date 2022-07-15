@@ -67,7 +67,7 @@
 	      	<a class="dropdown-item" href="/admin/emp/noticeList">직원공지</a>
 	      	<a class="dropdown-item" href="/admin/emp/addNotice">공지등록</a>
 	      	<hr>
-	      	<a class="dropdown-item" href="">사원목록</a>
+	      	<a class="dropdown-item" href="/admin/emp/empList">사원목록</a>
 	      </div>
 	    </li>
 	    
@@ -75,7 +75,7 @@
 		  <a class="nav-link" href="#">통계</a>
 		</li>
 		<li class="nav-item">
-		  <a class="nav-link" href="#">Link 2</a>
+		  <a class="nav-link" href="/admin/emp/empInfo?empid=${sesseionScope.empid}">나의 정보</a>
 		</li>
 	  </ul>
 	</nav>

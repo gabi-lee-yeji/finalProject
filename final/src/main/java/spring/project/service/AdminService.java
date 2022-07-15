@@ -9,6 +9,7 @@ import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.EmpBoardDTO;
+import spring.project.model.EmpInfoDTO;
 import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.MemberReportDTO;
@@ -71,6 +72,7 @@ public interface AdminService {
 	
 	//회원 상세 정보
 	public MemberInfoDTO getMemberInfo(String memid);
+	//회원나이 계산
 	public int getMemberAge(String memid);
 	//회원 보유자격증 목록 
 	public List<CertiInfoDTO> getMemberCertList(String memid);
@@ -137,4 +139,19 @@ public interface AdminService {
 	public int modEmpNotice(EmpBoardDTO dto);
 	//직원공지 삭제 
 	public int delEmpNotice(int ebnum);
+	
+	//사원관리
+	//직원 등록
+	public int addEmpInfo(EmpInfoDTO dto);
+	//현재날짜 "yyyy-MM-dd" 형식으로 반환 - hiredate 초기값
+	public String getCurrentDate();
+	//직원 목록 조회
+	public List<Map<String,Object>> getEmpList(PagingDTO page);
+	public int getEmpCnt();
+	//사원 정보 조회
+	public EmpInfoDTO getEmpInfo(String empid);
+	//사원 정보 수정
+	public int modEmpInfo(EmpInfoDTO dto);
+	//사원 정보 삭제 (퇴사처리)
+	public int delEmpInfo(String empid, String leavingReason);
 }
