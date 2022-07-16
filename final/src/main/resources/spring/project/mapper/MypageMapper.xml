@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.MypageMapper">
+
+	<insert id="addMemberCertiFromDB" parameterType="spring.project.model.MemberCertiDTO">
+		insert into member_cert values(
+			#{memid},
+			#{cnum, jdbcType=VARCHAR},
+			#{cert_name},
+			#{expirydate},
+			#{ctype, jdbcType=VARCHAR},
+			#{clevel, jdbcType=VARCHAR}
+			
+		)
+	</insert>
+	
+	<insert id="addMemberCertiNew" parameterType="spring.project.model.MemberCertiDTO">
+		insert into member_cert(memid,cert_name,expirydate) values(#{memid},#{cert_name},#{expirydate})
+	</insert>
+
+	<select id="getCertiSearch" resultType="spring.project.model.CertiInfoDTO">
+		select cnum, cname, clevel from certiinfo
+	</select>
+</mapper>
