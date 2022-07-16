@@ -29,7 +29,7 @@ public class HelloAnalytics {
 
   private static final String APPLICATION_NAME = "Hello Analytics";
   private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-  private static final String KEY_FILE_LOCATION = "C:\\\\Users\\\\yejig\\\\OneDrive\\\\Desktop\\\\JAVA\\\\finalproject-tj01-56d2d06db588.json";
+  private static final String KEY_FILE_LOCATION = "PRIVATE INFO";
   public static void main(String[] args) {
     try {
       Analytics analytics = initializeAnalytic();
