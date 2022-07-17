@@ -18,23 +18,11 @@ public interface DataMapper {
 	
 	public void addPassDetailN(PassDetailDTO dto);
 	
-	public int updateCertiDetail(@Param("dto") CertiInfoDTO dto, @Param("cname") String cname);
-	
 	public String findCnum(String cname);
 	public int findCnumCount(String cname);
 	
-	public void addNatCertiInfo(CertiInfoDTO info);
-	public void addNatCertiSchedule(CertiScheduleDTO sch);
-	public List<CertiInfoDTO> getCmethods();
-	public void updateCmethods(CertiInfoDTO dto);
-	public List<CertiInfoDTO> getSubjects();
-	public void updateSubject(CertiInfoDTO dto);
-	public List<CertiInfoDTO> getMingan();
-	public int updateMingan(CertiInfoDTO dto);
 	public int addPassRate(PassRateDTO dto);
 	public void addCertiRelated(CertiMatchDTO dto);
-	public List<CertiInfoDTO> getNatPrices();
-	public void updatePrice(CertiInfoDTO dto);
 	public void addNatData(CertiInfoDTO dto);
 	public void updateNatClevel(CertiScheduleDTO dto);
 	public void addCertiSchedule(CertiScheduleDTO dto);

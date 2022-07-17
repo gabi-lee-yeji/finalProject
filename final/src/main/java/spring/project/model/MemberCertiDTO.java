@@ -15,4 +15,5 @@ public class MemberCertiDTO {
 	private Date expirydate;
 	private String ctype;
 	private String clevel;
+	private int mcnum;
 }

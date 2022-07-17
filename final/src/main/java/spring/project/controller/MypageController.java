@@ -33,10 +33,38 @@ public class MypageController {
 		return "mypage/addMemberCertiPro";
 	}
 	
+	@RequestMapping("memberCertiList")
+	public String memberCertiList(Model model, HttpSession session) {
+		
+		model.addAttribute("list", service.memberCertiList((String) session.getAttribute("sid")));
+		return "mypage/memberCertiList";
+	}
+	
+	@RequestMapping("updateMemberCertiForm")
+	public String updateMemberCertiForm(Model model, String mcnum) {
+		
+		model.addAttribute("dto",service.getMemberCerti(mcnum));
+		return "mypage/updateMemberCertiForm";
+	}
+	
+	@RequestMapping("updateMemberCertiPro")
+	public String updateMemberCertiPro(Model model, MemberCertiDTO dto) {
+		service.updateMemberCerti(dto);
+		return "mypage/updateMemberCertiPro";
+	}
+	
+	@RequestMapping("deleteMemberCertiPro")
+	public String deleteMemberCertiPro(String mcnum) {
+		service.deleteMemberCerti(mcnum);
+		return "mypage/deleteMemberCertiPro";
+	}
+	
 	@RequestMapping("session")
 	public void makeSession(HttpSession session) {
 		session.setAttribute("sid", "test");
 	}
+	
+	
 }
 
 

@@ -32,6 +32,28 @@ public class MypageServiceImpl implements MypageService{
 			mapper.addMemberCertiFromDB(dto);
 		}
 	}
+	
+	@Override
+	public ArrayList<MemberCertiDTO> memberCertiList(String sid){
+		if(sid==null)
+			return null;
+		return mapper.memberCertiList(sid);
+	}
+	
+	@Override
+	public MemberCertiDTO getMemberCerti(String mcnum) {
+		return mapper.getMemberCerti(mcnum);
+	}
+	
+	@Override
+	public void updateMemberCerti(MemberCertiDTO dto) {
+		mapper.updateMemberCerti(dto);
+	}
+	
+	@Override
+	public void deleteMemberCerti(String mcnum) {
+		mapper.deleteMemberCerti(mcnum);
+	}
 }
 
 

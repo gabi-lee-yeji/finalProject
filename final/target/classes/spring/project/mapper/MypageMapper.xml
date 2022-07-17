@@ -4,20 +4,37 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.MypageMapper">
 
+	<delete id="deleteMemberCerti">
+		delete from member_cert where mcnum=#{mcnum}
+	</delete>
+
+	<update id="updateMemberCerti" parameterType="spring.project.model.MemberCertiDTO">
+		update member_cert set expirydate=#{expirydate} where mcnum=#{mcnum}
+	</update>
+
+	<select id="getMemberCerti" resultType="spring.project.model.MemberCertiDTO">
+		select * from member_cert where mcnum=#{mcnum}
+	</select>
+
+	<select id="memberCertiList" resultType="spring.project.model.MemberCertiDTO">
+		select * from member_cert where memid=#{memid}
+	</select>
+
 	<insert id="addMemberCertiFromDB" parameterType="spring.project.model.MemberCertiDTO">
 		insert into member_cert values(
 			#{memid},
 			#{cnum, jdbcType=VARCHAR},
 			#{cert_name},
-			#{expirydate},
+			#{expirydate, jdbcType=DATE},
 			#{ctype, jdbcType=VARCHAR},
-			#{clevel, jdbcType=VARCHAR}
-			
+			#{clevel, jdbcType=VARCHAR},
+			mc_seq.nextval
 		)
 	</insert>
 	
 	<insert id="addMemberCertiNew" parameterType="spring.project.model.MemberCertiDTO">
-		insert into member_cert(memid,cert_name,expirydate) values(#{memid},#{cert_name},#{expirydate})
+		insert into member_cert(memid,cert_name,expirydate,mcnum) 
+			values(#{memid},#{cert_name},#{expirydate},mc_seq.nextval)
 	</insert>
 
 	<select id="getCertiSearch" resultType="spring.project.model.CertiInfoDTO">

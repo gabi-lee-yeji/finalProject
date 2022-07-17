@@ -12,4 +12,16 @@ public interface MypageService {
 	
 	//보유자격증 추가
 	public void addMemberCerti(MemberCertiDTO dto);
+	
+	//보유자격증 리스트
+	public ArrayList<MemberCertiDTO> memberCertiList(String sid);
+	
+	//mcnum으로 MemberCertiDTO 가져오기
+	public MemberCertiDTO getMemberCerti(String mcnum);
+	
+	//update member_cert 
+	public void updateMemberCerti(MemberCertiDTO dto);
+	
+	//delete from member_cert
+	public void deleteMemberCerti(String mcnum);
 }

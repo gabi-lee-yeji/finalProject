@@ -10,4 +10,8 @@ public interface MypageMapper {
 	
 	public void addMemberCertiFromDB(MemberCertiDTO dto);
 	public void addMemberCertiNew(MemberCertiDTO dto);
+	public ArrayList<MemberCertiDTO> memberCertiList(String memid);
+	public MemberCertiDTO getMemberCerti(String mcnum);
+	public void updateMemberCerti(MemberCertiDTO dto);
+	public void deleteMemberCerti(String mcnum);
 }
