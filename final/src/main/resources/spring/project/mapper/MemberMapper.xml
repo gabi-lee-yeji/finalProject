@@ -3,7 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.MemberMapper">
-	
 	<insert id="insertMember">
 		insert into memberInfo values (#{memid},
 											#{passwd},
@@ -16,20 +15,24 @@
 											#{addr_detail},
 											#{mobile},
 											#{mem_degree},
-											#{major},
-											#{mem_job},
-											'일반',
+										<if test="major != null">#{major},</if>
+										<if test="mem_job != null">#{mem_job},</if>
 											0,
 											0,
-											sysdate) 
+											0,
+											sysdate,
+											#{passwdQ1},
+											#{passwdQ2},
+											sysdate
+											) 
 	</insert>
 	
 	<select id="userCheck" resultType="int">
-		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd} and status = '일반'
+		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd} and status = 0
 	</select>	
 	
 	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
-		select * from memberInfo where memid=#{memid} and status = '일반'	
+		select * from memberInfo where memid=#{memid} and status = 0
 	</select>
 	
 	<select id="deleteUser">
@@ -37,7 +40,7 @@
 	</select>
 	
 	<select id="findUser" resultType="spring.project.model.MemberInfoDTO">
-		select * from MemberInfo where memid=#{memid} and passwd=#{passwd} and status = '일반'
+		select * from MemberInfo where memid=#{memid} and passwd=#{passwd} and status = 0
 	</select>
 	
 	<update id="modifyList">
@@ -54,20 +57,11 @@
 			<if test="mobile != null">mobile=#{mobile},</if>
 			<if test="mem_degree != null">mem_degree=#{mem_degree},</if>
 			<if test="major != null">major=#{major},</if>
-			<if test="mem_job != null">mem_job=#{mem_job}</if>
+			<if test="mem_job != null">mem_job=#{mem_job},</if>
+			<if test="passwdQ1 != null">passwdQ1=#{passwdQ1},</if>
+			<if test="passwdQ2 != null">passwdQ2=#{passwdQ2}</if>
 		</set>
-		where memid=#{memid} and status = '일반'
-	</update>
-
-	<update id="addMemberPoint">
-		update memberinfo 
-			<set>
-				<if test="pnum != 0">mem_point = mem_point+100</if>
-				<if test="comm_num != 0">mem_point = mem_point+10</if>
-			</set>
-			where memid=#{memid} and status=0
-			
-	
+		where memid=#{memid} and status = 0;
 	</update>
 	
 	<select id="idDuplicate" resultType="int">
@@ -77,5 +71,29 @@
 	<select id="idFind" resultType="spring.project.model.MemberInfoDTO">
 		select memid,status from memberInfo where mem_name=#{mem_name} and mobile=#{mobile}
 	</select>
+	<select id="pwFind" resultType="spring.project.model.MemberInfoDTO">
+		select memid,passwd,status from memberInfo where memid=#{memid} and passwdQ1=#{passwdQ1} and passwdQ2=#{passwdQ2}
+	</select>
+
+	<select id="myList" resultType="spring.project.model.Post_BoardDTO">
+				select * from
+				(select post_board.*,rownum r from
+					(select * from post_board order by post_group desc, post_level)post_board
+				where writer=#{writer} and board_type=${board_type} and status=0)
+		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
+	</select>
+	<select id="post_BoardCount" resultType="int">
+		select count(*) from post_board where board_type=#{board_type} and writer=#{writer} and status = 0
+	</select>
+	
+	<update id="addMemberPoint">
+		update memberinfo 
+			<set>
+				<if test="pnum != 0">mem_point = mem_point+100</if>
+				<if test="comm_num != 0">mem_point = mem_point+10</if>
+			</set>
+			where memid=#{memid} and status=0
+	</update>
+	
 		
 </mapper>

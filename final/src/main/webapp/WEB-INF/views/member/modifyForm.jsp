@@ -80,7 +80,6 @@ function noSpaceForm(obj){
 	}
 }	
 	
-	
 </script>
 
 ${memberInfoDTO.memid}
@@ -107,9 +106,6 @@ ${memberInfoDTO.memid}
 			<input type="text" name="phone1" value="${dto.phone1}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
 			<input type="text" name="phone2" value="${dto.phone2}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
 			<input type="text" name="phone3" value="${dto.phone3}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" /><br/>
-			학위 : <input type="text" name="mem_degree" value="${dto.mem_degree}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			전공 : <input type="text" name="major" value="${dto.major}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			직업 : <input type="text" name="mem_job" value="${dto.mem_job}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			<input type="submit" value="수정완료"/>
 	
 </form>

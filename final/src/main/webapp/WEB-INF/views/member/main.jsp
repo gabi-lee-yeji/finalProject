@@ -14,4 +14,5 @@
 	<br/><button type="button" onclick="javascript:window.location='/member/deleteForm'"/>회원탈퇴</button>
 	<button type="button" onclick="javascript:window.location='/member/modifyConfirm'"/>회원정보수정</button>
 	<button type="button" onclick="window.location='/member/logout'">로그아웃</button>
+	<button type="button" onclick="window.location='/member/myList?writer=${sessionScope.sid}&board_type=4'">내 글 목록</button>
 </c:if>

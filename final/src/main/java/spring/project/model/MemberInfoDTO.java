@@ -35,6 +35,15 @@ public class MemberInfoDTO {
 	private int mem_point;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date regdate;
+	private String quiz1;
+	private String quiz2;
+	private String findPw1;
+	private String findPw2;
+	private String passwdQ1;
+	private String passwdQ2;
+	private String ref_date;
+	
+
 	
 	//신고횟수 조회 기능 사용할때만 사용할 변수
 	private int reportCnt;
