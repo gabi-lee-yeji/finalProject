@@ -17,10 +17,8 @@
 			</tr>
 			<tr>
 				<td>작성자</td>
-			<!-- <td>${memid}</td> -->
-				<!--	<input type="hidden" name="writer" value="${memid}" /> -->
-				<td>안혜원</td>
-					<input type="hidden" name="writer" value="안혜원" />
+				<td>${sessionScope.sid}</td>
+					<input type="hidden" name="writer" value="${sessionScope.sid}" />
 			</tr>
 			<tr>
 				<td>문의 내용</td>

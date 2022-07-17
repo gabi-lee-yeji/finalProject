@@ -48,7 +48,7 @@
 				</td>	
 			</tr>
 		</table>
-	<input type="hidden" name="report_id" value="${report_id}"/>
+	<input type="hidden" name="report_id" value="${sessionScope.sid}"/>
 	<input type="submit" value="신고하기" />
 	</form>
 </body>

@@ -2,7 +2,6 @@ package spring.project.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import spring.project.model.Comm_BoardDTO;
@@ -65,5 +64,6 @@ public interface Post_BoardService {
 
 	// 신고된 글/댓글 조회
 	public int getMemberReport(MemberReportDTO mr);
+
 
 }

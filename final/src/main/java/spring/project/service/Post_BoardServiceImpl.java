@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,10 +39,12 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Setter(onMethod_= @Autowired)
 	private MemberMapper memMapper;
 	
-	//httprequest servle>>> 매개변수 getrealpath
+	@Autowired
+	private ServletContext sc;
+	
 	@Transactional
 	@Override
-	public int addPost_Board(Post_BoardDTO board, 
+	public int addPost_Board(Post_BoardDTO board,
 			@RequestParam("file") MultipartFile[] files) {
 		List<Post_BoardAttachDTO> list = new ArrayList<>();
 		String uploadFolder = "C:\\upload"; //여기
@@ -49,13 +54,24 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 			if(!f.isEmpty()) {
 				Post_BoardAttachDTO attachDTO = new Post_BoardAttachDTO();
 				String uploadFileName = f.getOriginalFilename();
+				
+				String webPath = "/WEB-INF/views/upload";
+				String realPath = sc.getRealPath(webPath);
+				System.out.println("realPath ====="+realPath);
+				
 				attachDTO.setFileName(uploadFileName);	// attachDTO FileName에 원본 파일명 저장
 				
 				UUID uuid = UUID.randomUUID();	// 고유번호와 같은 개념
 				uploadFileName = uuid.toString() + "_" + uploadFileName;	// 파일원본 저장할때 중복방지로 UUID와 파일명을 붙인 새로운 파일명으로 저장
+
+				File savePath = new File(realPath);	// realPath 경로에 파일업로드 폴더 있는지 확인
+				if(savePath.exists())
+					savePath.mkdirs();	// 없으면 경로에 폴더 만들기
+				
+				realPath += File.separator + uploadFileName; // "//" 시스템에 맞는 구분자 출력
 				
 				try {
-					File saveFile = new File(uploadFolder, uploadFileName);
+					File saveFile = new File(realPath);
 					f.transferTo(saveFile);
 					
 					attachDTO.setUuid(uuid.toString());
@@ -75,8 +91,6 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 			System.out.println("list를 board에 넣기 동작 확인");
 			board.setAttachList(list);	// Post_BoardDTO의 attachList(배열)에 list 저장
 		}
-		
-		System.out.println("최종 Board는: " + board);
 			
 		// post_group 없으면 +1 하여 새로운 그룹만들고, 있으면 값을 받아서 묶어준 후 addPost_Board 실행
 		int post_group = pbMapper.maxPost_group()+1;
@@ -88,29 +102,20 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		int result = pbMapper.addPost_Board(board);
 		
-		System.out.println("addPost_Board가 실행되었는지 여부:"+result);
 		// Post_BoardDTO에 attachList값이 없으면 그대로 종료
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
-			System.out.println("도대체가 작동을 하는건가요!");
-			
-			
 			memMapper.addMemberPoint(board.getWriter(), board.getPnum(), 0);
-			System.out.println(board.getWriter());
-			System.out.println(board.getPnum());
 			return result;
 		}
 		
 		// attachList를 각각 Post_BoardAttach DB에 넣어줌
 		board.getAttachList().forEach(attach ->{
 			attach.setPnum(board.getPnum());
-			System.out.println("attach가 들어있는지 확인하기" + attach);
 			pbAMapper.addPost_BoardAttach(attach);
 		});
 		
 		// 포인트 추가
 		memMapper.addMemberPoint(board.getWriter(), 0, board.getPnum());
-		System.out.println(board.getWriter());
-		System.out.println(board.getPnum());
 		
 		return result;	// 정상 종료하면 post_board 실행만 카운트하므로 1
 	}

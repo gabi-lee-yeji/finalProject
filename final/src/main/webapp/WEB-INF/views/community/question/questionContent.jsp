@@ -5,17 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>꿀팁, 후기</title>
+<title>질문글</title>
 </head>
 <body>
-	<h1>꿀팁, 후기 글보기</h1>
+	<h1>질문글 글보기</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
-	<input type="button" value="수정" onclick="window.location = '/community/review/modReview?pnum=${board.pnum}&pageNum=${pageNum}' " />
-	<input type="button" value="삭제" onclick="window.location = '/community/review/delReview?pnum=${board.pnum}&pageNum=${pageNum}' " />
-	<input type="button" value="목록" onclick="window.location = '/community/review/reviewList?board_type=4' "/>
+	<input type="button" value="수정" onclick="window.location = '/community/question/modQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />
+	<input type="button" value="삭제" onclick="window.location = '/community/question/delQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />
+	<input type="button" value="목록" onclick="window.location = '/community/question/questionList?board_type=5' "/>
 	<c:if test="${board.post_level == 0}">
 		<input type="button" value="답글" 
-			onclick="window.location = '/community/review/addReview?pnum=${board.pnum}&post_group=${board.post_group}' " />
+			onclick="window.location = '/community/question/addQuestion?pnum=${board.pnum}&post_group=${board.post_group}' " />
 	</c:if>
 	<input type="button" value="신고" onclick="memberReport(${board.pnum});"/>
 	<br/><br/>

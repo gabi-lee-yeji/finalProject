@@ -16,8 +16,8 @@
 		</tr>
 		<tr>
 			<td>작성자</td>
-			<td>asdasd
-				<input type="hidden" name="writer" value="asdasd"/>
+			<td>${sessionScope.sid}
+				<input type="hidden" name="writer" value="${sessionScope.sid}"/>
 			</td>
 		</tr>
 		<tr>

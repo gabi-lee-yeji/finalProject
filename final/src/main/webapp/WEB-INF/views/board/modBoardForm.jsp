@@ -29,10 +29,10 @@
 	</tr>
 	<tr>
 		<td>비밀번호</td>
-		<td><input type="text" name="passwd" /></td>
+		<td><input type="password" name="passwd" /></td>
 	</tr>
 </table>
 <input type="hidden" name="pnum" value="${board.pnum}" />
-<input type="hidden" name="memid" value="안혜원" /><!-- 수정필요 -->
+<input type="hidden" name="memid" value="${sessionScope.sid}" />
 <input type="hidden" name="pageNum" value="${pageNum}" />
 </html>
