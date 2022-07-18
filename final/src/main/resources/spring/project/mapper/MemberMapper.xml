@@ -16,20 +16,24 @@
 											#{addr_detail},
 											#{mobile},
 											#{mem_degree},
-											#{major},
-											#{mem_job},
-											'일반',
+										<if test="major != null">#{major},</if>
+										<if test="mem_job != null">#{mem_job},</if>
 											0,
 											0,
-											sysdate) 
+											0,
+											sysdate,
+											#{passwdQ1},
+											#{passwdQ2},
+											sysdate
+											) 
 	</insert>
 	
 	<select id="userCheck" resultType="int">
-		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd} and status = '일반'
+		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd} and status = 0
 	</select>	
 	
 	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
-		select * from memberInfo where memid=#{memid} and status = '일반'	
+		select * from memberInfo where memid=#{memid} and status = 0
 	</select>
 	
 	<select id="deleteUser">
@@ -37,7 +41,7 @@
 	</select>
 	
 	<select id="findUser" resultType="spring.project.model.MemberInfoDTO">
-		select * from MemberInfo where memid=#{memid} and passwd=#{passwd} and status = '일반'
+		select * from MemberInfo where memid=#{memid} and passwd=#{passwd} and status = 0
 	</select>
 	
 	<update id="modifyList">
@@ -54,9 +58,11 @@
 			<if test="mobile != null">mobile=#{mobile},</if>
 			<if test="mem_degree != null">mem_degree=#{mem_degree},</if>
 			<if test="major != null">major=#{major},</if>
-			<if test="mem_job != null">mem_job=#{mem_job}</if>
+			<if test="mem_job != null">mem_job=#{mem_job},</if>
+			<if test="passwdQ1 != null">passwdQ1=#{passwdQ1},</if>
+			<if test="passwdQ2 != null">passwdQ2=#{passwdQ2}</if>
 		</set>
-		where memid=#{memid} and status = '일반'
+		where memid=#{memid} and status = 0;
 	</update>
 	
 	<select id="idDuplicate" resultType="int">
@@ -66,5 +72,29 @@
 	<select id="idFind" resultType="spring.project.model.MemberInfoDTO">
 		select memid,status from memberInfo where mem_name=#{mem_name} and mobile=#{mobile}
 	</select>
+	<select id="pwFind" resultType="spring.project.model.MemberInfoDTO">
+		select memid,passwd,status from memberInfo where memid=#{memid} and passwdQ1=#{passwdQ1} and passwdQ2=#{passwdQ2}
+	</select>
+
+	<select id="myList" resultType="spring.project.model.Post_BoardDTO">
+				select * from
+				(select post_board.*,rownum r from
+					(select * from post_board order by post_group desc, post_level)post_board
+				where writer=#{writer} and board_type=${board_type} and status=0)
+		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
+	</select>
+	<select id="post_BoardCount" resultType="int">
+		select count(*) from post_board where board_type=#{board_type} and writer=#{writer} and status = 0
+	</select>
+	<select id="myComments" resultType="spring.project.model.Comm_BoardDTO">
+		select * from
+		(select comm_board.*,rownum r from
+		(select * from comm_board order by comm_group desc, comm_level)comm_board 
+		where writer=#{writer} and status=0)
+		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
 		
+	</select>
+	<select id="commentsCount" resultType="int">
+		select count(*) from comm_board where writer=#{writer} and status=0	
+	</select>
 </mapper>

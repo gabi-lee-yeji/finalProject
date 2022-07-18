@@ -2,6 +2,8 @@ package spring.project.controller;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -23,14 +25,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
+import spring.project.model.Comm_BoardDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.Post_BoardDTO;
 import spring.project.service.MailSendService;
 import spring.project.service.MemberService;
+import spring.project.service.Post_BoardService;
 
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
-	
 	
 	@Autowired
 	private MailSendService mailService;
@@ -67,7 +71,6 @@ public class MemberController {
 		}
 		
 		int result = service.userCheck(dto);
-		System.out.println(result);
 		if(result==1) {
 			if(auto != null) {
 				Cookie cid = new Cookie("cid",memid);
@@ -164,15 +167,8 @@ public class MemberController {
 	public @ResponseBody String idDuplicate(String memid,HttpServletRequest request,Model model) {
 		
 		memid = (String)request.getParameter("memid");
-		System.out.println(memid);
 		int result = service.idDuplicate(memid);
 		return result+"";
-	}
-	@RequestMapping(value = "idDuplicateFinal", method = RequestMethod.GET)
-	public int idDuplicateFinal(String memid,HttpServletRequest request,Model model) {
-		memid = (String)request.getParameter("memid");
-		int result = service.idDuplicate(memid);
-		return result;
 	}
 	
 	@RequestMapping("modifyConfirm")
@@ -209,7 +205,6 @@ public class MemberController {
 	}
 	@RequestMapping("modifyPro")
 	public String modifyPro(MemberInfoDTO dto) {
-		System.out.println(dto.getBirthday());
 		service.modifyList(dto);
 		return "member/modifyPro";
 	}
@@ -271,11 +266,6 @@ public class MemberController {
 		
 		return "member/idFindPro";
 	}
-	@RequestMapping("pwFindForm")
-	public String pwFindForm() {
-		return "member/pwFindForm";
-	}
-
 	//이메일 인증
 	@GetMapping("/mailCheck")
 	@ResponseBody
@@ -284,6 +274,77 @@ public class MemberController {
 		System.out.println("이메일 인증 이메일 : " + email);
 		return mailService.joinEmail(email);
 		
+	}
+	
+	@RequestMapping("myList")
+	public String Mylist(String pageNum,Model model,int board_type,String writer) {
+		if(pageNum == null) pageNum = "1";
+		int pageSize = 10;
+		int currentPage = Integer.parseInt(pageNum);
+		int startRow = (currentPage - 1) * pageSize + 1;
+		int endRow = currentPage * pageSize;
+		int count = 0;
+		int number = 0;
+		count = service.post_BoardCount(board_type,writer);
+		ArrayList<Post_BoardDTO> boardList = null;
+		if(count > 0) {
+		boardList = (ArrayList<Post_BoardDTO>)service.myList(writer,board_type,startRow,endRow);
+		}
+		
+		number = count - (currentPage - 1) * pageSize;
+		
+		model.addAttribute("count", count);
+		model.addAttribute("board_type",board_type);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
+		model.addAttribute("number", number);
+		model.addAttribute("boardList", boardList);
+		   
+		return "member/myList";
+	}
+	
+	@RequestMapping("pwFindForm")
+	public String pwFindForm() {
+		return "member/pwFindForm";
+	}
+	@RequestMapping("pwFindPro")
+	public String pwFindPro(MemberInfoDTO dto,Model model) {
+		int result = 0;
+		dto = service.pwFind(dto);
+		if(dto != null) {
+			result = 1;
+		}
+		model.addAttribute("dto",dto);
+		model.addAttribute("result",result);
+		return "member/pwFindPro";
+	}
+	@RequestMapping("myComments")
+	public String myComments(String pageNum,String writer,Model model) {
+		if(pageNum == null) pageNum = "1";
+		int pageSize = 10;
+		int currentPage = Integer.parseInt(pageNum);
+		int startRow = (currentPage - 1) * pageSize + 1;
+		int endRow = currentPage * pageSize;
+		int count = 0;
+		int number = 0;
+		List<Comm_BoardDTO> commList = null;
+		count = service.commentsCount(writer);
+		if(count > 0) {
+			commList = service.myComments(writer,startRow,endRow);
+			}
+			number = count - (currentPage - 1) * pageSize;
+			model.addAttribute("count", count);
+			model.addAttribute("pageNum", pageNum);
+			model.addAttribute("pageSize", pageSize);
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("startRow", startRow);
+			model.addAttribute("endRow", endRow);
+			model.addAttribute("number", number);
+			model.addAttribute("commList",commList);
+		return "member/myComments";
 	}
 	
 }

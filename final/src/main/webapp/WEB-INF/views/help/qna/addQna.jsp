@@ -62,7 +62,7 @@
 	</table>
 
 	<form action="/help/qna/addQnaPro" name="addQna" method="get" >
-		<input type="hidden" name="board_type" value="1:1문의" />
+		<input type="hidden" name="board_type" value="3" />
 		<input type="hidden" name="post_group" value="${dto.post_group}">
 		<input type="hidden" name="post_level" value="${dto.post_level}">
 		<h2> 고객문의 답글 </h2>
