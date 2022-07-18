@@ -83,7 +83,7 @@ public class AdminController {
 		PagingDTO page = pageService.getPaging(pageSize, pageNum);
 		
 		model.addAttribute("list", service.getCertList(page, sort, order, category));
-		model.addAttribute("count", service.getCertCnt());
+		model.addAttribute("count", service.getCertCnt(category));
 		
 		model.addAttribute("page",page);
 		model.addAttribute("sort", sort);
@@ -143,14 +143,29 @@ public class AdminController {
 		model.addAttribute("result", service.addCertiDate(dto));
 		return "admin/certi/addDatePro";
 	}
+	//자격증 일정 추가 테이블
+	@RequestMapping("certi/addDateTbl")
+	public String ajaxDateTbl() {
+		return "admin/ajax/addDateTbl";
+	}
 	
 	//자격증 일정 삭제  
 	@RequestMapping("certi/deleteDate")
 	public String deleteDate(String cnum, String[] dateList, Model model){
+		//국가자격증인 경우 일정 삭제 전 컨펌 페이지로 이동 
+		if(cnum.startsWith("N")) {
+			//CertiSchedule에서 해당 자격증 데이터 삭제 
+			model.addAttribute("result", service.deleteCertiNatDate(dateList, cnum));
+		}else {
+			//CertiDate에서 일정 정보 삭제 (datePK 사용) 
+			model.addAttribute("result",service.deleteCertiDate(dateList));
+		}
+		
 		model.addAttribute("cnum", cnum);
-		model.addAttribute("result",service.deleteCertiDate(dateList));
+		
 		return "admin/certi/deleteDate";
 	}
+	
 	
 	@RequestMapping("certi/modDate")
 	public String modifyDate(Integer datepk, String cnum, Model model) {

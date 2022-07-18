@@ -87,7 +87,8 @@
 			#{hiredate},
 			#{sal},
 			'일반',
-			sysdate
+			sysdate,
+			''
 		)
 	</insert>
 	<update id="updateCertiStatus">
@@ -351,6 +352,14 @@
 			#{datePK}
 		</foreach>
 	</delete>
+	<delete id="deleteCertiNatDate">
+		delete from certischedule
+		where 
+			cnum=#{cnum}
+			and cyear=#{cyear}
+			and cround=#{cround}
+			and clevel=#{clevel} 
+	</delete>
 	
 	<select id="getReportReasonList" resultType="spring.project.model.MemberReportDTO">
 		select * from member_report where wr_option ='P' and pnum=#{pnum}
@@ -519,6 +528,9 @@
 	
 	<select id="getCertCnt" resultType="int">
 		select count(*) from certiinfo
+		<if test="category != null">
+			where category = #{category}
+		</if>
 	</select>
 	
 	

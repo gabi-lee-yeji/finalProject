@@ -60,7 +60,7 @@
 	      </div>
 	    </li>
 	    
-	    <c:if test="${sessionScope.memId != null}">
+	    <c:if test="${sessionScope.sid != null}">
 		    <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
 		        My Page
@@ -81,7 +81,7 @@
 			</li>
 		</c:if>
 	    
-	    <c:if test="${sessionScope.memId == null}">
+	    <c:if test="${sessionScope.sid == null}">
 		    <li class="nav-item">
 			  <a class="nav-link" href="/member/signUpForm">회원가입</a>
 			</li>

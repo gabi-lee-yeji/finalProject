@@ -27,7 +27,7 @@ public interface AdminService {
 	//등록된 자격증 전체 목록
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category);
 	//등록된 자격증 전체 개수
-	public int getCertCnt();
+	public int getCertCnt(String category);
 	
 	//자격증 검색 
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword);
@@ -45,7 +45,10 @@ public interface AdminService {
 	//자격증 일정 추가
 	public int addCertiDate(CertiDateDTO dto);
 	//자격증 일정 삭제
-	public int deleteCertiDate(String[] dateList);
+	public int deleteCertiDate(String[] dateList);  //민간, 어학
+	public int deleteCertiNatDate(String[] dateList, String cnum); //국가기술
+	
+	
 	//자격증 일정 수정 - 정보불러오기
 	public CertiDateDTO getCertiDate(int datePK);
 	//국가기술자격증의 경우, 같은 일정을 가진 자격증 목록

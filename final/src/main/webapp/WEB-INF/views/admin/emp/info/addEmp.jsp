@@ -10,7 +10,6 @@
 		<script>
 			//document.getElementById('currentDate').value = new Date().toISOString().substring(0,10);
 			
-			
 		</script>
 	</head>
 	<body>
@@ -52,7 +51,10 @@
 					</tr>
 					<tr>
 						<th>생년월일</th>
-						<td><fmt:formatDate value="${dto.birthday }" pattern="yyyy.MM.dd"/></td>
+						<td>
+							
+							${dto.birthday}
+						</td>
 					</tr>
 					<tr>
 						<th>직무</th>
@@ -69,7 +71,7 @@
 					<tr>
 						<th>입사일</th>
 						<td>
-							<input type="date" id="currentDate" name="hiredate" value="${currentDate}">
+							<input type="date" id="currentDate" name="hiredate" value="${currentDate }">
 						</td>
 					</tr>
 				</table>

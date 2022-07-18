@@ -113,7 +113,27 @@
 				</td>
 			</tr>
 		</table>
+		<div id="insertDate"></div>
 		<input type="submit" value="일정 등록">
 	</form>
+	<input type="button" value="일정 추가" onclick="addDate();">
+	<input type="button" value="일정 삭제" onclick="removeDate();"/>
 </body>
+
+<script>
+	function addDate(){
+		$.ajax({
+			url : "/admin/certi/addDateTbl",
+			success : function(data){
+				$("#insertDate").append(data);
+			}
+		})
+	}
+	#insertDate > table:nth-child(2)#insertDate > table:nth-child(2)
+	#insertDate > table:nth-child(4)
+	#insertDate > table:nth-child(6)
+	#insertDate > table:nth-child(8)
+	
+	#insertDate > table:nth-child(6)
+</script>
 </html>

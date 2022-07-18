@@ -90,12 +90,11 @@ public class AdminServiceImpl implements AdminService{
 		map.put("sort", sort);
 		map.put("order", order);
 		map.put("category", category);
-		System.out.println(map);
 		return mapper.getCertList(map);
 	}
 	@Override
-	public int getCertCnt() {
-		return mapper.getCertCnt();
+	public int getCertCnt(String category) {
+		return mapper.getCertCnt(category);
 	}
 	
 	//�ڰ��� �˻� ���
@@ -158,6 +157,20 @@ public class AdminServiceImpl implements AdminService{
 			date[i] = d;
 		}
 		return mapper.deleteCertiDate(date);
+	}
+	@Override
+	public int deleteCertiNatDate(String[] dateList, String cnum) {
+		int result = 0;
+		for(String s : dateList) {
+			String[] cons = s.split("@");
+			int cyear = Integer.parseInt(cons[0]);
+			int cround = Integer.parseInt(cons[1]);
+			CertiScheduleDTO dto = new CertiScheduleDTO(cnum, cyear, cround, cons[2]);
+			
+			result += mapper.deleteCertiNatDate(dto);
+		}
+		System.out.println(result);
+		return result;
 	}
 	
 	//�ڰ��� ���� ����

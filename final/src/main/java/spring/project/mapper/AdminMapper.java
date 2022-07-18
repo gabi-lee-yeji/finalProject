@@ -32,7 +32,7 @@ public interface AdminMapper {
 	public List<CertiInfoDTO> getCertList(Map map);
 	public void updateCertiStatus();
 	//등록된 자격증 개수
-	public int getCertCnt();
+	public int getCertCnt(String category);
 	//자격증 검색 결과 목록
 	public List<CertiInfoDTO> getSearchList(@Param("startRow")int startRow,
 											@Param("endRow")int endRow,
@@ -55,6 +55,8 @@ public interface AdminMapper {
 	
 	//자격증 일정 삭제
 	public int deleteCertiDate(int[] dateList);
+	public int deleteCertiNatDate(CertiScheduleDTO dto);
+	
 	//자격증 일정 수정
 	public CertiDateDTO getCertiDate(int datePK);
 	public List<CertiInfoDTO> getNatSameScheduleList(Map map);

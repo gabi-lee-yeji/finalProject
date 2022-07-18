@@ -25,6 +25,7 @@
 			<option value="">==검색==</option>
 			<option value="cnum">자격증번호</option>
 			<option value="cname">종목명</option>
+			<option value="clevel">자격증등급</option>
 			<option value="company">시행기관</option>
 		</select>
 		<input type="text" name="keyword">
@@ -59,9 +60,9 @@
 						<option value="">==자격증종류==</option>
 					</c:if>
 					<option value="certiList">전체</option>
-					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=국가기술">국가기술</option>
-					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=공인민간">공인민간</option>
-					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=어학">어학</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=national">국가기술</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=private">공인민간</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=language">어학</option>
 				</select>
 			</th>
 			<th>등급</th>

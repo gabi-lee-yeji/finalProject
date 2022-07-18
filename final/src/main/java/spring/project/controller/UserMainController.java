@@ -21,6 +21,9 @@ public class UserMainController {
 	public String userMain(Model model) {
 		//회원등급 자동조정
 		adminService.updateMemberStatus();
+		
+		//사용자 맞춤 인기자격증 Top 10
+		model.addAttribute("clientList", service.getClientTopCerti(null));
 		return "/main";
 	}
 	

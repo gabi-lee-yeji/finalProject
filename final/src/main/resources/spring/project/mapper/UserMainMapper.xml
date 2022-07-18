@@ -3,7 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.UserMainMapper">
-	
+	<select id="getClientTopCerti" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+		    (select rownum r, list.* from 
+		        (select b.cnum, a.cname from pass_detail a, certiinfo b
+		            where a.cname=b.cname
+		            order by a.m10 desc) list)
+		where r between 1 and 10
+	</select>
 	<select id="getNatSchedules" resultType="spring.project.model.CertiDateDTO">
 		select 
 			cnum, cyear, cround, clevel,
