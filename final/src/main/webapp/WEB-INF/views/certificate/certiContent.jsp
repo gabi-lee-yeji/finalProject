@@ -9,20 +9,19 @@
 	/*	if(sid == "null"){	
 			alert("로그인이 필요한 서비스입니다.");
 			window.location='/member/loginForm';
-		}else*/ if(document.getElementById("wish").value != null){
+		}else*/ if(document.getElementById("like").value != null){
 			alert("관심자격증에 추가되었습니다.");
-			document.frm.action="/member/wishPro";
+			window.location='/like/add';
 		}
 	}
 </script>
 
 <body>
-	<c:forEach var="date" items="${dateList}" >
 	<table border=1 width="800" height="800">
 		<tr>
 			<th>${info.cname}</th>
 			<td>
-			<input type="button" value="+관심자격증" id="wish" onClick="addWish(this.form)"/>
+			<input type="button" value="+관심자격증" id="like" onClick="addLike(this.form)"/>
 			</td>
 		</tr>
 		<tr>
@@ -31,10 +30,11 @@
 		</tr>
 		<tr>
 			<td>${info.company}</td>
-			<td><a href="${info.website}">url ${info.website}</a></td>
+			<td><a href="${info.website}">${info.website}</a></td>
 		</tr>
+		<c:forEach var="date" items="${dateList}" >
 		<tr>
-			<td>시험 일정</td>
+			<td>시험 일정 </td>
 			<td>필기시험 일정<br/>
 			-원서접수 : ${date.docRegStart1}~${date.docRegEnd1} <br/>
 			<c:if test="${date.docRegStart2 != null }">
@@ -70,6 +70,7 @@
 			</c:if>
 			</td>
 		</tr>
+		</c:forEach>
 		<tr>
 			<td>응시자격</td>
 			<td width="80%">${info.requirement}</td>
@@ -80,7 +81,8 @@
 		</tr>
 		<tr>
 			<td>검정방법</td>
-			<td>${info.cmethod}</td>
+			<c:set var="methodArr" value="${fn:replace(info.cmethod,'@',' / 실기:')}"></c:set>
+		<td><c:forEach var="cmethod" items="${methodArr}">${cmethod}</c:forEach></td>
 		</tr>
 		<tr>
 			<td>검정과목</td>
@@ -89,7 +91,7 @@
 		</tr>
 		<tr>
 			<td>합격기준</td>
-			<c:set var="cutArr" value="${fn:replace(info.cutline,'@',' /실기:')}"></c:set>
+			<c:set var="cutArr" value="${fn:replace(info.cutline,'@',' / 실기:')}"></c:set>
 		<td>필기:<c:forEach var="cutline" items="${cutArr}">${cutline}</c:forEach></td>
 		</tr>
 		<tr>
@@ -105,5 +107,4 @@
 			<td>${info.status}</td>
 		</tr>
 	</table>
-	</c:forEach>
 </body>

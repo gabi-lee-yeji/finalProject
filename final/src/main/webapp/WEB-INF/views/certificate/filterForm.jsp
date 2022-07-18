@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 
-<form name="frm" action="spring.project.controller.CertiController" method="post" >
+<form name="frm" action="/certificate/certiMain" method="post" >
 	<h3>분야</h3>
-		<input type="checkbox" name="" value=""> 기계ㆍ금속ㆍ화공 <br/>
-		<input type="checkbox" name="" value=""> 전기ㆍ전자ㆍ통신 <br/>
-		<input type="checkbox" name="" value=""> 조선ㆍ항공 <br/>
-		<input type="checkbox" name="" value=""> 토목ㆍ건축 <br/>
-		<input type="checkbox" name="" value=""> 에너지ㆍ환경ㆍ안전 <br/>
-		<input type="checkbox" name="" value=""> 산업디자인ㆍ응용ㆍ전문사무 <br/>
-		<input type="checkbox" name="" value=""> 금속ㆍ화공 <br/>
-		<input type="checkbox" name="" value=""> 섬유ㆍ해양ㆍ음식료품 <br/>
-		<input type="checkbox" name="" value=""> 의약 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 기계ㆍ금속ㆍ화공 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 전기ㆍ전자ㆍ통신 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 조선ㆍ항공 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 토목ㆍ건축 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 에너지ㆍ환경ㆍ안전 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 산업디자인ㆍ응용ㆍ전문사무 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 금속ㆍ화공 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 섬유ㆍ해양ㆍ음식료품 <br/>
+		<input type="checkbox" name="NCS_CAT" value=""> 의약 <br/>
 	<h3>자격등급</h3>	
 		<input type="checkbox" name="clevel" value="기술사"> 기술사 <br/>
 		<input type="checkbox" name="clevel" value="기능장"> 기능장 <br/>
@@ -21,9 +21,9 @@
 
 <h2>응시자격</h2>
 	<h3>나이</h3>
-		<input type="checkbox" name="req_age" value=""> <br/>
-		<input type="checkbox" name="req_age" value=""> <br/>
-		<input type="checkbox" name="req_age" value=""> <br/>
+		<input type="checkbox" name="req_age" value="">30대 이상<br/>
+		<input type="checkbox" name="req_age" value="">20대<br/>
+		<input type="checkbox" name="req_age" value="">10대<br/>
 	<h3>학력</h3>
 		<input type="checkbox" name="req_degree" value="대졸">4년제 졸업 이상<br/>
 		<input type="checkbox" name="req_degree" value="초대졸">2년제 졸업 이상<br/>
@@ -40,5 +40,5 @@
 	<input type="checkbox" name="date" value=""> <br/>
 	<input type="checkbox" name="date" value=""> <br/>
 
-<input type="button" value="적용"/>	
+<input type="submit" value="적용"/>	
 </form>

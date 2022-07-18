@@ -8,29 +8,26 @@
 </head>
 
 <script language="javascript">
-	function addWish(){
+	function addLike(){
 		var sid = '<%=(String)session.getAttribute("sid")%>';
 	/*	if(sid == "null"){	그냥 null이면 오류가난다..why
 			alert("로그인이 필요한 서비스입니다.");
 			window.location='/member/loginForm';
-		}else */if(document.getElementById("wish").value != null){
+		}else*/ if(document.getElementById("like").value != null){
 			alert("관심자격증에 추가되었습니다.");
-			window.location='/member/wishPro';
+			 window.location='/like/add';
 		}
 	}
 </script>
 
 <body>
-<!--
-<aside>
-<c:import url="filterForm.jsp"/>
-</aside>
-  -->
 
-	<table width=800 cellpadding="10" cellspacing="0" border=1 >
+<c:import url="filterForm.jsp" />
+
+	<table width=800 cellpadding="10" cellspacing="0" border=1">
 	<c:if test="${count > 0}">
-		<a href="/certificate/certiMain?category=국가기술">국가기술자격</a>
-		<a href="/certificate/certiMain?category=공인민간">공인민간자격</a>
+		<a href="/certificate/certiMain?category=national" >국가기술자격</a>
+		<a href="/certificate/certiMain?category=private">공인민간자격</a>
 		<tr>
 			<th>NO</th>
 			<th>자격명</th>
@@ -41,21 +38,25 @@
 			<th><a href="">시험일</a></th>
 		</tr>
 	</c:if>
-	
+
 		<c:forEach var="board" items="${clist}">
 			<tr>
 				<td><c:out value="${board.cnum}" /></td>
-				<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>
-				<input type="button" value="♡" id="wish" onClick="addWish(this.form)"/></td>
+				<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>				
+				<input type="button" value="♡" id="like" onClick="addLike(this.form)"/></td>
 				<td><c:out value="${board.clevel}"/></td>
 				<td><c:out value="${board.category}"/></td>
 			</tr>
-		</c:forEach>	
-	<!-- <c:forEach var="date" items="${dateList}">	
-				<td>${date.cround}</td>
+		 <c:forEach var="date" items="${dateList}">	
+				<td><c:out value="${date.cround}"/></td>
 				<td>${date.docRegStart1}~${date.docRegEnd1}</td>
-		</c:forEach> -->
-	</table>
+				<td>${date.docTestStart } 
+			<c:if test="${date.docTestEnd != null }">
+				~ ${date.docTestEnd} </c:if></td>
+		</c:forEach>
+		</c:forEach>
+		</table>
+	
 	
 	
 	<c:if test="${count > 0}">
@@ -81,4 +82,6 @@
 	<c:if test="${endPage < pageCount}" >
 		<a href="/certificate/certiMain?pageNum=${startPage + 10}">[다음]</a>
 	</c:if>
+</div>
+</section>
 </body>

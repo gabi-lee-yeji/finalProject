@@ -3,6 +3,8 @@ package spring.project.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
@@ -11,7 +13,8 @@ import spring.project.model.CertiRequirementDTO;
 public interface CertiService {
 	
 	// 전체 자격증 목록
-	public List<CertiInfoDTO> getCertiList(String cnum, int startRow, int endRow, String category);
+	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category, String req_degree,String req_age,
+			String req_exp,String clevel);
 	
 	//등록된 자격증 전체 개수
 	public int getCertCnt();
@@ -25,10 +28,6 @@ public interface CertiService {
 	
 	// 어학 자격증 목록
 	public List<CertiInfoDTO> getCertiLangList();
-	
-	// 자격증 필터
-	public List<CertiRequirementDTO> getCertiFilter(String req_age, String req_degree, String req_exp);
-
 
 
 }
