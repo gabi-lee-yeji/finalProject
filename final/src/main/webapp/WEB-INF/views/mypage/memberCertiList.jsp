@@ -13,6 +13,7 @@
 			}
 		});
 	});
+
 </script>
 
 <h1>보유 자격증 목록</h1>
@@ -27,8 +28,13 @@
 	<c:forEach var="dto" items="${list }">
 		<tr>
 			<td>${dto.cert_name }</td>
-			<td>
-				<fmt:formatDate value="${dto.expirydate }" type="date" /> 
+			<td
+				<jsp:useBean id="today" class="java.util.Date" scope="page"/>
+				<c:if test="${dto.expirydate != null and ((dto.expirydate.getTime() - today.getTime()) <= 1000*60*60*24*7) }">
+					style="color:red"
+				</c:if>
+			>
+				<fmt:formatDate value="${dto.expirydate }" type="date" /><br> 
 			</td>
 			<td>
 				<button type="button" onclick="window.open('/mypage/updateMemberCertiForm?mcnum=${dto.mcnum}', '수정', 'width=300, height=170')">

@@ -115,8 +115,8 @@
 			TO_DATE(#{pracTestStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
 			TO_DATE(#{pracTestEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
 			TO_DATE(#{pracResStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI')
-			
+			TO_DATE(#{pracResEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			certidate_seq.nextval
 		)
 	</insert>
 	

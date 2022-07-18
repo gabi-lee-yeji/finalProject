@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class CertiDateDTO implements CertiAccessible{
-	private int datePK; //ÀÏÁ¤±¸ºÐ À§ÇÑ pk (ÀÏÁ¤ »èÁ¦, ¼öÁ¤ ÇÊ¿ä)
+	private int datePK; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ pk (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½)
 	
 	private String cnum; 
 	private int cyear;
@@ -48,16 +48,7 @@ public class CertiDateDTO implements CertiAccessible{
     private String pracResStart ;
     private String pracResEnd ;
     
-    @Override
-	public String toString() {
-		return "CertiDateDTO [datePK=" + datePK + ", cnum=" + cnum + ", cyear=" + cyear + ", cround=" + cround
-				+ ", clevel=" + clevel + ", docRegStart1=" + docRegStart1 + ", docRegEnd1=" + docRegEnd1
-				+ ", docRegStart2=" + docRegStart2 + ", docRegEnd2=" + docRegEnd2 + ", docTestStart=" + docTestStart
-				+ ", docTestEnd=" + docTestEnd + ", docResultStart=" + docResultStart + ", docResultEnd=" + docResultEnd
-				+ ", docSubmitStart=" + docSubmitStart + ", docSubmitEnd=" + docSubmitEnd + ", pracRegStart1="
-				+ pracRegStart1 + ", pracRegEnd1=" + pracRegEnd1 + ", pracRegStart2=" + pracRegStart2 + ", pracRegEnd2="
-				+ pracRegEnd2 + ", pracTestStart=" + pracTestStart + ", pracTestEnd=" + pracTestEnd + ", pracResStart="
-				+ pracResStart + ", pracResEnd=" + pracResEnd + "]";
-	}
+    private int datepk;
+    
     
 }

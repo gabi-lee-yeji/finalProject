@@ -48,23 +48,29 @@ public class DataServiceImpl implements DataService {
 		while((strLine = br.readLine()) != null) {
 			//System.out.println(strLine);
 			CertiDateDTO qdto = new CertiDateDTO();
-			String [] datas = strLine.split(",");
+			String [] datas = strLine.split(";");
 			for(int i=0; i<datas.length; i++) datas[i] = trimQuote(datas[i]); 
 			
 			qdto.setCyear(Integer.parseInt(datas[0]));
 			qdto.setCround(Integer.parseInt(datas[1]));
 			qdto.setClevel(datas[2]);
-			qdto.setDocRegStart1(datas[3].substring(0, 8));
-			qdto.setDocRegEnd1(datas[3].substring(8, 16));
+			if(datas[3].length()>0) {
+				qdto.setDocRegStart1(datas[3].substring(0, 8));
+				qdto.setDocRegEnd1(datas[3].substring(8, 16));
+			}
 			if(datas[3].length() > 16) {
 				qdto.setDocRegStart2(datas[3].substring(16, 24));
 				qdto.setDocRegEnd2(datas[3].substring(24, 32));
 			}
-			qdto.setDocTestStart(datas[4].substring(0,8));
+			if(datas[4].length()>0) {
+				qdto.setDocTestStart(datas[4].substring(0,8));
+			}
 			if(datas[4].length() > 8) {
 				qdto.setDocTestEnd(datas[4].substring(8,16));
 			}
-			qdto.setDocResultStart(datas[5]);
+			if(datas[5].length() > 0) {
+				qdto.setDocResultStart(datas[5]);
+			}
 			if(datas[6].length() > 0) {
 				qdto.setDocSubmitStart(datas[6].substring(0, 8));
 				qdto.setDocSubmitEnd(datas[6].substring(8, 16));

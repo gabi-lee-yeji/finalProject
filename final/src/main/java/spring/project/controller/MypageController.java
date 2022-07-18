@@ -59,6 +59,12 @@ public class MypageController {
 		return "mypage/deleteMemberCertiPro";
 	}
 	
+	@RequestMapping("addMemberLike")
+	public String addMemberLike(Model model) {
+		model.addAttribute("list", service.getCertiSearch());
+		return "mypage/addMemberLike";
+	}
+	
 	@RequestMapping("session")
 	public void makeSession(HttpSession session) {
 		session.setAttribute("sid", "test");
