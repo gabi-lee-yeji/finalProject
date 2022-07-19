@@ -4,11 +4,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>HOME - 자격증모두모아</title>
+	<meta charset="UTF-8">
+	<title>HOME - 자격증모두모아</title>
 </head>
 <body>
 	<jsp:include page="userNavBar.jsp"/>
+	
+	<table>
+		<tr><th colspan="2">사용자 맞춤 인기자격증</th></tr>
+		<c:forEach var="dto" items="${clientList }" varStatus="status">
+			<tr>
+				<th>${status.count}</th>			
+				<td><a href="">${dto.cname }</a></td>
+			</tr>
+		</c:forEach>
+	</table>
+	
+	<table>
+		<tr><th colspan="2">국가기술 인기자격증</th></tr>
+		<c:forEach var="dto" items="${natList }" varStatus="status">
+			<tr>
+				<th>${status.count}</th>			
+				<td><a href="">${dto.cname }</a></td>
+			</tr>
+		</c:forEach>
+	</table>
+	
+	<table>
+		<tr><th colspan="2">공인민간 인기자격증</th></tr>
+		<c:forEach var="cname" items="${prvList }" varStatus="status">
+			<tr>
+				<th>${status.count}</th>			
+				<td><a href="">${cname }</a></td>
+			</tr>
+		</c:forEach>
+	</table>
+	
+
 	- 오늘의 자격증 (캘린더)
 		- 오늘 접수 시작하는 자격증
 		- 오늘 시험일인 자격증

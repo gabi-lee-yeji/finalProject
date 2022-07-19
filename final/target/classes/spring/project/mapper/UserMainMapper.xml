@@ -3,12 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.UserMainMapper">
+	<select id="getPrvTopCerti" resultType="String" >
+		select cname from (select rownum r, list.* from 
+			(select cname, sum(applied) as applied from pass_rate 
+				where cyear >= 2020
+				group by cname
+				order by applied desc) list)
+			where r between 1 and 10
+	</select>
+	<select id="getNatTopCerti" resultType="spring.project.model.CertiInfoDTO">
+		select cnum, cname from 
+		    (select rownum r, list.* from 
+		        (select b.cnum, a.* from 
+		            (select cname, sum(prac_apply) as applied from pass_rate_nat
+			            where cyear >= 2020
+			            group by cname) a,
+		            certiinfo b
+		        where a.cname = b.cname
+		        order by a.applied desc) list)
+		    where r between 1 and 10
+	</select>
 	<select id="getClientTopCerti" resultType="spring.project.model.CertiInfoDTO">
 		select * from 
 		    (select rownum r, list.* from 
 		        (select b.cnum, a.cname from pass_detail a, certiinfo b
 		            where a.cname=b.cname
-		            order by a.m10 desc) list)
+		            order by a.${order} desc) list)
 		where r between 1 and 10
 	</select>
 	<select id="getNatSchedules" resultType="spring.project.model.CertiDateDTO">
