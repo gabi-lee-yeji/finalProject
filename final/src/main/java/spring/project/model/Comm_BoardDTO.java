@@ -5,12 +5,14 @@ import lombok.Data;
 @Data
 public class Comm_BoardDTO {
 
-	private int comm_num;			// ´ñ±Û °íÀ¯¹øÈ£
-	private String comm_content;	// ´ñ±Û³»¿ë
-	private String writer;			// ÀÛ¼ºÀÚ
-	private String reg;				// ÀÛ¼º½Ã°£
-	private int comm_group;			// ´ñ±Û ±×·ì
-	private int comm_level;			// ´ñ±ÛÀÇ ´ä±Û ±×·ì
-	private int pnum;				// ¿ø±Û(°Ô½Ã±Û)ÀÇ °íÀ¯¹øÈ£
-	private int status;				// ´ñ±Û Á¸Àç À¯¹«(0-Á¸Àç, 1-»èÁ¦)
+	private int comm_num;			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String comm_content;	// ï¿½ï¿½Û³ï¿½ï¿½ï¿½
+	private String writer;			// ï¿½Û¼ï¿½ï¿½ï¿½
+	private String reg;				// ï¿½Û¼ï¿½ï¿½Ã°ï¿½
+	private int comm_group;			// ï¿½ï¿½ï¿½ ï¿½×·ï¿½
+	private int comm_level;			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½×·ï¿½
+	private int pnum;				// ï¿½ï¿½ï¿½ï¿½(ï¿½Ô½Ã±ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int status;				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(0-ï¿½ï¿½ï¿½ï¿½, 1-ï¿½ï¿½ï¿½ï¿½)
+	private int board_type;
+	private String board_mapping;
 }

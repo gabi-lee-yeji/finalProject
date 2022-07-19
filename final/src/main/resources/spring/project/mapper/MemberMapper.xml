@@ -87,11 +87,12 @@
 		select count(*) from post_board where board_type=#{board_type} and writer=#{writer} and status = 0
 	</select>
 	<select id="myComments" resultType="spring.project.model.Comm_BoardDTO">
-		select * from 
+		select board.*,cboard.board_mapping from
 		(select comm_board.*,rownum r,p.board_type from
 		(select * from comm_board order by comm_group desc, comm_level)comm_board,post_board p
-		where comm_board.pnum = p.pnum and comm_board.writer=#{writer} and comm_board.status=0)
-		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
+		where comm_board.pnum = p.pnum and comm_board.writer=#{writer} and comm_board.status=0) board,boardtype cboard
+        where board.board_type = cboard.board_type and
+		<![CDATA[ r>=#{startRow} and r<=#{endRow} ]]>
 	</select>
 	<select id="commentsCount" resultType="int">
 		select count(*) from comm_board where writer=#{writer} and status=0
@@ -99,5 +100,4 @@
 	<update id="updateTime">
 		update Memberinfo set ref_date=sysdate where memid=#{memid} and status=0
 	</update>
-	
 </mapper>

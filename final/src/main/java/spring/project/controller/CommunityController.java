@@ -26,7 +26,7 @@ public class CommunityController {
 	@Autowired
 	private Post_BoardService service;
 	
-	// ´ñ±Ûµî·Ï
+	// ï¿½ï¿½Ûµï¿½ï¿½
 	@RequestMapping("addComm")
 	public String addComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr) {
 		
@@ -37,7 +37,7 @@ public class CommunityController {
 		return "redirect:/community/review/reviewContent";
 	}
 	
-	// ´ñ±Û »èÁ¦
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("delComm")
 	public String delComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr, HttpSession session) {
 		String memid = "rlawoduq";
@@ -51,7 +51,7 @@ public class CommunityController {
 		return "redirect:/community/review/reviewContent";
 	}
 	
-	// ´ñ±Û ¼öÁ¤
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("modComm")
 	public String modComm(int comm_num, Model model) {
 		
@@ -73,10 +73,10 @@ public class CommunityController {
 		return "board/modCommPro";
 	}
 	
-	// È¸¿ø ±Û ½Å°í
+	// È¸ï¿½ï¿½ ï¿½ï¿½ ï¿½Å°ï¿½
 	@RequestMapping("memberReportForm")
 	public String memberReportForm(Post_BoardDTO board, Comm_BoardDTO comm, Model model, HttpSession session) {
-		String report_id ="¾ÈÇý¿ø"; 
+		String report_id ="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"; 
 			//(String)session.getAttribute("memid");
 		if(comm.getComm_num() == 0) {
 			board = service.post_BoardContent(board.getPnum());
@@ -91,7 +91,7 @@ public class CommunityController {
 		return "board/memberReportForm";
 	}
 	
-	// member_report DB¿¡ µ¿ÀÏ ½Å°íÀÚ/½Å°í´çÇÏ´ÂÀÚ/±Û¹øÈ£¿¡ ÇØ´çÇÏ´Â ÇàÀÌ ÀÖÀ¸¸é ½Å°í ºÒ°¡
+	// member_report DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½/ï¿½Å°ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½/ï¿½Û¹ï¿½È£ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ ï¿½Ò°ï¿½
 	@RequestMapping("memberReportPro")
 	public String memberReportPro(MemberReportDTO mr, Model model) {
 		System.out.println(mr);
@@ -101,7 +101,6 @@ public class CommunityController {
 			model.addAttribute("result", result);
 			System.out.println(result);
 		}else {
-			
 			int countMr = service.getMemberReport(mr);
 			System.out.println(mr);
 			if(countMr == 0) {
@@ -119,7 +118,7 @@ public class CommunityController {
 		return "board/memberReportPro";
 	}
 	
-	// ²ÜÆÁ,¸®ºä ±Û µî·Ï
+	// ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping("review/addReview")
 	public String addReview(String pnum, Post_BoardDTO board, Model model) {
 		int number = 0;
@@ -144,7 +143,7 @@ public class CommunityController {
 		return "community/review/addReviewPro";
 	}
 	
-	// ²ÜÆÁ,¸®ºä ±Û ¸ñ·Ï
+	// ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping("review/reviewList")
 	public String reviewList(String pageNum, String board_type, Model model) {
 		
@@ -177,7 +176,7 @@ public class CommunityController {
 		return "community/review/reviewList";
 	}
 	
-	// ²ÜÆÁ,¸®ºä ±Û °Ë»ö ¸ñ·Ï
+	// ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½
 		@RequestMapping("review/searchList")
 		public String reviewSearch(String board_type, String search, String keyword, Model model) {
 			

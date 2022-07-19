@@ -13,7 +13,7 @@
 	<h1>1:1 문의글 (전체 글:${count})</h1>
 		<table border=1>
 			<tr>
-				<td>문의글이 없습니다.</td><br/>
+				<td>문의글이 없습니다.</td>
 			</tr>
 		</table>
 	 <a href="/member/main">메인메뉴</a>
