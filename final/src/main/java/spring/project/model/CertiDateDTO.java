@@ -1,6 +1,8 @@
 package spring.project.model;
 
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -9,44 +11,38 @@ public class CertiDateDTO implements CertiAccessible{
 	
 	private String cnum; 
 	private int cyear;
-	private int cround;
+	private Integer cround;
 	private String clevel;
 	
-	//占십깍옙占쏙옙占� 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙,占쏙옙占쏙옙
     private String docRegStart1;
     private String docRegEnd1;
     
-    //占십깍옙占쏙옙占� 占쌩곤옙占쏙옙占쏙옙 占쏙옙占쏙옙,占쏙옙占쏙옙
     private String docRegStart2;
     private String docRegEnd2;
     
-    //占십깍옙占쏙옙占� 占쏙옙占쏙옙, 占쏙옙占쏙옙
     private String docTestStart;
     private String docTestEnd;
     
-    //占십깍옙占쏙옙占� 占쌌곤옙占쏙옙 占쏙옙표
     private String docResultStart;
     private String docResultEnd;
     
-    //占쏙옙占쏙옙占쌘곤옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙, 占쏙옙占쏙옙
     private String docSubmitStart;
     private String docSubmitEnd;
     
-    //占실깍옙占쏙옙占� 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙, 占쏙옙占쏙옙
     private String pracRegStart1;
     private String pracRegEnd1;
     
-    //占실깍옙占쏙옙占� 占쌩곤옙占쏙옙占쏙옙 占쏙옙占쏙옙, 占쏙옙占쏙옙
     private String pracRegStart2 ;
     private String pracRegEnd2 ;
     
-    //占실깍옙占쏙옙占� 占쏙옙占쏙옙, 占쏙옙占쏙옙
     private String pracTestStart ;
     private String pracTestEnd ;
     
-    //占실깍옙占쏙옙占� 占쌌곤옙占쏙옙 占쏙옙표 占쏙옙占쏙옙, 占쏙옙占쏙옙
     private String pracResStart ;
     private String pracResEnd ;
+    
+    private List<CertiDateDTO> certiDate;
+    
     
     @Override
 	public String toString() {

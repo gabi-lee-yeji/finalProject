@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.w3c.dom.Document;
@@ -139,8 +140,11 @@ public class AdminController {
 		return "admin/certi/addDate";
 	}
 	@RequestMapping("certi/addDatePro")
-	public String addDate(CertiDateDTO dto, Model model) {
+	public String addDate(CertiDateDTO dto, String cname, Model model) {
 		model.addAttribute("result", service.addCertiDate(dto));
+		
+		model.addAttribute("cnum", dto.getCnum());
+		model.addAttribute("cname", cname);
 		return "admin/certi/addDatePro";
 	}
 	//자격증 일정 추가 테이블
