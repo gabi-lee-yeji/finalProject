@@ -18,9 +18,9 @@
 			#{img, jdbcType=VARCHAR},
 			0
 			)
-		<selectKey resultType="int" keyProperty="pnum" order="AFTER">
-  			select max(pnum) from post_board
-  		</selectKey>	
+		 <selectKey keyProperty="pnum" resultType="int" order="AFTER">
+            select board_seq.currval from dual
+        </selectKey>
 	</insert>
 	
 	<select id="maxPost_group" resultType="int">

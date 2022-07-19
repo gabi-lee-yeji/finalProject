@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,39 +46,38 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	public int addPost_Board(Post_BoardDTO board,
 			@RequestParam("file") MultipartFile[] files) {
 		List<Post_BoardAttachDTO> list = new ArrayList<>();
-		String uploadFolder = "C:\\upload"; //¿©±â
-	//	String uploadFolderPath = getFolder(); °æ·Î´Â ³ªÁß¿¡ ½Ã°£ ³²À¸¸é ³¯Â¥º°·Î ¸¸µé±â
+	//	String uploadFolderPath = getFolder(); ï¿½ï¿½Î´ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		for(MultipartFile f : files) {
 			if(!f.isEmpty()) {
 				Post_BoardAttachDTO attachDTO = new Post_BoardAttachDTO();
 				String uploadFileName = f.getOriginalFilename();
 				
-				String webPath = "/WEB-INF/views/upload";
+				String webPath = "/resources/image/upload";
 				String realPath = sc.getRealPath(webPath);
 				System.out.println("realPath ====="+realPath);
 				
-				attachDTO.setFileName(uploadFileName);	// attachDTO FileName¿¡ ¿øº» ÆÄÀÏ¸í ÀúÀå
+				attachDTO.setFileName(uploadFileName);	// attachDTO FileNameï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 				
-				UUID uuid = UUID.randomUUID();	// °íÀ¯¹øÈ£¿Í °°Àº °³³ä
-				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ÆÄÀÏ¿øº» ÀúÀåÇÒ¶§ Áßº¹¹æÁö·Î UUID¿Í ÆÄÀÏ¸íÀ» ºÙÀÎ »õ·Î¿î ÆÄÀÏ¸íÀ¸·Î ÀúÀå
+				UUID uuid = UUID.randomUUID();	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UUIDï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-				File savePath = new File(realPath);	// realPath °æ·Î¿¡ ÆÄÀÏ¾÷·Îµå Æú´õ ÀÖ´ÂÁö È®ÀÎ
-				if(savePath.exists())
-					savePath.mkdirs();	// ¾øÀ¸¸é °æ·Î¿¡ Æú´õ ¸¸µé±â
+				File savePath = new File(realPath);	// realPath ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+				if(!savePath.exists())
+					savePath.mkdirs();	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 				
-				realPath += File.separator + uploadFileName; // "//" ½Ã½ºÅÛ¿¡ ¸Â´Â ±¸ºÐÀÚ Ãâ·Â
+				realPath += File.separator + uploadFileName; // "//" ï¿½Ã½ï¿½ï¿½Û¿ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				
 				try {
 					File saveFile = new File(realPath);
 					f.transferTo(saveFile);
 					
 					attachDTO.setUuid(uuid.toString());
-					attachDTO.setUploadPath(uploadFolder);
+					attachDTO.setUploadPath(realPath);
 					
-					list.add(attachDTO);	// ¹Þ¾Æ¿Â ÆÄÀÏµéÀ» list¿¡ ÀúÀå
+					list.add(attachDTO);	// ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ listï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					
-					System.out.println("attachDTO´Â" + attachDTO);
+					System.out.println("attachDTOï¿½ï¿½" + attachDTO);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -88,11 +86,11 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		
 		if(!list.isEmpty()) {
-			System.out.println("list¸¦ board¿¡ ³Ö±â µ¿ÀÛ È®ÀÎ");
-			board.setAttachList(list);	// Post_BoardDTOÀÇ attachList(¹è¿­)¿¡ list ÀúÀå
+			System.out.println("listï¿½ï¿½ boardï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½");
+			board.setAttachList(list);	// Post_BoardDTOï¿½ï¿½ attachList(ï¿½è¿­)ï¿½ï¿½ list ï¿½ï¿½ï¿½ï¿½
 		}
 			
-		// post_group ¾øÀ¸¸é +1 ÇÏ¿© »õ·Î¿î ±×·ì¸¸µé°í, ÀÖÀ¸¸é °ªÀ» ¹Þ¾Æ¼­ ¹­¾îÁØ ÈÄ addPost_Board ½ÇÇà
+		// post_group ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ +1 ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½×·ì¸¸ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ addPost_Board ï¿½ï¿½ï¿½ï¿½
 		int post_group = pbMapper.maxPost_group()+1;
 		if(board.getPost_group() != 0) {
 			board.setPost_group(board.getPost_group());
@@ -102,22 +100,22 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		int result = pbMapper.addPost_Board(board);
 		
-		// Post_BoardDTO¿¡ attachList°ªÀÌ ¾øÀ¸¸é ±×´ë·Î Á¾·á
+		// Post_BoardDTOï¿½ï¿½ attachListï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			memMapper.addMemberPoint(board.getWriter(), board.getPnum(), 0);
 			return result;
 		}
 		
-		// attachList¸¦ °¢°¢ Post_BoardAttach DB¿¡ ³Ö¾îÁÜ
+		// attachListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Post_BoardAttach DBï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½
 		board.getAttachList().forEach(attach ->{
 			attach.setPnum(board.getPnum());
 			pbAMapper.addPost_BoardAttach(attach);
 		});
 		
-		// Æ÷ÀÎÆ® Ãß°¡
+		// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½
 		memMapper.addMemberPoint(board.getWriter(), 0, board.getPnum());
 		
-		return result;	// Á¤»ó Á¾·áÇÏ¸é post_board ½ÇÇà¸¸ Ä«¿îÆ®ÇÏ¹Ç·Î 1
+		return result;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ post_board ï¿½ï¿½ï¿½à¸¸ Ä«ï¿½ï¿½Æ®ï¿½Ï¹Ç·ï¿½ 1
 	}
 	
 	@Override

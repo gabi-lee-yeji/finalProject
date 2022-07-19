@@ -39,11 +39,11 @@
 			<tr>
 				<td>신고사유</td>
 				<td><select name="reason">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
+						<option>욕설, 불쾌한 표현, 혐오, 차별적 표현</option>
+						<option>광고, 도배</option>
+						<option>음란물</option>
+						<option>개인정보 노출</option>
+						<option>운영자 사칭</option>
 					</select>
 				</td>	
 			</tr>
