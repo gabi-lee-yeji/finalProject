@@ -99,11 +99,8 @@
 		update Memberinfo set ref_date=sysdate where memid=#{memid} and status=0
 	</update>
 	
-<<<<<<< HEAD
 	<select id="memberStatusCheck" resultType="int">
 		select status from memberInfo where memid=#{memid}
 	</select>
 		
-=======
->>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 </mapper>

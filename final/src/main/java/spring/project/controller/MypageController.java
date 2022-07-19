@@ -70,7 +70,6 @@ public class MypageController {
 		session.setAttribute("sid", "test");
 	}
 	
-	
 }
 
 
