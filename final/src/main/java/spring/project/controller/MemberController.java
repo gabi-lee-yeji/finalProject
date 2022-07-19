@@ -53,9 +53,9 @@ public class MemberController {
 	@RequestMapping("loginPro")
 	public String loginPro(HttpServletRequest request,HttpSession session,HttpServletResponse response,Model model,MemberInfoDTO dto,String auto) {
 		
-		//HttpServletRequest´Â getCookies(ÄíÅ° ´Ù°¡Á®¿À±â(¹è¿­)) ÇÒ ¶§ ÇÊ¿äÇÏ°í,
-		//HttpSession´Â ¼¼¼Ç¹Ş¾Æ¿Ã ¶§ ÇÊ¿äÇÏ°í,
-		//HttpServletResponse´Â addCookieÇÒ ¶§ ÇÊ¿äÇÔ
+		//HttpServletRequestï¿½ï¿½ getCookies(ï¿½ï¿½Å° ï¿½Ù°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½è¿­)) ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï°ï¿½,
+		//HttpSessionï¿½ï¿½ ï¿½ï¿½ï¿½Ç¹Ş¾Æ¿ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï°ï¿½,
+		//HttpServletResponseï¿½ï¿½ addCookieï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½
 		
 		String memid = (String)dto.getMemid();
 		String passwd = (String)dto.getPasswd();
@@ -90,10 +90,11 @@ public class MemberController {
 				response.addCookie(cauto);
 				
 			}
+			service.updateTime(memid);
 			session.setAttribute("sid", dto.getMemid());
 			session.setMaxInactiveInterval(60*60*24);
 		}
-
+		
 		 
 		model.addAttribute("result",result);
 		
@@ -266,15 +267,15 @@ public class MemberController {
 		
 		return "member/idFindPro";
 	}
-	//ÀÌ¸ŞÀÏ ÀÎÁõ
-	@GetMapping("/mailCheck")
-	@ResponseBody
-	public String mailCheck(String email) {
-		System.out.println("ÀÌ¸ŞÀÏ ÀÎÁõ ¿äÃ»ÀÌ µé¾î¿È!");
-		System.out.println("ÀÌ¸ŞÀÏ ÀÎÁõ ÀÌ¸ŞÀÏ : " + email);
-		return mailService.joinEmail(email);
-		
-	}
+	//ì´ë©”ì¼ ì¸ì¦
+		@GetMapping("/mailCheck")
+		@ResponseBody
+		public String mailCheck(String email) {
+			System.out.println("ì´ë©”ì¼ ì¸ì¦ ìš”ì²­ì´ ë“¤ì–´ì˜´!");
+			System.out.println("ì´ë©”ì¼ ì¸ì¦ ì´ë©”ì¼ : " + email);
+			return mailService.joinEmail(email);
+			
+		}
 	
 	@RequestMapping("myList")
 	public String Mylist(String pageNum,Model model,int board_type,String writer) {

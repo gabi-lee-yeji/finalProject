@@ -26,4 +26,5 @@ public interface MemberMapper {
 	public int post_BoardCount(@Param("board_type")int board_type,@Param("writer")String writer);
 	public List<Comm_BoardDTO> myComments(@Param("writer") String writer, @Param("startRow") int startRow , @Param("endRow") int endRow);
 	public int commentsCount(String writer);
+	public void updateTime(String memid);
 }

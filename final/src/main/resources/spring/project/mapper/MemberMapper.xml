@@ -29,7 +29,7 @@
 	</insert>
 	
 	<select id="userCheck" resultType="int">
-		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd} and status = 0
+		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd} and status in (0,1)
 	</select>	
 	
 	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
@@ -37,7 +37,7 @@
 	</select>
 	
 	<select id="deleteUser">
-		update MemberInfo set status = '활동중지' where memid=#{memid} and passwd=#{passwd}
+		update MemberInfo set status = '3' where memid=#{memid} and passwd=#{passwd}
 	</select>
 	
 	<select id="findUser" resultType="spring.project.model.MemberInfoDTO">
@@ -87,14 +87,17 @@
 		select count(*) from post_board where board_type=#{board_type} and writer=#{writer} and status = 0
 	</select>
 	<select id="myComments" resultType="spring.project.model.Comm_BoardDTO">
-		select * from
-		(select comm_board.*,rownum r from
-		(select * from comm_board order by comm_group desc, comm_level)comm_board 
-		where writer=#{writer} and status=0)
+		select * from 
+		(select comm_board.*,rownum r,p.board_type from
+		(select * from comm_board order by comm_group desc, comm_level)comm_board,post_board p
+		where comm_board.pnum = p.pnum and comm_board.writer=#{writer} and comm_board.status=0)
 		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
-		
 	</select>
 	<select id="commentsCount" resultType="int">
-		select count(*) from comm_board where writer=#{writer} and status=0	
+		select count(*) from comm_board where writer=#{writer} and status=0
 	</select>
+	<update id="updateTime">
+		update Memberinfo set ref_date=sysdate where memid=#{memid} and status=0
+	</update>
+	
 </mapper>

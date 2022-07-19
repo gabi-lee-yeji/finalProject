@@ -92,4 +92,9 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.commentsCount(writer);
 	}
 
+	@Override
+	public void updateTime(String memid) {
+		mapper.updateTime(memid);
+	}
+
 }

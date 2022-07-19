@@ -72,6 +72,11 @@
 	
 	<c:if test="${count > 0}">
 	<jsp:include page="/WEB-INF/views/member/myListLocation.jsp" flush="false"/><br/>
+	<c:if test="${board_type == 3}"><h1>1:1 문의</h1></c:if>
+	<c:if test="${board_type == 4}"><h1>후기글</h1></c:if>
+	<c:if test="${board_type == 5}"><h1>질문글</h1></c:if>
+	<c:if test="${board_type == 6}"><h1>정보글</h1></c:if>
+	<c:if test="${board_type == 7}"><h1>취준생공간글</h1></c:if>
 	전체글: ${count}
 		<tr>
 			<th>글번호</th>

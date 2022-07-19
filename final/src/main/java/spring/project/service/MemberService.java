@@ -23,5 +23,6 @@ public interface MemberService {
 	public int post_BoardCount(int board_type,String writer);
 	public List<Comm_BoardDTO> myComments(String writer,int startRow,int endRow);
 	public int commentsCount(String writer);
+	public void updateTime(String memid);
 }
  
