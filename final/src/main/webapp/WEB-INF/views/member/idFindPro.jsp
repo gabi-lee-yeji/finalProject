@@ -11,9 +11,9 @@
 
 <c:if test="${result != 0}">
 <h1>id찾기</h1>
-<c:if test="${dto.status != '일반'}">
+<c:if test="${dto.status != 0}">
 	<script>
-		alert("계정이 활동중지 상태입니다. 관리자에게 문의하시기 바랍니다.")
+		alert("계정이 활동중지 상태입니다. bgm2007@daum.net으로 문의하시기 바랍니다.")
 	</script>
 </c:if>
 	<h1>아이디는 ${dto.memid} 입니다.</h1>

@@ -17,10 +17,8 @@
 			</tr>
 			<tr>
 				<td>작성자</td>
-			<!-- <td>${memid}</td> -->
-				<!--	<input type="hidden" name="writer" value="${memid}" /> -->
-				<td>안혜원</td>
-					<input type="hidden" name="writer" value="안혜원" />
+				<td>${sessionScope.sid}</td>
+					<input type="hidden" name="writer" value="${sessionScope.sid}" />
 			</tr>
 			<tr>
 				<td>문의 내용</td>
@@ -62,7 +60,7 @@
 	</table>
 
 	<form action="/help/qna/addQnaPro" name="addQna" method="get" >
-		<input type="hidden" name="board_type" value="1:1문의" />
+		<input type="hidden" name="board_type" value="3" />
 		<input type="hidden" name="post_group" value="${dto.post_group}">
 		<input type="hidden" name="post_level" value="${dto.post_level}">
 		<h2> 고객문의 답글 </h2>

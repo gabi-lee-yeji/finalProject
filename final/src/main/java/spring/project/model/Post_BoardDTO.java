@@ -1,34 +1,27 @@
 package spring.project.model;
 
-import java.sql.Timestamp;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
 @Data
 public class Post_BoardDTO {
+
+	private int pnum;				// 글고유번호	
+	private String subject;			// 글제목
+	private String post_content;	// 글내용
+	private String writer;			// 작성자
+	private int post_group;			// 글 그룹
+	private int post_level;			// 답글 그룹
+	private String board_type;		// 게시판 종류(0-직원공지, 1-notice, 2-faq, 3-qna, 4-review, 5-question, 6-info, 7-job_seeker)
+	private int readCnt;			// 읽은 수
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+	private String reg;				// 작성시간
 	
-	private int pnum;				// �۰�����ȣ	
-	private String subject;			// ������
-	private String post_content;	// �۳���
-	private String writer;			// �ۼ���
-	private int post_group;			// �� �׷�
-	private int post_level;			// ��� �׷�
-	private String board_type;		// �Խ��� ����(0-��������, 1-notice, 2-faq, 3-qna, 4-review, 5-question, 6-info, 7-job_seeker)
-	private int readCnt;			// ���� ��
-	private Timestamp reg;			// �ۼ��ð�
-	private String img;				// ÷���̹���
-	private MultipartFile uploadFile; 
-	
-	private int status;		//�Խñ� ���� (1- ���� / 0 - �Խõ�)
-	
-	//boardtype ���̺� join �� ��� ����� ���� 
-	//**������ 2�����̶� �׳� ���� DTO�� �������Կ�!
-	private String board_name;
-	private String board_mapping;
-	//private String img;				// ÷������ - transaction���� �־��ָ� ���� �ʿ�
-	private List<Post_BoardAttachDTO> attachList; // �Խñ۰� �ش��ϴ� ���� ����Ʈ
+	private String img;				// 첨부파일 - transaction으로 넣어주면 삭제 필요
+	private List<Post_BoardAttachDTO> attachList; // 게시글과 해당하는 파일 리스트
+	private int status;				// 글 존재 유무(0-존재, 1-삭제)
 
 }

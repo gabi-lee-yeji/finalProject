@@ -1,6 +1,9 @@
 package spring.project.service;
 
+import java.util.ArrayList;
+
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.Post_BoardDTO;
 
 
 public interface MemberService {
@@ -13,5 +16,10 @@ public interface MemberService {
 	public void modifyList(MemberInfoDTO dto);
 	public int idDuplicate(String memid);
 	public MemberInfoDTO idFind(MemberInfoDTO dto);
+	public MemberInfoDTO pwFind(MemberInfoDTO dto);
+	public ArrayList<Post_BoardDTO> myList(String writer, int board_type, int startRow, int endRow);
+	public int post_BoardCount(int board_type,String writer);
+	public int addMemberPoint(String memid, int comm_num, int pnum);
+	
 }
  

@@ -17,7 +17,7 @@
 <c:if test="${result == 1 }">
 	<script>
 		alert("꿀팁, 후기 등록이 완료되었습니다.");
-		window.location="/community/review/reviewList";
+		window.location="/community/review/reviewList?board_type=4";
 	</script>
 </c:if>
 </body>

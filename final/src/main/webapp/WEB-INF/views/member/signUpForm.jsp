@@ -96,12 +96,22 @@ function execDaumPostcode() {
 		})
 	};
 	
+function degreeFunc(e){
+	
+	if(e.value == "4univ"){
+		document.getElementById("univ4").style.display = "block";
+	}else{
+		document.getElementById("univ4").style.display = "none";
+	}
+}	
+	
 function Check(){
 		var rtn = true;
         var email = RegExp(/^[A-Za-z0-9]+$/)
         var id= RegExp(/^[a-zA-Z0-9]+$/)
         var pass= RegExp(/^[a-zA-Z0-9]{4,12}$/)
         var named= RegExp(/^[가-힣]+$/)
+        var quiz = RegExp(/^[가-힣a-zA-Z]+$/)
         var fmt = RegExp(/^\d{6}[1234]\d{6}$/)  //포멧 설정
         var phone1 = RegExp(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})$/)
         var phone2 = RegExp(/^[0-9]{3,4}$/)
@@ -246,6 +256,40 @@ function Check(){
        		$("#phone3").focus();
        		return false;
        	}
+       	if($("#findPw1").val() == ""){
+       		alert("비밀번호찾기 답을 비워둘 수 없습니다")
+       		$("#findPw1").focus();
+       		return false;
+       	}
+       	if(!quiz.test($("#findPw1").val())){
+       		alert("비밀번호 답에 특수문자와 숫자는 사용하실 수 없습니다.")
+       		$("#findPw1").val("");
+       		$("#findPw1").focus();
+       		return false;
+       	}
+       	if($("#findPw2").val() == ""){
+       		alert("비밀번호찾기 답을 비워둘 수 없습니다")
+       		$("#findPw1").focus();
+       		return false;
+       	}
+       	if(!quiz.test($("#findPw2").val())){
+       		alert("비밀번호 답에 특수문자와 숫자는 사용하실 수 없습니다.")
+       		$("#findPw2").val("");
+       		$("#findPw2").focus();
+       		return false;
+       	}
+       	if(!named.test($("#major")).val()){
+       		alert("전공은 한글로 작성해주세요")
+       		$("#major").val("")
+       		$("#major").focus();
+       		return false;
+       	}
+       	if(!named.test($("#mem_job"))){
+       		alert("직업은 한글로 적어주세요")
+       		$("#mem_job").val("")
+       		$("#mem_job").focus();
+       		return false;
+       	}
        	if($("#major").val() == ""){
        		alert("전공을 입력하세요.")
        		$("#major").val("")
@@ -289,49 +333,6 @@ function noSpaceForm(obj){
 	}
 }	
 
-var code = "";
-$(document).ready(function (){
-	$("#mail-Check-Btn").click(function(){
-		if($("#userEmail1").val() != ""){
-		const mail = document.getElementById("userEmail1").value;
-		const mail2 = document.getElementById("userEmail2").value;
-		const email = mail+"@"+mail2;
-		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
-		var cehckBox = $(".form-control mail-check-input");
-		$.ajax({
-			type:"GET",
-			url:"mailCheck?email=" + email,
-			success:function(data){
-				
-				//console.log("data :" + data);	
-				cehckBox.attr("disabled",false);
-				code = data;
-				alert("인증번호가 전송되었습니다")
-				}
-			});
-		}else{
-			alert("이메일을 입력하시기 바랍니다.")
-		}
-		});
-	$('.form-control mail-check-input').blur(function () {
-		const inputCode = $(this).val();
-		const $resultMsg = $('#mail-check-warn');
-		
-		if(inputCode === code){
-			$resultMsg.html('인증번호가 일치합니다.');
-			$resultMsg.css('color','green');
-			$('#mail-Check-Btn').attr('disabled',true);
-			$('#userEamil1').attr('readonly',true);
-			$('#userEamil2').attr('readonly',true);
-			$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
-	         $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
-		}else{
-			$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
-			$resultMsg.css('color','red');
-		}
-		
-	})
-});
 
 </script>
 
@@ -355,11 +356,7 @@ $(document).ready(function (){
 		<option>yahoo.co.kr</option>
 	</select>
 </div>   
-<div class="input-group-addon">
-	<button type="button" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
-</div>
 	<div class="mail-check-box">
-<input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
 </div>
 	<span id="mail-check-warn"></span>
 </div>
@@ -381,17 +378,29 @@ $(document).ready(function (){
 			<input type="text" name="phone1" id="phone1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
 			<input type="text" name="phone2" id="phone2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
 			<input type="text" name="phone3" id="phone3" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" /><br/>
-			학위 : <select name="mem_degree" id="mem_degree">
-					<option>초등학교 졸업</option>			
-					<option>중학교 졸업</option>
-					<option>고등학교 졸업</option>
-					<option>2년제 대학 졸업</option>
-					<option>3년제 대학 졸업</option>
-					<option>4년제 대학 졸업</option>	
+			<select name="quiz1">
+				<option value="1">어린시절 가장 친했던 친구의 이름은?</option>
+				<option value="2">다시 만나고 싶은 친구의 이름은?</option>
+			</select>
+			<input type="text" name="findPw1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+			<select name="quiz2">
+				<option value="3">기억에 남는 추억의 장소는?</option>
+				<option value="4">어린시절 나의 별명은?</option>
+			</select>
+			<input type="text" name="findPw2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+			학위 : <select name="mem_degree" id="mem_degree" onchange="degreeFunc(this)">
+					<option value="elementary">초등학교 졸업</option>			
+					<option value="middle">중학교 졸업</option>
+					<option value="high">고등학교 졸업</option>
+					<option value="2univ">2년제 대학 졸업</option>
+					<option value="3univ">3년제 대학 졸업</option>
+					<option value="4univ">4년제 대학 졸업</option>	
 				</select><br/> 
+				<div id="univ4" style="display:none">
 			전공 : <input type="text" name="major" id="major" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			직업 : <input type="text" name="mem_job" id="mem_job" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 				  <input type="hidden" name="result" id="result"/>
+				</div>
 			<input type="submit" id="btn" value="완료"/>
 	
 </form>

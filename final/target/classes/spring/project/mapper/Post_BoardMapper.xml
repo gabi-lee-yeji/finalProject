@@ -18,9 +18,9 @@
 			#{img, jdbcType=VARCHAR},
 			0
 			)
-		<selectKey resultType="int" keyProperty="pnum" order="AFTER">
-  			select max(pnum) from post_board
-  		</selectKey>	
+		 <selectKey keyProperty="pnum" resultType="int" order="AFTER">
+            select board_seq.currval from dual
+        </selectKey>
 	</insert>
 	
 	<select id="maxPost_group" resultType="int">
@@ -32,24 +32,34 @@
 			select * from 
 				(select post_board.*, rownum r from 
 					(select * from post_board order by post_group desc, post_level) post_board 
-						where board_type=#{board_type} and status='0')
+						where board_type=#{board_type} and status=0)
 							where r >= #{startRow} and r <= #{endRow}
 		]]>
 	</select>
+	<select id="getSearchList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select post_board.*, rownum r from 
+				(select * from post_board order by post_group desc, post_level) post_board 
+					where board_type=#{board_type} and status=0 and ${search} like '%${keyword}%')
+        				<![CDATA[ where r >= #{startRow} and r <= #{endRow} ]]>
+	</select>
 	
 	<select id="post_BoardCount" resultType="int">
-		select count(*) from post_board where board_type=#{board_type} and status='0'
+		select count(*) from post_board where board_type=#{board_type} and status=0
 	</select>
 	
 	<select id="post_BoardContent" resultType="spring.project.model.Post_BoardDTO">
-		select * from post_board where pnum=#{pnum}
+		select post_board.*, to_char(reg, 'YYYY-MM-DD HH24:MI') as regdate 
+			from post_board where pnum=#{pnum}
 	</select>
 	
 	<update id="modPost_Board">
-		update post_board set 
-			subject=#{subject},
-			post_content=#{post_content},	
-			reg=sysdate
+		update post_board 
+			<set> 
+				<if test="subject != null"> subject=#{subject}, </if> 
+				<if test="post_content != null"> post_content=#{post_content}, </if> 
+				reg=sysdate
+			</set>
 				where pnum=#{pnum}
 	</update>
 	
@@ -64,6 +74,21 @@
 	<select id="passwdCheck" parameterType="String"
 								resultType="int">
 		select count(*) from memberinfo where memid=#{memid} and passwd=#{passwd}
+	</select>
+	
+	<insert id="addMemberReport" parameterType="spring.project.model.MemberReportDTO">
+		insert into member_report (memid, report_id, wr_option, pnum, reason, reg)
+				values(#{memid},
+						#{report_id}, 
+						#{wr_option},
+						#{pnum},
+						#{reason},
+						sysdate)
+	</insert>
+	
+	<select id="getMemberReport" parameterType="spring.project.model.MemberReportDTO"
+									resultType="int">
+		select count(*) from member_report
 	</select>
 	
 </mapper>

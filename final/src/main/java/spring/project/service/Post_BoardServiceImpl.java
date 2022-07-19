@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Setter;
+import spring.project.mapper.Comm_BoardMapper;
+import spring.project.mapper.MemberMapper;
 import spring.project.mapper.Post_BoardAttachMapper;
 import spring.project.mapper.Post_BoardMapper;
+import spring.project.model.Comm_BoardDTO;
+import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardAttachDTO;
 import spring.project.model.Post_BoardDTO;
 
@@ -26,36 +32,52 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Setter(onMethod_= @Autowired)
 	private Post_BoardAttachMapper pbAMapper;
 	
-	//httprequest servle>>> ¸Å°³º¯¼ö getrealpath
+	@Setter(onMethod_= @Autowired)
+	private Comm_BoardMapper CommMapper;
+	
+	@Setter(onMethod_= @Autowired)
+	private MemberMapper memMapper;
+	
+	@Autowired
+	private ServletContext sc;
+	
 	@Transactional
 	@Override
-	public int addPost_Board(Post_BoardDTO board, 
+	public int addPost_Board(Post_BoardDTO board,
 			@RequestParam("file") MultipartFile[] files) {
-		System.out.println(board);
-		System.out.println(files);
 		List<Post_BoardAttachDTO> list = new ArrayList<>();
-		String uploadFolder = "C:\\upload"; //¿©±â
-	//	String uploadFolderPath = getFolder(); °æ·Î´Â ³ªÁß¿¡ ½Ã°£ ³²À¸¸é ³¯Â¥º°·Î ¸¸µé±â
+	//	String uploadFolderPath = getFolder(); ï¿½ï¿½Î´ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		for(MultipartFile f : files) {
 			if(!f.isEmpty()) {
 				Post_BoardAttachDTO attachDTO = new Post_BoardAttachDTO();
 				String uploadFileName = f.getOriginalFilename();
-				attachDTO.setFileName(uploadFileName);	// attachDTO FileName¿¡ ¿øº» ÆÄÀÏ¸í ÀúÀå
 				
-				UUID uuid = UUID.randomUUID();	// °íÀ¯¹øÈ£¿Í °°Àº °³³ä
-				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ÆÄÀÏ¿øº» ÀúÀåÇÒ¶§ Áßº¹¹æÁö·Î UUID¿Í ÆÄÀÏ¸íÀ» ºÙÀÎ »õ·Î¿î ÆÄÀÏ¸íÀ¸·Î ÀúÀå
+				String webPath = "/resources/image/upload";
+				String realPath = sc.getRealPath(webPath);
+				System.out.println("realPath ====="+realPath);
+				
+				attachDTO.setFileName(uploadFileName);	// attachDTO FileNameï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+				
+				UUID uuid = UUID.randomUUID();	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UUIDï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+				File savePath = new File(realPath);	// realPath ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+				if(!savePath.exists())
+					savePath.mkdirs();	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+				
+				realPath += File.separator + uploadFileName; // "//" ï¿½Ã½ï¿½ï¿½Û¿ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				
 				try {
-					File saveFile = new File(uploadFolder, uploadFileName);
+					File saveFile = new File(realPath);
 					f.transferTo(saveFile);
 					
 					attachDTO.setUuid(uuid.toString());
-					attachDTO.setUploadPath(uploadFolder);
+					attachDTO.setUploadPath(realPath);
 					
-					list.add(attachDTO);	// ¹Þ¾Æ¿Â ÆÄÀÏµéÀ» list¿¡ ÀúÀå
+					list.add(attachDTO);	// ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ listï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					
-					System.out.println("attachDTO´Â" + attachDTO);
+					System.out.println("attachDTOï¿½ï¿½" + attachDTO);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,13 +86,11 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		
 		if(!list.isEmpty()) {
-			System.out.println("list¸¦ board¿¡ ³Ö±â µ¿ÀÛ È®ÀÎ");
-			board.setAttachList(list);	// Post_BoardDTOÀÇ attachList(¹è¿­)¿¡ list ÀúÀå
+			System.out.println("listï¿½ï¿½ boardï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½");
+			board.setAttachList(list);	// Post_BoardDTOï¿½ï¿½ attachList(ï¿½è¿­)ï¿½ï¿½ list ï¿½ï¿½ï¿½ï¿½
 		}
-		
-		System.out.println("ÃÖÁ¾ Board´Â: " + board);
 			
-		// post_group ¾øÀ¸¸é +1 ÇÏ¿© »õ·Î¿î ±×·ì¸¸µé°í, ÀÖÀ¸¸é °ªÀ» ¹Þ¾Æ¼­ ¹­¾îÁØ ÈÄ addPost_Board ½ÇÇà
+		// post_group ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ +1 ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½×·ì¸¸ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ addPost_Board ï¿½ï¿½ï¿½ï¿½
 		int post_group = pbMapper.maxPost_group()+1;
 		if(board.getPost_group() != 0) {
 			board.setPost_group(board.getPost_group());
@@ -79,73 +99,133 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 			board.setPost_group(post_group);
 		}
 		int result = pbMapper.addPost_Board(board);
-		System.out.println("pnum °ª?:"+result);
-		// Post_BoardDTO¿¡ attachList°ªÀÌ ¾øÀ¸¸é ±×´ë·Î Á¾·á
+		
+		// Post_BoardDTOï¿½ï¿½ attachListï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
-			System.out.println("µµ´ëÃ¼°¡ ÀÛµ¿À» ÇÏ´Â°Ç°¡¿ä!");
+			memMapper.addMemberPoint(board.getWriter(), board.getPnum(), 0);
 			return result;
 		}
 		
-		// attachList¸¦ °¢°¢ Post_BoardAttach DB¿¡ ³Ö¾îÁÜ
+		// attachListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Post_BoardAttach DBï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½
 		board.getAttachList().forEach(attach ->{
 			attach.setPnum(board.getPnum());
-			System.out.println("attach°¡ µé¾îÀÖ´ÂÁö È®ÀÎÇÏ±â" + attach);
 			pbAMapper.addPost_BoardAttach(attach);
 		});
 		
-		return result;	// Á¤»ó Á¾·áÇÏ¸é post_board ½ÇÇà¸¸ Ä«¿îÆ®ÇÏ¹Ç·Î 1
+		// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½
+		memMapper.addMemberPoint(board.getWriter(), 0, board.getPnum());
+		
+		return result;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ post_board ï¿½ï¿½ï¿½à¸¸ Ä«ï¿½ï¿½Æ®ï¿½Ï¹Ç·ï¿½ 1
 	}
 	
 	@Override
 	public List<Post_BoardDTO> post_BoardLists(int startRow, int endRow, String board_type) {
-		// TODO Auto-generated method stub
-		return null;
+		return pbMapper.post_BoardLists(startRow, endRow, board_type);
 	}
 
 	@Override
 	public int post_BoardCount(String board_type) {
-		// TODO Auto-generated method stub
-		return 0;
+		return pbMapper.post_BoardCount(board_type);
 	}
 
 	@Override
 	public Post_BoardDTO post_BoardContent(int pnum) {
-		List<Post_BoardAttachDTO> fileList = pbAMapper.getPost_BoardAtachList(pnum);
-		Post_BoardDTO dto = pbMapper.post_BoardContent(pnum);
-//		dto.setFileList(fileList);
-		return dto;
+		Post_BoardDTO board = pbMapper.post_BoardContent(pnum);
+		pbMapper.upReadCnt(board);
+		return board;
 	}
-	
 
 	@Override
 	public int modPost_Board(Post_BoardDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		 return pbMapper.modPost_Board(dto);
 	}
 
 	@Override
+	@Transactional
 	public int delPost_Board(int pnum) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int delPost_BoardAttach(int pnum) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		List resultAttach = pbAMapper.getPost_BoardAtachList(pnum);
+		if(resultAttach != null) {
+			result += pbAMapper.delPost_BoardAttachList(pnum);
+			result += pbMapper.delPost_Board(pnum);
+		}else {
+			result += pbMapper.delPost_Board(pnum);
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int passwdCheck(String memid, String passwd) {
-		// TODO Auto-generated method stub
-		return 0;
+		return pbMapper.passwdCheck(memid, passwd);
 	}
 
 	@Override
 	public int upReadCnt(Post_BoardDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		return pbMapper.upReadCnt(dto);
 	}
+	
+	@Override
+	public List<Post_BoardAttachDTO> post_BoardAttachLists(int pnum){
+		return pbAMapper.getPost_BoardAtachList(pnum);
+	}
+	
+	@Override
+	public List<Post_BoardDTO> getSearchList(int startRow, int endRow, String board_type, String search,
+			String keyword) {
+		return pbMapper.getSearchList(startRow, endRow, board_type, search, keyword);
+	}
+	
+	@Override
+	public int addComm_Board(Comm_BoardDTO comm) {
+		int comm_group = CommMapper.maxComm_group()+1;
+		if(comm.getComm_group() != 0) {
+			comm.setComm_group(comm.getComm_group());
+			comm.setComm_level(1);
+		}else {
+			comm.setComm_group(comm_group);
+		}
+		int result = CommMapper.addComm_Board(comm);
+		memMapper.addMemberPoint(comm.getWriter(), 0, comm.getComm_num());
+		
+		return result;
+	}
+
+	@Override
+	public List<Comm_BoardDTO> comm_BoardLists(int pnum) {
+		return CommMapper.comm_BoardLists(pnum);
+	}
+
+	@Override
+	public int comm_BoardCount(int pnum) {
+		return CommMapper.comm_BoardCount(pnum);
+	}
+
+	@Override
+	public int delComm_Board(int comm_num) {
+		return CommMapper.delComm_Board(comm_num);
+	}
+	
+	@Override
+	public int modComm_Board(Comm_BoardDTO comm) {
+		return CommMapper.modComm_Board(comm);
+	}
+
+	@Override
+	public Comm_BoardDTO getComm_Board(int Comm_num) {
+		return CommMapper.getComm_Board(Comm_num);
+	}
+
+	@Override
+	public int addMemberReport(MemberReportDTO mr) {
+		return pbMapper.addMemberReport(mr);
+	}
+
+	@Override
+	public int getMemberReport(MemberReportDTO mr) {
+		return pbMapper.getMemberReport(mr);
+	}
+
 
 
 	

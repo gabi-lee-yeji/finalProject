@@ -28,7 +28,6 @@ public class HelpController {
 		return "/help/notice/addNoticePro";
 	}
 		
-		
 	@RequestMapping("notice/noticeList")
 	public String noticeList(Model model, String pageNum, String board_type) {
 		if(pageNum == null) pageNum = "1";

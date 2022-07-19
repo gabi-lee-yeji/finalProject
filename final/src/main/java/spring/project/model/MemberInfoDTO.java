@@ -35,6 +35,15 @@ public class MemberInfoDTO {
 	private int mem_point;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date regdate;
+	private String quiz1;
+	private String quiz2;
+	private String findPw1;
+	private String findPw2;
+	private String passwdQ1;
+	private String passwdQ2;
+	private String ref_date;
+	
+
 	
 	//�Ű�Ƚ�� ��ȸ ��� ����Ҷ��� ����� ����
 	private int reportCnt;
