@@ -20,6 +20,7 @@ public interface MemberService {
 	public ArrayList<Post_BoardDTO> myList(String writer, int board_type, int startRow, int endRow);
 	public int post_BoardCount(int board_type,String writer);
 	public int addMemberPoint(String memid, int comm_num, int pnum);
+	public int memberStatusCheck(String memid);
 	
 }
  

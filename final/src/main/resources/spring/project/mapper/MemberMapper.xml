@@ -95,5 +95,8 @@
 			where memid=#{memid} and status=0
 	</update>
 	
+	<select id="memberStatusCheck" resultType="int">
+		select status from memberInfo where memid=#{memid}
+	</select>
 		
 </mapper>

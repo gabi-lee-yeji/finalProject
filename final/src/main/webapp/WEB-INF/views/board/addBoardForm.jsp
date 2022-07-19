@@ -16,9 +16,16 @@
 		</tr>
 		<tr>
 			<td>작성자</td>
-			<td>${sessionScope.sid}
-				<input type="hidden" name="writer" value="${sessionScope.sid}"/>
-			</td>
+			<c:if test="${memberStatus == 1}">
+				<td>관리자(${sessionScope.sid})
+					<input type="hidden" name="writer" value="${sessionScope.sid}"/>
+				</td>
+			</c:if>
+			<c:if test="${memberStatus == 0}">
+				<td>${sessionScope.sid}
+					<input type="hidden" name="writer" value="${sessionScope.sid}"/>
+				</td>
+			</c:if>
 		</tr>
 		<tr>
 			<td>내용</td>

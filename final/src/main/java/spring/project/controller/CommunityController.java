@@ -17,6 +17,7 @@ import spring.project.model.MemberInfoDTO;
 import spring.project.model.MemberReportDTO;
 import spring.project.model.Post_BoardAttachDTO;
 import spring.project.model.Post_BoardDTO;
+import spring.project.service.MemberService;
 import spring.project.service.Post_BoardService;
 
 @Controller
@@ -25,6 +26,9 @@ public class CommunityController {
 	
 	@Autowired
 	private Post_BoardService service;
+	
+	@Autowired
+	private MemberService mService;
 	
 	// 댓글등록
 	@RequestMapping("addComm")
@@ -109,9 +113,8 @@ public class CommunityController {
 		return "board/memberReportPro";
 	}
 	
-	
 	// Board의 add/mod/del/list(get) 공통 메서드
-	public void addBoard(String pnum, Post_BoardDTO board, Model model) {
+	public void addBoard(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		int number = 0;
 		if(pnum!=null)
 			number = Integer.parseInt(pnum);
@@ -122,6 +125,11 @@ public class CommunityController {
 		}else {
 			model.addAttribute("pnum", number);
 		}
+		
+		String sid = (String)session.getAttribute("sid");
+		int memberStatus = mService.memberStatusCheck(sid);
+
+		model.addAttribute("memberStatus", memberStatus);
 	}
 	public void addBoardPro(Post_BoardDTO board, Model model,
 			@RequestParam("file") MultipartFile[] files) {
@@ -236,8 +244,8 @@ public class CommunityController {
 	
 	// 꿀팁,리뷰 글 등록
 	@RequestMapping("review/addReview")
-	public String addReview(String pnum, Post_BoardDTO board, Model model) {
-		addBoard(pnum, board, model);		
+	public String addReview(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
+		addBoard(pnum, session, board, model);		
 		return "community/review/addReview";
 	}	
 	@RequestMapping("review/addReviewPro")
@@ -294,9 +302,10 @@ public class CommunityController {
 
 	// 질문글 등록
 	@RequestMapping("question/addQuestion")
-	public String addQuestion(String pnum, Post_BoardDTO board, Model model) {
-		addBoard(pnum, board, model);
-		return "community/question/addQuestion";
+	public String addQuestion(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
+		
+			addBoard(pnum, session, board, model);
+			return "community/question/addQuestion";
 	}
 	@RequestMapping("question/addQuestionPro")
 	public String addQuestionPro(Post_BoardDTO board, Model model,
@@ -352,8 +361,8 @@ public class CommunityController {
 	
 	// 자격증 정보 등록
 	@RequestMapping("info/addInfo")
-	public String addInfo(String pnum, Post_BoardDTO board, Model model) {
-		addBoard(pnum, board, model);
+	public String addInfo(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
+		addBoard(pnum, session, board, model);
 		return "community/info/addInfo";
 	}
 	@RequestMapping("info/addInfoPro")
@@ -410,8 +419,8 @@ public class CommunityController {
 	
 	// 취준생 공간 글 등록
 	@RequestMapping("job_seeker/addJob_seeker")
-	public String addJob_seeker(String pnum, Post_BoardDTO board, Model model) {
-		addBoard(pnum, board, model);
+	public String addJob_seeker(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
+		addBoard(pnum, session, board, model);	
 		return "community/job_seeker/addJob_seeker";
 	}
 	@RequestMapping("job_seeker/addJob_seekerPro")

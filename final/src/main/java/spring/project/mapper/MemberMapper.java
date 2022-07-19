@@ -25,4 +25,6 @@ public interface MemberMapper {
 	public int addMemberPoint(@Param("memid") String memid,
 								@Param("pnum")int pnum,
 								@Param("comm_num") int comm_num);
+	
+	public int memberStatusCheck(String memid);
 }
