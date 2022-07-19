@@ -1,11 +1,14 @@
 package spring.project.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import spring.project.mapper.MemberMapper;
+import spring.project.mapper.Post_BoardMapper;
+import spring.project.model.Comm_BoardDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.Post_BoardDTO;
 
@@ -71,7 +74,6 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public ArrayList<Post_BoardDTO> myList(String writer,int board_type,int startRow,int endRow) {
-		System.out.println(mapper.myList(writer,board_type,startRow,endRow));
 		return mapper.myList(writer,board_type,startRow,endRow);
 	}
 
@@ -81,7 +83,18 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int addMemberPoint(String memid, int pnum, int comm_num) {
-		return mapper.addMemberPoint(memid, pnum, comm_num);
+	public List<Comm_BoardDTO> myComments(String writer,int startRow,int endRow) {
+		return mapper.myComments(writer, startRow, endRow);
 	}
+
+	@Override
+	public int commentsCount(String writer) {
+		return mapper.commentsCount(writer);
+	}
+
+	@Override
+	public void updateTime(String memid) {
+		mapper.updateTime(memid);
+	}
+
 }

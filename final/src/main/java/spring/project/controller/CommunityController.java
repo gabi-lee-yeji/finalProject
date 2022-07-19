@@ -26,7 +26,7 @@ public class CommunityController {
 	@Autowired
 	private Post_BoardService service;
 	
-	// ëŒ“ê¸€ë“±ë¡
+	// ´ñ±Ûµî·Ï
 	@RequestMapping("addComm")
 	public String addComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr) {
 		
@@ -37,7 +37,7 @@ public class CommunityController {
 		return "redirect:/community/review/reviewContent";
 	}
 	
-	// ëŒ“ê¸€ ì‚­ì œ
+	// ´ñ±Û »èÁ¦
 	@RequestMapping("delComm")
 	public String delComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr, HttpSession session) {
 		String sid = (String)session.getAttribute("sid");
@@ -51,7 +51,7 @@ public class CommunityController {
 		return "redirect:/community/review/reviewContent";
 	}
 
-	// ëŒ“ê¸€ ìˆ˜ì •
+	// ´ñ±Û ¼öÁ¤
 	@RequestMapping("modComm")
 	public String modComm(int comm_num, Model model) {
 		
@@ -72,7 +72,7 @@ public class CommunityController {
 		return "board/modCommPro";
 	}
 	
-	// íšŒì› ê¸€ ì‹ ê³ 
+	// È¸¿ø ±Û ½Å°í
 	@RequestMapping("memberReportForm")
 	public String memberReportForm(Post_BoardDTO board, Comm_BoardDTO comm, Model model) {
 		
@@ -87,7 +87,7 @@ public class CommunityController {
 		return "board/memberReportForm";
 	}
 	
-	// member_report DBì— ë™ì¼ ì‹ ê³ ì/ì‹ ê³ ë‹¹í•˜ëŠ”ì/ê¸€ë²ˆí˜¸ì— í•´ë‹¹í•˜ëŠ” í–‰ì´ ìˆìœ¼ë©´ ì‹ ê³  ë¶ˆê°€
+	// member_report DB¿¡ µ¿ÀÏ ½Å°íÀÚ/½Å°í´çÇÏ´ÂÀÚ/±Û¹øÈ£¿¡ ÇØ´çÇÏ´Â ÇàÀÌ ÀÖÀ¸¸é ½Å°í ºÒ°¡
 	@RequestMapping("memberReportPro")
 	public String memberReportPro(MemberReportDTO mr, Model model) {
 		
@@ -110,7 +110,7 @@ public class CommunityController {
 	}
 	
 	
-	// Boardì˜ add/mod/del/list(get) ê³µí†µ ë©”ì„œë“œ
+	// BoardÀÇ add/mod/del/list(get) °øÅë ¸Ş¼­µå
 	public void addBoard(String pnum, Post_BoardDTO board, Model model) {
 		int number = 0;
 		if(pnum!=null)
@@ -233,8 +233,133 @@ public class CommunityController {
 		model.addAttribute("pageNum", pageNum);
 	}
 	
+	// ????,???? ?? ???
+	@RequestMapping("review/reviewList")
+	public String reviewList(String pageNum, String board_type, Model model) {
+		
+		if(pageNum == null) pageNum = "1";
+		int pageSize = 10;
+		int currentPage = Integer.parseInt(pageNum);
+		int startRow = (currentPage - 1) * pageSize + 1;
+		int endRow = currentPage * pageSize;
+		int count = 0;
+		int number = 0;
+		
+		count = service.post_BoardCount(board_type);
+		List<Post_BoardDTO> boardList = null;
+		
+		if(count > 0) {
+			boardList = service.post_BoardLists(startRow, endRow, board_type);
+		}
+		
+		number = count - (currentPage - 1) * pageSize;
+		
+		model.addAttribute("count", count);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
+		model.addAttribute("number", number);
+		model.addAttribute("boardList", boardList);
+		System.out.println(boardList);
+		return "community/review/reviewList";
+	}
 	
-	// ê¿€íŒ,ë¦¬ë·° ê¸€ ë“±ë¡
+	// ????,???? ?? ??? ???
+		@RequestMapping("review/searchList")
+		public String reviewSearch(String board_type, String search, String keyword, Model model) {
+			
+			int pageSize = 10;
+			int currentPage = 1;
+			int startRow = (currentPage - 1) * pageSize + 1;
+			int endRow = currentPage * pageSize;
+			int count = 0;
+			int number = 0;
+			
+			List<Post_BoardDTO> boardList = service.getSearchList(startRow, endRow, 
+																	board_type, search, keyword);
+			count = boardList.size();
+			number = count - (currentPage - 1) * pageSize;
+			
+			model.addAttribute("count", count);
+			model.addAttribute("pageSize", pageSize);
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("startRow", startRow);
+			model.addAttribute("endRow", endRow);
+			model.addAttribute("number", number);
+			model.addAttribute("boardList", boardList);
+			model.addAttribute("board_type", board_type);
+			model.addAttribute("search", search);
+			model.addAttribute("keyword", keyword);
+			return "community/review/searchList";
+		}
+	
+	@RequestMapping("review/reviewContent")
+	public String reviewContent(int pnum, String pageNum, Model model, HttpSession session) {
+		String memid = "rlawoduq";
+				//(String)session.getAttribute("memid");
+
+		Post_BoardDTO board = service.post_BoardContent(pnum);
+		List<Post_BoardAttachDTO> boardAttach = service.post_BoardAttachLists(pnum);
+		if(!boardAttach.isEmpty())
+			model.addAttribute("boardAttach", boardAttach);
+		
+		int comm_BoardCount = service.comm_BoardCount(pnum);
+			System.out.println(comm_BoardCount);
+		List<Comm_BoardDTO> commList = service.comm_BoardLists(pnum);
+			System.out.println(commList);
+
+		model.addAttribute("board", board);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("comm_BoardCount", comm_BoardCount);
+		model.addAttribute("commList", commList);
+		model.addAttribute("memid", memid);
+		
+		return "community/review/reviewContent";
+	}
+	
+	@RequestMapping("review/modReview")
+	public String modReview(String pageNum, int pnum, Model model) {
+		Post_BoardDTO board = service.post_BoardContent(pnum);
+		List<Post_BoardAttachDTO> boardAttach = service.post_BoardAttachLists(pnum);
+
+		model.addAttribute("board", board);
+		model.addAttribute("boardAttach", boardAttach);
+		model.addAttribute("pageNum", pageNum);
+		return "community/review/modReview";
+	}
+	
+	@RequestMapping("review/modReviewPro")
+	public String modReviewPro(Post_BoardDTO board, MemberInfoDTO dto, String pageNum, Model model) {
+		int result = 0; 
+		result += service.passwdCheck(dto.getMemid(), dto.getPasswd());
+		if(result == 1)
+			result += service.modPost_Board(board);
+		
+		model.addAttribute("result", result);
+		model.addAttribute("pageNum", pageNum);
+		return "community/review/modReviewPro";
+	}
+	
+	@RequestMapping("review/delReview")
+	public String modRevdelReviewiew(String pageNum, int pnum, Model model) {
+		model.addAttribute("pnum", pnum);
+		model.addAttribute("pageNum", pageNum);
+		return "community/review/delReview";
+	}
+	
+	@RequestMapping("review/delReviewPro")
+	public String delReviewPro(MemberInfoDTO dto, String pageNum, int pnum, Model model) {
+		int result = service.delPost_Board(pnum);
+	
+		model.addAttribute("result", result);
+		model.addAttribute("pageNum", pageNum);
+		return "community/review/delReviewPro";
+	}
+	
+	
+	// ²ÜÆÁ,¸®ºä ±Û µî·Ï
 	@RequestMapping("review/addReview")
 	public String addReview(String pnum, Post_BoardDTO board, Model model) {
 		addBoard(pnum, board, model);		
@@ -247,28 +372,28 @@ public class CommunityController {
 		return "community/review/addReviewPro";
 	}
 	
-	// ê¿€íŒ,ë¦¬ë·° ê¸€ ëª©ë¡
+	// ²ÜÆÁ,¸®ºä ±Û ¸ñ·Ï
 	@RequestMapping("review/reviewList")
 	public String reviewList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/review/reviewList";
 	}
 	
-	// ê¿€íŒ,ë¦¬ë·° ê¸€ ê²€ìƒ‰ ëª©ë¡
+	// ²ÜÆÁ,¸®ºä ±Û °Ë»ö ¸ñ·Ï
 	@RequestMapping("review/searchList")
 	public String reviewSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/review/searchList";
 	}
 	
-	// ê¿€íŒ, ë¦¬ë·° ê¸€ ìƒì„¸ë³´ê¸°
+	// ²ÜÆÁ, ¸®ºä ±Û »ó¼¼º¸±â
 	@RequestMapping("review/reviewContent")
 	public String reviewContent(int pnum, String pageNum, Model model) {
 		boardContent(pnum, pageNum, model);
 		return "community/review/reviewContent";
 	}
 	
-	// ê¿€íŒ, ë¦¬ë·° ê¸€ ìˆ˜ì •
+	// ²ÜÆÁ, ¸®ºä ±Û ¼öÁ¤
 	@RequestMapping("review/modReview")
 	public String modReview(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -280,7 +405,7 @@ public class CommunityController {
 		return "community/review/modReviewPro";
 	}
 	
-	// ê¿€íŒ, ë¦¬ë·° ê¸€ ì‚­ì œ
+	// ²ÜÆÁ, ¸®ºä ±Û »èÁ¦
 	@RequestMapping("review/delReview")
 	public String delReview(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
@@ -292,7 +417,7 @@ public class CommunityController {
 		return "community/review/delReviewPro";
 	}
 
-	// ì§ˆë¬¸ê¸€ ë“±ë¡
+	// Áú¹®±Û µî·Ï
 	@RequestMapping("question/addQuestion")
 	public String addQuestion(String pnum, Post_BoardDTO board, Model model) {
 		addBoard(pnum, board, model);
@@ -305,28 +430,28 @@ public class CommunityController {
 		return "community/question/addQuestionPro";
 	}
 	
-	// ì§ˆë¬¸ê¸€ ëª©ë¡
+	// Áú¹®±Û ¸ñ·Ï
 	@RequestMapping("question/questionList")
 	public String questionList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/question/questionList";
 	}
 	
-	// ì§ˆë¬¸ê¸€ ê²€ìƒ‰ ëª©ë¡
+	// Áú¹®±Û °Ë»ö ¸ñ·Ï
 	@RequestMapping("question/searchList")
 	public String questionSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/question/searchList";
 	}
 	
-	// ì§ˆë¬¸ê¸€ ìƒì„¸ë³´ê¸°
+	// Áú¹®±Û »ó¼¼º¸±â
 	@RequestMapping("question/questionContent")
 	public String questionContent(int pnum, String pageNum, Model model) {
 		boardContent(pnum, pageNum, model);
 		return "community/question/questionContent";
 	}
 	
-	// ì§ˆë¬¸ê¸€ ìˆ˜ì •
+	// Áú¹®±Û ¼öÁ¤
 	@RequestMapping("question/modQuestion")
 	public String modQuestion(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -338,7 +463,7 @@ public class CommunityController {
 		return "community/question/modQuestionPro";
 	}
 	
-	// ì§ˆë¬¸ê¸€ ì‚­ì œ
+	// Áú¹®±Û »èÁ¦
 	@RequestMapping("question/delQuestion")
 	public String delQuestion(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
@@ -350,7 +475,7 @@ public class CommunityController {
 		return "community/question/delQuestionPro";
 	}
 	
-	// ìê²©ì¦ ì •ë³´ ë“±ë¡
+	// ÀÚ°İÁõ Á¤º¸ µî·Ï
 	@RequestMapping("info/addInfo")
 	public String addInfo(String pnum, Post_BoardDTO board, Model model) {
 		addBoard(pnum, board, model);
@@ -363,28 +488,28 @@ public class CommunityController {
 		return "community/info/addInfoPro";
 	}
 	
-	// ìê²©ì¦ ì •ë³´ ëª©ë¡
+	// ÀÚ°İÁõ Á¤º¸ ¸ñ·Ï
 	@RequestMapping("info/infoList")
 	public String infoList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/info/infoList";
 	}
 	
-	// ìê²©ì¦ ì •ë³´ ê²€ìƒ‰ ëª©ë¡
+	// ÀÚ°İÁõ Á¤º¸ °Ë»ö ¸ñ·Ï
 	@RequestMapping("info/searchList")
 	public String infoSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/info/searchList";
 	}
 	
-	// ìê²©ì¦ ì •ë³´ ìƒì„¸ë³´ê¸°
+	// ÀÚ°İÁõ Á¤º¸ »ó¼¼º¸±â
 	@RequestMapping("info/infoContent")
 	public String infoContent(int pnum, String pageNum, Model model) {
 		boardContent(pnum, pageNum, model);
 		return "community/info/infoContent";
 	}
 	
-	// ìê²©ì¦ ì •ë³´ ìˆ˜ì •
+	// ÀÚ°İÁõ Á¤º¸ ¼öÁ¤
 	@RequestMapping("info/modInfo")
 	public String modInfo(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -396,7 +521,7 @@ public class CommunityController {
 		return "community/info/modInfoPro";
 	}
 	
-	// ì§ˆë¬¸ê¸€ ì‚­ì œ
+	// Áú¹®±Û »èÁ¦
 	@RequestMapping("info/delInfo")
 	public String delInfo(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
@@ -408,7 +533,7 @@ public class CommunityController {
 		return "community/info/delInfoPro";
 	}
 	
-	// ì·¨ì¤€ìƒ ê³µê°„ ê¸€ ë“±ë¡
+	// ÃëÁØ»ı °ø°£ ±Û µî·Ï
 	@RequestMapping("job_seeker/addJob_seeker")
 	public String addJob_seeker(String pnum, Post_BoardDTO board, Model model) {
 		addBoard(pnum, board, model);
@@ -421,28 +546,28 @@ public class CommunityController {
 		return "community/job_seeker/addJob_seekerPro";
 	}
 	
-	// ì·¨ì¤€ìƒ ê³µê°„ ê¸€ ëª©ë¡
+	// ÃëÁØ»ı °ø°£ ±Û ¸ñ·Ï
 	@RequestMapping("job_seeker/job_seekerList")
 	public String job_seekerList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/job_seeker/job_seekerList";
 	}
 	
-	// ì·¨ì¤€ìƒ ê³µê°„ ê¸€ ê²€ìƒ‰ ëª©ë¡
+	// ÃëÁØ»ı °ø°£ ±Û °Ë»ö ¸ñ·Ï
 	@RequestMapping("job_seeker/searchList")
 	public String job_seekerSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/job_seeker/searchList";
 	}
 	
-	// ì·¨ì¤€ìƒ ê³µê°„ ê¸€ ìƒì„¸ë³´ê¸°
+	// ÃëÁØ»ı °ø°£ ±Û »ó¼¼º¸±â
 	@RequestMapping("job_seeker/job_seekerContent")
 	public String job_seekerContent(int pnum, String pageNum, Model model) {
 		boardContent(pnum, pageNum, model);
 		return "community/job_seeker/job_seekerContent";
 	}
 	
-	// ì·¨ì¤€ìƒ ê³µê°„ ê¸€ ìˆ˜ì •
+	// ÃëÁØ»ı °ø°£ ±Û ¼öÁ¤
 	@RequestMapping("job_seeker/modJob_seeker")
 	public String modJob_seeker(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -454,7 +579,7 @@ public class CommunityController {
 		return "community/job_seeker/modJob_seekerPro";
 	}
 	
-	// ì·¨ì¤€ìƒ ê³µê°„ ê¸€ ì‚­ì œ
+	// ÃëÁØ»ı °ø°£ ±Û »èÁ¦
 	@RequestMapping("job_seeker/delJob_seeker")
 	public String delJob_seeker(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);

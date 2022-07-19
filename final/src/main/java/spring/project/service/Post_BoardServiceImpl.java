@@ -46,7 +46,7 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	public int addPost_Board(Post_BoardDTO board,
 			@RequestParam("file") MultipartFile[] files) {
 		List<Post_BoardAttachDTO> list = new ArrayList<>();
-	//	String uploadFolderPath = getFolder(); ��δ� ���߿� �ð� ������ ��¥���� �����
+	//	String uploadFolderPath = getFolder(); ??��? ????? ?��? ?????? ??????? ?????
 		
 		for(MultipartFile f : files) {
 			if(!f.isEmpty()) {
@@ -57,16 +57,16 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 				String realPath = sc.getRealPath(webPath);
 				System.out.println("realPath ====="+realPath);
 				
-				attachDTO.setFileName(uploadFileName);	// attachDTO FileName�� ���� ���ϸ� ����
+				attachDTO.setFileName(uploadFileName);	// attachDTO FileName?? ???? ????? ????
 				
-				UUID uuid = UUID.randomUUID();	// ������ȣ�� ���� ����
-				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ���Ͽ��� �����Ҷ� �ߺ������� UUID�� ���ϸ��� ���� ���ο� ���ϸ����� ����
+				UUID uuid = UUID.randomUUID();	// ????????? ???? ????
+				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ??????? ??????? ????????? UUID?? ??????? ???? ???��? ????????? ????
 
-				File savePath = new File(realPath);	// realPath ��ο� ���Ͼ��ε� ���� �ִ��� Ȯ��
+				File savePath = new File(realPath);	// realPath ??��? ??????��? ???? ????? ???
 				if(!savePath.exists())
-					savePath.mkdirs();	// ������ ��ο� ���� �����
+					savePath.mkdirs();	// ?????? ??��? ???? ?????
 				
-				realPath += File.separator + uploadFileName; // "//" �ý��ۿ� �´� ������ ���
+				realPath += File.separator + uploadFileName; // "//" ?????? ?��? ?????? ???
 				
 				try {
 					File saveFile = new File(realPath);
@@ -75,9 +75,9 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 					attachDTO.setUuid(uuid.toString());
 					attachDTO.setUploadPath(realPath);
 					
-					list.add(attachDTO);	// �޾ƿ� ���ϵ��� list�� ����
+					list.add(attachDTO);	// ???? ??????? list?? ????
 					
-					System.out.println("attachDTO��" + attachDTO);
+					System.out.println("attachDTO??" + attachDTO);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -86,11 +86,11 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		
 		if(!list.isEmpty()) {
-			System.out.println("list�� board�� �ֱ� ���� Ȯ��");
-			board.setAttachList(list);	// Post_BoardDTO�� attachList(�迭)�� list ����
+			System.out.println("list?? board?? ??? ???? ???");
+			board.setAttachList(list);	// Post_BoardDTO?? attachList(?��)?? list ????
 		}
 			
-		// post_group ������ +1 �Ͽ� ���ο� �׷츸���, ������ ���� �޾Ƽ� ������ �� addPost_Board ����
+		// post_group ?????? +1 ??? ???��? ??�I???, ?????? ???? ???? ?????? ?? addPost_Board ????
 		int post_group = pbMapper.maxPost_group()+1;
 		if(board.getPost_group() != 0) {
 			board.setPost_group(board.getPost_group());
@@ -100,22 +100,22 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		int result = pbMapper.addPost_Board(board);
 		
-		// Post_BoardDTO�� attachList���� ������ �״�� ����
+		// Post_BoardDTO?? attachList???? ?????? ???? ????
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			memMapper.addMemberPoint(board.getWriter(), board.getPnum(), 0);
 			return result;
 		}
 		
-		// attachList�� ���� Post_BoardAttach DB�� �־���
+		// attachList?? ???? Post_BoardAttach DB?? ?????
 		board.getAttachList().forEach(attach ->{
 			attach.setPnum(board.getPnum());
 			pbAMapper.addPost_BoardAttach(attach);
 		});
 		
-		// ����Ʈ �߰�
+		// ????? ???
 		memMapper.addMemberPoint(board.getWriter(), 0, board.getPnum());
 		
-		return result;	// ���� �����ϸ� post_board ���ุ ī��Ʈ�ϹǷ� 1
+		return result;	// ???? ??????? post_board ???? ???????? 1
 	}
 	
 	@Override
