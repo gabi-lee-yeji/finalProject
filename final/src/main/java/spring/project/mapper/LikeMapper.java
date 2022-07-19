@@ -1,0 +1,21 @@
+package spring.project.mapper;
+
+import java.util.List;
+
+import spring.project.model.LikeDTO;
+
+public interface LikeMapper {
+	
+	// Âò Ãß°¡
+	public int addLike(LikeDTO like);
+	
+	// Âò »èÁ¦
+	public int deleteLike(int memid);
+	
+	// Âò ¸ñ·Ï
+	public List<LikeDTO> getLike(String memid);	
+	
+	// Âò È®ÀÎ
+	public LikeDTO checkLike(LikeDTO like);
+
+}
