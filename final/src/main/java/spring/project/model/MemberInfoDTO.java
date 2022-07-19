@@ -43,15 +43,8 @@ public class MemberInfoDTO {
 	private String passwdQ2;
 	private int cnt;
 	
-
-	
-
-	
-	//�Ű�Ƚ�� ��ȸ ��� ����Ҷ��� ����� ����
+	//신고횟수 조회 기능 사용할때만 사용할 변수
 	private int reportCnt;
-// �ڵ��� ��ȣ �ɰ��� ������� �ѹ��� ����Ϸ� �� �� �����ؾ��ϴµ� �ɰ��� ��ȿ���ϴ°� ���� ��?
+// 핸드폰 번호 쪼개서 사용할지 한번에 모바일로 할 지 결정해야하는데 쪼개서 유효성하는게 편할 듯?
 	
-	private String status_name;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date ref_date;
 }

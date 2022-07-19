@@ -127,7 +127,13 @@ public class CommunityController {
 		}
 		
 		String sid = (String)session.getAttribute("sid");
+<<<<<<< HEAD
 
+=======
+		int memberStatus = mService.memberStatusCheck(sid);
+
+		model.addAttribute("memberStatus", memberStatus);
+>>>>>>> branch 'main' of https://github.com/gabi-lee-yeji/finalProject.git
 	}
 	public void addBoardPro(Post_BoardDTO board, Model model,
 			@RequestParam("file") MultipartFile[] files) {
