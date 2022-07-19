@@ -227,7 +227,7 @@ public class DataServiceImpl implements DataService {
 			dto.setCmethod(splitCmethod(map.get("cmethod")));
 			dto.setCutline(map.get("cutline"));
 			dto.setPrice(datas[5]);
-			dto.setNcs_cat(datas[6]);
+			dto.setNcs_cat(Integer.parseInt(datas[6]));
 			dto.setCompany(datas[7]);
 			dto.setClevel(datas[8]);
 			
