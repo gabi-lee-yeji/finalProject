@@ -41,7 +41,7 @@ public class CommunityController {
 		return "redirect:/community/review/reviewContent";
 	}
 	
-	// 댓글 삭제
+	// ��� ����
 	@RequestMapping("delComm")
 	public String delComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr, HttpSession session) {
 		String sid = (String)session.getAttribute("sid");
@@ -55,7 +55,7 @@ public class CommunityController {
 		return "redirect:/community/review/reviewContent";
 	}
 
-	// 댓글 수정
+	// ��� ����
 	@RequestMapping("modComm")
 	public String modComm(int comm_num, Model model) {
 		
@@ -76,7 +76,7 @@ public class CommunityController {
 		return "board/modCommPro";
 	}
 	
-	// 회원 글 신고
+	// ȸ�� �� �Ű�
 	@RequestMapping("memberReportForm")
 	public String memberReportForm(Post_BoardDTO board, Comm_BoardDTO comm, Model model) {
 		
@@ -91,7 +91,7 @@ public class CommunityController {
 		return "board/memberReportForm";
 	}
 	
-	// member_report DB에 동일 신고자/신고당하는자/글번호에 해당하는 행이 있으면 신고 불가
+	// member_report DB�� ���� �Ű���/�Ű���ϴ���/�۹�ȣ�� �ش��ϴ� ���� ������ �Ű� �Ұ�
 	@RequestMapping("memberReportPro")
 	public String memberReportPro(MemberReportDTO mr, Model model) {
 		
@@ -241,8 +241,7 @@ public class CommunityController {
 		model.addAttribute("pageNum", pageNum);
 	}
 	
-	
-	// 꿀팁,리뷰 글 등록
+	// 리뷰, 꿀팁 등록
 	@RequestMapping("review/addReview")
 	public String addReview(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		addBoard(pnum, session, board, model);		
@@ -255,28 +254,28 @@ public class CommunityController {
 		return "community/review/addReviewPro";
 	}
 	
-	// 꿀팁,리뷰 글 목록
+	// 리뷰, 꿀팁 글 목록
 	@RequestMapping("review/reviewList")
 	public String reviewList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/review/reviewList";
 	}
 	
-	// 꿀팁,리뷰 글 검색 목록
+	// 리뷰, 꿀팁 글 검색 목록
 	@RequestMapping("review/searchList")
 	public String reviewSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/review/searchList";
 	}
 	
-	// 꿀팁, 리뷰 글 상세보기
+	// 리뷰, 꿀팁 글 보기
 	@RequestMapping("review/reviewContent")
 	public String reviewContent(int pnum, String pageNum, Model model) {
 		boardContent(pnum, pageNum, model);
 		return "community/review/reviewContent";
 	}
 	
-	// 꿀팁, 리뷰 글 수정
+	// 리뷰, 꿀팁 글 수정 
 	@RequestMapping("review/modReview")
 	public String modReview(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -288,7 +287,7 @@ public class CommunityController {
 		return "community/review/modReviewPro";
 	}
 	
-	// 꿀팁, 리뷰 글 삭제
+	// 리뷰, 꿀팁 글 삭제
 	@RequestMapping("review/delReview")
 	public String delReview(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
@@ -300,7 +299,7 @@ public class CommunityController {
 		return "community/review/delReviewPro";
 	}
 
-	// 질문글 등록
+	// ������ ���
 	@RequestMapping("question/addQuestion")
 	public String addQuestion(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		
@@ -314,28 +313,28 @@ public class CommunityController {
 		return "community/question/addQuestionPro";
 	}
 	
-	// 질문글 목록
+	// ������ ���
 	@RequestMapping("question/questionList")
 	public String questionList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/question/questionList";
 	}
 	
-	// 질문글 검색 목록
+	// ������ �˻� ���
 	@RequestMapping("question/searchList")
 	public String questionSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/question/searchList";
 	}
 	
-	// 질문글 상세보기
+	// ������ �󼼺���
 	@RequestMapping("question/questionContent")
 	public String questionContent(int pnum, String pageNum, Model model) {
 		boardContent(pnum, pageNum, model);
 		return "community/question/questionContent";
 	}
 	
-	// 질문글 수정
+	// ������ ����
 	@RequestMapping("question/modQuestion")
 	public String modQuestion(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -347,7 +346,7 @@ public class CommunityController {
 		return "community/question/modQuestionPro";
 	}
 	
-	// 질문글 삭제
+	// ������ ����
 	@RequestMapping("question/delQuestion")
 	public String delQuestion(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
@@ -359,7 +358,7 @@ public class CommunityController {
 		return "community/question/delQuestionPro";
 	}
 	
-	// 자격증 정보 등록
+	// �ڰ��� ���� ���
 	@RequestMapping("info/addInfo")
 	public String addInfo(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		addBoard(pnum, session, board, model);
@@ -372,28 +371,28 @@ public class CommunityController {
 		return "community/info/addInfoPro";
 	}
 	
-	// 자격증 정보 목록
+	// �ڰ��� ���� ���
 	@RequestMapping("info/infoList")
 	public String infoList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/info/infoList";
 	}
 	
-	// 자격증 정보 검색 목록
+	// �ڰ��� ���� �˻� ���
 	@RequestMapping("info/searchList")
 	public String infoSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/info/searchList";
 	}
 	
-	// 자격증 정보 상세보기
+	// �ڰ��� ���� �󼼺���
 	@RequestMapping("info/infoContent")
 	public String infoContent(int pnum, String pageNum, Model model) {
 		boardContent(pnum, pageNum, model);
 		return "community/info/infoContent";
 	}
 	
-	// 자격증 정보 수정
+	// �ڰ��� ���� ����
 	@RequestMapping("info/modInfo")
 	public String modInfo(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -405,7 +404,7 @@ public class CommunityController {
 		return "community/info/modInfoPro";
 	}
 	
-	// 질문글 삭제
+	// ������ ����
 	@RequestMapping("info/delInfo")
 	public String delInfo(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
@@ -417,7 +416,7 @@ public class CommunityController {
 		return "community/info/delInfoPro";
 	}
 	
-	// 취준생 공간 글 등록
+	// ���ػ� ���� �� ���
 	@RequestMapping("job_seeker/addJob_seeker")
 	public String addJob_seeker(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		addBoard(pnum, session, board, model);	
@@ -430,28 +429,28 @@ public class CommunityController {
 		return "community/job_seeker/addJob_seekerPro";
 	}
 	
-	// 취준생 공간 글 목록
+	// ���ػ� ���� �� ���
 	@RequestMapping("job_seeker/job_seekerList")
 	public String job_seekerList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/job_seeker/job_seekerList";
 	}
 	
-	// 취준생 공간 글 검색 목록
+	// ���ػ� ���� �� �˻� ���
 	@RequestMapping("job_seeker/searchList")
 	public String job_seekerSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/job_seeker/searchList";
 	}
 	
-	// 취준생 공간 글 상세보기
+	// ���ػ� ���� �� �󼼺���
 	@RequestMapping("job_seeker/job_seekerContent")
 	public String job_seekerContent(int pnum, String pageNum, Model model) {
 		boardContent(pnum, pageNum, model);
 		return "community/job_seeker/job_seekerContent";
 	}
 	
-	// 취준생 공간 글 수정
+	// ���ػ� ���� �� ����
 	@RequestMapping("job_seeker/modJob_seeker")
 	public String modJob_seeker(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -463,7 +462,7 @@ public class CommunityController {
 		return "community/job_seeker/modJob_seekerPro";
 	}
 	
-	// 취준생 공간 글 삭제
+	// ���ػ� ���� �� ����
 	@RequestMapping("job_seeker/delJob_seeker")
 	public String delJob_seeker(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);

@@ -1,15 +1,23 @@
 package spring.project.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import spring.project.model.CertiAccessible;
+import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
-
+import spring.project.model.CertiRequirementDTO;
 import spring.project.service.CertiService;
 
 @Controller
@@ -19,9 +27,9 @@ public class CertiController {
 	@Autowired
 	public CertiService service;
 	
-	// ÀüÃ¼ ÀÚ°ÝÁõ ¸ñ·Ï
+	// ï¿½ï¿½Ã¼ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping("certiMain")
-	public String getCertiList(String pageNum, String category, Model model){
+	public String getCertiList(HttpServletRequest request, String cnum, String pageNum, String category, Model model,String clevel,String req_degree, String req_age,String req_exp){
 		
 		if(pageNum == null) pageNum = "1";
 	      int pageSize = 15;
@@ -30,17 +38,16 @@ public class CertiController {
 	      int endRow = currentPage * pageSize;
 	      int count = 0;
 	      int number = 0;
-		
+	      
 		count = service.getCertCnt();
 		List<CertiInfoDTO> clist = null;
 		
-		
 		if(count > 0) {
-			clist = service.getCertiList(startRow, endRow, category);
-		}
-		
+			clist = service.getCertiList(cnum,startRow, endRow, category,req_degree,req_age,
+					req_exp,clevel);
+		}		
 		number = count - (currentPage - 1) * pageSize;
-	
+		
 		model.addAttribute("count", count);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pageSize", pageSize);
@@ -51,11 +58,33 @@ public class CertiController {
 		model.addAttribute("clist", clist);
 		model.addAttribute("category", category);
 		
-		System.out.println(startRow);
-		System.out.println(endRow);
 		return "/certificate/certiMain";
 	}
 	
+	// ÀÚ°ÝÁõ »ó¼¼Á¤º¸
+	@RequestMapping("certiContent")
+		public String certiContent(String cnum, Model model) {
+		
+			Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
+			System.out.println(cnum);
+			
+			List<CertiDateDTO> dateList = null;
+			
+			if(cnum.substring(0,1).equals("N")) {
+				dateList = service.searchNatPeriod(cnum);
+			}else {
+				dateList = service.searchPeriod(cnum);
+			}
+			
+			model.addAttribute("dateList", dateList);
+			model.addAttribute("info",service.getCertiInfo(cnum).get("info"));
+			model.addAttribute("cnum", cnum);
+			model.addAttribute("info", map.get("info"));
+			model.addAttribute("req", map.get("req")); 
+			System.out.println(cnum);
+			return "/certificate/certiContent";
+	}
+
 	
 	@RequestMapping("certiLang")
 	public String getCertiLangList(Model model) {
@@ -65,8 +94,6 @@ public class CertiController {
 		model.addAttribute("count", count);
 		return "/certificate/certiLang";
 	}
-	@RequestMapping("filterForm")
-	public String filterForm() {
-		return "/certificate/filterForm";
-	}
+	
+	
 }

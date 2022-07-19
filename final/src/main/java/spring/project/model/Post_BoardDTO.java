@@ -8,20 +8,20 @@ import lombok.Data;
 
 @Data
 public class Post_BoardDTO {
-	
-	private int pnum;				// ±Û°íÀ¯¹øÈ£	
-	private String subject;			// ±ÛÁ¦¸ñ
-	private String post_content;	// ±Û³»¿ë
-	private String writer;			// ÀÛ¼ºÀÚ
-	private int post_group;			// ±Û ±×·ì
-	private int post_level;			// ´ä±Û ±×·ì
-	private String board_type;		// °Ô½ÃÆÇ Á¾·ù(0-Á÷¿ø°øÁö, 1-notice, 2-faq, 3-qna, 4-review, 5-question, 6-info, 7-job_seeker)
-	private int readCnt;			// ÀĞÀº ¼ö
+
+	private int pnum;				// ê¸€ê³ ìœ ë²ˆí˜¸	
+	private String subject;			// ê¸€ì œëª©
+	private String post_content;	// ê¸€ë‚´ìš©
+	private String writer;			// ì‘ì„±ì
+	private int post_group;			// ê¸€ ê·¸ë£¹
+	private int post_level;			// ë‹µê¸€ ê·¸ë£¹
+	private String board_type;		// ê²Œì‹œíŒ ì¢…ë¥˜(0-ì§ì›ê³µì§€, 1-notice, 2-faq, 3-qna, 4-review, 5-question, 6-info, 7-job_seeker)
+	private int readCnt;			// ì½ì€ ìˆ˜
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
-	private String reg;				// ÀÛ¼º½Ã°£
+	private String reg;				// ì‘ì„±ì‹œê°„
 	
-	private String img;				// Ã·ºÎÆÄÀÏ - transactionÀ¸·Î ³Ö¾îÁÖ¸é »èÁ¦ ÇÊ¿ä
-	private List<Post_BoardAttachDTO> attachList; // °Ô½Ã±Û°ú ÇØ´çÇÏ´Â ÆÄÀÏ ¸®½ºÆ®
-	private int status;				// ±Û Á¸Àç À¯¹«(0-Á¸Àç, 1-»èÁ¦)
+	private String img;				// ì²¨ë¶€íŒŒì¼ - transactionìœ¼ë¡œ ë„£ì–´ì£¼ë©´ ì‚­ì œ í•„ìš”
+	private List<Post_BoardAttachDTO> attachList; // ê²Œì‹œê¸€ê³¼ í•´ë‹¹í•˜ëŠ” íŒŒì¼ ë¦¬ìŠ¤íŠ¸
+	private int status;				// ê¸€ ì¡´ì¬ ìœ ë¬´(0-ì¡´ì¬, 1-ì‚­ì œ)
 
 }

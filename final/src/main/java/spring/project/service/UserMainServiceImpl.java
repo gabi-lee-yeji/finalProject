@@ -9,31 +9,35 @@ import org.springframework.stereotype.Service;
 
 import spring.project.mapper.UserMainMapper;
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiInfoDTO;
+import spring.project.model.MemberInfoDTO;
 
 @Service
 public class UserMainServiceImpl implements UserMainService{
 	
 	@Autowired
 	UserMainMapper mapper;
+	@Autowired
+	AdminService adminService;
 
 	@Override
 	public List<CertiDateDTO> getNatSchedules() {
 		List<CertiDateDTO> list = new ArrayList<CertiDateDTO>();
 		for(CertiDateDTO dto : mapper.getNatSchedules()) {
-			//List¿¡ µéÀº dtoÀÇ ¸ğµç º¯¼ö °ªÀ» Field°´Ã¼ ¹è¿­·Î ¸®ÅÏ 
+			//Listï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ dtoï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Fieldï¿½ï¿½Ã¼ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			Field[] allFields = dto.getClass().getDeclaredFields();
 
 			for(Field field : allFields) {
-				field.setAccessible(true);  //privateÇÊµå¿¡ Á¢±Ù°¡´ÉÇÏ°Ô ¼³Á¤
+				field.setAccessible(true);  //privateï¿½Êµå¿¡ ï¿½ï¿½ï¿½Ù°ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½
 				try {
 //					System.out.println("field Value :"+field.get(dto));
 //					System.out.println("field Value String:"+field.get(dto).toString());
-					Object value = field.get(dto); //ÇÊµå¿¡ ÀúÀåµÈ °ªÀ» °¡Á®¿È 
+					Object value = field.get(dto); //ï¿½Êµå¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 					if(value!=null) { 
 						String fieldValue = field.get(dto).toString(); 
 						if(fieldValue.contains("T")) { 
 							if(fieldValue.split("T")[1].startsWith("00")) {
-								value = fieldValue.split("T")[0];  //ÀúÀåµÈ ½Ã°£ÀÌ ¾øÀ» °æ¿ì ³¯Â¥¸¸ ³²±è
+								value = fieldValue.split("T")[0];  //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 								field.set(dto, value);  
 								//System.out.println("field Value :"+field.get(dto));
 							}
@@ -51,6 +55,20 @@ public class UserMainServiceImpl implements UserMainService{
 		}
 		
 		return mapper.getNatSchedules();
+	}
+
+	@Override
+	public List<CertiInfoDTO> getClientTopCerti(String memid) {
+		//ì‚¬ìš©ì ì •ë³´(ë‚˜ì´, ì„±ë³„ ì¡°íšŒ)
+		MemberInfoDTO dto = adminService.getMemberInfo(memid);
+		String gender = dto.getGender();
+		int age = adminService.getMemberAge(memid);
+		age = (int) Math.floor(age/10) * 10;
+		
+		String order = gender+age;
+		System.out.println(order);
+		
+		return mapper.getClientTopCerti(order);
 	}
 
 }

@@ -16,10 +16,9 @@
 			table.style.backgroundColor = (t.checked) ? "#D8D8D8" : "white";
 		}
 	</script>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
-	<script language="JavaScript" src="/resources/js/gtag.js"></script>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>${info.cnum}   ${info.cname }</h1>
 	<input type="button" value="자격증 목록" onclick="window.location='/admin/certiList'"/> 
 	
@@ -29,24 +28,37 @@
 	<form action="/admin/certi/deleteDate" method="post">
 		<c:forEach var="date" items="${dateList }">
 			<table>
+				<tr>	
+					<th>선택(삭제)</th>
+					<td>
+						<c:if test="${fn:substring(info.cnum,0,1) != 'N' }">
+							<input type="checkbox" value="${date.datePK}" name="dateList" onclick="setBg(this)">
+						</c:if>
+						<c:if test="${fn:substring(info.cnum,0,1) == 'N' }">
+							<input type="checkbox" value="${date.cyear}@${date.cround}@${date.clevel}" name="dateList" onclick="setBg(this)">
+						</c:if>
+					</td>
+				</tr>
 				<tr>
 					<th>자격증일정</th>
 					<td>
 						<input type="button" value="수정" onclick="window.location='/admin/certi/modDate?datepk=${date.datePK}&cnum=${info.cnum}'">
 					</td>
 				</tr>
-				<tr>	
-					<th>선택(삭제)</th>
-					<td>
-						<input type="checkbox" value="${date.datePK}" name="dateList" onclick="setBg(this)">
-					</td>
-				</tr>
 				<tr>
-					<th>필기-원서접수</th>
+					<th>회차정보</th>
 					<td>
-						${date.docRegStart1} ~ ${date.docRegEnd1 }
+						${date.cyear}년도 ${date.cround}회차 ${date.clevel}
 					</td>
 				</tr>
+				<c:if test="${date.docRegStart1 != null }">
+					<tr>
+						<th>필기-원서접수</th>
+						<td>
+							${date.docRegStart1} ~ ${date.docRegEnd1 }
+						</td>
+					</tr>
+				</c:if>
 				<c:if test="${date.docRegStart2 != null }">
 					<tr>
 						<th>필기-추가접수</th>
@@ -55,24 +67,28 @@
 						</td>
 					</tr>
 				</c:if>
-				<tr>
-					<th>필기시험</th>
-					<td>
-						${date.docTestStart }
-						<c:if test="${date.docTestEnd != null }">
-							~ ${date.docTestEnd}
-						</c:if>
-					</td>
-				</tr>
-				<tr>
-					<th>필기-발표</th>
-					<td>
-						${date.docResultStart }
-						<c:if test="${date.docResultEnd != null }">
-							~ ${date.docResultEnd }
-						</c:if>
-					</td>
-				</tr>
+				<c:if test="${date.docTestStart != null }">
+					<tr>
+						<th>필기시험</th>
+						<td>
+							${date.docTestStart }
+							<c:if test="${date.docTestEnd != null }">
+								~ ${date.docTestEnd}
+							</c:if>
+						</td>
+					</tr>
+				</c:if>
+				<c:if test="${date.docResultStart != null }">
+					<tr>
+						<th>필기-발표</th>
+						<td>
+							${date.docResultStart }
+							<c:if test="${date.docResultEnd != null }">
+								~ ${date.docResultEnd }
+							</c:if>
+						</td>
+					</tr>
+				</c:if>
 				<c:if test="${date.docSubmitStart != null }">
 					<tr>
 						<th>응시자격 서류제출</th>
@@ -114,6 +130,10 @@
 					</tr>
 				</c:if>
 			</table>
+			<hr>
+			<input type="hidden" value="${date.cyear }" name="cyear">
+			<input type="hidden" value="${date.cround }" name="cround">
+			<input type="hidden" value="${date.clevel }" name="clevel">
 		</c:forEach>
 		<input type="hidden" value="${info.cnum }" name="cnum">
 		<input type="submit" value="선택한 일정 삭제">

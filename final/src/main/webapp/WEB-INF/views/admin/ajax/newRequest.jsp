@@ -10,11 +10,18 @@
 		<th>작성자</th>
 		<th>등록일</th>
 	</tr>
-	<c:forEach var="dto" items="${reqList}">
+	<c:if test="${count > 0}">
+		<c:forEach var="dto" items="${reqList}">
+			<tr>
+				<td><a href="/help/qna/addQna?pnum=${dto.pnum }">${dto.subject }</a></td>
+				<td>${dto.writer }</td>
+				<td><fmt:formatDate pattern="yy-MM-dd" value="${dto.reg }"/></td>
+			</tr>
+		</c:forEach>
+	</c:if>
+	<c:if test="${count == 0 or count < 0}">
 		<tr>
-			<td><a href="/help/qna/addQna?pnum=${dto.pnum }">${dto.subject }</a></td>
-			<td>${dto.writer }</td>
-			<td><fmt:formatDate pattern="yy-MM-dd" value="${dto.reg }"/></td>
+			<td colspan=3>신규문의가 없습니다.</td>
 		</tr>
-	</c:forEach>
+	</c:if>
 </table>

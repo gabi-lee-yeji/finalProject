@@ -4,17 +4,59 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
 
-	<update id="updatePrice" parameterType="spring.project.model.CertiInfoDTO">
-		update certiinfo set 
-			company=#{company},
-			price=#{price},
-			ncs_cat=#{ncs_cat}
-			where cname=#{cname}
+	<update id="updatePrvInfo1" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo set
+			website=#{website},
+			expiry=#{expiry}
+				where cname=#{cname}
 	</update>
 
-	<select id="getNatPrices" resultType="spring.project.model.CertiInfoDTO">
-		select cname from certiinfo where cnum like 'N%'
-	</select>
+	<insert id="addPrvInfo" parameterType="spring.project.model.CertiInfoDTO">
+		insert into certiinfo(cnum, cname, category, clevel, company, cinfo, cjob, status, registdate)
+			values (#{cnum},#{cname},#{category},#{clevel, jdbcType=VARCHAR},
+			#{company},#{cinfo, jdbcType=VARCHAR},#{cjob, jdbcType=VARCHAR},#{status},sysdate)
+	</insert>
+
+	<insert id="addNcsCode" parameterType="spring.project.model.NcsDTO">
+		insert into ncs_code values(#{code},#{lname},#{mname})
+	</insert>
+
+	<insert id="addCertiSchedule" parameterType="spring.project.model.CertiScheduleDTO">
+		insert into certischedule values(
+			#{cnum},
+			#{cyear},
+			#{cround},
+			#{clevel},
+			sysdate
+		)
+	</insert>
+
+	<update id="updateNatClevel" parameterType="spring.project.model.CertiScheduleDTO">
+		update certiinfo set clevel=#{clevel} where cnum=#{cnum}
+	</update>
+
+	<insert id="addNatData" parameterType="spring.project.model.CertiInfoDTO">
+		insert into certiinfo values(
+			#{cnum},
+			#{cname},
+			#{category},
+			#{clevel, jdbcType=VARCHAR},
+			#{company, jdbcType=VARCHAR},
+			#{website, jdbcType=VARCHAR},
+			#{requirement, jdbcType=VARCHAR},
+			#{cmethod, jdbcType=VARCHAR},
+			#{subject, jdbcType=VARCHAR},
+			#{cutline, jdbcType=VARCHAR},
+			#{cinfo, jdbcType=VARCHAR},
+			#{cjob, jdbcType=VARCHAR},
+			#{expiry, jdbcType=VARCHAR},
+			#{status, jdbcType=VARCHAR},
+			#{price, jdbcType=VARCHAR},
+			#{ncs_cat},
+			#{notice, jdbcType=VARCHAR},
+			sysdate
+		)
+	</insert>
 
 	<insert id="addCertiRelated" parameterType="spring.project.model.CertiMatchDTO">
 		insert into certi_related values(#{cfrom}, #{cto})
@@ -31,46 +73,12 @@
 		)
 	</insert>
 	
-	<select id="getMingan" resultType="spring.project.model.CertiInfoDTO">
-		select cnum, cname, company, clevel, cinfo from certiinfo where cnum like 'P%' order by cnum
-	</select>
-
-	<update id="updateMingan" parameterType="spring.project.model.CertiInfoDTO">
-		update certiinfo 
-			set company=#{company}, cinfo=#{cinfo}, cjob=#{cjob}
-			where cname=#{cname} 
-				and (clevel=#{clevel, jdbcType = VARCHAR}
-					or	(clevel is null and #{clevel, jdbcType=VARCHAR} is null))
-	</update>
-	
-	<select id="getSubjects" resultType="spring.project.model.CertiInfoDTO">
-		select cnum, subject from certiinfo where cnum like 'N%' order by cnum
-	</select>
-	
-	<update id="updateSubject" parameterType="spring.project.model.CertiInfoDTO">
-		update certiinfo set subject = #{subject} where cnum=#{cnum}
-	</update>
-	
-	<select id="getCmethods" resultType="spring.project.model.CertiInfoDTO">
-		select cnum, cmethod from certiinfo where cnum like 'N%' order by cnum
-	</select>
-	
-	<update id="updateCmethods" parameterType="spring.project.model.CertiInfoDTO">
-		update CertiInfo set cmethod = #{cmethod} where cnum = #{cnum}
-	</update>
-	
-	<insert id="addNatCertiInfo" parameterType="spring.project.model.CertiInfoDTO">
-		insert into CertiInfo(cnum,category, cname, clevel, company, status,registdate)
-			values(#{cnum}, #{category}, #{cname}, #{clevel}, #{company}, #{status},sysdate)
-	</insert>
-	
-	<insert id="addNatCertiSchedule" parameterType="spring.project.model.CertiScheduleDTO">
-		insert into CertiSchedule(cnum, cround, cyear, clevel,registdate)
-			values(#{cnum}, #{cround}, #{cyear}, #{clevel},sysdate)
-	</insert>
-	
 	<select id="findCnum" resultType="String">
 		select cnum from certiinfo where cname=#{cname}
+	</select>
+	
+	<select id="findCnumCount" resultType="int">
+		select count(*) from certiinfo where cname=#{cname}
 	</select>
 	
 	
@@ -107,30 +115,9 @@
 			TO_DATE(#{pracTestStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
 			TO_DATE(#{pracTestEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
 			TO_DATE(#{pracResStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
-			TO_DATE(#{pracResEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI')
-			
+			TO_DATE(#{pracResEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			certidate_seq.nextval
 		)
 	</insert>
-	
-	<update id="updateCertiDetail" >
-		update certiinfo
-		<set>
-			<if test="dto.clevel != null">clevel=#{dto.clevel},</if>
-			<if test="dto.company != null">company = #{dto.company},</if>
-			<if test="dto.website != null">website=#{dto.website},</if>
-			<if test="dto.requirement != null">requirement=#{dto.requirement},</if>
-			<if test="dto.cmethod != null">cmethod=#{dto.cmethod},</if>
-			<if test="dto.subject != null">subject=#{dto.subject},</if>
-			<if test="dto.cutline != null">cutline=#{dto.cutline},</if>
-			<if test="dto.cinfo != null">cinfo=#{dto.cinfo},</if>
-			<if test="dto.cjob != null">cjob=#{dto.cjob},</if>
-			<if test="dto.expiry != null">expiry=to_date(#{dto.expiry},'YYYY-MM-DD'),</if>
-			<if test="dto.status != null">status=#{dto.status},</if>
-			<if test="dto.price != null">price=#{dto.price},</if>
-			<if test="dto.ncs_cat != null">ncs_cat=#{dto.ncs_cat},</if>
-			<if test="dto.notice != null">notice=#{dto.notice}</if>
-		</set>
-		where cname=#{cname}
-	</update>
 	
 </mapper>

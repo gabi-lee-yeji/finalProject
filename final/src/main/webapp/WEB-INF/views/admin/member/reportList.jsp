@@ -8,6 +8,7 @@
 	<title>신고된 회원 목록 </title>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>신고된 회원 목록</h1>
 	<table>
 		<tr>
@@ -22,16 +23,15 @@
 						<option value="reportList">==전체회원==</option>
 					</c:if>
 					<c:if test="${status != null }">
-						<option>==${status }==</option>
+						<option>==${status_name }==</option>
 					</c:if>
 					<option value="reportList">전체회원</option>
-					<option value="reportList?status=일반">일반</option>
-					<option value="reportList?status=활동중지">활동중지</option>
-					<option value="reportList?status=탈퇴">탈퇴</option>
-					<option value="reportList?status=강제탈퇴">강제탈퇴</option>
+					<option value="reportList?status=0">일반</option>
+					<option value="reportList?status=2">활동중지</option>
+					<option value="reportList?status=3">탈퇴</option>
+					<option value="reportList?status=4">강제탈퇴</option>
 				</select>
 			</th>
-			<th>회원등급</th>
 			<th>보유포인트</th>
 			<th>가입일</th>
 		</tr>
@@ -42,8 +42,7 @@
 				<td>${dto.reportCnt }</td>
 				<td>${dto.email }</td>
 				<td>${dto.mobile }</td>
-				<td>${dto.status }</td>
-				<td>${dto.mem_level }</td>
+				<td>${dto.status_name }</td>
 				<td>${dto.mem_point }</td>
 				<td><fmt:formatDate pattern="yyyy-MM-dd" value="${dto.regdate }"/></td>
 			</tr>

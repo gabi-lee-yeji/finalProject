@@ -8,12 +8,12 @@ import lombok.Data;
 
 @Data
 public class MemberReportDTO {
-	private String memid;		// ½Å°í´çÇÑ È¸¿ø
-	private String report_id;	// ½Å°íÇÑ È¸¿ø
-	private String wr_option;	// p - °Ô½Ã±Û / c - ´ñ±Û
-	private int pnum;			// °Ô½Ã±Û ¹øÈ£ or ´ñ±Û¹øÈ£
-	private String reason;		// 1,2,3,4,5 ÃßÈÄ ÀÇ³í ¿¹Á¤
+	private String memid;		// ì‹ ê³ ë‹¹í•œ íšŒì›
+	private String report_id;	// ì‹ ê³ í•œ íšŒì›
+	private String wr_option;	// p - ê²Œì‹œê¸€ / c - ëŒ“ê¸€
+	private int pnum;			// ê²Œì‹œê¸€ ë²ˆí˜¸ or ëŒ“ê¸€ë²ˆí˜¸
+	private String reason;		// 1,2,3,4,5 ì¶”í›„ ì˜ë…¼ ì˜ˆì •
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
-	private Date reg;			// ½Å°íÀÏÀÚ
+	private Date reg;			// ì‹ ê³ ì¼ì
 }
