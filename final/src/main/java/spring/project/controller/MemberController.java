@@ -347,51 +347,5 @@ public class MemberController {
 			model.addAttribute("commList",commList);
 		return "member/myComments";
 	}
-	@RequestMapping("myList")
-	public String Mylist(String pageNum,Model model,int board_type,String writer) {
-		if(pageNum == null) pageNum = "1";
-		int pageSize = 10;
-		int currentPage = Integer.parseInt(pageNum);
-		int startRow = (currentPage - 1) * pageSize + 1;
-		int endRow = currentPage * pageSize;
-		int count = 0;
-		int number = 0;
-		count = service.post_BoardCount(board_type,writer);
-		ArrayList<Post_BoardDTO> boardList = null;
-		if(count > 0) {
-		boardList = (ArrayList<Post_BoardDTO>)service.myList(writer,board_type,startRow,endRow);
-		System.out.println(boardList);
-		}
-		
-		number = count - (currentPage - 1) * pageSize;
-		
-		model.addAttribute("count", count);
-		model.addAttribute("board_type",board_type);
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("startRow", startRow);
-		model.addAttribute("endRow", endRow);
-		model.addAttribute("number", number);
-		model.addAttribute("boardList", boardList);
-		   
-		return "member/myList";
-	}
 	
-	@RequestMapping("pwFindForm")
-	public String pwFindForm() {
-		return "member/pwFindForm";
-	}
-	@RequestMapping("pwFindPro")
-	public String pwFindPro(MemberInfoDTO dto,Model model) {
-		int result = 0;
-		dto = service.pwFind(dto);
-		if(dto != null) {
-			result = 1;
-		}
-		System.out.println(dto.getMemid());
-		model.addAttribute("dto",dto);
-		model.addAttribute("result",result);
-		return "member/pwFindPro";
-	}
 }

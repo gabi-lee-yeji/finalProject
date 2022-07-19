@@ -98,8 +98,14 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
+	public int addMemberPoint(String memid, int pnum, int comm_num) {
+		return mapper.addMemberPoint(memid, pnum, comm_num);
+	}
+	
+	@Override
 	public int memberStatusCheck(String memid) {
 		return mapper.memberStatusCheck(memid);
 	}
+
 
 }
