@@ -6,10 +6,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>일정 추가 : ${info.cname }</title>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
-	<script language="JavaScript" src="/resources/js/gtag.js"></script>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp"/>
 	<table>	
 		<tr>
 			<td>자격증번호</td>
@@ -38,82 +37,85 @@
 	</table>
 	<hr>
 	<h2>시험 일정</h2>
-	<form action="/admin/certi/addDatePro" method="post">
-		<input type="hidden" value="${info.cnum }" name="cnum">
+	<input type="button" id="addBtn" value="일정 추가" onclick="addDate();">
+	<input type="button" value="일정 삭제" onclick="removeDate();"/>
+	<form action="/admin/certi/addDatePro" method="post" id="#form">
+		<input type="hidden" value="${info.cnum }" name="cnum" id="cnum">
+		<input type="hidden" value="${info.cname }" name="cname" id="cnum">
 		<input type="hidden" value="${info.clevel }" name="clevel">
-		<table>
-			<tr>
-				<td>연도</td>
-				<td><input type="text" name="cyear"></td>
-			</tr>
-			<tr>
-				<td>자격증 회차</td>
-				<td><input type="text" name="cround"></td>
-			</tr>
-			<tr>
-				<td>필기 원서접수</td>
-				<td>
-					<input type="text" name="docRegStart1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docRegEnd1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-			<tr>
-				<td>필기원서 - 추가접수</td>
-				<td>
-					<input type="text" name="docRegStart2" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docRegEnd2" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-			<tr>
-				<td>필기시험</td>
-				<td>
-					<input type="text" name="docTestStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docTestEnd" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-			<tr>
-				<td>필기-합격자발표</td>
-				<td>
-					<input type="text" name="docResultStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docResultEnd" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-			<tr>
-				<td>응시자격 서류제출</td>
-				<td>
-					<input type="text" name="docSubmitStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docSubmitEnd" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-			<tr>
-				<td>실기시험 원서 접수</td>
-				<td>
-					<input type="text" name="pracRegStart1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="pracRegEnd1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-			<tr>
-				<td>실기시험 추가 접수</td>
-				<td>
-					<input type="text" name="pracRegStart2" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="pracRegEnd2" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-			<tr>
-				<td>실기시험</td>
-				<td>
-					<input type="text" name="pracTestStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="pracTestEnd" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-			<tr>
-				<td>실기 합격자 발표</td>
-				<td>
-					<input type="text" name="pracResStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="pracResEnd" onKeypress="dateFormat(this)"placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-				</td>
-			</tr>
-		</table>
+		
+		<div id="insertDate"></div>
+		
+		<input id ="submitBtn" type="submit" value="일정 등록" >
 	</form>
 </body>
+
+<script>
+
+	addDate();
+	
+	function addDate(){
+		$.ajax({
+			url : "/admin/certi/addDateTbl",
+			success : function(data){
+				$("#insertDate").append(data);
+			}
+		})
+	}
+	/*
+	function removeDate(){
+		$("#insertDate > div:last-child").remove();
+	}
+	
+	$(document).ready(function(){
+		$("#addBtn").click(function(){
+			var queryString = $("#form").serialize();
+			
+			$.ajax({
+				type: 'post',
+				url: "/admin/certi/addDatePro",
+				data : queryString,
+				dataType : 'json',
+				success: function(json){
+					alert(json)
+				}
+			});
+		});
+	});
+
+	
+	jQuery.fn.serializeObject = function(){
+		var obj = null;
+		try{
+			if(this[0].tagName && this[0].tagName.toUpperCase() == "FORM"){
+				var arr = this.serializeArray();
+				if(arr){
+					obj ={};
+					jQuery.each(arr, function(){
+						obj[this.name] = this.value;
+					});
+				}
+			}
+		}catch(e){
+			alert(e.message);
+		}finally{}
+		return obj;
+	}
+	function toAjax(){
+		const serializedValues2 = $("#form").serializeObject();
+		$.ajax({
+			type: 'post',
+			url : 'admin/certi/addDatePro',
+			data : JSON.stringify(serializedValues2),
+			dataType : 'json',
+			error: function(xhr, status, error){
+				alert(error);
+			}
+			success: function(json){
+				alert(json);
+			}
+		});
+	}
+	*/
+</script>
 </html>

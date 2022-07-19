@@ -21,7 +21,7 @@
 		</tr>
 	</table>
 	<input type="button" value="수정" onclick="window.location='/help/notice/modNotice?pnum=${dto.pnum}&pageNum=${pageNum}'" />
-	<input type="button" value="삭제" onclick="window.location='/help/notice/delNotice?pnum=${dto.pnum}&pageNum=${pageNum}&memid=안혜원'" />
+	<input type="button" value="삭제" onclick="window.location='/help/notice/delNotice?pnum=${dto.pnum}&pageNum=${pageNum}&memid=${sessionScope.sid}'" />
 	<input type="button" value="글목록" onclick="window.location='/help/notice/noticeList?board_type=1'" />
 </body>
 

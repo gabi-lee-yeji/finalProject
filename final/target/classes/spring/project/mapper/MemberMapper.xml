@@ -28,12 +28,12 @@
 											) 
 	</insert>
 	
-	<select id="userCheck" resultType="int">
-		select count(*) from memberInfo where memid=#{memid} and passwd=#{passwd} and status in (0,1)
+	<select id="userCheck" resultType="spring.project.model.MemberInfoDTO">
+		select status,ref_date,count(*) cnt from memberInfo where memid=#{memid} and passwd=#{passwd} and status in (0,1) group by status,ref_date order by ref_date desc
 	</select>	
 	
 	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
-		select * from memberInfo where memid=#{memid} and status = 0
+		select * from memberInfo where memid=#{memid} and status in (0,1)
 	</select>
 	
 	<select id="deleteUser">
@@ -41,7 +41,7 @@
 	</select>
 	
 	<select id="findUser" resultType="spring.project.model.MemberInfoDTO">
-		select * from MemberInfo where memid=#{memid} and passwd=#{passwd} and status = 0
+		select * from MemberInfo where memid=#{memid} and passwd=#{passwd} and status in (0,1)
 	</select>
 	
 	<update id="modifyList">
@@ -62,7 +62,7 @@
 			<if test="passwdQ1 != null">passwdQ1=#{passwdQ1},</if>
 			<if test="passwdQ2 != null">passwdQ2=#{passwdQ2}</if>
 		</set>
-		where memid=#{memid} and status = 0;
+		where memid=#{memid} and status in (0,1)
 	</update>
 	
 	<select id="idDuplicate" resultType="int">
@@ -100,4 +100,5 @@
 	<update id="updateTime">
 		update Memberinfo set ref_date=sysdate where memid=#{memid} and status=0
 	</update>
+	
 </mapper>

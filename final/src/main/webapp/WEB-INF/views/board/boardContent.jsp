@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
 <table border=1>
 	<tr>
 		<td>제목</td>
@@ -26,11 +24,12 @@
 	<td>첨부파일</td>
 		<td>
 			<c:forEach var="list" items="${boardAttach}">
-				${list.fileName}<br/>
+				<img width="100" height="100" src="/resources/image/upload/${list.uuid}_${list.fileName}">
+				${list.fileName}
+				<br/>
 			</c:forEach>
 			
 		</td>
 	</tr>
 	</c:if>
 </table>
-</html>

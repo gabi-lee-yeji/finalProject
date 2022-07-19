@@ -41,9 +41,11 @@
 	</update>
 	
 	<update id="modComm_Board">
-		update comm_board set 
-			comm_content = #{comm_content}, 
-			reg = sysdate 
+		update comm_board 
+			<set> 
+				<if test="comm_content != null"> comm_content = #{comm_content}, </if> 
+				reg = sysdate
+			</set>
 				where comm_num = #{comm_num}
 	</update>
 	

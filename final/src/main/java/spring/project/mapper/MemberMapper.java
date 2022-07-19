@@ -13,7 +13,7 @@ import spring.project.model.Post_BoardDTO;
 public interface MemberMapper {
 	
 	public int insertMember(MemberInfoDTO dto);
-	public int userCheck(MemberInfoDTO dto);
+	public MemberInfoDTO userCheck(MemberInfoDTO dto);
 	public MemberInfoDTO AccountInfo(String memid);
 	public void deleteUser(MemberInfoDTO dto);
 	public MemberInfoDTO findUser(MemberInfoDTO dto);

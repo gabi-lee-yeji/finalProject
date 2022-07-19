@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int userCheck(MemberInfoDTO dto) {
+	public MemberInfoDTO userCheck(MemberInfoDTO dto) {
 		return mapper.userCheck(dto);
 	}
 

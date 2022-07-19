@@ -70,7 +70,8 @@ public class MemberController {
 			}
 		}
 		
-		int result = service.userCheck(dto);
+		MemberInfoDTO dto2 = service.userCheck(dto);
+		int result = dto2.getCnt();
 		if(result==1) {
 			if(auto != null) {
 				Cookie cid = new Cookie("cid",memid);
@@ -97,6 +98,7 @@ public class MemberController {
 		
 		 
 		model.addAttribute("result",result);
+		model.addAttribute("dto",dto2);
 		
 		return "member/loginPro";
 	}
@@ -180,7 +182,8 @@ public class MemberController {
 	@RequestMapping("modifyForm")
 	public String modifyForm(HttpSession session,MemberInfoDTO dto,Model model) {
 		
-		int result = service.userCheck(dto);
+		MemberInfoDTO dto2 = service.userCheck(dto);
+			int result = dto2.getCnt();
 			if(result == 1) {
 				dto = service.findUser(dto);
 				dto.setMail1(dto.getEmail().split("@")[0]);
@@ -224,7 +227,8 @@ public class MemberController {
 	}
 	@RequestMapping("deletePro")
 	public String deletePro(HttpServletRequest request,HttpServletResponse response,HttpSession session,MemberInfoDTO dto,Model model) {
-		int result = service.userCheck(dto);
+		MemberInfoDTO dto2 = service.userCheck(dto);
+		int result = dto2.getCnt();
 			if(result == 1) {
 				service.deleteUser(dto);
 				Cookie [] cookies = request.getCookies();

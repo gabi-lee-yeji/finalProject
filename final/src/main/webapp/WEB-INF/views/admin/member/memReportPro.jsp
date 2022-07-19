@@ -4,7 +4,7 @@
 	
 	<c:if test="${result == 1 }">
 		<script>
-			window.location="admin/member/reportList";
+			window.location="/admin/member/reportList";
 		</script>
 	</c:if>
 	<c:if test="${result == 0 }">

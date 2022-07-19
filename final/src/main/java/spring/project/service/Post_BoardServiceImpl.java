@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,34 +38,46 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Setter(onMethod_= @Autowired)
 	private MemberMapper memMapper;
 	
-	//httprequest servle>>> ¸Å°³º¯¼ö getrealpath
+	@Autowired
+	private ServletContext sc;
+	
 	@Transactional
 	@Override
-	public int addPost_Board(Post_BoardDTO board, 
+	public int addPost_Board(Post_BoardDTO board,
 			@RequestParam("file") MultipartFile[] files) {
 		List<Post_BoardAttachDTO> list = new ArrayList<>();
-		String uploadFolder = "C:\\upload"; //¿©±â
-	//	String uploadFolderPath = getFolder(); °æ·Î´Â ³ªÁß¿¡ ½Ã°£ ³²À¸¸é ³¯Â¥º°·Î ¸¸µé±â
+	//	String uploadFolderPath = getFolder(); ??¥ä? ????? ?©£? ?????? ??????? ?????
 		
 		for(MultipartFile f : files) {
 			if(!f.isEmpty()) {
 				Post_BoardAttachDTO attachDTO = new Post_BoardAttachDTO();
 				String uploadFileName = f.getOriginalFilename();
-				attachDTO.setFileName(uploadFileName);	// attachDTO FileName¿¡ ¿øº» ÆÄÀÏ¸í ÀúÀå
 				
-				UUID uuid = UUID.randomUUID();	// °íÀ¯¹øÈ£¿Í °°Àº °³³ä
-				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ÆÄÀÏ¿øº» ÀúÀåÇÒ¶§ Áßº¹¹æÁö·Î UUID¿Í ÆÄÀÏ¸íÀ» ºÙÀÎ »õ·Î¿î ÆÄÀÏ¸íÀ¸·Î ÀúÀå
+				String webPath = "/resources/image/upload";
+				String realPath = sc.getRealPath(webPath);
+				System.out.println("realPath ====="+realPath);
+				
+				attachDTO.setFileName(uploadFileName);	// attachDTO FileName?? ???? ????? ????
+				
+				UUID uuid = UUID.randomUUID();	// ????????? ???? ????
+				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ??????? ??????? ????????? UUID?? ??????? ???? ???¥ï? ????????? ????
+
+				File savePath = new File(realPath);	// realPath ??¥ï? ??????¥å? ???? ????? ???
+				if(!savePath.exists())
+					savePath.mkdirs();	// ?????? ??¥ï? ???? ?????
+				
+				realPath += File.separator + uploadFileName; // "//" ?????? ?¢¥? ?????? ???
 				
 				try {
-					File saveFile = new File(uploadFolder, uploadFileName);
+					File saveFile = new File(realPath);
 					f.transferTo(saveFile);
 					
 					attachDTO.setUuid(uuid.toString());
-					attachDTO.setUploadPath(uploadFolder);
+					attachDTO.setUploadPath(realPath);
 					
-					list.add(attachDTO);	// ¹Ş¾Æ¿Â ÆÄÀÏµéÀ» list¿¡ ÀúÀå
+					list.add(attachDTO);	// ???? ??????? list?? ????
 					
-					System.out.println("attachDTO´Â" + attachDTO);
+					System.out.println("attachDTO??" + attachDTO);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -72,13 +86,11 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		
 		if(!list.isEmpty()) {
-			System.out.println("list¸¦ board¿¡ ³Ö±â µ¿ÀÛ È®ÀÎ");
-			board.setAttachList(list);	// Post_BoardDTOÀÇ attachList(¹è¿­)¿¡ list ÀúÀå
+			System.out.println("list?? board?? ??? ???? ???");
+			board.setAttachList(list);	// Post_BoardDTO?? attachList(?ò÷)?? list ????
 		}
-		
-		System.out.println("ÃÖÁ¾ Board´Â: " + board);
 			
-		// post_group ¾øÀ¸¸é +1 ÇÏ¿© »õ·Î¿î ±×·ì¸¸µé°í, ÀÖÀ¸¸é °ªÀ» ¹Ş¾Æ¼­ ¹­¾îÁØ ÈÄ addPost_Board ½ÇÇà
+		// post_group ?????? +1 ??? ???¥ï? ??¯I???, ?????? ???? ???? ?????? ?? addPost_Board ????
 		int post_group = pbMapper.maxPost_group()+1;
 		if(board.getPost_group() != 0) {
 			board.setPost_group(board.getPost_group());
@@ -88,31 +100,22 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		int result = pbMapper.addPost_Board(board);
 		
-		System.out.println("addPost_Board°¡ ½ÇÇàµÇ¾ú´ÂÁö ¿©ºÎ:"+result);
-		// Post_BoardDTO¿¡ attachList°ªÀÌ ¾øÀ¸¸é ±×´ë·Î Á¾·á
+		// Post_BoardDTO?? attachList???? ?????? ???? ????
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
-			System.out.println("µµ´ëÃ¼°¡ ÀÛµ¿À» ÇÏ´Â°Ç°¡¿ä!");
-			
-			
 			memMapper.addMemberPoint(board.getWriter(), board.getPnum(), 0);
-			System.out.println(board.getWriter());
-			System.out.println(board.getPnum());
 			return result;
 		}
 		
-		// attachList¸¦ °¢°¢ Post_BoardAttach DB¿¡ ³Ö¾îÁÜ
+		// attachList?? ???? Post_BoardAttach DB?? ?????
 		board.getAttachList().forEach(attach ->{
 			attach.setPnum(board.getPnum());
-			System.out.println("attach°¡ µé¾îÀÖ´ÂÁö È®ÀÎÇÏ±â" + attach);
 			pbAMapper.addPost_BoardAttach(attach);
 		});
 		
-		// Æ÷ÀÎÆ® Ãß°¡
+		// ????? ???
 		memMapper.addMemberPoint(board.getWriter(), 0, board.getPnum());
-		System.out.println(board.getWriter());
-		System.out.println(board.getPnum());
 		
-		return result;	// Á¤»ó Á¾·áÇÏ¸é post_board ½ÇÇà¸¸ Ä«¿îÆ®ÇÏ¹Ç·Î 1
+		return result;	// ???? ??????? post_board ???? ???????? 1
 	}
 	
 	@Override

@@ -7,17 +7,6 @@
 	<meta charset="UTF-8">
 	<title>자격증 목록</title>
 	
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-233548942-1"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-	
-	  gtag('config', 'UA-233548942-1');
-	</script>
-	
-	
 	<script>
 		function setBg(t){
 			td = t.parentNode;
@@ -28,6 +17,7 @@
 	</script>
 </head>
 <body>
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>자격증 목록 [총 : ${count }]</h1>
 	<input type="button" value="자격증 등록" onclick="window.location='/admin/addCerti'"/>
 	<form action="/admin/search" method="post">
@@ -35,6 +25,7 @@
 			<option value="">==검색==</option>
 			<option value="cnum">자격증번호</option>
 			<option value="cname">종목명</option>
+			<option value="clevel">자격증등급</option>
 			<option value="company">시행기관</option>
 		</select>
 		<input type="text" name="keyword">
@@ -69,9 +60,9 @@
 						<option value="">==자격증종류==</option>
 					</c:if>
 					<option value="certiList">전체</option>
-					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=국가기술">국가기술</option>
-					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=공인민간">공인민간</option>
-					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=어학">어학</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=national">국가기술</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=private">공인민간</option>
+					<option value="certiList?pageNum=${page.pageNum}&sort=${sort}&order=${order }&category=language">어학</option>
 				</select>
 			</th>
 			<th>등급</th>

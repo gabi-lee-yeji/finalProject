@@ -6,8 +6,7 @@
 <form action="/help/qna/delQnaPro" method="get">
 	<input type="hidden" name="pnum" value="${pnum}" />
 	<input type="hidden" name="pageNum" value="${pageNum}" />
-	<input type="hidden" name="memid" value="안혜원" />
-<!-- 수정 삭제 예정 <input type="hidden" name="memid" value="${memid}" />  -->	
+	<input type="hidden" name="memid" value="${sessionScope.sid}" />
 	<table>
 		<tr>
 			<td>비밀번호를 입력해주세요</td>
