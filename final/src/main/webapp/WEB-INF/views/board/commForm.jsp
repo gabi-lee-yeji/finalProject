@@ -20,6 +20,7 @@
 	</table>
 	
 	<input type="hidden" name="pnum" value="${board.pnum}" />
+	<input type="hidden" name="board_type" value="${board.board_type}" />
 	<input type="hidden" name="pageNum" value="${pageNum}" />
 	<input type="submit" value="댓글작성" />
 </form>
@@ -43,7 +44,7 @@
 			<td>${comm.comm_num}</td>
 			<td>${comm.comm_content}</td>
 			<td>${comm.writer}</td>
-			<td>${comm.reg}</td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${comm.reg}"/></td>
 			<td><input type="button" value="수정" onclick="modComm(${comm.comm_num});" ></td>
 			<td><input type="button" value="삭제" onclick="window.location='/community/delComm?comm_num=${comm.comm_num}&writer=${sessionScope.sid}&pnum=${comm.pnum}&pageNum=${pageNum}' "/></td>
 			<td><input type="button" value="신고" onclick="addReport(${comm.comm_num});" ></td>

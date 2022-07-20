@@ -39,7 +39,7 @@
 			<td>${board.pnum}</td>
 			<td><a href="/community/review/reviewContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td> 
 			<td>${board.writer}</td>
-			<td>${board.reg}</td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.reg}"/></td>
 			<td>${board.readCnt}</td>
 		</tr>
 	</c:forEach>

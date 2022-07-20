@@ -17,8 +17,10 @@
 			</tr>
 			<tr>
 				<td>작성자</td>
-				<td>관리자</td>
-				<input type="hidden" name="writer" value="관리자"/>
+				<td>관리자
+					<input type="hidden" name="writer" value="관리자"/>
+				</td>
+				
 			</tr>
 			<tr>
 				<td>내용</td>

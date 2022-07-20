@@ -40,5 +40,7 @@ public interface Post_BoardMapper {
 	
 	public int getMemberReport(MemberReportDTO mr);
 	
+	public int getMemberReportCnt(MemberReportDTO mr);
+	
 	
 }

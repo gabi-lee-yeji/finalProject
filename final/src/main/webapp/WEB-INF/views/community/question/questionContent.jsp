@@ -23,6 +23,10 @@
 	<div>
 		<jsp:include page="/WEB-INF/views/board/commForm.jsp" flush="false"/>
 	</div>
+	<br/><br/>
+	<c:if test="${memberStatus == 1}">
+		<c:import url = "/admin/board/reportDetails" />
+	</c:if>
 	
 <script>
 	function memberReport(pnum){

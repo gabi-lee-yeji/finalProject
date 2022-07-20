@@ -34,14 +34,19 @@ public class CommunityController {
 	@RequestMapping("addComm")
 	public String addComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr) {
 		
+		Post_BoardDTO board = service.post_BoardContent(comm.getPnum());
+		
 		service.addComm_Board(comm);
 		
 		rttr.addAttribute("pnum", comm.getPnum());
 		rttr.addAttribute("pageNum", pageNum);
-		return "redirect:/community/review/reviewContent";
+		
+		String url = board.getBoard_mapping();
+		
+		return "redirect:/"+url;
 	}
 	
-	// ��� ����
+	// 댓글 삭제
 	@RequestMapping("delComm")
 	public String delComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr, HttpSession session) {
 		String sid = (String)session.getAttribute("sid");
@@ -50,12 +55,17 @@ public class CommunityController {
 			service.delComm_Board(comm.getComm_num());
 		}
 		
+		Post_BoardDTO board = service.post_BoardContent(comm.getPnum());
+		
 		rttr.addAttribute("pnum", comm.getPnum());
 		rttr.addAttribute("pageNum", pageNum);
-		return "redirect:/community/review/reviewContent";
+
+		String url = board.getBoard_mapping();
+		
+		return "redirect:/"+url;
 	}
 
-	// ��� ����
+	// 댓글 수정
 	@RequestMapping("modComm")
 	public String modComm(int comm_num, Model model) {
 		
@@ -76,7 +86,7 @@ public class CommunityController {
 		return "board/modCommPro";
 	}
 	
-	// ȸ�� �� �Ű�
+	// 회원 신고
 	@RequestMapping("memberReportForm")
 	public String memberReportForm(Post_BoardDTO board, Comm_BoardDTO comm, Model model) {
 		
@@ -94,21 +104,9 @@ public class CommunityController {
 	// member_report DB�� ���� �Ű���/�Ű���ϴ���/�۹�ȣ�� �ش��ϴ� ���� ������ �Ű� �Ұ�
 	@RequestMapping("memberReportPro")
 	public String memberReportPro(MemberReportDTO mr, Model model) {
-		
-		if(mr.getMemid().equals(mr.getReport_id())) {
-			int result = 0;
-			model.addAttribute("result", result);
-		}else {
-			
-			int countMr = service.getMemberReport(mr);
-			if(countMr == 0) {
-				int result = service.addMemberReport(mr);
-				model.addAttribute("result", result);
-			}else {
-				int result = 2;
-				model.addAttribute("result", result);
-			}
-		}
+
+		int result = service.addMemberReport(mr);
+		model.addAttribute("result", result);
 		
 		return "board/memberReportPro";
 	}
@@ -192,19 +190,24 @@ public class CommunityController {
 		model.addAttribute("keyword", keyword);
 	}
 	
-	public void boardContent(int pnum, String pageNum, Model model) {
+	public void boardContent(HttpSession session, int pnum, String pageNum, Model model) {
 
 		Post_BoardDTO board = service.post_BoardContent(pnum);
 		List<Post_BoardAttachDTO> boardAttach = service.post_BoardAttachLists(pnum);
-		System.out.println(boardAttach);
 		
 		if(!boardAttach.isEmpty()) {
 			model.addAttribute("boardAttach", boardAttach);
 		}
-		
 
 		int comm_BoardCount = service.comm_BoardCount(pnum);
 		List<Comm_BoardDTO> commList = service.comm_BoardLists(pnum);
+		
+		String sid = (String)session.getAttribute("sid");
+		
+		if(sid != null) {
+			int memberStatus = mService.memberStatusCheck(sid);
+			model.addAttribute("memberStatus", memberStatus);
+		}
 
 		model.addAttribute("board", board);
 		model.addAttribute("pageNum", pageNum);
@@ -270,8 +273,8 @@ public class CommunityController {
 	
 	// 리뷰, 꿀팁 글 보기
 	@RequestMapping("review/reviewContent")
-	public String reviewContent(int pnum, String pageNum, Model model) {
-		boardContent(pnum, pageNum, model);
+	public String reviewContent(HttpSession session, int pnum, String pageNum, Model model) {
+		boardContent(session, pnum, pageNum, model);
 		return "community/review/reviewContent";
 	}
 	
@@ -329,8 +332,8 @@ public class CommunityController {
 	
 	// ������ �󼼺���
 	@RequestMapping("question/questionContent")
-	public String questionContent(int pnum, String pageNum, Model model) {
-		boardContent(pnum, pageNum, model);
+	public String questionContent(HttpSession session, int pnum, String pageNum, Model model) {
+		boardContent(session, pnum, pageNum, model);
 		return "community/question/questionContent";
 	}
 	
@@ -387,8 +390,8 @@ public class CommunityController {
 	
 	// �ڰ��� ���� �󼼺���
 	@RequestMapping("info/infoContent")
-	public String infoContent(int pnum, String pageNum, Model model) {
-		boardContent(pnum, pageNum, model);
+	public String infoContent(HttpSession session, int pnum, String pageNum, Model model) {
+		boardContent(session, pnum, pageNum, model);
 		return "community/info/infoContent";
 	}
 	
@@ -445,8 +448,8 @@ public class CommunityController {
 	
 	// ���ػ� ���� �� �󼼺���
 	@RequestMapping("job_seeker/job_seekerContent")
-	public String job_seekerContent(int pnum, String pageNum, Model model) {
-		boardContent(pnum, pageNum, model);
+	public String job_seekerContent(HttpSession session, int pnum, String pageNum, Model model) {
+		boardContent(session, pnum, pageNum, model);
 		return "community/job_seeker/job_seekerContent";
 	}
 	
