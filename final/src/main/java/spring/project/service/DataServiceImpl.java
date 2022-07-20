@@ -355,6 +355,34 @@ public class DataServiceImpl implements DataService {
 		}
 	}
 	
+	@Override
+	@Transactional
+	public void addCertiReq() throws Exception{
+		FileInputStream fis = new FileInputStream(new File("f:/data/req.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			
+			CertiRequirementDTO dto = new CertiRequirementDTO();
+			if(!datas[0].equals("")) {
+				dto.setCnum(mapper.findCnum(datas[0]));
+				if(dto.getCnum() == null) System.out.println(datas[0]);
+			}
+			dto.setClevel(datas[1]);
+			dto.setReq_degree(datas[2]);
+			if(!datas[3].equals(""))
+				dto.setReq_age(Integer.parseInt(datas[3]));
+			dto.setPre_requisite(datas[4]);
+			dto.setRef(datas[5]);
+			if(!datas[6].equals(""))
+			dto.setReq_exp(Integer.parseInt(datas[6]));
+			
+			mapper.addCertiReq(dto);
+		}
+	}
+	
 	//시험정보 줄글 split하기
 	private HashMap<String,String> splitd4(String data) {
 		

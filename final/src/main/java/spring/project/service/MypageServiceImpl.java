@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import spring.project.mapper.MypageMapper;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.MemberCertiDTO;
+import spring.project.model.MemberLikeDTO;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -29,7 +30,7 @@ public class MypageServiceImpl implements MypageService{
 			mapper.addMemberCertiNew(dto);
 		}else {
 			//DB에 존재하는 자격증인 경우
-			mapper.addMemberCertiFromDB(dto);
+			mapper.addMemberCertiExist(dto);
 		}
 	}
 	
@@ -51,8 +52,25 @@ public class MypageServiceImpl implements MypageService{
 	}
 	
 	@Override
-	public void deleteMemberCerti(String mcnum) {
-		mapper.deleteMemberCerti(mcnum);
+	public void deleteMemberCerti(MemberCertiDTO dto) {
+		mapper.deleteMemberCerti(dto);
+	}
+	
+	@Override
+	public void addMemberLike(MemberLikeDTO dto) {
+		mapper.addMemberLike(dto);
+	}
+	
+	@Override
+	public ArrayList<CertiInfoDTO> memberLikeList(String sid) {
+		if(sid==null)
+			return null;
+		return mapper.memberLikeList(sid);
+	}
+	
+	@Override
+	public void deleteMemberLikePro(MemberLikeDTO dto) {
+		mapper.deleteMemberLike(dto);
 	}
 }
 

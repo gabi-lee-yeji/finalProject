@@ -16,4 +16,15 @@ public class MemberCertiDTO {
 	private String ctype;
 	private String clevel;
 	private int mcnum;
+	
+	public MemberCertiDTO() {
+		super();
+	}
+	public MemberCertiDTO(String memid, int mcnum) {
+		super();
+		this.memid = memid;
+		this.mcnum = mcnum;
+	}
+	
+	
 }

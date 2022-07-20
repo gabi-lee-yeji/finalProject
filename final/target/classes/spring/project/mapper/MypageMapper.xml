@@ -4,12 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.MypageMapper">
 
-	<delete id="deleteMemberCerti">
-		delete from member_cert where mcnum=#{mcnum}
+	<delete id="deleteMemberLike" parameterType="spring.project.model.MemberLikeDTO">
+		delete from member_like where cnum=#{cnum} and memid=#{memid}
+	</delete>
+
+	<select id="memberLikeList" resultType="spring.project.model.CertiInfoDTO">
+		select ci.* from member_like ml, certiinfo ci where ml.memid=#{memid} and ml.cnum=ci.cnum
+	</select>
+
+	<insert id="addMemberLike" parameterType="spring.project.model.MemberLikeDTO">
+		insert into member_like values(#{cnum}, #{memid})
+	</insert>
+
+	<delete id="deleteMemberCerti" parameterType="spring.project.model.MemberCertiDTO">
+		delete from member_cert where mcnum=#{mcnum} and memid=#{memid}
 	</delete>
 
 	<update id="updateMemberCerti" parameterType="spring.project.model.MemberCertiDTO">
-		update member_cert set expirydate=#{expirydate} where mcnum=#{mcnum}
+		update member_cert set expirydate=#{expirydate, jdbcType=DATE} 
+			where mcnum=#{mcnum} and memid=#{memid}
 	</update>
 
 	<select id="getMemberCerti" resultType="spring.project.model.MemberCertiDTO">
@@ -20,7 +33,7 @@
 		select * from member_cert where memid=#{memid}
 	</select>
 
-	<insert id="addMemberCertiFromDB" parameterType="spring.project.model.MemberCertiDTO">
+	<insert id="addMemberCertiExist" parameterType="spring.project.model.MemberCertiDTO">
 		insert into member_cert values(
 			#{memid},
 			#{cnum, jdbcType=VARCHAR},

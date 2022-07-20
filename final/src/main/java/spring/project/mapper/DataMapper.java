@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiMatchDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
@@ -29,4 +30,5 @@ public interface DataMapper {
 	public void addNcsCode(NcsDTO dto);
 	public void addPrvInfo(CertiInfoDTO dto);
 	public void updatePrvInfo1(CertiInfoDTO dto);
+	public void addCertiReq(CertiRequirementDTO dto);
 }
