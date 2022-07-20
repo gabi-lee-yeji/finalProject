@@ -9,6 +9,7 @@
 <title>꿀팁, 후기</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>
 		<c:if test="${search eq 'writer' }">
 			작성자 

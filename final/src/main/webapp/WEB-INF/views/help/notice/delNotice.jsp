@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<head>
+<meta charset="UTF-8">
 <title>공지사항</title>
-
+</head>
+<body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 <h1>공지글 삭제</h1>
 <form action="/help/notice/delNoticePro" method="get">
 	<input type="hidden" name="pnum" value="${pnum}" />
@@ -17,3 +21,4 @@
 		</tr>
 	</table>
 </form>
+</body>

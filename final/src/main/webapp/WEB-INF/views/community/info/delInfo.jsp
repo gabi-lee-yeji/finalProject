@@ -7,6 +7,7 @@
 <title>자격증 정보</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>자격증 정보 삭제</h1>
 <form action="/community/info/delInfoPro" method="post">
 	<jsp:include page="/WEB-INF/views/board/delBoardForm.jsp" flush="false"/>

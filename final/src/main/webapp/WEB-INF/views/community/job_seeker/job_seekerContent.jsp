@@ -8,6 +8,7 @@
 <title>질문글</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>질문글 글보기</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
 	<input type="button" value="수정" onclick="window.location = '/community/question/modQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />

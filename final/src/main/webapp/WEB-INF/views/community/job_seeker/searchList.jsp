@@ -9,6 +9,7 @@
 <title>질문글</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>
 		<c:if test="${search eq 'writer' }">
 			작성자 

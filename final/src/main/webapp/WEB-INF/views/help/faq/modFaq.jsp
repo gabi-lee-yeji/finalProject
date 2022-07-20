@@ -7,6 +7,7 @@
 <title>FAQ</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 <h1>자주하는 질문 수정</h1>
 <form action="/help/faq/modFaqPro" method="get">
 	<input type="hidden" name="pnum" value="${dto.pnum}" />

@@ -42,9 +42,9 @@
 	        고객센터 
 	      </a>
 	      <div class="dropdown-menu">
-	      	<a class="dropdown-item" href="/help/notice/noticeList">공지사항</a>
-	      	<a class="dropdown-item" href="/help/faq/faqList">자주하는 질문</a>
-	      	<a class="dropdown-item" href="/help/qna/qnaList">1:1 문의</a>
+	      	<a class="dropdown-item" href="/help/notice/noticeList?board_type=1">공지사항</a>
+	      	<a class="dropdown-item" href="/help/faq/faqList?board_type=2">자주하는 질문</a>
+	      	<a class="dropdown-item" href="/help/qna/qnaList?board_type=3">1:1 문의</a>
 	      </div>
 	    </li>
 	    
@@ -53,10 +53,10 @@
 	        커뮤니티
 	      </a>
 	      <div class="dropdown-menu">
-	      	<a class="dropdown-item" href="/community/review/reviewList">꿀팁 / 후기</a>
-	      	<a class="dropdown-item" href="/community/question/questionList">질문글</a>
-	      	<a class="dropdown-item" href="/community/info/infoList">자격증 정보</a>
-	      	<a class="dropdown-item" href="/community/job_seeker/job_seekerList">취준생 공간</a>
+	      	<a class="dropdown-item" href="/community/review/reviewList?board_type=4">꿀팁 / 후기</a>
+	      	<a class="dropdown-item" href="/community/question/questionList?board_type=5">질문글</a>
+	      	<a class="dropdown-item" href="/community/info/infoList?board_type=6">자격증 정보</a>
+	      	<a class="dropdown-item" href="/community/job_seeker/job_seekerList?board_type=7">취준생 공간</a>
 	      </div>
 	    </li>
 	    

@@ -7,6 +7,7 @@
 <title>꿀팁, 후기</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>꿀팁, 후기 글 삭제</h1>
 <form action="/community/review/delReviewPro" method="post">
 	<jsp:include page="/WEB-INF/views/board/delBoardForm.jsp" flush="false"/>

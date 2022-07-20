@@ -7,6 +7,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>공지사항 등록</h1>
 	<form action="/help/notice/addNoticePro" name="addNotice" method="post" encType="multipart/form-data" >
 	<input type="hidden" name="board_type" value="1" />

@@ -8,6 +8,7 @@
 <title>1:1문의</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>1:1문의 목록(전체 글:${count})</h1>
 	<c:if test="${count == 0}">
 		<table border=1>

@@ -6,6 +6,7 @@
 	<title>1:1 문의</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 <c:if test="${pnum == 0}" >
 	<h1>1:1 문의 글 쓰기</h1>
 	<form action="/help/qna/addQnaPro" name="addQna" method="get" >

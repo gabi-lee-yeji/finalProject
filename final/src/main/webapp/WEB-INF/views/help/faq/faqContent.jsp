@@ -7,6 +7,7 @@
 <title>FAQ</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 <h1>자주하는 질문 보기</h1>
 	<table>
 		<tr>

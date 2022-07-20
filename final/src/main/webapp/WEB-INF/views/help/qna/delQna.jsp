@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<head>
+<meta charset="UTF-8">
 <title>1:1 문의</title>
+</head>
 
+<body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 <h1>1:1 문의 삭제</h1>
 <form action="/help/qna/delQnaPro" method="get">
 	<input type="hidden" name="pnum" value="${pnum}" />
@@ -17,3 +22,4 @@
 		</tr>
 	</table>
 </form>
+

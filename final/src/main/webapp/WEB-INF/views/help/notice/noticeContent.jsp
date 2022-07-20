@@ -6,6 +6,7 @@
 
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<table border=1>
 		<tr>
 			<td>제목</td>

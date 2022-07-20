@@ -5,6 +5,7 @@
 <title>공지사항</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>공지사항 글 수정</h1>
 	<form action="/help/notice/modNoticePro" method="get" >
 	<input type="hidden" name="pnum" value="${dto.pnum}" />

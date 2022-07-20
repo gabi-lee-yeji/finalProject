@@ -7,6 +7,7 @@
 <title>1:1 문의</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 <h1>1:1 문의 수정</h1>
 	<form action="/help/qna/modQnaPro" method="get">
 	<input type="hidden" name="pnum" value="${dto.pnum}" />

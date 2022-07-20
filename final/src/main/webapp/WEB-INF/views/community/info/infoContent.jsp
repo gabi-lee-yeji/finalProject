@@ -8,6 +8,7 @@
 <title>자격증 정보</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>자격증 정보 글보기</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
 	<input type="button" value="수정" onclick="window.location = '/community/info/modInfo?pnum=${board.pnum}&pageNum=${pageNum}' " />

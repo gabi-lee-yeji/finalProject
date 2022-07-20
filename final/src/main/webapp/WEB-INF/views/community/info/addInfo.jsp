@@ -9,6 +9,7 @@
 <title>자격증 정보</title>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<c:if test="${pnum == 0}" >
 		<h1>자격증 정보 등록</h1>
 		<form action="/community/info/addInfoPro" name="addNotice" method="post" encType="multipart/form-data" >

@@ -7,6 +7,7 @@
 <title>자격증 정보</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>자격증 정보 수정</h1>
 	<form action="/community/info/modInfoPro" method="post">
 		<jsp:include page="/WEB-INF/views/board/modBoardForm.jsp" flush="false"/>

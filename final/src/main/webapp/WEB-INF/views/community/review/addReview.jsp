@@ -9,6 +9,7 @@
 <title>꿀팁, 후기</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<c:if test="${pnum == 0}" >
 		<h1>꿀팁, 후기 등록</h1>
 		<form action="/community/review/addReviewPro" name="addReview" method="post" encType="multipart/form-data" >

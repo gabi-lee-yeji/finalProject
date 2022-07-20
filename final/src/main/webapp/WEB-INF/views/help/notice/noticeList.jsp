@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>공지사항 목록(전체 글:${count})</h1>
 	<c:if test="${count == 0}">
 		<table border=1>

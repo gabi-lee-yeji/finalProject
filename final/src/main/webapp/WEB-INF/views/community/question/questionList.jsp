@@ -11,6 +11,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>질문글 목록(전체 글:${count})</h1>
 	
 	<c:if test="${count == 0}">

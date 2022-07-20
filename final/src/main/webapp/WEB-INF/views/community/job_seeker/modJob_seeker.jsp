@@ -7,6 +7,7 @@
 <title>취준생 공간</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>취준생 공간 글 수정</h1>
 	<form action="/community/job_seeker/modJob_seekerPro" method="post">
 		<jsp:include page="/WEB-INF/views/board/modBoardForm.jsp" flush="false"/>

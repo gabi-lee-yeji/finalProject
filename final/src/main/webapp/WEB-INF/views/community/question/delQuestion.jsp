@@ -7,6 +7,7 @@
 <title>질문글</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>질문글 삭제</h1>
 <form action="/community/question/delQuestionPro" method="post">
 	<jsp:include page="/WEB-INF/views/board/delBoardForm.jsp" flush="false"/>

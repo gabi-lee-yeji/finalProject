@@ -7,6 +7,7 @@
 <title>1:1문의 글</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>1:1문의 글 보기</h1>
 	<table border=1>
 		<tr>
