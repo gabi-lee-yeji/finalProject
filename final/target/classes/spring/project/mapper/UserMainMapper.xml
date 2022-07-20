@@ -3,6 +3,41 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.UserMainMapper">
+	<select id="" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select 
+					a.pnum, a.comm_content, b.subject, b.reg, c.board_name, c.board_mapping from 
+				    (select * from comm_board 
+				        where comm_content like '%${keyword}%') a,
+				    post_board b,
+				    boardtype c
+		    		where a.pnum=b.pnum 
+		    		and b.board_type=c.board_type) list)
+	    	where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getHelpBoardSearchList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from post_board 
+					where subject like '%${keyword}%' or post_content like '%{keyword}%' 
+					and board_type in (1,2) order by reg desc) list)
+			where r between #{keyword} and #{keyword}
+	</select>
+	<select id="getCommBoardSearchList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from post_board 
+					where subject like '%${keyword}%' or post_content like '%{keyword}%' 
+					and board_type in (4,5,6,7) order by reg desc) list)
+			where r between #{keyword} and #{keyword}
+	</select>
+	<select id="getCertiSearchList" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+			(select rownum r, a.* from 
+				(select * from certiinfo where cname like '%${keyword}%' order by cnum) a)
+			where r between #{startRow} and #{endRow}
+	</select>
 	<select id="getPrvTopCerti" resultType="String" >
 		select cname from (select rownum r, list.* from 
 			(select cname, sum(applied) as applied from pass_rate 

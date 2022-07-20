@@ -41,8 +41,36 @@ public class CertiDateDTO implements CertiAccessible{
     private String pracResStart ;
     private String pracResEnd ;
     
-    private int datepk;
-    
+    public CertiDateDTO() {};
+	public CertiDateDTO(String cnum, int cyear, Integer cround, String clevel, String docRegStart1,
+			String docRegEnd1, String docRegStart2, String docRegEnd2, String docTestStart, String docTestEnd,
+			String docResultStart, String docResultEnd, String docSubmitStart, String docSubmitEnd,
+			String pracRegStart1, String pracRegEnd1, String pracRegStart2, String pracRegEnd2, String pracTestStart,
+			String pracTestEnd, String pracResStart, String pracResEnd) {
+		super();
+		this.cnum = cnum;
+		this.cyear = cyear;
+		this.cround = cround;
+		this.clevel = clevel;
+		this.docRegStart1 = docRegStart1;
+		this.docRegEnd1 = docRegEnd1;
+		this.docRegStart2 = docRegStart2;
+		this.docRegEnd2 = docRegEnd2;
+		this.docTestStart = docTestStart;
+		this.docTestEnd = docTestEnd;
+		this.docResultStart = docResultStart;
+		this.docResultEnd = docResultEnd;
+		this.docSubmitStart = docSubmitStart;
+		this.docSubmitEnd = docSubmitEnd;
+		this.pracRegStart1 = pracRegStart1;
+		this.pracRegEnd1 = pracRegEnd1;
+		this.pracRegStart2 = pracRegStart2;
+		this.pracRegEnd2 = pracRegEnd2;
+		this.pracTestStart = pracTestStart;
+		this.pracTestEnd = pracTestEnd;
+		this.pracResStart = pracResStart;
+		this.pracResEnd = pracResEnd;
+	}
     
 //    public String getDocRegStart1() {
 //    	if(!docRegStart1.split(" ")[1].startsWith("00")) {

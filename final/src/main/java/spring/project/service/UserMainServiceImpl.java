@@ -3,6 +3,7 @@ package spring.project.service;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import spring.project.mapper.UserMainMapper;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.MemberInfoDTO;
+import spring.project.model.SearchAccessible;
+import spring.project.pagination.PagingDTO;
 
 @Service
 public class UserMainServiceImpl implements UserMainService{
@@ -78,6 +81,17 @@ public class UserMainServiceImpl implements UserMainService{
 	@Override
 	public List<String> getPrvTopCerti() {
 		return mapper.getPrvTopCerti();
+	}
+
+	@Override
+	public List<CertiInfoDTO> getCertiSearchList(PagingDTO page, String keyword) {
+		return mapper.getCertiSearchList(page.getStartRow(), page.getEndRow(), keyword);
+	}
+
+	@Override
+	public Map<String, List<SearchAccessible>> getSearchList(PagingDTO page, String keyword) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

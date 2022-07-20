@@ -55,7 +55,8 @@
 	      <div class="dropdown-menu">
 	      	<a class="dropdown-item" href="/admin/board/list">전체 게시판 목록</a>
 	      	<a class="dropdown-item" href="/admin/board/request">1:1문의(신규)</a>
-	      	<a class="dropdown-item" href="/help/notice/noticeList">공지사항(사용자)</a>
+	      	<hr>
+	      	<a class="dropdown-item" href="/help/notice/noticeList?board_type=1">공지사항(사용자)</a>
 	      </div>
 	    </li>
 	    

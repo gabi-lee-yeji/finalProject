@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -82,7 +83,6 @@ public class AdminController {
 		//한 페이지에 보여주고 싶은 게시글수 매개변수로 전달
 		int pageSize = 30;
 		PagingDTO page = pageService.getPaging(pageSize, pageNum);
-		
 		model.addAttribute("list", service.getCertList(page, sort, order, category));
 		model.addAttribute("count", service.getCertCnt(category));
 		
@@ -140,16 +140,50 @@ public class AdminController {
 		return "admin/certi/addDate";
 	}
 	@RequestMapping("certi/addDatePro")
-	public String addDate(CertiDateDTO dto, String cname, Model model) {
-		model.addAttribute("result", service.addCertiDate(dto));
+	public String addDate(HttpServletRequest request, String cnum, String cname, String clevel, Integer count, Model model) {
+		int result = 0;
 		
-		model.addAttribute("cnum", dto.getCnum());
+		for(int i=1;i<=count;i++) {
+			int cyear = Integer.parseInt(request.getParameter("cyear"+i));
+			int cround = Integer.parseInt(request.getParameter("cround"+i));
+			CertiDateDTO dto = new CertiDateDTO(
+						cnum,
+						cyear,
+						cround,
+						clevel,
+						request.getParameter("docRegStart1"+i),
+						request.getParameter("docRegEnd1"+i),
+						request.getParameter("docRegStart2"+i),
+						request.getParameter("docRegEnd2"+i),
+						request.getParameter("docTestStart"+i),
+						request.getParameter("docTestEnd"+i),
+						request.getParameter("docResultStart"+i),
+						request.getParameter("docResultEnd"+i),
+						request.getParameter("docSubmitStart"+i),
+						request.getParameter("docSubmitEnd"+i),
+						request.getParameter("pracRegStart1"+i),
+						request.getParameter("pracRegEnd1"+i),
+						request.getParameter("pracRegStart2"+i),
+						request.getParameter("pracRegEnd2"+i),
+						request.getParameter("pracTestStart"+i),
+						request.getParameter("pracTestEnd"+i),
+						request.getParameter("pracResStart"+i),
+						request.getParameter("pracResEnd"+i)
+					);
+			System.out.println(dto);
+			result += service.addCertiDate(dto);
+		}
+		
+		model.addAttribute("result", result);
+		model.addAttribute("cnum", cnum);
 		model.addAttribute("cname", cname);
 		return "admin/certi/addDatePro";
 	}
+	
 	//자격증 일정 추가 테이블
 	@RequestMapping("certi/addDateTbl")
-	public String ajaxDateTbl() {
+	public String ajaxDateTbl(String count, Model model) {
+		model.addAttribute("count", count);
 		return "admin/ajax/addDateTbl";
 	}
 	

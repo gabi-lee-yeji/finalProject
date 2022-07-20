@@ -44,6 +44,8 @@
 		<input type="hidden" value="${info.cname }" name="cname" id="cnum">
 		<input type="hidden" value="${info.clevel }" name="clevel">
 		
+		<input type="hidden" id="count" name="count" value="0">
+		
 		<div id="insertDate"></div>
 		
 		<input id ="submitBtn" type="submit" value="일정 등록" >
@@ -51,14 +53,15 @@
 </body>
 
 <script>
-
 	addDate();
 	
 	function addDate(){
 		$.ajax({
-			url : "/admin/certi/addDateTbl",
+			url : "/admin/certi/addDateTbl?count="+(parseInt($("#count").val())+1),
 			success : function(data){
 				$("#insertDate").append(data);
+				
+				$("#count").val(parseInt($("#count").val())+1);
 			}
 		})
 	}

@@ -6,7 +6,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class CertiInfoDTO implements CertiAccessible{
+public class CertiInfoDTO implements CertiAccessible, SearchAccessible {
 	private String cnum; //�ڰ��� ������ȣ (PK)
 	private String cname;
 	private String category; // �������?, �ΰ�, ����
