@@ -23,14 +23,17 @@ public class MypageServiceImpl implements MypageService{
 	}
 	
 	@Override
-	public void addMemberCerti(MemberCertiDTO dto) {
+	public int addMemberCerti(MemberCertiDTO dto) {
 
-		if(dto.getCnum() == null) {
+		//결과 : 중복 = -1, 성공 = 1, 실패 = 0
+		if(dto.getCnum().equals("")) {
 			//DB에 없는 자격증인 경우
-			mapper.addMemberCertiNew(dto);
+			if(mapper.chkMemberCertiNew(dto) == 1) return -1;
+			return mapper.addMemberCertiNew(dto);
 		}else {
 			//DB에 존재하는 자격증인 경우
-			mapper.addMemberCertiExist(dto);
+			if(mapper.chkMemberCertiExist(dto)==1) return -1;
+			return mapper.addMemberCertiExist(dto);
 		}
 	}
 	
@@ -57,8 +60,10 @@ public class MypageServiceImpl implements MypageService{
 	}
 	
 	@Override
-	public void addMemberLike(MemberLikeDTO dto) {
-		mapper.addMemberLike(dto);
+	public int addMemberLike(MemberLikeDTO dto) {
+		//TODO 자격증 중복 확인
+		if(mapper.chkMemberLike(dto) == 1) return -1;
+		return mapper.addMemberLike(dto);
 	}
 	
 	@Override

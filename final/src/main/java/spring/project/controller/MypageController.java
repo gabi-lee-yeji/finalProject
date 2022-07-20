@@ -28,8 +28,8 @@ public class MypageController {
 	}
 	
 	@RequestMapping("addMemberCertiPro")
-	public String addMemberCertiPro(MemberCertiDTO dto) {
-		service.addMemberCerti(dto);
+	public String addMemberCertiPro(Model model, MemberCertiDTO dto) {
+		model.addAttribute("result", service.addMemberCerti(dto));
 		return "mypage/addMemberCertiPro";
 	}
 	
@@ -67,8 +67,8 @@ public class MypageController {
 	}
 	
 	@RequestMapping("addMemberLikePro")
-	public String addMemberLikePro(MemberLikeDTO dto) {
-		service.addMemberLike(dto);
+	public String addMemberLikePro(Model model, MemberLikeDTO dto) {
+		model.addAttribute("result",service.addMemberLike(dto));
 		return "mypage/addMemberLikePro";
 	}
 	

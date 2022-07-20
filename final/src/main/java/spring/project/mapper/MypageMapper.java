@@ -11,14 +11,18 @@ import spring.project.model.MemberLikeDTO;
 public interface MypageMapper {
 	public ArrayList<CertiInfoDTO> getCertiSearch();
 	
-	public void addMemberCertiExist(MemberCertiDTO dto);
-	public void addMemberCertiNew(MemberCertiDTO dto);
+	public int addMemberCertiExist(MemberCertiDTO dto);
+	public int addMemberCertiNew(MemberCertiDTO dto);
 	public ArrayList<MemberCertiDTO> memberCertiList(String memid);
 	public MemberCertiDTO getMemberCerti(String mcnum);
 	public void updateMemberCerti(MemberCertiDTO dto);
 	public void deleteMemberCerti(MemberCertiDTO dto);
 	
-	public void addMemberLike(MemberLikeDTO dto);
+	public int addMemberLike(MemberLikeDTO dto);
 	public ArrayList<CertiInfoDTO> memberLikeList(String memid);
 	public void deleteMemberLike(MemberLikeDTO dto); 
+	
+	public int chkMemberCertiExist(MemberCertiDTO dto);
+	public int chkMemberCertiNew(MemberCertiDTO dto);
+	public int chkMemberLike(MemberLikeDTO dto);
 }

@@ -99,7 +99,12 @@
 					<c:if test="${likeInfoDTO.cnum != null }">
 						<a href="/certificate/certiContent?cnum=${likeInfoDTO.cnum }">
 					</c:if>
-					${likeInfoDTO.cname }
+					<c:if test="${likeInfoDTO.cnum.charAt(0) == 80 }">
+						${likeInfoDTO.cname.concat(likeInfoDTO.clevel) }
+					</c:if>
+					<c:if test="${likeInfoDTO.cnum.charAt(0) != 80 }">
+						${likeInfoDTO.cname}
+					</c:if>
 					<c:if test="${likeInfoDTO.cnum != null }">
 						</a>
 					</c:if>

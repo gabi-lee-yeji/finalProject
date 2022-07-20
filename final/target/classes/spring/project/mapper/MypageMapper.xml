@@ -4,6 +4,18 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.MypageMapper">
 
+	<select id="chkMemberLike" resultType="int" parameterType="spring.project.model.MemberLikeDTO">
+		select count(*) from member_like where memid=#{memid} and cnum=#{cnum}
+	</select>
+
+	<select id="chkMemberCertiExist" resultType="int" parameterType="spring.project.model.MemberCertiDTO">
+		select count(*) from member_cert where memid=#{memid} and cnum=#{cnum}
+	</select>
+
+	<select id="chkMemberCertiNew" resultType="int" parameterType="spring.project.model.MemberCertiDTO">
+		select count(*) from member_cert where memid=#{memid} and cert_name=#{cert_name}
+	</select>
+
 	<delete id="deleteMemberLike" parameterType="spring.project.model.MemberLikeDTO">
 		delete from member_like where cnum=#{cnum} and memid=#{memid}
 	</delete>
@@ -47,7 +59,7 @@
 	
 	<insert id="addMemberCertiNew" parameterType="spring.project.model.MemberCertiDTO">
 		insert into member_cert(memid,cert_name,expirydate,mcnum) 
-			values(#{memid},#{cert_name},#{expirydate},mc_seq.nextval)
+			values(#{memid},#{cert_name},#{expirydate,jdbcType=DATE},mc_seq.nextval)
 	</insert>
 
 	<select id="getCertiSearch" resultType="spring.project.model.CertiInfoDTO">

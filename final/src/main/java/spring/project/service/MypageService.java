@@ -12,7 +12,7 @@ public interface MypageService {
 	public ArrayList<CertiInfoDTO> getCertiSearch();
 	
 	//보유자격증 추가
-	public void addMemberCerti(MemberCertiDTO dto);
+	public int addMemberCerti(MemberCertiDTO dto);
 	
 	//보유자격증 리스트
 	public ArrayList<MemberCertiDTO> memberCertiList(String sid);
@@ -27,7 +27,7 @@ public interface MypageService {
 	public void deleteMemberCerti(MemberCertiDTO dto);
 	
 	//add into member_like
-	public void addMemberLike(MemberLikeDTO dto);
+	public int addMemberLike(MemberLikeDTO dto);
 	
 	//관심자격증 리스트
 	public ArrayList<CertiInfoDTO> memberLikeList(String sid);
