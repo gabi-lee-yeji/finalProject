@@ -240,9 +240,6 @@ public class DataServiceImpl implements DataService {
 			dto.setCnum("N"+String.format("%05d", am.findNextseq("NAT_SEQ")));
 			
 			mapper.addNatData(dto);
-			CertiRequirementDTO req = new CertiRequirementDTO();
-			req.setCnum(dto.getCnum());
-			am.addCertiReq(req);
 		}
 	}
 	

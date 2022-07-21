@@ -15,14 +15,14 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<a href="${dto.link }" target="_blank">
+					<a href="${dto.link }" target="_blank" rel="noopener noreferrer">
 						${dto.title }
 					</a>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<a href="${dto.link }" target="_blank">
+					<a href="${dto.link }" target="_blank" rel="noopener noreferrer">
 						${dto.content }
 					</a>
 				</td>

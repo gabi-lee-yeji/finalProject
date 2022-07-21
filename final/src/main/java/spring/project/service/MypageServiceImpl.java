@@ -39,7 +39,7 @@ public class MypageServiceImpl implements MypageService{
 	
 	@Override
 	public ArrayList<MemberCertiDTO> memberCertiList(String sid){
-		if(sid==null)
+		if(sid==null) //로그인 안된경우
 			return null;
 		return mapper.memberCertiList(sid);
 	}
@@ -61,14 +61,14 @@ public class MypageServiceImpl implements MypageService{
 	
 	@Override
 	public int addMemberLike(MemberLikeDTO dto) {
-		//TODO 자격증 중복 확인
+		//결과 : 중복 = -1, 성공 = 1, 실패 = 0
 		if(mapper.chkMemberLike(dto) == 1) return -1;
 		return mapper.addMemberLike(dto);
 	}
 	
 	@Override
 	public ArrayList<CertiInfoDTO> memberLikeList(String sid) {
-		if(sid==null)
+		if(sid==null) //로그인 안된경우
 			return null;
 		return mapper.memberLikeList(sid);
 	}

@@ -21,7 +21,8 @@
 	</delete>
 
 	<select id="memberLikeList" resultType="spring.project.model.CertiInfoDTO">
-		select ci.* from member_like ml, certiinfo ci where ml.memid=#{memid} and ml.cnum=ci.cnum
+		select ci.* from member_like ml, certiinfo ci 
+			where ml.memid=#{memid} and ml.cnum=ci.cnum
 	</select>
 
 	<insert id="addMemberLike" parameterType="spring.project.model.MemberLikeDTO">
