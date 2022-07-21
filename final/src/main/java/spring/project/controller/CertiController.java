@@ -18,6 +18,7 @@ import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
+import spring.project.model.LikeDTO;
 import spring.project.service.CertiService;
 
 @Controller
@@ -27,9 +28,9 @@ public class CertiController {
 	@Autowired
 	public CertiService service;
 	
-	// ��ü �ڰ��� ���
+	// 占쏙옙체 占쌘곤옙占쏙옙 占쏙옙占�
 	@RequestMapping("certiMain")
-	public String getCertiList(HttpServletRequest request, String cnum, String pageNum, String category, Model model,String clevel,String req_degree, String req_age,String req_exp){
+	public String getCertiList(LikeDTO like,HttpServletRequest request, String cnum, String pageNum, String category, Model model,String clevel,String req_degree, String req_age,String req_exp){
 		
 		if(pageNum == null) pageNum = "1";
 	      int pageSize = 15;
@@ -48,6 +49,8 @@ public class CertiController {
 		}		
 		number = count - (currentPage - 1) * pageSize;
 		
+		System.out.println(clevel);
+		
 		model.addAttribute("count", count);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pageSize", pageSize);
@@ -61,7 +64,7 @@ public class CertiController {
 		return "/certificate/certiMain";
 	}
 	
-	// �ڰ��� ������
+	// 자격증 상세정보
 	@RequestMapping("certiContent")
 		public String certiContent(String cnum, Model model) {
 		

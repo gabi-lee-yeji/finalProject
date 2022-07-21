@@ -21,7 +21,7 @@
 		<tr>
 			<th>${info.cname}</th>
 			<td>
-			<input type="button" value="+관심자격증" id="like" onClick="addLike(this.form)"/>
+				<input type="button" class="addlike" value="+관심자격증" onclick="location.href='/like/add?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
 			</td>
 		</tr>
 		<tr>
@@ -106,9 +106,11 @@
 			<td>관련 직업</td>
 			<td>${info.cjob}</td>
 		</tr>
+		<c:if test="${ncs_code != null}">
 		<tr>
-			<td>시행현황</td>
-			<td>${info.status}</td>
+			<td></td>
+			<td></td>
 		</tr>
+		</c:if>
 	</table>
 </body>

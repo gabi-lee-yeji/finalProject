@@ -25,7 +25,7 @@
 	<!-- 찜 확인 -->
 	<select id="checkLike" resultType="spring.project.model.LikeDTO">
 		select * from member_like 
-		where memid = #{memid} and cnum = #{cnum}
+		where memid=#{memid} and cnum=#{cnum}
 	</select>
 	
   </mapper>

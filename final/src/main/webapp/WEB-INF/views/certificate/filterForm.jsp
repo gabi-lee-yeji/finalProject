@@ -30,15 +30,7 @@
 		<input type="checkbox" name="req_degree" value="고졸">고등학교 졸업 이상<br/>
 		<input type="checkbox" name="req_degree" value="학력무관">학력 무관<br/>
 	<h3>경력</h3>
-		<input type="checkbox" name="req_exp" value="4년이상">4년 이상<br/>
-		<input type="checkbox" name="req_exp" value="2년이상">2년 이상<br/>
-		<input type="checkbox" name="req_exp" value="1년이상">1년 이상<br/>
-		<input type="checkbox" name="req_exp" value="경력무관">경력 무관<br/>
-		
-<h2>기간</h2>	
-	<input type="checkbox" name="date" value=""> <br/>
-	<input type="checkbox" name="date" value=""> <br/>
-	<input type="checkbox" name="date" value=""> <br/>
+		<input type="text" id="req_exp" name="req_exp"><br/>
 
 <input type="submit" value="적용"/>	
 </form>

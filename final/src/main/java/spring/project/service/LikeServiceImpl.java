@@ -10,23 +10,31 @@ import spring.project.model.LikeDTO;
 public class LikeServiceImpl implements LikeService{
 
 	@Autowired
-	private LikeMapper likeMapper;
+	private LikeMapper mapper;
 	
 	@Override
 	public int addLike(LikeDTO like) {
 		
-		LikeDTO checkLike = likeMapper.checkLike(like);
+		LikeDTO checkLike = mapper.checkLike(like);
 				
-		if(checkLike != null) {
+		if(checkLike == null) {
 			return 1;
+		}else if(checkLike != null) {
+			return 2;
 		}
 				
 		// Âò µî·Ï
 		try {
-			return likeMapper.addLike(like);
+			return mapper.addLike(like);
 		} catch (Exception e) {
 			return 0;
 		}
-
+		
+		
+		
+	}
+	@Override
+	public void deleteLikePro(LikeDTO like) {
+		mapper.deleteLike(like);
 	}
 }

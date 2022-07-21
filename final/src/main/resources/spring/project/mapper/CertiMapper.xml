@@ -10,7 +10,7 @@
 		select * from 
     		(select rownum r, list.* from 
 		        (select * from certiinfo a 
-		        left join certi_requirement b 
+		        full outer join certi_requirement b 
 		        on a.cnum=b.cnum
 				<where>
 					<if test="category != null">
@@ -29,13 +29,10 @@
 			         </foreach>
 			      </if>
 			      <if test="req_exp != null">
-			         or req_exp in
-			         <foreach collection="req_exp" item="exp" index="index" open="(" close=")" separator=",">
-			            #{exp}
-			         </foreach>
+			         or b.req_exp=#{req_exp}
 			      </if>		   
-			         <if test="clevel != null">
-						clevel=#{clevel} 
+			      <if test="clevel != null">
+					or a.clevel=#{clevel}
 					</if>
 				</where>	
 				) list)
@@ -96,38 +93,6 @@
 		where cnum=#{cnum,jdbcType=VARCHAR}
 	</select>
 		
-	<select id="getCertiFilter" resultType="spring.project.model.CertiInfoDTO"
-                        parameterType="spring.project.model.CertiInfoDTO">
-     select * from 
-    		(select rownum r, list.* from 
-		        (select * from certiinfo a 
-		        left join certi_requirement b 
-		        on a.cnum=b.cnum
-				<where>
-					<if test="req_degree != null">
-			         req_degree in
-			         <foreach collection="req_degree" item="degree" index="index" open="(" close=")" separator=",">
-			            #{degree}
-			         </foreach>
-			      </if>
-			      <if test="req_age != null">
-			         or req_age in
-			         <foreach collection="req_age" item="age" index="index" open="(" close=")" separator=",">
-			            #{age}
-			         </foreach>
-			      </if>
-			      <if test="req_exp != null">
-			         or req_exp in
-			         <foreach collection="req_exp" item="exp" index="index" open="(" close=")" separator=",">
-			            #{exp}
-			         </foreach>
-			      </if>
-			      <if test="clevel != null">
-						clevel=#{clevel} 
-					</if>
-				</where>	
-				) list)
-		where r between #{startRow} and #{endRow}
-   </select>
+
 		
 </mapper>

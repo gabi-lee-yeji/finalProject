@@ -10,7 +10,7 @@ public interface LikeMapper {
 	public int addLike(LikeDTO like);
 	
 	// Âò »èÁ¦
-	public int deleteLike(int memid);
+	public int deleteLike(LikeDTO like);
 	
 	// Âò ¸ñ·Ï
 	public List<LikeDTO> getLike(String memid);	

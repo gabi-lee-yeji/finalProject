@@ -6,4 +6,7 @@ public interface LikeService{
 	
 	// Âò Ãß°¡
 	public int addLike(LikeDTO like);
+	
+	// Âò »èÁ¦
+	public void deleteLikePro(LikeDTO like);
 }
