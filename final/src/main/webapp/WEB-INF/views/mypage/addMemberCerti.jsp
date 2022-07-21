@@ -37,6 +37,7 @@
 						</c:if>
 					</c:forEach>
 				</datalist>
+				<br/>
 				목록에 없는경우 자격증이름 직접입력
 			</td>
 		</tr>

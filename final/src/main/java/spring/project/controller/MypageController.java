@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.project.model.MemberCertiDTO;
+import spring.project.model.MemberLikeDTO;
 import spring.project.service.MypageService;
 
 @Controller
@@ -28,8 +29,7 @@ public class MypageController {
 	
 	@RequestMapping("addMemberCertiPro")
 	public String addMemberCertiPro(Model model, MemberCertiDTO dto) {
-		service.addMemberCerti(dto);
-		model.addAttribute("dto", dto);
+		model.addAttribute("result", service.addMemberCerti(dto));
 		return "mypage/addMemberCertiPro";
 	}
 	
@@ -54,8 +54,9 @@ public class MypageController {
 	}
 	
 	@RequestMapping("deleteMemberCertiPro")
-	public String deleteMemberCertiPro(String mcnum) {
-		service.deleteMemberCerti(mcnum);
+	public String deleteMemberCertiPro(String mcnum, HttpSession session) {
+		service.deleteMemberCerti(new MemberCertiDTO((String)session.getAttribute("sid"),
+														Integer.parseInt(mcnum)));
 		return "mypage/deleteMemberCertiPro";
 	}
 	
@@ -65,10 +66,37 @@ public class MypageController {
 		return "mypage/addMemberLike";
 	}
 	
-	@RequestMapping("session")
-	public void makeSession(HttpSession session) {
-		session.setAttribute("sid", "test");
+	@RequestMapping("addMemberLikePro")
+	public String addMemberLikePro(Model model, MemberLikeDTO dto) {
+		model.addAttribute("result",service.addMemberLike(dto));
+		return "mypage/addMemberLikePro";
 	}
+	
+	@RequestMapping("memberLikeList")
+	public String memberLikeList(Model model, HttpSession session) {
+		model.addAttribute("list", service.memberLikeList((String) session.getAttribute("sid")));
+		return "mypage/memberLikeList";
+	}
+	
+	@RequestMapping("deleteMemberLikePro")
+	public String deleteMemberLikePro(String cnum, HttpSession session) {
+		service.deleteMemberLikePro(new MemberLikeDTO(cnum,(String)session.getAttribute("sid")));
+		return "mypage/deleteMemberLikePro";
+	}
+	
+	@RequestMapping("")
+	public String mypageMain(Model model, HttpSession session) {
+		model.addAttribute("memberCertiList", service.memberCertiList((String) session.getAttribute("sid")));
+		return "mypage/main";
+	}
+	
+	@RequestMapping("memberCerti")
+	public String memberCerti(Model model, HttpSession session) {
+		model.addAttribute("certiList", service.memberCertiList((String) session.getAttribute("sid")));
+		model.addAttribute("likeList", service.memberLikeList((String) session.getAttribute("sid")));
+		return "mypage/memberCerti";
+	}
+	
 	
 }
 

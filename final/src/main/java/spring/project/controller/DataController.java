@@ -62,4 +62,9 @@ public class DataController {
 		ds.addPrvInfo();
 	}
 	
+	//자격증 응시조건 데이터 추가(certi_requirement)
+	@RequestMapping("addCertiReq")
+	public void addCertiReq() throws Exception {
+		ds.addCertiReq();
+	}
 }

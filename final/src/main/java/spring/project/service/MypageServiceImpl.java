@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import spring.project.mapper.MypageMapper;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.MemberCertiDTO;
+import spring.project.model.MemberLikeDTO;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -22,14 +23,17 @@ public class MypageServiceImpl implements MypageService{
 	}
 	
 	@Override
-	public void addMemberCerti(MemberCertiDTO dto) {
+	public int addMemberCerti(MemberCertiDTO dto) {
 
-		if(dto.getCnum() == null) {
+		//결과 : 중복 = -1, 성공 = 1, 실패 = 0
+		if(dto.getCnum().equals("")) {
 			//DB에 없는 자격증인 경우
-			mapper.addMemberCertiNew(dto);
+			if(mapper.chkMemberCertiNew(dto) == 1) return -1;
+			return mapper.addMemberCertiNew(dto);
 		}else {
 			//DB에 존재하는 자격증인 경우
-			mapper.addMemberCertiFromDB(dto);
+			if(mapper.chkMemberCertiExist(dto)==1) return -1;
+			return mapper.addMemberCertiExist(dto);
 		}
 	}
 	
@@ -51,8 +55,27 @@ public class MypageServiceImpl implements MypageService{
 	}
 	
 	@Override
-	public void deleteMemberCerti(String mcnum) {
-		mapper.deleteMemberCerti(mcnum);
+	public void deleteMemberCerti(MemberCertiDTO dto) {
+		mapper.deleteMemberCerti(dto);
+	}
+	
+	@Override
+	public int addMemberLike(MemberLikeDTO dto) {
+		//TODO 자격증 중복 확인
+		if(mapper.chkMemberLike(dto) == 1) return -1;
+		return mapper.addMemberLike(dto);
+	}
+	
+	@Override
+	public ArrayList<CertiInfoDTO> memberLikeList(String sid) {
+		if(sid==null)
+			return null;
+		return mapper.memberLikeList(sid);
+	}
+	
+	@Override
+	public void deleteMemberLikePro(MemberLikeDTO dto) {
+		mapper.deleteMemberLike(dto);
 	}
 }
 

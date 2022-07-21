@@ -1,11 +1,13 @@
 package spring.project.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
+import spring.project.model.MypageNewsDTO;
 
 @Service
 public class CertiServiceImpl implements CertiService {
@@ -71,4 +74,62 @@ public class CertiServiceImpl implements CertiService {
 		return mapper.getCertiLangList();
 	}
 
+	@Override
+	public ArrayList<MypageNewsDTO> getNews(String cnum) throws Exception{
+
+		RConnection rc = new RConnection();
+		
+		rc.eval("library(rvest)");
+		rc.eval("presss <- character()");
+		rc.eval("infos <- character()");
+		rc.eval("links <- character()");
+		rc.eval("titles <- character()");
+		rc.eval("contents <- character()");
+		
+		String cname = mapper.getCertiInfo(cnum).getCname();
+		cname = "\"" + cname + "\"";
+		
+		rc.eval("url <- \"https://search.naver.com/search.naver?where=news&query=\"");
+		rc.eval("text <- read_html( paste0(url,"+ "'\"'," + cname+ ",'\"'" + ")) ");
+		
+		rc.eval("for (i in 1:20){"
+				+ "  nodes <- html_nodes(text, paste0(\"#sp_nws\",i,\" > div > div > div.news_info > div.info_group > a\"));"
+				+ "  press <- html_text(nodes) ;"
+				+ "  presss <- c(presss, press);"
+				
+				+ "  nodes <- html_nodes(text, paste0(\"#sp_nws\",i,\" > div > div > div.news_info > div.info_group > span\"));"
+				+ "  info <- html_text(nodes);"
+				+ "  infos <- c(infos,info);"
+				
+				+ "  nodes <- html_nodes(text, paste0(\"#sp_nws\",i,\" > div > div > a\"));"
+				+ "  link <- html_attr(nodes, \"href\");"
+				+ "  links <- c(links,link);"
+				+ "  title <- html_text(nodes);"
+				+ "  titles <- c(titles, title);"
+				
+				+ "  nodes <- html_nodes(text, paste0(\"#sp_nws\",i,\" > div > div > div.news_dsc > div > a\"));"
+				+ "  content <- html_text(nodes);"
+				+ "  if(length(content)!=0) content <- paste0(content, \"...\");"
+				+ "  contents <- c(contents, content);"
+				+ "}");
+		
+		String [] press = rc.eval("presss").asStrings();
+		String [] info = rc.eval("infos").asStrings();
+		String [] link = rc.eval("links").asStrings();
+		String [] title = rc.eval("titles").asStrings();
+		String [] content = rc.eval("contents").asStrings();
+		
+		rc.close();
+		
+		ArrayList<MypageNewsDTO> list = new ArrayList<MypageNewsDTO>();
+		for(int i=0; i< Math.min(press.length,5) ; i++) {
+			list.add(new MypageNewsDTO(press[i], info[i], link[i], title[i], content[i]));
+		}
+		
+		return list;
+	}
 }
+
+
+
+

@@ -1,5 +1,6 @@
 package spring.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,25 +10,27 @@ import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
+import spring.project.model.MypageNewsDTO;
 
 public interface CertiService {
 	
-	// ÀüÃ¼ ÀÚ°İÁõ ¸ñ·Ï
+	// ï¿½ï¿½Ã¼ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category, String req_degree,String req_age,
 			String req_exp,String clevel);
 	
-	//µî·ÏµÈ ÀÚ°İÁõ ÀüÃ¼ °³¼ö
+	//ï¿½ï¿½Ïµï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	public int getCertCnt();
 	
-	// ÀÚ°İÁõ »ó¼¼Á¤º¸
+	// ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Map<String, CertiAccessible> getCertiInfo(String cnum);
 	
-	// ÀÚ°İÁõº° ÀÏÁ¤Á¤º¸ ¸ñ·Ï Á¶È¸ ¹× ÀÏÁ¤ °Ë»ö
+	// ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	public List<CertiDateDTO> searchPeriod(String cnum);
 	public List<CertiDateDTO> searchNatPeriod(String cnum);
 	
-	// ¾îÇĞ ÀÚ°İÁõ ¸ñ·Ï
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public List<CertiInfoDTO> getCertiLangList();
 
-
+	// RServeì´ìš©í•´ì„œ ìê²©ì¦ ê´€ë ¨ ë‰´ìŠ¤ ê°€ì ¸ì˜¤ê¸°
+	public ArrayList<MypageNewsDTO> getNews(String cnum) throws Exception;
 }

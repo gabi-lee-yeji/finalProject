@@ -66,9 +66,18 @@ public class UserMainServiceImpl implements UserMainService{
 		age = (int) Math.floor(age/10) * 10;
 		
 		String order = gender+age;
-		System.out.println(order);
 		
 		return mapper.getClientTopCerti(order);
+	}
+
+	@Override
+	public List<CertiInfoDTO> getNatTopCerti() {
+		return mapper.getNatTopCerti();
+	}
+
+	@Override
+	public List<String> getPrvTopCerti() {
+		return mapper.getPrvTopCerti();
 	}
 
 }

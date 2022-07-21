@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -61,7 +62,7 @@ public class CertiController {
 		return "/certificate/certiMain";
 	}
 	
-	// ÀÚ°ÝÁõ »ó¼¼Á¤º¸
+	// ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("certiContent")
 		public String certiContent(String cnum, Model model) {
 		
@@ -95,5 +96,10 @@ public class CertiController {
 		return "/certificate/certiLang";
 	}
 	
+	@RequestMapping("news")
+	public String getNews(String cnum, Model model) throws Exception{
+		model.addAttribute("list", service.getNews(cnum));
+		return "certificate/news";
+	}
 	
 }
