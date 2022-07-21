@@ -2,22 +2,40 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <head>
 	<title> 자격증 </title>
 </head>
 
-<script language="javascript">
+<script language="javascript" >
 	function addLike(){
-		var sid = '<%=(String)session.getAttribute("sid")%>';
-	/*	if(sid == "null"){	그냥 null이면 오류가난다..why
+		var memid = '<%=(String)session.getAttribute("sid")%>';
+		if(memid == "null"){
 			alert("로그인이 필요한 서비스입니다.");
 			window.location='/member/loginForm';
-		}else*/ if(document.getElementById("like").value != null){
+		}else if(document.getElementById("like").value != null){
 			alert("관심자격증에 추가되었습니다.");
-			 window.location='/like/add';
+			 window.location.href='/like/add?cnum=+${board.cnum}&memid=+${memid}';
 		}
 	}
+	
+	$(".selected_td").click(function(){
+		
+		var str=""
+		var tdArr = new Array();
+		
+		var selected_td = $(this);
+		
+		var tr = selected_td.parent().parent();
+		var td = tr.children();
+		
+		console.log("클릭한 Row의 모든 데이터 : "+tr.text());  
+		var cnum = td.eq(0).text();
+		var memid = td.eq(1).text(); 	 
+	});
+	
 </script>
 
 <body>
@@ -41,11 +59,16 @@
 
 		<c:forEach var="board" items="${clist}">
 			<tr>
-				<td><c:out value="${board.cnum}" /></td>
-				<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>				
-				<input type="button" value="♡" id="like" onClick="addLike(this.form)"/></td>
+				<td class="selected_td">
+				<c:out value="${board.cnum}" />
+				</td>
+				<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>	
+				<input type="button" class="selected_td" value="+관심자격증" id="like" onClick="addLike(this.form)"/>
 				<td><c:out value="${board.clevel}"/></td>
-				<td><c:out value="${board.category}"/></td>
+				<td>
+					<c:set var="catArr" value="${fn:replace(fn:replace(board.category,'private','공인민간'),'national','국가기술')}"></c:set>
+						<c:out value="${catArr}"/>
+				</td>
 			</tr>
 		 <c:forEach var="date" items="${dateList}">	
 				<td><c:out value="${date.cround}"/></td>

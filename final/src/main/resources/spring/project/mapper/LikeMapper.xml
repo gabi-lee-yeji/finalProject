@@ -8,7 +8,7 @@
 	<!-- 찜 추가 -->
 	<insert id="addLike">
 		insert into member_like(cnum, memid)
-		values(#{cnum}, #{memid})
+		values(#{cnum,jdbcType=VARCHAR}, #{memid,jdbcType=VARCHAR})
 	</insert>
 	
 	<!-- 찜 삭제 -->

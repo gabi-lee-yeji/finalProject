@@ -25,9 +25,13 @@
 			</td>
 		</tr>
 		<tr>
-			<td>${info.category}</td>
+			<td>
+				<c:set var="catArr" value="${fn:replace(fn:replace(info.category,'private','공인민간'),'national','국가기술')}"></c:set>
+					<c:out value="${catArr}"/>
+			</td>
 			<td>${info.clevel}</td>
 		</tr>
+		<tr>
 		<tr>
 			<td>${info.company}</td>
 			<td><a href="${info.website}">${info.website}</a></td>
@@ -81,18 +85,18 @@
 		</tr>
 		<tr>
 			<td>검정방법</td>
-			<c:set var="methodArr" value="${fn:replace(info.cmethod,'@',' / 실기:')}"></c:set>
-		<td><c:forEach var="cmethod" items="${methodArr}">${cmethod}</c:forEach></td>
+			<c:set var="methodArr" value="${fn:replace(info.cmethod,'@',' <br/> •실기:')}"></c:set>
+		<td><c:forEach var="cmethod" items="${methodArr}">•필기:${cmethod}</c:forEach></td>
 		</tr>
 		<tr>
 			<td>검정과목</td>
-			<c:set var="subArr" value="${fn:replace(info.subject,'@','/')}"></c:set>
-		<td><c:forEach var="subject" items="${subArr}">${subject}</c:forEach></td>
+			<c:set var="subArr" value="${fn:replace(fn:replace(info.subject,'^','<br/> •실기:'),'@','/')}"></c:set>
+		<td><c:forEach var="subject" items="${subArr}">•필기:${subject}</c:forEach></td>
 		</tr>
 		<tr>
 			<td>합격기준</td>
-			<c:set var="cutArr" value="${fn:replace(info.cutline,'@',' / 실기:')}"></c:set>
-		<td>필기:<c:forEach var="cutline" items="${cutArr}">${cutline}</c:forEach></td>
+			<c:set var="cutArr" value="${fn:replace(info.cutline,'@',' <br/> •실기:')}"></c:set>
+		<td>•필기:<c:forEach var="cutline" items="${cutArr}">${cutline}</c:forEach></td>
 		</tr>
 		<tr>
 			<td>정보</td>
