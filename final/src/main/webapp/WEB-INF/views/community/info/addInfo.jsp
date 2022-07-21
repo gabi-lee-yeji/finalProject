@@ -12,7 +12,7 @@
 	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<c:if test="${pnum == 0}" >
 		<h1>자격증 정보 등록</h1>
-		<form action="/community/info/addInfoPro" name="addNotice" method="post" encType="multipart/form-data" >
+		<form action="/community/info/addInfoPro" name="addInfo" method="post" encType="multipart/form-data" >
 			<jsp:include page="/WEB-INF/views/board/addBoardForm.jsp" flush="false"/>
 			<input type="hidden" name="board_type" value="6"/>
 		</form>

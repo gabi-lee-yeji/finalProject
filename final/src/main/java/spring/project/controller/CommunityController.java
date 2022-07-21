@@ -114,11 +114,7 @@ public class CommunityController {
 	// 자격증 상세페이지에 들어갈 자격증 관련 검색 결과
 	@RequestMapping("certiReview")
 	public String cetiReview(String cnum, Model model) {
-		
-		System.out.println("확인======"+cnum+"자격증 번호 잇냐");
-		
 		model.addAttribute("boardList", service.getCertiKeywordList(cnum));
-		
 		return "board/certiReview";
 	}
 	
@@ -146,7 +142,6 @@ public class CommunityController {
 		
 		model.addAttribute("result", result);
 	}
-	
 	public void boardList(String pageNum, String board_type, Model model) {
 		
 		if(pageNum == null) pageNum = "1";
@@ -200,7 +195,6 @@ public class CommunityController {
 		model.addAttribute("search", search);
 		model.addAttribute("keyword", keyword);
 	}
-	
 	public void boardContent(HttpSession session, int pnum, String pageNum, Model model) {
 
 		Post_BoardDTO board = service.post_BoardContent(pnum);
@@ -225,7 +219,6 @@ public class CommunityController {
 		model.addAttribute("comm_BoardCount", comm_BoardCount);
 		model.addAttribute("commList", commList);
 	}
-
 	public void modBoard(String pageNum, int pnum, Model model) {
 		Post_BoardDTO board = service.post_BoardContent(pnum);
 		List<Post_BoardAttachDTO> boardAttach = service.post_BoardAttachLists(pnum);
@@ -243,7 +236,6 @@ public class CommunityController {
 		model.addAttribute("result", result);
 		model.addAttribute("pageNum", pageNum);
 	}
-	
 	public void delBoard(String pageNum, int pnum, Model model) {
 		model.addAttribute("pnum", pnum);
 		model.addAttribute("pageNum", pageNum);
