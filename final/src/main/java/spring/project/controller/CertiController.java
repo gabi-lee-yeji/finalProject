@@ -27,7 +27,7 @@ public class CertiController {
 	@Autowired
 	public CertiService service;
 	
-	// ÀüÃ¼ ÀÚ°ÝÁõ ¸ñ·Ï
+	// ï¿½ï¿½Ã¼ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping("certiMain")
 	public String getCertiList(HttpServletRequest request, String cnum, String pageNum, String category, Model model,String clevel,String req_degree, String req_age,String req_exp){
 		
@@ -58,8 +58,6 @@ public class CertiController {
 		model.addAttribute("clist", clist);
 		model.addAttribute("category", category);
 		
-		System.out.println(startRow);
-		System.out.println(endRow);
 		return "/certificate/certiMain";
 	}
 	

@@ -6,6 +6,7 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
@@ -33,13 +34,36 @@
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>	
-	</bean>	
+	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
+		 p:host="smtp.daum.net"
+	    p:port="465"
+	    p:username="bgm2007"
+	    p:password="y456852@"
+	> 
+				 
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			      <prop key="mail.smtp.auth">true</prop>
+			      <prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+			      <prop key="mail.smtps.ssl.trust">*</prop>
+			      <prop key="mail.debug">true</prop>
+			      <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean>
 	
 	<tx:annotation-driven/>
 	
 	<mybatis-spring:scan base-package="spring.project.mapper"/>
 	<context:component-scan base-package="spring.project" />
+	<context:component-scan base-package="google.analytics.reportingAPI" />
 	
+	
+	 <!-- daummail설정 -->
+
 	<aop:aspectj-autoproxy />
 	
 </beans>

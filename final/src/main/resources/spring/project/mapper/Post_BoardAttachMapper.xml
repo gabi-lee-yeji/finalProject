@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.Post_BoardAttachMapper">
+	
+	<insert id="addPost_BoardAttach" >
+		insert into post_boardattach (uuid, uploadpath, filename, filetype, pnum) 
+			values (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{pnum} )
+	</insert>
+	
+	<select id="getPost_BoardAttach" parameterType="String"
+			resultType="spring.project.model.Post_BoardAttachDTO">
+		select * from post_boardattach where uuid=#{uuid}
+	</select>
+	
+	<delete id="delPost_BoardAttach" parameterType="String">
+		delete from post_boardattach where uuid=#{uuid}
+	</delete>
+	
+	<select id="getPost_BoardAtachList" resultType="spring.project.model.Post_BoardAttachDTO">
+		select * from post_boardattach where pnum=#{pnum}
+	</select>
+	
+	<delete id="delPost_BoardAttachList">
+		delete from post_boardattach where pnum=#{pnum}
+	</delete>
+	
+</mapper>

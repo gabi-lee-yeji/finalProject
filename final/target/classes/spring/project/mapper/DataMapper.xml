@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.DataMapper">
+
+	<update id="updatePrvInfo1" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo set
+			website=#{website},
+			expiry=#{expiry}
+				where cname=#{cname}
+	</update>
+
+	<insert id="addPrvInfo" parameterType="spring.project.model.CertiInfoDTO">
+		insert into certiinfo(cnum, cname, category, clevel, company, cinfo, cjob, status, registdate)
+			values (#{cnum},#{cname},#{category},#{clevel, jdbcType=VARCHAR},
+			#{company},#{cinfo, jdbcType=VARCHAR},#{cjob, jdbcType=VARCHAR},#{status},sysdate)
+	</insert>
+
+	<insert id="addNcsCode" parameterType="spring.project.model.NcsDTO">
+		insert into ncs_code values(#{code},#{lname},#{mname})
+	</insert>
+
+	<insert id="addCertiSchedule" parameterType="spring.project.model.CertiScheduleDTO">
+		insert into certischedule values(
+			#{cnum},
+			#{cyear},
+			#{cround},
+			#{clevel},
+			sysdate
+		)
+	</insert>
+
+	<update id="updateNatClevel" parameterType="spring.project.model.CertiScheduleDTO">
+		update certiinfo set clevel=#{clevel} where cnum=#{cnum}
+	</update>
+
+	<insert id="addNatData" parameterType="spring.project.model.CertiInfoDTO">
+		insert into certiinfo values(
+			#{cnum},
+			#{cname},
+			#{category},
+			#{clevel, jdbcType=VARCHAR},
+			#{company, jdbcType=VARCHAR},
+			#{website, jdbcType=VARCHAR},
+			#{requirement, jdbcType=VARCHAR},
+			#{cmethod, jdbcType=VARCHAR},
+			#{subject, jdbcType=VARCHAR},
+			#{cutline, jdbcType=VARCHAR},
+			#{cinfo, jdbcType=VARCHAR},
+			#{cjob, jdbcType=VARCHAR},
+			#{expiry, jdbcType=VARCHAR},
+			#{status, jdbcType=VARCHAR},
+			#{price, jdbcType=VARCHAR},
+			#{ncs_cat},
+			#{notice, jdbcType=VARCHAR},
+			sysdate
+		)
+	</insert>
+
+	<insert id="addCertiRelated" parameterType="spring.project.model.CertiMatchDTO">
+		insert into certi_related values(#{cfrom}, #{cto})
+	</insert>
+
+	<insert id="addPassRate" parameterType="spring.project.model.PassRateDTO">
+		insert into pass_rate values(
+			#{cname},
+			#{clevel, jdbcType=VARCHAR},
+			#{cyear},
+			#{applied},
+			#{tested},
+			#{passed}
+		)
+	</insert>
+	
+	<select id="findCnum" resultType="String">
+		select cnum from certiinfo where cname=#{cname}
+	</select>
+	
+	<select id="findCnumCount" resultType="int">
+		select count(*) from certiinfo where cname=#{cname}
+	</select>
+	
+	
+	<insert id="addPassDetailN" parameterType="spring.project.model.PassDetailDTO">
+		insert into pass_detail values(
+			#{cname},
+			#{m10},#{m20},#{m30},#{m40},#{m50},#{m60},
+			#{f10},#{f20},#{f30},#{f40},#{f50},#{f60},
+			#{total}
+		)
+	</insert>
+	
+	<insert id="addQnetDate" parameterType="spring.project.model.CertiDateDTO">
+		insert into certiDate values(
+			#{cnum, jdbcType=VARCHAR},
+			#{cyear},
+			#{cround},
+			#{clevel, jdbcType=VARCHAR},
+			
+			TO_DATE(#{docRegStart1, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegEnd1, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegStart2, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docRegEnd2, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docTestStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docTestEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docResultStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docResultEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docSubmitStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{docSubmitEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegStart1, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegEnd1, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegStart2, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracRegEnd2, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracTestStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracTestEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracResStart, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			TO_DATE(#{pracResEnd, jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI'),
+			certidate_seq.nextval
+		)
+	</insert>
+	
+</mapper>

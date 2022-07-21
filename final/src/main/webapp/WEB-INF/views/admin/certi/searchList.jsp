@@ -7,21 +7,28 @@
 	<title> 검색결과 : ${keyword} </title>
 </head>
 <body>
-	<h1>'${keyword}' 검색 결과 [총: ${count}개] </h1>
+	<jsp:include page="../adminNavBar.jsp"/>
+	<h1>
+		<c:if test="${search eq 'cnum' }">
+			자격증번호 
+		</c:if>
+		<c:if test="${search eq 'cname' }">
+			종목명 
+		</c:if>
+		<c:if test="${search eq 'company' }">
+			시행기관 
+		</c:if>
+		'${keyword}' 검색 결과 [총: ${count}개] 
+	</h1>
 	<input type="button" value="목록으로 돌아가기" onclick="window.location='/admin/certiList'"/>
 	<table> 
 		<tr>
 			<th>번호</th>
 			<th>종목명</th>
-			<th>대분류</th>
-			<th>소분류</th>
-			<th>회차</th>
-			<th>원서접수 시작일</th>
-			<th>원서접수 마감일</th>
-			<th>추가접수 시작일</th>
-			<th>추가접수 마감일</th>
-			<th>시험 응시일</th>
-			<th>결과 발표일</th>
+			<th>자격증종류</th>
+			<th>등급</th>
+			<th>시행기관</th>
+			<th></th>
 			<th></th>
 		</tr>
 		<c:forEach var="dto" items="${list}">
@@ -29,16 +36,13 @@
 				<td>${dto.cnum }</td>
 				<td>${dto.cname }</td>
 				<td>${dto.category }</td>
-				<td>${dto.ctype }</td>
-				<td>${dto.cround }</td>
-				<td>${dto.regStart } ${dto.regStartTime}</td>
-				<td>${dto.regEnd } ${dto.regEndTime}</td>
-				<td>${dto.reg_addStart }</td>
-				<td>${dto.reg_addEnd }</td>
-				<td>${dto.testDate }</td>
-				<td>${dto.resDate }</td>
+				<td>${dto.clevel }</td>
+				<td><a href="${dto.website }">${dto.company }</a></td>
 				<td>
-					<input type="button" value="수정" onclick="window.location='/admin/modCerti?cnum=${dto.cnum }'">
+					<input type="button" value="수정" onclick="window.location='/admin/certiInfo?cnum=${dto.cnum }'">
+				</td>
+				<td>
+					<input type="button" value="상세일정" onclick="window.location='/admin/certiDate?cnum=${dto.cnum }&cname=${dto.cname }'">
 				</td>
 			</tr>
 		</c:forEach>
@@ -71,6 +75,4 @@
 		</c:if>
 		</center>
     </c:if>
-	
-	
 </body>

@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>자격증 정보 등록</title>
+	
 	<script>
 		function inputDate(obj){
 			if(event.keyCode != 8){
@@ -49,6 +50,7 @@
 </head>
 
 <body>
+	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>자격증 등록</h1>
 	<form action="/admin/addCertiPro" method="post">
 		<h2>필수정보</h2>
@@ -61,9 +63,9 @@
 				<td>자격증(시험) 종류</td>
 				<td>
 					<select name="category">
-						<option value="국가기술">국가기술</option>
-						<option value="공인민간">공인민간</option>
-						<option value="어학">어학</option>
+						<option value="national">국가기술</option>
+						<option value="private">공인민간</option>
+						<option value="language">어학</option>
 					</select>
 				</td>
 			</tr>

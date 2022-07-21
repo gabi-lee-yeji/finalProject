@@ -13,46 +13,38 @@ public class MemberInfoDTO {
 	private String memid;
 	private String passwd;
 	private String mem_name;
-	
 	private String email;
 	private String mail1;
 	private String mail2;
-	
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date birthday;
-	
+	private String birthday;
 	private String gender;
-	
-	private int postalCode;
+	private String postalCode;
 	private String address;
 	private String addr_detail;
-	
-	private String pC; //phone company Ãß°¡ÇÒÁö °í¹ÎÁß > ÇÊ¿äÇÏ´Ù¸é Ãß°¡ÇØµµ OK
+	private String extraAddress;
+	private String pC; //phone company ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ê¿ï¿½ï¿½Ï´Ù¸ï¿½ ï¿½ß°ï¿½ï¿½Øµï¿½ OK
 	private String mobile;
 	private String phone1;
 	private String phone2;
 	private String phone3;
-	
 	private String mem_degree;
 	private String major;
 	private String mem_job;
-	
-	private String status;
+	private int status;
 	private String mem_level;
 	private int mem_point;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date regdate;
-
-	//½Å°í¸ñ·Ï °¡Á®¿Ã¶§¸¸ »ç¿ëÇÏ´Â º¯¼ö 
+	private String quiz1;
+	private String quiz2;
+	private String findPw1;
+	private String findPw2;
+	private String passwdQ1;
+	private String passwdQ2;
+	private String ref_date;
+	
+	//ì‹ ê³ íšŸìˆ˜ ì¡°íšŒ ê¸°ëŠ¥ ì‚¬ìš©í• ë•Œë§Œ ì‚¬ìš©í•  ë³€ìˆ˜
 	private int reportCnt;
+// í•¸ë“œí° ë²ˆí˜¸ ìª¼ê°œì„œ ì‚¬ìš©í• ì§€ í•œë²ˆì— ëª¨ë°”ì¼ë¡œ í•  ì§€ ê²°ì •í•´ì•¼í•˜ëŠ”ë° ìª¼ê°œì„œ ìœ íš¨ì„±í•˜ëŠ”ê²Œ í¸í•  ë“¯?
 	
-// ÇÚµåÆù ¹øÈ£ ÂÉ°³¼­ »ç¿ëÇÒÁö ÇÑ¹ø¿¡ ¸ğ¹ÙÀÏ·Î ÇÒ Áö °áÁ¤ÇØ¾ßÇÏ´Âµ¥ ÂÉ°³¼­ À¯È¿¼ºÇÏ´Â°Ô ÆíÇÒ µí?
-	
-	public String getEmail() {
-		if(mail1 != null && mail2 != null) {
-		return email = getMail1() + "@" +getMail2();
-		}else {
-			return email;
-		}	
-	}
 }

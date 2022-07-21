@@ -1,63 +1,54 @@
 package spring.project.model;
 
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
 public class CertiDateDTO implements CertiAccessible{
-	private int datePK; //ÀÏÁ¤±¸ºĞ À§ÇÑ pk (ÀÏÁ¤ »èÁ¦, ¼öÁ¤ ÇÊ¿ä)
+	private int datePK; //ì¼ì •êµ¬ë¶„ ìœ„í•œ pk (ì¼ì • ì‚­ì œ, ìˆ˜ì •ì‹œ í•„ìš”)
 	
 	private String cnum; 
 	private int cyear;
-	private int cround;
+	private Integer cround;
 	private String clevel;
 	
-	//ÇÊ±â½ÃÇè ¿ø¼­Á¢¼ö ½ÃÀÛ,¸¶°¨
     private String docRegStart1;
     private String docRegEnd1;
     
-    //ÇÊ±â½ÃÇè Ãß°¡Á¢¼ö ½ÃÀÛ,¸¶°¨
     private String docRegStart2;
     private String docRegEnd2;
     
-    //ÇÊ±â½ÃÇè ½ÃÀÛ, ¸¶°¨
     private String docTestStart;
     private String docTestEnd;
     
-    //ÇÊ±â½ÃÇè ÇÕ°İÀÚ ¹ßÇ¥
     private String docResultStart;
     private String docResultEnd;
     
-    //ÀÀ½ÃÀÚ°İ ¼­·ù Á¢¼ö ½ÃÀÛ, ¸¶°¨
     private String docSubmitStart;
     private String docSubmitEnd;
     
-    //½Ç±â½ÃÇè ¿ø¼­ Á¢¼ö ½ÃÀÛ, ¸¶°¨
     private String pracRegStart1;
     private String pracRegEnd1;
     
-    //½Ç±â½ÃÇè Ãß°¡Á¢¼ö ½ÃÀÛ, ¸¶°¨
     private String pracRegStart2 ;
     private String pracRegEnd2 ;
     
-    //½Ç±â½ÃÇè ½ÃÀÛ, Á¾·á
     private String pracTestStart ;
     private String pracTestEnd ;
     
-    //½Ç±â½ÃÇè ÇÕ°İÀÚ ¹ßÇ¥ ½ÃÀÛ, ¸¶°¨
     private String pracResStart ;
     private String pracResEnd ;
     
-    @Override
-	public String toString() {
-		return "CertiDateDTO [datePK=" + datePK + ", cnum=" + cnum + ", cyear=" + cyear + ", cround=" + cround
-				+ ", clevel=" + clevel + ", docRegStart1=" + docRegStart1 + ", docRegEnd1=" + docRegEnd1
-				+ ", docRegStart2=" + docRegStart2 + ", docRegEnd2=" + docRegEnd2 + ", docTestStart=" + docTestStart
-				+ ", docTestEnd=" + docTestEnd + ", docResultStart=" + docResultStart + ", docResultEnd=" + docResultEnd
-				+ ", docSubmitStart=" + docSubmitStart + ", docSubmitEnd=" + docSubmitEnd + ", pracRegStart1="
-				+ pracRegStart1 + ", pracRegEnd1=" + pracRegEnd1 + ", pracRegStart2=" + pracRegStart2 + ", pracRegEnd2="
-				+ pracRegEnd2 + ", pracTestStart=" + pracTestStart + ", pracTestEnd=" + pracTestEnd + ", pracResStart="
-				+ pracResStart + ", pracResEnd=" + pracResEnd + "]";
-	}
+    private int datepk;
+    
+    
+//    public String getDocRegStart1() {
+//    	if(!docRegStart1.split(" ")[1].startsWith("00")) {
+//    		return docRegStart1.split(" ")[0];
+//    	}
+//    	return docRegStart1.split(" ")[0]+"T"+docRegStart1.split(" ")[1];
+//    }
     
 }

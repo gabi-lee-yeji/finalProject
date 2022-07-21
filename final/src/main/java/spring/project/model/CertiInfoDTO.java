@@ -1,36 +1,43 @@
 package spring.project.model;
 
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
 public class CertiInfoDTO implements CertiAccessible{
-	private String cnum; //ÀÚ°İÁõ °íÀ¯¹øÈ£ (PK)
+	private String cnum; //ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ (PK)
 	private String cname;
-	private String category; // ±¹°¡±â¼ú, ¹Î°£, ¾îÇĞ
-	private String clevel; // ÀÚ°İÁõ µî±Ş
+	private String category; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?, ï¿½Î°ï¿½, ï¿½ï¿½ï¿½ï¿½
+	private String clevel; // ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½?
 	
-	private String company; //Á¢¼öÃ³/½ÃÇà±â°ü(ÀÚ°İ°ü¸®ÀÚ)
-	private String website; // ½ÃÇà±â°ü À¥»çÀÌÆ®
+	private String company; //ï¿½ï¿½ï¿½ï¿½Ã³/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ú°İ°ï¿½ï¿½ï¿½ï¿½ï¿½)
+	private String website; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	
-	private String requirement; //ÀÀ½ÃÀÚ°İ
+	private String requirement; //ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½
 	
-	private String cmethod; //°ËÁ¤¹æ¹ı eg) °´°ü½Ä / ¼­¼úÇü...
-	private String subject; // °ËÁ¤°ú¸ñ
+	private String cmethod; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½? eg) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
+	private String subject; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	private String cutline; // ÇÕ°İ±âÁØ
-	private String cinfo; // Á¤º¸, °³¿ä
+	private String cutline; // ï¿½Õ°İ±ï¿½ï¿½ï¿½
+	private String cinfo; // ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
 	
-	private String cjob; // °ü·Ã Á÷¾÷, Áø·Î, Àü¸Á
+	private String cjob; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
 	
 	private String expiry;
-	private String status; //½ÃÇàÇöÈ² 
+	private String status; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² 
 	
-	private String price; //½ÃÇè ÀÀ½Ã·á
+	private String price; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã·ï¿½
 	
-	private String ncs_cat;
+	private Integer ncs_cat;
 	
-	private String notice; //ºñ°í»çÇ×
+	private String notice; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	private String registDate; //DB¿¡ µî·ÏµÈ ³¯Â¥	
+	private String registDate; //DBï¿½ï¿½ ï¿½ï¿½Ïµï¿½? ï¿½ï¿½Â¥	
+	
+	//ë³´ìœ ìê²©ì¦ ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ ë³€ìˆ˜ ì¶”ê°€ 
+	//resultMapì„ ì“°ê¸°ì— ê²¹ì¹˜ëŠ” ë³€ìˆ˜ê°€ ë§ê³ , 2ê°œë§Œ ì¶”ê°€í•˜ë©´ë˜ë¯€ë¡œ ê°™ì€ DTO ì‚¬ìš©
+	private String cert_name;    //member_cert í…Œì´ë¸”ì˜ ìê²©ì¦ëª… (cnum ì¡´ì¬ì‹œ í•„ìš” x)
+	private Date expiryDate;	//ë³´ìœ ìê²©ì¦ì˜ ë§Œë£Œì¼ì
 }

@@ -4,9 +4,17 @@ import lombok.Data;
 
 @Data
 public class CertiScheduleDTO implements CertiAccessible{
-	private String cnum; //certiinfo Á¶ÀÎÇÒ ¶§ »ç¿ë
-	private int cyear; //½ÃÇà³âµµ 
-	private int cround; //±¹°¡±â¼úÀÚ°ÝÁõ ½ÃÇè È¸Â÷ eg)126
-	private String clevel; //eg) ±â¼ú»ç, ±â»ç, ±â´É»ç etc
-	private String registDate; // DBµî·Ï³¯Â¥ (sysdate)
+	private String cnum; //certiinfo ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+	private int cyear; //ï¿½ï¿½ï¿½ï¿½âµµ 
+	private int cround; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ eg)126
+	private String clevel; //eg) ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½, ï¿½ï¿½É»ï¿½ etc
+	private String registDate; // DBï¿½ï¿½Ï³ï¿½Â¥ (sysdate)
+	
+	public CertiScheduleDTO() {};
+	public CertiScheduleDTO (String cnum, int cyear, int cround, String clevel) {
+		this.cnum=cnum;
+		this.cyear=cyear;
+		this.cround=cround;
+		this.clevel=clevel;
+	}
 }
