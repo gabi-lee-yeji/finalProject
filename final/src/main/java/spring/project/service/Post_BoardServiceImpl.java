@@ -181,6 +181,11 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	}
 	
 	@Override
+	public List<Post_BoardDTO> getCertiKeywordList(String cnum) {
+		return pbMapper.getCertiKeywordList(cnum);
+	}
+
+	@Override
 	public int addComm_Board(Comm_BoardDTO comm) {
 		int comm_group = CommMapper.maxComm_group()+1;
 		if(comm.getComm_group() != 0) {
@@ -249,8 +254,5 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	public int getMemberReportCnt(MemberReportDTO mr) {
 		return pbMapper.getMemberReportCnt(mr);
 	}
-
-
-
 	
 }

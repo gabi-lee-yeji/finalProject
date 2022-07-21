@@ -21,7 +21,9 @@ public interface Post_BoardMapper {
 											@Param("board_type") String board_type,
 											@Param("search")String search, 
 											@Param("keyword")String keyword);
-	
+
+	public List<Post_BoardDTO> getCertiKeywordList(@Param("cnum")String cnum);
+
 	public int maxPost_group();
 	
 	public int post_BoardCount(String board_type);
@@ -41,6 +43,8 @@ public interface Post_BoardMapper {
 	public int getMemberReport(MemberReportDTO mr);
 	
 	public int getMemberReportCnt(MemberReportDTO mr);
+
+	
 	
 	
 }

@@ -111,6 +111,17 @@ public class CommunityController {
 		return "board/memberReportPro";
 	}
 	
+	// 자격증 상세페이지에 들어갈 자격증 관련 검색 결과
+	@RequestMapping("certiReview")
+	public String cetiReview(String cnum, Model model) {
+		
+		System.out.println("확인======"+cnum+"자격증 번호 잇냐");
+		
+		model.addAttribute("boardList", service.getCertiKeywordList(cnum));
+		
+		return "board/certiReview";
+	}
+	
 	// Board의 add/mod/del/list(get) 공통 메서드
 	public void addBoard(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		int number = 0;
