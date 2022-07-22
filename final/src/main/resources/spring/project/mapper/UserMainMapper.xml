@@ -3,39 +3,91 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.UserMainMapper">
-	<select id="" resultType="spring.project.model.Post_BoardDTO">
-		select * from 
+
+	<resultMap type="spring.project.model.Comm_BoardDTO" id="commBoard">
+		<result property="comm_content" column="comm_content"/>
+	</resultMap>
+	<resultMap type="spring.project.model.Post_BoardDTO" id="commSearchList">
+		<result property="pnum" column="pnum"/>
+		<result property="subject" column="subject"/>
+		<result property="reg" column="reg"/>
+		<result property="board_name" column="board_name"/>
+		<result property="board_mapping" column="board_mapping"/>
+		<collection property="commBoard" resultMap="commBoard"/>
+	</resultMap>
+	
+	<select id="getMemberLike" resultType="String">
+		select cnum from member_like where memid=#{memid} 
+	</select>
+	
+	<select id="getCommentSearchCnt" resultType="int">
+		select count(*) from comm_board 
+				        where comm_content like '%${keyword}%' and status = 0
+	</select>
+	<select id="getCommentSearchList" resultMap="commSearchList">
+		select *
+		    from 
 			(select rownum r, list.* from 
 				(select 
 					a.pnum, a.comm_content, b.subject, b.reg, c.board_name, c.board_mapping from 
 				    (select * from comm_board 
-				        where comm_content like '%${keyword}%') a,
+				        where comm_content like '%${keyword}%' and status = 0) a,
 				    post_board b,
 				    boardtype c
 		    		where a.pnum=b.pnum 
-		    		and b.board_type=c.board_type) list)
+		    		and b.board_type=c.board_type) list) res
 	    	where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getHelpBoardSearchCnt" resultType="int">
+		select count(*) from post_board 
+						where subject like '%${keyword}%' or post_content like '%${keyword}%' 
+						and board_type in (1,2)
+						and status = 0
 	</select>
 	<select id="getHelpBoardSearchList" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
 			(select rownum r, list.* from 
-				(select * from post_board 
-					where subject like '%${keyword}%' or post_content like '%{keyword}%' 
-					and board_type in (1,2) order by reg desc) list)
-			where r between #{keyword} and #{keyword}
+				(select b.board_mapping, a.* from 
+					(select * from post_board 
+						where subject like '%${keyword}%' or post_content like '%${keyword}%' 
+						and board_type in (1,2)
+						and status = 0
+						order by readCnt desc) a,
+					boardtype b
+					where a.board_type = b.board_type) list)
+			where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getCommBoardSearchCnt" resultType="int">
+		select count(*) from post_board 
+						where subject like '%${keyword}%' or post_content like '%${keyword}%' 
+						and board_type in (4,5,6,7)
+						and status = 0
 	</select>
 	<select id="getCommBoardSearchList" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
 			(select rownum r, list.* from 
-				(select * from post_board 
-					where subject like '%${keyword}%' or post_content like '%{keyword}%' 
-					and board_type in (4,5,6,7) order by reg desc) list)
-			where r between #{keyword} and #{keyword}
+				(select b.board_mapping, a.* from 
+					(select * from post_board 
+						where subject like '%${keyword}%' or post_content like '%${keyword}%' 
+						and board_type in (4,5,6,7)
+						and status = 0
+						order by readCnt desc) a,
+					boardtype b
+					where a.board_type = b.board_type) list)
+			where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getCertiSearchCnt" resultType="int">
+		select count(*) from certiinfo 
+					where cname like '%${keyword}%' 
+					and status = 'Y'
 	</select>
 	<select id="getCertiSearchList" resultType="spring.project.model.CertiInfoDTO">
 		select * from 
 			(select rownum r, a.* from 
-				(select * from certiinfo where cname like '%${keyword}%' order by cnum) a)
+				(select * from certiinfo 
+					where cname like '%${keyword}%' 
+					and status = 'Y'
+					order by cnum) a)
 			where r between #{startRow} and #{endRow}
 	</select>
 	<select id="getPrvTopCerti" resultType="String" >
@@ -66,6 +118,36 @@
 		            order by a.${order} desc) list)
 		where r between 1 and 10
 	</select>
+	<select id="getCertiSchedules" resultType="spring.project.model.CertiDateDTO">
+		select 
+			a.cname, b.cnum, b.cyear, b.cround, b.clevel,
+			TO_CHAR(b.docRegStart1,'""YYYY-MM-DD"T"HH24:MI') as docRegStart1,
+			TO_CHAR(b.docRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd1,
+			TO_CHAR(b.docRegStart2,'""YYYY-MM-DD"T"HH24:MI') as docRegStart2,
+			TO_CHAR(b.docRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd2,
+			TO_CHAR(b.docTestStart,'""YYYY-MM-DD"T"HH24:MI') as docTestStart,
+			TO_CHAR(b.docTestEnd,'""YYYY-MM-DD"T"HH24:MI') as docTestEnd,
+			TO_CHAR(b.docResultStart,'""YYYY-MM-DD"T"HH24:MI') as docResultStart,
+			TO_CHAR(b.docResultEnd,'""YYYY-MM-DD"T"HH24:MI') as docResultEnd,
+			TO_CHAR(b.docSubmitStart,'""YYYY-MM-DD"T"HH24:MI') as docSubmitStart,
+			TO_CHAR(b.docSubmitEnd,'""YYYY-MM-DD"T"HH24:MI') as docSubmitEnd,
+			TO_CHAR(b.pracRegStart1,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart1,
+			TO_CHAR(b.pracRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd1,
+			TO_CHAR(b.pracRegStart2,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart2,
+			TO_CHAR(b.pracRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd2,
+			TO_CHAR(b.pracTestStart,'""YYYY-MM-DD"T"HH24:MI') as pracTestStart,
+			TO_CHAR(b.pracTestEnd,'""YYYY-MM-DD"T"HH24:MI') as pracTestEnd,
+			TO_CHAR(b.pracResStart,'""YYYY-MM-DD"T"HH24:MI') as pracResStart,
+			TO_CHAR(b.pracResEnd,'""YYYY-MM-DD"T"HH24:MI') as pracResEnd
+		from certiinfo a, certidate b
+		where a.cnum=b.cnum
+		<if test="list != null">
+			and b.cnum in
+			<foreach collection="list" item="cnum" open="(" separator="," close=")">
+				#{cnum}
+			</foreach>
+		</if>
+	</select>
 	<select id="getNatSchedules" resultType="spring.project.model.CertiDateDTO">
 		select 
 			cnum, cyear, cround, clevel,
@@ -89,5 +171,98 @@
 			TO_CHAR(pracResEnd,'""YYYY-MM-DD"T"HH24:MI') as pracResEnd
 		from certidate where cnum is null
 	</select>
-	
+	<select id="getMemberNatSchedules" resultType="spring.project.model.CertiDateDTO">
+		select d.cname, c.* from 
+			(select 
+				a.cnum, 
+				b.cyear, b.cround, b.clevel,
+				TO_CHAR(b.docRegStart1,'""YYYY-MM-DD"T"HH24:MI') as docRegStart1,
+				TO_CHAR(b.docRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd1,
+				TO_CHAR(b.docRegStart2,'""YYYY-MM-DD"T"HH24:MI') as docRegStart2,
+				TO_CHAR(b.docRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd2,
+				TO_CHAR(b.docTestStart,'""YYYY-MM-DD"T"HH24:MI') as docTestStart,
+				TO_CHAR(b.docTestEnd,'""YYYY-MM-DD"T"HH24:MI') as docTestEnd,
+				TO_CHAR(b.docResultStart,'""YYYY-MM-DD"T"HH24:MI') as docResultStart,
+				TO_CHAR(b.docResultEnd,'""YYYY-MM-DD"T"HH24:MI') as docResultEnd,
+				TO_CHAR(b.docSubmitStart,'""YYYY-MM-DD"T"HH24:MI') as docSubmitStart,
+				TO_CHAR(b.docSubmitEnd,'""YYYY-MM-DD"T"HH24:MI') as docSubmitEnd,
+				TO_CHAR(b.pracRegStart1,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart1,
+				TO_CHAR(b.pracRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd1,
+				TO_CHAR(b.pracRegStart2,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart2,
+				TO_CHAR(b.pracRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd2,
+				TO_CHAR(b.pracTestStart,'""YYYY-MM-DD"T"HH24:MI') as pracTestStart,
+				TO_CHAR(b.pracTestEnd,'""YYYY-MM-DD"T"HH24:MI') as pracTestEnd,
+				TO_CHAR(b.pracResStart,'""YYYY-MM-DD"T"HH24:MI') as pracResStart,
+				TO_CHAR(b.pracResEnd,'""YYYY-MM-DD"T"HH24:MI') as pracResEnd 
+				from 
+				certischedule a, 
+				certidate b
+				where a.cnum in
+				<foreach collection="list" item="cnum" open="(" separator="," close=")">
+					#{cnum}
+				</foreach>
+				and a.cyear=b.cyear
+				and a.cround=b.cround
+				and a.clevel=b.clevel) c
+			left join certiinfo d
+			on c.cnum=d.cnum
+	</select>
+	<select id="getNatCertiDate" resultType="spring.project.model.CertiDateDTO">
+		select d.cname, c.* from 
+			(select 
+				a.cnum, 
+				b.cyear, b.cround, b.clevel,
+				TO_CHAR(b.docRegStart1,'""YYYY-MM-DD"T"HH24:MI') as docRegStart1,
+				TO_CHAR(b.docRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd1,
+				TO_CHAR(b.docRegStart2,'""YYYY-MM-DD"T"HH24:MI') as docRegStart2,
+				TO_CHAR(b.docRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd2,
+				TO_CHAR(b.docTestStart,'""YYYY-MM-DD"T"HH24:MI') as docTestStart,
+				TO_CHAR(b.docTestEnd,'""YYYY-MM-DD"T"HH24:MI') as docTestEnd,
+				TO_CHAR(b.docResultStart,'""YYYY-MM-DD"T"HH24:MI') as docResultStart,
+				TO_CHAR(b.docResultEnd,'""YYYY-MM-DD"T"HH24:MI') as docResultEnd,
+				TO_CHAR(b.docSubmitStart,'""YYYY-MM-DD"T"HH24:MI') as docSubmitStart,
+				TO_CHAR(b.docSubmitEnd,'""YYYY-MM-DD"T"HH24:MI') as docSubmitEnd,
+				TO_CHAR(b.pracRegStart1,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart1,
+				TO_CHAR(b.pracRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd1,
+				TO_CHAR(b.pracRegStart2,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart2,
+				TO_CHAR(b.pracRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd2,
+				TO_CHAR(b.pracTestStart,'""YYYY-MM-DD"T"HH24:MI') as pracTestStart,
+				TO_CHAR(b.pracTestEnd,'""YYYY-MM-DD"T"HH24:MI') as pracTestEnd,
+				TO_CHAR(b.pracResStart,'""YYYY-MM-DD"T"HH24:MI') as pracResStart,
+				TO_CHAR(b.pracResEnd,'""YYYY-MM-DD"T"HH24:MI') as pracResEnd 
+				from 
+				certischedule a, 
+				certidate b
+				where a.cnum = #{cnum}
+				and a.cyear=b.cyear
+				and a.cround=b.cround
+				and a.clevel=b.clevel) c
+			left join certiinfo d
+			on c.cnum=d.cnum
+	</select>
+	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
+		select 
+			a.cname, b.cnum, b.cyear, b.cround, b.clevel,
+			TO_CHAR(b.docRegStart1,'""YYYY-MM-DD"T"HH24:MI') as docRegStart1,
+			TO_CHAR(b.docRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd1,
+			TO_CHAR(b.docRegStart2,'""YYYY-MM-DD"T"HH24:MI') as docRegStart2,
+			TO_CHAR(b.docRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as docRegEnd2,
+			TO_CHAR(b.docTestStart,'""YYYY-MM-DD"T"HH24:MI') as docTestStart,
+			TO_CHAR(b.docTestEnd,'""YYYY-MM-DD"T"HH24:MI') as docTestEnd,
+			TO_CHAR(b.docResultStart,'""YYYY-MM-DD"T"HH24:MI') as docResultStart,
+			TO_CHAR(b.docResultEnd,'""YYYY-MM-DD"T"HH24:MI') as docResultEnd,
+			TO_CHAR(b.docSubmitStart,'""YYYY-MM-DD"T"HH24:MI') as docSubmitStart,
+			TO_CHAR(b.docSubmitEnd,'""YYYY-MM-DD"T"HH24:MI') as docSubmitEnd,
+			TO_CHAR(b.pracRegStart1,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart1,
+			TO_CHAR(b.pracRegEnd1,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd1,
+			TO_CHAR(b.pracRegStart2,'""YYYY-MM-DD"T"HH24:MI') as pracRegStart2,
+			TO_CHAR(b.pracRegEnd2,'""YYYY-MM-DD"T"HH24:MI') as pracRegEnd2,
+			TO_CHAR(b.pracTestStart,'""YYYY-MM-DD"T"HH24:MI') as pracTestStart,
+			TO_CHAR(b.pracTestEnd,'""YYYY-MM-DD"T"HH24:MI') as pracTestEnd,
+			TO_CHAR(b.pracResStart,'""YYYY-MM-DD"T"HH24:MI') as pracResStart,
+			TO_CHAR(b.pracResEnd,'""YYYY-MM-DD"T"HH24:MI') as pracResEnd
+		from certiinfo a, certidate b
+		where a.cnum=b.cnum
+		and b.cnum = #{cnum}
+	</select>
 </mapper>

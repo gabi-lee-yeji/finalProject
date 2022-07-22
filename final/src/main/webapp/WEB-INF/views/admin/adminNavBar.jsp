@@ -21,64 +21,73 @@
 	</script>
 </head>
 <body>
-
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 	  <!-- Brand -->
-	  <a class="navbar-brand" href="/main">자격증모두모아</a>
+	  <a class="navbar-brand" href="admin/main">자격증모두모아</a>
 	
 	  <!-- Links -->
-	  <ul class="navbar-nav">
-	    <li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	        자격증관리
-	      </a>
-	      <div class="dropdown-menu">
-	      	<a class="dropdown-item" href="/admin/addCerti">자격증 등록</a>
-	        <a class="dropdown-item" href="/admin/certiList">자격증 목록</a>
-	      </div>
-	    </li>
-	    
-	    <li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	        회원관리
-	      </a>
-	      <div class="dropdown-menu">
-	      	<a class="dropdown-item" href="/admin/member/list">전체회원 목록</a>
-	      	<a class="dropdown-item" href="/admin/member/reportList">신고된 회원 목록</a>
-	      </div>
-	    </li>
-	    
-	    <li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	        사용자게시판관리
-	      </a>
-	      <div class="dropdown-menu">
-	      	<a class="dropdown-item" href="/admin/board/list">전체 게시판 목록</a>
-	      	<a class="dropdown-item" href="/admin/board/request">1:1문의(신규)</a>
-	      	<hr>
-	      	<a class="dropdown-item" href="/help/notice/noticeList?board_type=1">공지사항(사용자)</a>
-	      </div>
-	    </li>
-	    
-	    <li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	        직원게시판
-	      </a>
-	      <div class="dropdown-menu">
-	      	<a class="dropdown-item" href="/admin/emp/noticeList">직원공지</a>
-	      	<a class="dropdown-item" href="/admin/emp/addNotice">공지등록</a>
-	      	<hr>
-	      	<a class="dropdown-item" href="/admin/emp/empList">사원목록</a>
-	      </div>
-	    </li>
-	    
-	    <li class="nav-item">
-		  <a class="nav-link" href="#">통계</a>
-		</li>
-		<li class="nav-item">
-		  <a class="nav-link" href="/admin/emp/empInfo?empid=${sesseionScope.empid}">나의 정보</a>
-		</li>
-	  </ul>
+	  <div class="collapse navbar-collapse justify-content-between">
+		  <ul class="navbar-nav">
+			    <li class="nav-item dropdown">
+			      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			        자격증관리
+			      </a>
+			      <div class="dropdown-menu">
+			      	<a class="dropdown-item" href="/admin/addCerti">자격증 등록</a>
+			        <a class="dropdown-item" href="/admin/certiList">자격증 목록</a>
+			      </div>
+			    </li>
+			    
+			    <li class="nav-item dropdown">
+			      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			        회원관리
+			      </a>
+			      <div class="dropdown-menu">
+			      	<a class="dropdown-item" href="/admin/member/list">전체회원 목록</a>
+			      	<a class="dropdown-item" href="/admin/member/reportList">신고된 회원 목록</a>
+			      </div>
+			    </li>
+			    
+			    <li class="nav-item dropdown">
+			      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			        사용자게시판관리
+			      </a>
+			      <div class="dropdown-menu">
+			      	<a class="dropdown-item" href="/admin/board/list">전체 게시판 목록</a>
+			      	<a class="dropdown-item" href="/admin/board/request">1:1문의(신규)</a>
+			      	<hr>
+			      	<a class="dropdown-item" href="/help/notice/noticeList?board_type=1">공지사항(사용자)</a>
+			      </div>
+			    </li>
+			    
+			    <li class="nav-item dropdown">
+			      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			        직원게시판
+			      </a>
+			      <div class="dropdown-menu">
+			      	<a class="dropdown-item" href="/admin/emp/noticeList">직원공지</a>
+			      	<a class="dropdown-item" href="/admin/emp/addNotice">공지등록</a>
+			      	<hr>
+			      	<a class="dropdown-item" href="/admin/emp/empList">사원목록</a>
+			      </div>
+			    </li>
+			    
+			    <li class="nav-item">
+				  <a class="nav-link" href="#">통계</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item">
+				  <a class="nav-link" href="/admin/emp/empInfo?empid=${sessionScope.sid}">나의 정보</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="/member/logout">로그아웃</a>
+				</li>
+				<li class="nav-item">
+				  <button onclick="window.location='/main'">사용자메인</button>
+				</li>
+		  	</ul>
+	  	</div>
 	</nav>
 	<br>
 </body>

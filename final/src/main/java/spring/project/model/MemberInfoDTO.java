@@ -42,12 +42,10 @@ public class MemberInfoDTO {
 	private String passwdQ1;
 	private String passwdQ2;
 	
-
-	
-
-	
+	//신고횟수 조회 기능 사용할때만 사용할 변수
 	private int reportCnt;
 	private String status_name;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date ref_date;
+	
 }

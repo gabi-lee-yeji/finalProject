@@ -41,6 +41,11 @@ public class CertiDateDTO implements CertiAccessible{
     private String pracResStart ;
     private String pracResEnd ;
     
+    
+    //자격증 일정 가져올때 자격증 종목명 담을 변수
+    private String cname;
+    
+    
     public CertiDateDTO() {};
 	public CertiDateDTO(String cnum, int cyear, Integer cround, String clevel, String docRegStart1,
 			String docRegEnd1, String docRegStart2, String docRegEnd2, String docTestStart, String docTestEnd,

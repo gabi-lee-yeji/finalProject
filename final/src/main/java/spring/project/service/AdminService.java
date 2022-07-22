@@ -85,20 +85,22 @@ public interface AdminService {
 	//신고된 회원 목록
 	public List<MemberInfoDTO> getReportMemList(Integer status);
 	public int getReportMemCnt(Integer status);
+	
 	//신고된 회원의 상세 정보 
-	//신고당한 글 목록
-	public List<Map<String,Object>> getReportMemPosting(String memid);
-	public int getReportMemPostingCnt(String memid);
-	//신고당한 댓글 목록
-	public List<Map<String, Object>> getReportMemComment(String memid);
-	public int getReportMemCommCnt(String memid);
-	public List<MemberReportDTO> getCommReportDetails(int pnum);
-	
-	//신고된 회원의 상태 변경
-	public int updateRepMemStatus(String memid, String status);
-	
-	//신고된 글의 신고사유, 신고한 회원 목록
-	public List<MemberReportDTO> getReportReasonList(int pnum);
+		//신고당한 글 목록
+		public List<Map<String,Object>> getReportMemPosting(String memid);
+		public int getReportMemPostingCnt(String memid);
+		//신고당한 댓글 목록
+		public List<Map<String, Object>> getReportMemComment(String memid);
+		public int getReportMemCommCnt(String memid);
+		public List<MemberReportDTO> getCommReportDetails(int pnum);
+		//신고당한 댓글 삭제
+		public int delReportComment(Integer[] comm_num);
+		//신고된 회원의 상태 변경
+		public int updateRepMemStatus(String memid, String status);
+		
+		//신고된 글의 신고사유, 신고한 회원 목록
+		public List<MemberReportDTO> getReportReasonList(int pnum);
 	
 	//회원목록 - 검색
 	//public List<MemberInfoDTO> getMemberFilter(MemberFilterDTO filter, PagingDTO page);
@@ -149,12 +151,28 @@ public interface AdminService {
 	//현재날짜 "yyyy-MM-dd" 형식으로 반환 - hiredate 초기값
 	public String getCurrentDate();
 	//직원 목록 조회
-	public List<Map<String,Object>> getEmpList(PagingDTO page);
-	public int getEmpCnt();
+	public List<EmpInfoDTO> getEmpList(PagingDTO page, String empjob, String status, String sort, String order);
+	public int getEmpCnt(String empjob, String status);
 	//사원 정보 조회
 	public EmpInfoDTO getEmpInfo(String empid);
 	//사원 정보 수정
 	public int modEmpInfo(EmpInfoDTO dto);
 	//사원 정보 삭제 (퇴사처리)
 	public int delEmpInfo(String empid, String leavingReason);
+	
+	//sessionId가 매니저이상인지 체크
+	public int checkifMgr(String empid);
+	
+	//DB에 등록된 직무, 직급 리스트로 확인 = select의 옵션으로 사용
+	//직무리스트
+	public List<String> getEmpjobList();
+	//직급리스트
+	public List<String> getEmpStatusList();
+	
+	//퇴사자 수 조회
+	public int getQuitCnt(String empjob);
+	
+	//직원 검색결과
+	public List<EmpInfoDTO> getEmpSearchList(PagingDTO page, String search, String keyword);
+	public int getEmpSearchCnt(String search, String keyword);
 }

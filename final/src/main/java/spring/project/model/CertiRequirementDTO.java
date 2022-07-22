@@ -5,9 +5,10 @@ import lombok.Data;
 @Data
 public class CertiRequirementDTO implements CertiAccessible{
 	private String cnum;
-	private String req_degree; //ÇÐ·Â
-	private String req_age;		//³ªÀÌ
-	private String req_exp;		//°æ·Â
+	private String clevel;
+	private String req_degree; //ï¿½Ð·ï¿½
+	private String req_age;		//ï¿½ï¿½ï¿½ï¿½
+	private String req_exp;		//ï¿½ï¿½ï¿½
 	private String pre_requisite;
 	private String ref;
 }

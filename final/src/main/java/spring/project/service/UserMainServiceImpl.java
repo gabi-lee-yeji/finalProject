@@ -2,6 +2,7 @@ package spring.project.service;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,71 @@ public class UserMainServiceImpl implements UserMainService{
 	UserMainMapper mapper;
 	@Autowired
 	AdminService adminService;
+	
+	public List<CertiDateDTO> calFormatList(List<CertiDateDTO> list){
+		List<CertiDateDTO> formatedList = new ArrayList<CertiDateDTO>();
+		for(CertiDateDTO dto : list) {
+			Field[] allFields = dto.getClass().getDeclaredFields();
 
+			for(Field field : allFields) {
+				field.setAccessible(true);  
+				try {
+					Object value = field.get(dto); 
+					if(value!=null) { 
+						String fieldValue = field.get(dto).toString(); 
+						if(fieldValue.contains("T")) { 
+							if(fieldValue.split("T")[1].startsWith("00")) {
+								value = fieldValue.split("T")[0];  
+								field.set(dto, value);  
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			formatedList.add(dto);
+		}
+		return formatedList;
+	}
+	
+	@Override
+	public List<CertiDateDTO> getCertiSchedules() {
+		List<CertiDateDTO> list = mapper.getCertiSchedules(null);
+		List<CertiDateDTO> newList = new ArrayList<CertiDateDTO>();   
+		
+		if(list.size()>0) {
+			for(CertiDateDTO dto : list) {
+				Field[] allFields = dto.getClass().getDeclaredFields();
+	
+				for(Field field : allFields) {
+					field.setAccessible(true);  
+					try {
+						Object value = field.get(dto); 
+						if(value!=null) { 
+							String fieldValue = field.get(dto).toString(); 
+							if(fieldValue.contains("T")) { 
+								if(fieldValue.split("T")[1].startsWith("00")) {
+									value = fieldValue.split("T")[0];  
+									field.set(dto, value);  
+								}
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				newList.add(dto);
+			}
+		}
+		
+		if(newList.size()>0) {
+			return newList;
+		}
+		
+		return list;
+	}
+	
 	@Override
 	public List<CertiDateDTO> getNatSchedules() {
 		List<CertiDateDTO> list = new ArrayList<CertiDateDTO>();
@@ -84,14 +149,72 @@ public class UserMainServiceImpl implements UserMainService{
 	}
 
 	@Override
-	public List<CertiInfoDTO> getCertiSearchList(PagingDTO page, String keyword) {
+	public List<SearchAccessible> getCertiSearchList(PagingDTO page, String keyword) {
 		return mapper.getCertiSearchList(page.getStartRow(), page.getEndRow(), keyword);
 	}
 
 	@Override
 	public Map<String, List<SearchAccessible>> getSearchList(PagingDTO page, String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+		int startRow = page.getStartRow();
+		int endRow = page.getEndRow();
+		Map<String, List<SearchAccessible>> map = new HashMap<String, List<SearchAccessible>>();
+		map.put("certi", mapper.getCertiSearchList(startRow, endRow, keyword));
+		map.put("help", mapper.getHelpBoardSearchList(startRow, endRow, keyword));
+		map.put("community", mapper.getCommBoardSearchList(startRow, endRow, keyword));
+		map.put("comment", mapper.getCommentSearchList(startRow, endRow, keyword));
+		return map;
+	}
+
+	@Override
+	public int getCertiSearchCnt(String keyword) {
+		return mapper.getCertiSearchCnt(keyword);
+	}
+
+	@Override
+	public int getHelpBoardSearchCnt(String keyword) {
+		return mapper.getHelpBoardSearchCnt(keyword);
+	}
+
+	@Override
+	public int getCommBoardSearchCnt(String keyword) {
+		return mapper.getCommBoardSearchCnt(keyword);
+	}
+
+	@Override
+	public int getCommentSearchCnt(String keyword) {
+		return mapper.getCommentSearchCnt(keyword);
+	}
+
+	@Override
+	public List<CertiDateDTO> getMemberCertiSchedules(String memid) {
+		List<String> cnum = mapper.getMemberLike(memid);
+		
+		List<String> natCnum = new ArrayList<String>();
+		List<String> prvCnum = new ArrayList<String>();
+		
+		for(String s : cnum) {
+			if(s.startsWith("N")) {
+				natCnum.add(s);
+			}else {
+				prvCnum.add(s);
+			}
+		}
+		
+		List<CertiDateDTO> prvlist = calFormatList(mapper.getCertiSchedules(prvCnum));
+		List<CertiDateDTO> natlist = calFormatList(mapper.getMemberNatSchedules(natCnum));
+		
+		List<CertiDateDTO> list = new ArrayList<CertiDateDTO>();
+		list.addAll(prvlist);
+		list.addAll(natlist);
+		return list;
+	}
+
+	@Override
+	public List<CertiDateDTO> getCertiDate(String cnum) {
+		if(cnum.startsWith("N")) {
+			return calFormatList(mapper.getNatCertiDate(cnum));
+		}
+		return calFormatList(mapper.getCertiDate(cnum));
 	}
 
 }
