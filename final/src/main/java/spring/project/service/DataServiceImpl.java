@@ -231,7 +231,7 @@ public class DataServiceImpl implements DataService {
 			dto.setCompany(datas[7]);
 			dto.setClevel(datas[8]);
 			
-			dto.setCategory("국가기술");
+			dto.setCategory("national");
 			dto.setStatus("Y");
 			
 			if(am.findCurrseq("NAT_SEQ")==0) {
@@ -317,7 +317,7 @@ public class DataServiceImpl implements DataService {
 			dto.setCinfo(datas[3]);
 			dto.setCjob(datas[4]);
 			
-			dto.setCategory("공인민간");
+			dto.setCategory("private");
 			dto.setStatus("Y");
 
 			if(am.findCurrseq("PRV_SEQ")==0) {
@@ -377,6 +377,37 @@ public class DataServiceImpl implements DataService {
 			dto.setReq_exp(Integer.parseInt(datas[6]));
 			
 			mapper.addCertiReq(dto);
+		}
+	}
+	
+	@Override
+	@Transactional
+	public void addLangInfo() throws Exception{
+		FileInputStream fis = new FileInputStream(new File("f:/data/lang.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiInfoDTO dto = new CertiInfoDTO();
+			
+			dto.setCname(datas[0]);
+			dto.setCompany(datas[1]);
+			dto.setClevel(datas[2]);
+			dto.setCinfo(datas[3]);
+			dto.setCjob(datas[4]);
+			dto.setExpiry(datas[5]);
+			dto.setWebsite(datas[6]);
+			
+			dto.setCategory("language");
+			dto.setStatus("Y");
+
+			if(am.findCurrseq("LAN_SEQ")==0) {
+				am.findNextseq("LAN_SEQ");
+			}
+			dto.setCnum("L"+String.format("%05d", am.findNextseq("LAN_SEQ")));
+			
+//			mapper.addPrvInfo(dto);
 		}
 	}
 	

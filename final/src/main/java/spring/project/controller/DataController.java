@@ -67,4 +67,10 @@ public class DataController {
 	public void addCertiReq() throws Exception {
 		ds.addCertiReq();
 	}
+	
+	//외국어 데이터 추가(certiinfo)
+	@RequestMapping("addLangInfo")
+	public void addLangInfo() throws Exception{
+		ds.addLangInfo();
+	}
 }

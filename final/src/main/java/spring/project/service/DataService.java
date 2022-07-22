@@ -28,6 +28,9 @@ public interface DataService {
 	
 	//자격증 응시조건 데이터 추가(certi_requirement)
 	public void addCertiReq() throws Exception;
+	
+	//외국어 데이터 추가(lang.csv -> certiinfo)
+	public void addLangInfo() throws Exception;
 }
 
 
