@@ -33,7 +33,6 @@
 			<td>${comm.reg}</td>
 			<td>${comm.pnum}</td>
 		</tr>
-		${comm.board_mapping}
 	</c:forEach>
 	</table>
 <c:if test="${count > 0}">

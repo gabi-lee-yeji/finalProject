@@ -22,14 +22,14 @@
 											0,
 											0,
 											sysdate,
-											#{passwdQ1},
-											#{passwdQ2},
+											'',
+											'',
 											sysdate
 											) 
 	</insert>
 	
 	<select id="userCheck" resultType="spring.project.model.MemberInfoDTO">
-		select status,ref_date,count(*) cnt from memberInfo where memid=#{memid} and passwd=#{passwd} and status in (0,1) group by status,ref_date order by ref_date desc
+		select status,ref_date,count(*) cnt from memberInfo where memid=#{memid} and passwd=#{passwd} group by status,ref_date order by ref_date desc
 	</select>	
 	
 	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
@@ -70,7 +70,7 @@
 	</select>	
 	
 	<select id="idFind" resultType="spring.project.model.MemberInfoDTO">
-		select memid,status from memberInfo where mem_name=#{mem_name} and mobile=#{mobile}
+		select memid,status,ref_date from memberInfo where mem_name=#{mem_name} and mobile=#{mobile}
 	</select>
 	<select id="pwFind" resultType="spring.project.model.MemberInfoDTO">
 		select memid,passwd,status from memberInfo where memid=#{memid} and passwdQ1=#{passwdQ1} and passwdQ2=#{passwdQ2}
@@ -80,11 +80,11 @@
 				select * from
 				(select post_board.*,rownum r from
 					(select * from post_board order by post_group desc, post_level)post_board
-				where writer=#{writer} and board_type=${board_type} and status=0)
+				where writer=#{writer} and board_type=${board_type} and status in (0,1)
 		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
 	</select>
 	<select id="post_BoardCount" resultType="int">
-		select count(*) from post_board where board_type=#{board_type} and writer=#{writer} and status = 0
+		select count(*) from post_board where board_type=#{board_type} and writer=#{writer} and status in (0,1)
 	</select>
 	<select id="myComments" resultType="spring.project.model.Comm_BoardDTO">
 		select board.*,cboard.board_mapping from
@@ -95,10 +95,10 @@
 		<![CDATA[ r>=#{startRow} and r<=#{endRow} ]]>
 	</select>
 	<select id="commentsCount" resultType="int">
-		select count(*) from comm_board where writer=#{writer} and status=0
+		select count(*) from comm_board where writer=#{writer} and status in (0,1)
 	</select>
 	<update id="updateTime">
-		update Memberinfo set ref_date=sysdate where memid=#{memid} and status=0
+		update Memberinfo set ref_date=sysdate where memid=#{memid} and status in (0,1)
 	</update>
 	
 	<select id="memberStatusCheck" resultType="int">

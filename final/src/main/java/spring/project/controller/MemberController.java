@@ -2,7 +2,9 @@ package spring.project.controller;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -72,6 +74,7 @@ public class MemberController {
 		
 		MemberInfoDTO dto2 = service.userCheck(dto);
 		int result = dto2.getCnt();
+		System.out.println(dto2.getCnt());
 		if(result==1) {
 			if(auto != null) {
 				Cookie cid = new Cookie("cid",memid);
@@ -95,8 +98,14 @@ public class MemberController {
 			session.setAttribute("sid", dto.getMemid());
 			session.setMaxInactiveInterval(60*60*24);
 		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date time = new Date();
+		String time1 = format.format(time);
+		long time2 = dto.getRef_date().getTime();
 		
-		 
+		
+		
+		model.addAttribute("time",time1);
 		model.addAttribute("result",result);
 		model.addAttribute("dto",dto2);
 		
@@ -278,7 +287,6 @@ public class MemberController {
 			System.out.println("이메일 인증 요청이 들어옴!");
 			System.out.println("이메일 인증 이메일 : " + email);
 			return mailService.joinEmail(email);
-			
 		}
 	
 	@RequestMapping("myList")

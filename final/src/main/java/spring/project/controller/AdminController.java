@@ -212,7 +212,7 @@ public class AdminController {
 		//입력한 ID가 관리자 ID인지 
 		if(dto.getMemid().contains("admin")) {
 			//id, pw 체크
-			if(memService.userCheck(dto)==1) {
+			if(memService.userCheck(dto.getCnt())==1) {
 				model.addAttribute("result",service.delCerti(cnum, name));
 			}
 		}else {

@@ -29,7 +29,7 @@ public class MailSendService {
 				//이메일 보낼 양식! 
 		public String joinEmail(String email) {
 			makeRandomNumber();
-			String setFrom = "bgm2007@daum.net"; // email-config에 설정한 자신의 이메일 주소를 입력 
+			String setFrom = "qusrhkdgus5@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
 			String toMail = email;
 			String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목 
 			String content = 
@@ -47,7 +47,7 @@ public class MailSendService {
 			MimeMessage message = mailSender.createMimeMessage();
 			// true 매개값을 전달하면 multipart 형식의 메세지 전달이 가능.문자 인코딩 설정도 가능하다.
 			try {
-				MimeMessageHelper helper = new MimeMessageHelper(message,true,"utf-8");
+				MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
 				helper.setFrom(setFrom);
 				helper.setTo(toMail);
 				helper.setSubject(title);
