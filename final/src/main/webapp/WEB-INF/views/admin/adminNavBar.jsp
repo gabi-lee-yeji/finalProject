@@ -56,7 +56,7 @@
 			      	<a class="dropdown-item" href="/admin/board/list">전체 게시판 목록</a>
 			      	<a class="dropdown-item" href="/admin/board/request">1:1문의(신규)</a>
 			      	<hr>
-			      	<a class="dropdown-item" href="/help/notice/noticeList?board_type=1">공지사항(사용자)</a>
+			      	<a class="dropdown-item" href="/help/notice/noticeList?board_type=1">공지사항(사용자게시판)</a>
 			      </div>
 			    </li>
 			    
@@ -73,7 +73,9 @@
 			    </li>
 			    
 			    <li class="nav-item">
-				  <a class="nav-link" href="#">통계</a>
+				  <a class="nav-link" href="https://analytics.google.com/analytics/web/template?uid=VUt1_t62QcCLIRjCMuXBkg">
+				  	통계
+				  </a>
 				</li>
 			</ul>
 			<ul class="navbar-nav">
