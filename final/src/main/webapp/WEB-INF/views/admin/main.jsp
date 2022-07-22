@@ -65,11 +65,13 @@
 	<div id="requestCnt"></div>
 	<hr>	
 	<div>
-		<table>
-			<tr>
-				<th colspan=3>신규자격증 (지난 5일) +${newCertCnt}</th>
-				<th><input type="button" value="등록" onclick="window.location='/admin/addCerti'"></th>
-			</tr>
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th colspan=3>신규자격증 (지난 5일) +${newCertCnt}</th>
+					<th><input type="button" value="등록" onclick="window.location='/admin/addCerti'"></th>
+				</tr>
+			</thead>
 			<tr>
 				<th>번호</th>
 				<th>종목명</th>
@@ -88,14 +90,16 @@
 	</div>
 	<hr>
 	<div>
-		<table>
-			<tr><th colspan=4>회원 BlackList (new +${newReportCnt})</th></tr>
-			<tr>
-				<th>ID</th>
-				<th>신고횟수</th>
-				<th>상태</th>
-				<th>등급</th>
-			</tr>
+		<table class="table">
+			<thead class="thead-dark">
+				<tr><th colspan=4>회원 BlackList (new +${newReportCnt})</th></tr>
+				<tr>
+					<th>ID</th>
+					<th>신고횟수</th>
+					<th>상태</th>
+					<th>등급</th>
+				</tr>
+			</thead>
 			<c:if test="${memReportList.size() > 0}">
 				<c:forEach var="dto" items="${memReportList}">
 					<tr>
@@ -103,8 +107,7 @@
 							<a href="/admin/member/reportMemInfo?memid=${dto.memid}&reportCnt=${dto.reportCnt}">${dto.memid}</a>
 						</td>
 						<td>${dto.reportCnt}</td>
-						<td>${dto.status}</td>
-						<td>${dto.mem_level}</td>
+						<td>${dto.status_name}</td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -116,13 +119,15 @@
 	<hr>
 	<div>
 		<h2>**직원공지**</h2>
-		<table>
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-			</tr>
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
 			<c:forEach var="dto" items="${empNotice}">
 				<tr>
 					<td>${dto.ebnum }</td>

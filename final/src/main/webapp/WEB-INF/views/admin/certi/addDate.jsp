@@ -65,11 +65,20 @@
 			}
 		})
 	}
-	/*
+	
 	function removeDate(){
 		$("#insertDate > div:last-child").remove();
 	}
 	
+	function dateFormat(obj){
+		var len = obj.value.length;
+		if(len == 4) obj.value += "-";
+		if(len == 7) obj.value += "-";
+		if(len == 10) obj.value += " ";
+		if(len == 13) obj.value += ":";
+	}
+	
+	/*
 	$(document).ready(function(){
 		$("#addBtn").click(function(){
 			var queryString = $("#form").serialize();

@@ -3,13 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
-<table>
-	<tr><th colspan=3>신규 1:1 문의 (new +${count})</th></tr>
-	<tr>
-		<th>제목</th>
-		<th>작성자</th>
-		<th>등록일</th>
-	</tr>
+<table class="table">
+	<thead class="thead-dark">
+		<tr>
+			<th colspan=3>신규 1:1 문의 (new +${count})</th>
+		</tr>
+		<tr>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>등록일</th>
+		</tr>
+	</thead>
 	<c:if test="${count > 0}">
 		<c:forEach var="dto" items="${reqList}">
 			<tr>

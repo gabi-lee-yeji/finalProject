@@ -41,10 +41,10 @@
 	</select>
 	<select id="getEmpSearchList" resultMap="empInfo">
 		select * from 
-        (select 
-            a.mem_name, a.email, a.mobile, a.birthday, 
-            b.* from memberinfo a, emp_info b
-            where a.memid=b.empid)
+	        (select 
+	            a.mem_name, a.email, a.mobile, a.birthday, 
+	            b.* from memberinfo a, emp_info b
+	            where a.memid=b.empid)
         where ${search} like '%${keyword}%'
         order by hiredate desc
 	</select>
@@ -53,6 +53,16 @@
 			<if test="empjob != null and empjob != ''">
         		and job=#{empjob}
         	</if>
+	</select>
+	<select id="getQuitCnt_search" resultType="int">
+		select count(*) from 
+		    (select 
+		        b.mem_name, b.email, b.mobile, b.birthday, 
+		        a.*
+		        from emp_info a, memberinfo b 
+		        where a.empid=b.memid
+		        and a.status='퇴사')
+		    where ${search} like '%${keyword}%'
 	</select>
 	<select id="getEmpjobList" resultType="String">
 		select distinct job from emp_info

@@ -52,7 +52,7 @@
 	<jsp:include page="userNavBar.jsp"/>
 	
 	<div>
-		<form name="frm" action="/main/searchCerti" onsubmit="getCnum()" method="post" 
+		<form name="frm" action="/searchCerti" onsubmit="getCnum()" method="post" 
 			class="example" style="margin:auto;margin-bottom:20px;max-width:600px">
 			<input type="text" id="certiSearch" placeholder="자격증 이름을 입력하세요" list="searchList" name="keyword"/>
 			<datalist id="searchList" >
@@ -101,7 +101,7 @@
 				<c:forEach var="cname" items="${prvList }" varStatus="status">
 					<tr>
 						<th>${status.count}</th>			
-						<td><a href="/main/searchCerti?keyword=${cname }">${cname }</a></td>
+						<td><a href="/searchCerti?keyword=${cname }">${cname }</a></td>
 					</tr>
 				</c:forEach>
 			</table>

@@ -494,13 +494,13 @@ public class AdminController {
 							HttpSession session, Model model) {
 		
 		//sessionId媛� 留ㅻ땲���씠�긽�씤吏� 泥댄겕
-		//String empid = (String)session.getAttribute("sid");
-		String empid = "manager";
+		String empid = (String)session.getAttribute("sid");
+		//String empid = "manager";
 		int checkIfMgr = service.checkifMgr(empid);
 		model.addAttribute("checkIfMgr", checkIfMgr);
 		
 		//�눜�궗�옄 �젙蹂대뒗 留ㅻ땲��湲� �씠�긽留� 議고쉶媛��뒫
-		if(status != null && status.equals("�눜�궗")){
+		if(status != null && status.equals("퇴사")){
 			if(checkIfMgr != 1) {
 				return "/admin/warning";
 			}
@@ -534,7 +534,7 @@ public class AdminController {
 		
 		model.addAttribute("list", service.getEmpSearchList(page, search, keyword));
 		model.addAttribute("totalCnt", service.getEmpSearchCnt(search, keyword));
-		model.addAttribute("quitCnt", service.getQuitCnt(null));
+		model.addAttribute("quitCnt", service.getQuitCnt_search(search, keyword));
 		
 		String empid = (String) session.getAttribute("sid");
 		model.addAttribute("checkIfMgr", service.checkifMgr(empid));
@@ -543,10 +543,12 @@ public class AdminController {
 	//�궗�썝�젙蹂�
 	@RequestMapping("emp/empInfo")
 	public String getEmpInfo(String empid, HttpSession session, Model model) {
-		//model.addAttribute("sessionId", session.getAttribute("empid"));
-		model.addAttribute("sessionId","admin_mgr");
+		String sessionId = (String)session.getAttribute("sid");
+		model.addAttribute("sessionId", sessionId);
+		//model.addAttribute("sessionId","admin_mgr");
 		model.addAttribute("dto",service.getEmpInfo(empid));
 		model.addAttribute("age", service.getMemberAge(empid));
+		model.addAttribute("checkIfMgr", service.checkifMgr(sessionId));
 		return "/admin/emp/info/empInfo";
 	}
 	//�궗�썝 �벑濡�

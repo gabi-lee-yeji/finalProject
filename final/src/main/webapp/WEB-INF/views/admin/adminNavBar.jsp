@@ -23,7 +23,7 @@
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 	  <!-- Brand -->
-	  <a class="navbar-brand" href="admin/main">자격증모두모아</a>
+	  <a class="navbar-brand" href="/admin/main">자격증모두모아</a>
 	
 	  <!-- Links -->
 	  <div class="collapse navbar-collapse justify-content-between">

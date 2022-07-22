@@ -39,10 +39,34 @@
 		
 		function dateFormat(obj){
 			var len = obj.value.length;
+			
 			if(len == 4) obj.value += "-";
 			if(len == 7) obj.value += "-";
 			if(len == 10) obj.value += " ";
 			if(len == 13) obj.value += ":";
+		}
+		
+		function checkDate(obj){
+			var len = obj.value.length;
+			
+			var dateReg = RegExp(/^(20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/);
+			var timeReg = RegExp(/^(2[0-3]|[01][0-9]):[0-5][0-9]$/);
+			
+			if(len > 10 && len < 12){
+				if(!dateReg.test(obj)){
+					alert("올바른 날짜를 입력해주세요!");
+					obj.value="";
+					obj.focus();
+				}
+			}
+			
+			if(len > 15 ){
+				if(!timeReg.test(obj.value.split(" ")[1])){
+					alert("올바른 시간을 입력해주세요!");
+					obj.value=obj.value.split(" ")[0];
+					obj.focus();
+				}
+			}
 		}
 		
 		
@@ -52,7 +76,7 @@
 <body>
 	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>자격증 등록</h1>
-	<form action="/admin/addCertiPro" method="post">
+	<form action="/admin/addCertiPro" method="post" >
 		<h2>필수정보</h2>
 		<table>
 			<tr>
@@ -90,7 +114,7 @@
 			<tr>
 				<td>공인 유효날짜</td>
 				<td>
-					<input type="text" name="docResultStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="docResultStart" onKeypress="dateFormat(this);" onChange="checkDate(this);" placeholder="yyyy-MM-dd" maxlength="10">
 				</td>
 			</tr>
 		</table>
@@ -104,8 +128,8 @@
 			<tr>
 				<td>필기 원서접수</td>
 				<td>
-					<input type="text" name="docRegStart1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docRegEnd1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="docRegStart1" onKeypress="dateFormat(this);" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="docRegEnd1" onKeypress="dateFormat(this);" onKeyUp="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>

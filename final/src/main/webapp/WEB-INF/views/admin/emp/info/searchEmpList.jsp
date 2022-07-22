@@ -18,7 +18,7 @@
 		<c:set var="count" value="${totalCnt}"/>
 	</c:if>
 	
-	<h1>직원 검색 결과 : ${keyword } (총 : ${count})</h1>
+	<h1>직원 검색 결과 : '${keyword }' (총 : ${count}명)</h1>
 	<table>
 		<tr>
 			<th>사원ID</th>

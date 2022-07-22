@@ -176,6 +176,7 @@ public interface AdminMapper {
 	public List<String> getEmpStatusList();
 	//퇴사자수 조회
 	public int getQuitCnt(String empjob);
+	public int getQuitCnt_search(Map map);
 	//직원목록 - 검색 결과 
 	public List<EmpInfoDTO> getEmpSearchList(Map map);
 	public int getEmpSearchCnt(Map map);

@@ -8,7 +8,7 @@
 	<title>사원 정보 : ${dto.empid}</title>
 </head>
 <body>
-	<c:if test="${sessionId != dto.empid and sessionId != 'admin_mgr'}">
+	<c:if test="${sessionId != dto.empid and checkIfmgr != 1}">
 		<script>
 			alert("다른 사원의 정보에는 접근이 불가능합니다!");
 			history.go(-1);

@@ -101,7 +101,7 @@
 		  </ul>
 	  </div>
 	  <div style="margin-left:20px;margin-right:30px;float:right;">
-		  <form class="form-inline" action="/main/search" >
+		  <form class="form-inline" action="/search" >
 			<input class="form-control mr-sm-2" name="keyword" type="text" placeholder="전체사이트 내 검색">
 			<button class="btn btn-success" type="submit">검색</button>
 		  </form>

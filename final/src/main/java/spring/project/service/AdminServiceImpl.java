@@ -543,6 +543,12 @@ public class AdminServiceImpl implements AdminService{
 	public int getQuitCnt(String empjob) {
 		return mapper.getQuitCnt(empjob);
 	}
+	@Override
+	public int getQuitCnt_search(String search, String keyword) {
+		map.put("search", search);
+		map.put("keyword", keyword);
+		return mapper.getQuitCnt_search(map);
+	}
 
 	@Override
 	public List<EmpInfoDTO> getEmpSearchList(PagingDTO page, String search, String keyword) {

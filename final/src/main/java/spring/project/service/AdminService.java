@@ -171,6 +171,7 @@ public interface AdminService {
 	
 	//퇴사자 수 조회
 	public int getQuitCnt(String empjob);
+	public int getQuitCnt_search(String search, String keyword);
 	
 	//직원 검색결과
 	public List<EmpInfoDTO> getEmpSearchList(PagingDTO page, String search, String keyword);
