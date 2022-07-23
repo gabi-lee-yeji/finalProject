@@ -232,10 +232,6 @@
 		    <version>0.6-8.1</version>
 		</dependency>
 		
-<<<<<<< HEAD
-=======
-		
->>>>>>> branch 'kjy' of https://github.com/gabi-lee-yeji/finalProject.git
 	</dependencies>
     <build>
         <plugins>

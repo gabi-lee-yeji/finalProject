@@ -1,5 +1,6 @@
 package spring.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -70,5 +71,6 @@ public interface Post_BoardService {
 	// 해당 게시글(댓글)신고 개수 확인(중복신고 방지)
 	public int getMemberReportCnt(MemberReportDTO mr);
 
-
+	// RServe이용, 잡코리아에서 취업 관련 게시글(기사) 가져오기
+	public ArrayList<Post_BoardDTO> getJobNews() throws Exception;
 }

@@ -55,7 +55,7 @@
 	      <div class="dropdown-menu">
 	      	<a class="dropdown-item" href="/community/review/reviewList?board_type=4">꿀팁 / 후기</a>
 	      	<a class="dropdown-item" href="/community/question/questionList?board_type=5">질문글</a>
-	      	<a class="dropdown-item" href="/community/info/infoList?board_type=6">자격증 정보</a>
+	      	<a class="dropdown-item" href="/community/info/jobNews">자격증 정보</a>
 	      	<a class="dropdown-item" href="/community/job_seeker/job_seekerList?board_type=7">취준생 공간</a>
 	      </div>
 	    </li>

@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <body>
-<!-- 게시글 신고가 있는 경우에만 보여주기 BY.혜원 / 예지님 동의 필요 -->
 <c:if test="${fn:length(list)>0}" >
 	<table>
 		<tr>
@@ -20,6 +19,5 @@
 			</tr>
 		</c:forEach>
 	</table>
-</body>
 </c:if>
-</html>
+</body>

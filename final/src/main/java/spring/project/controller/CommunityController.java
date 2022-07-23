@@ -383,6 +383,11 @@ public class CommunityController {
 		boardList(pageNum, board_type, model);
 		return "community/info/infoList";
 	}
+	@RequestMapping("info/jobNews")
+	public String getJobNews(Model model) throws Exception{
+		model.addAttribute("list", service.getJobNews());
+		return "community/info/infoNews";
+	}
 	
 	// �ڰ��� ���� �˻� ���
 	@RequestMapping("info/searchList")

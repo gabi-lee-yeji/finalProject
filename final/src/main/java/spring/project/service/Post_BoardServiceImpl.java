@@ -2,11 +2,13 @@ package spring.project.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -253,6 +255,50 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Override
 	public int getMemberReportCnt(MemberReportDTO mr) {
 		return pbMapper.getMemberReportCnt(mr);
+	}
+	
+	@Override
+	public ArrayList<Post_BoardDTO> getJobNews() throws Exception{
+
+		RConnection rc = new RConnection();
+		
+		rc.eval("library(rvest)");
+		rc.eval("subjects <- character()");
+		rc.eval("links <- character()");
+		
+		rc.eval("text <- \"https://www.jobkorea.co.kr/goodjob/tip/120001\" ");
+		rc.eval("html <- read_html(text)");
+		
+		rc.eval("node <- html_nodes(html, paste0(\" dl > dt > strong\"))");
+		rc.eval("subjects <- html_text(node) ;");
+		rc.eval("subjects <- gsub('\r\n',\"\",subjects) ;");
+		rc.eval("subjects <- gsub(' ',\"\",subjects) ;");
+		rc.eval("links <- html_nodes(html, '.joodJobList > li > a')");
+		rc.eval("links <- html_attr(links, 'href')");
+		rc.eval("dates <- html_nodes(html, 'dd.listSubItem > span.item.dateItem')");
+		rc.eval("dates <- html_text(dates)");
+		rc.eval("summarys <- html_nodes(html, 'dd.tx')");
+		rc.eval("summarys <- html_text(summarys)");
+		
+		String [] subject = rc.eval("subjects").asStrings();
+		String [] link = rc.eval("links").asStrings();
+		String [] date = rc.eval("dates").asStrings();
+		String [] summary = rc.eval("summarys").asStrings();
+		
+		rc.close();
+		
+		System.out.println(Arrays.toString(subject));
+		System.out.println(Arrays.toString(link));
+		System.out.println(Arrays.toString(date));
+		System.out.println(Arrays.toString(summary));
+		
+		ArrayList<Post_BoardDTO> list = new ArrayList<Post_BoardDTO>();
+		for(int i=0; i< Math.min(subject.length,10) ; i++) {
+			String jobKoreaUrl = "https://www.jobkorea.co.kr";
+			list.add(new Post_BoardDTO(subject[i], jobKoreaUrl+link[i], summary[i], date[i]));
+		}
+		
+		return list;
 	}
 	
 }

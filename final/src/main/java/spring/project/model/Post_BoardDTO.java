@@ -25,5 +25,20 @@ public class Post_BoardDTO {
 	private int status;				// 글 존재 유무(0-존재, 1-삭제)
 	
 	private String board_mapping;	// 각 게시판별 mapping
+	
+	// 잡코리아 취업톡톡 - 뉴스 크롤링 
+	private String link;
+	private String date;
+	private String summary;
+	public Post_BoardDTO(String subject, String link, String summary, String date){
+		super();
+		this.subject = subject;
+		this.link = link;
+		this.summary = summary;
+		this.date = date;
+	}
+	public Post_BoardDTO() {
+		super();
+	}
 
 }
