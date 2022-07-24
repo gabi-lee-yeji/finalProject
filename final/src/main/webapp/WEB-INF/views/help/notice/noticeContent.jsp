@@ -1,30 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
 <head>
 <meta charset="UTF-8">
 <title>공지사항</title>
-
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
-	<table border=1>
-		<tr>
-			<td>제목</td>
-			<td>${dto.subject}</td>
-		</tr>
-		<tr>
-			<td>작성자</td>
-			<td>${dto.writer}</td>
-		</tr>
-		<tr>
-			<td>내용</td>
-			<td>${dto.post_content}</td>
-		</tr>
-	</table>
-	<input type="button" value="수정" onclick="window.location='/help/notice/modNotice?pnum=${dto.pnum}&pageNum=${pageNum}'" />
-	<input type="button" value="삭제" onclick="window.location='/help/notice/delNotice?pnum=${dto.pnum}&pageNum=${pageNum}&memid=${sessionScope.sid}'" />
-	<input type="button" value="글목록" onclick="window.location='/help/notice/noticeList?board_type=1'" />
+	<h1>공지사항 글보기</h1>
+	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
+	<c:if test="${memberStatus == 1}">
+		<input type="button" value="수정" onclick="window.location = '/help/notice/modNotice?pnum=${board.pnum}&pageNum=${pageNum}' " />
+		<input type="button" value="삭제" onclick="window.location = '/help/notice/delNotice?pnum=${board.pnum}&pageNum=${pageNum}' " />
+	</c:if>
+	<input type="button" value="목록" onclick="window.location = '/help/notice/noticeList?board_type=1' "/>
 </body>
-
-
-
+</html>

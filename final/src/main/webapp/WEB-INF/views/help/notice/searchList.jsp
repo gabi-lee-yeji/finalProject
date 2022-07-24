@@ -2,25 +2,25 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>공지사항</title>
 </head>
-
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
-	<h1>공지사항 목록(전체 글:${count})</h1>
+	<h1>
+		<c:if test="${search eq 'subject' }">
+			제목 
+		</c:if>
+		<c:if test="${search eq 'post_content' }">
+			내용 
+		</c:if>
+		'${keyword}' 검색 결과 [총: ${count}개] 
+	</h1>
 	
-	<c:if test="${count == 0}">
-		<table border=1>
-			<tr>
-				<td>공지사항이 없습니다.</td>
-			</tr>
-		</table>
-	</c:if>
+	<input type="button" value="목록" onclick="window.location='/help/notice/noticeList?board_type=1' "/>
 	
 	<table border=1>
 	<c:if test="${count > 0}">
@@ -43,17 +43,6 @@
 	</c:forEach>
 	</table>
 	
-<form action="/help/notice/searchList" method="get">
-	<select name="search" >
-		<option value="">==검색==</option>
-		<option value="subject">제목</option>
-		<option value="post_content">내용</option>
-	</select>
-	<input type="text" name="keyword"/>
-	<input type="submit" value="검색"/>
-	<input type="hidden" name="board_type" value="1"/>
-</form>
-
 <c:if test="${count > 0}">
 	<c:set var="pageCount" value="${count / pageSize + (count % pageSize == 0 ? 0 : 1)}"/>
 	<fmt:parseNumber var="result" value="${(currentPage/10)}" integerOnly="true" />
@@ -77,9 +66,5 @@
        <a href="/help/notice/noticeList?board_type=1&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
-<c:if test="${memberStatus == 1}">
-	<a href="/help/notice/addNotice">글쓰기</a>
-</c:if>
-
 </body>
 </html>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자격증 정보</title>
+<title>1:1 문의</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
@@ -23,7 +23,7 @@
 		'${keyword}' 검색 결과 [총: ${count}개] 
 	</h1>
 	
-	<input type="button" value="목록" onclick="window.location='/community/info/infoList?board_type=6' "/>
+	<input type="button" value="목록" onclick="window.location='/help/qna/qnaList?board_type=3' "/>
 	
 	<table border=1>
 	<c:if test="${count > 0}">
@@ -38,7 +38,7 @@
 	<c:forEach var="board" items="${boardList}">
 		<tr>
 			<td>${board.pnum}</td>
-			<td><a href="/community/info/infoContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td> 
+			<td><a href="/help/qna/qnaContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td> 
 			<td>${board.writer}</td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.reg}"/></td>
 			<td>${board.readCnt}</td>
@@ -58,15 +58,15 @@
 	</c:if>
 	
 	<c:if test="${startPage > 10}" >
-        <a href="/community/info/infoList?board_type=6&pageNum=${startPage - 10}">[이전]</a>
+        <a href="/help/qna/qnaList?board_type=3&pageNum=${startPage - 10}">[이전]</a>
     </c:if>
     
     <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">    
-        <a href="/community/info/infoListList?board_type=6&pageNum=${i}">[${i}]</a>
+        <a href="/help/qna/qnaList?board_type=3&pageNum=${i}">[${i}]</a>
     </c:forEach>
     
     <c:if test="${endPage < pageCount}" >
-       <a href="/community/info/infoListList?board_type=6&pageNum=${startPage + 10 }">[다음]</a>
+       <a href="/help/qna/qnaList?board_type=3&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
 </body>

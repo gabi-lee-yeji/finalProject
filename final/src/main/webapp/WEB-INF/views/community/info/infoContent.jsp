@@ -28,7 +28,6 @@
 		<c:import url = "/admin/board/reportDetails" />
 	</c:if>
 	
-	
 <script>
 	function memberReport(pnum){
 		window.open("/community/memberReportForm?pnum="+pnum, 

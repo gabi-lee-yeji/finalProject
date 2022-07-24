@@ -20,7 +20,7 @@ public interface Post_BoardService {
 	
 	// 게시판 타입별, 글 검색 목록
 	public List<Post_BoardDTO> getSearchList(int startRow, int endRow, String board_type, String search, String keyword);
-	// 게시판 키워드 검색
+	// review 게시판에서 cnum에 해당하는 자격증을 키워드로 검색
 	public List<Post_BoardDTO> getCertiKeywordList(String cnum);
 	
 	// 게시판 타입별 글 개수
@@ -59,7 +59,7 @@ public interface Post_BoardService {
 	// 댓글 수정
 	public int modComm_Board(Comm_BoardDTO comm);
 	
-	// 댓글 정보 
+	// 댓글 정보
 	public Comm_BoardDTO getComm_Board(int comm_num);
 
 	// 글/댓글 신고

@@ -46,8 +46,9 @@
 	
 	<select id="getCertiKeywordList" resultType="spring.project.model.Post_BoardDTO">
 		select b.*, btype.board_mapping 
-    		from post_board b, boardtype btype, (select * from certiinfo where cnum='N00836') c
+    		from post_board b, boardtype btype, (select * from certiinfo where cnum=#{cnum}) c
        			where b.status=0 and 
+       				b.board_type = 4 and
        				b.board_type = btype.board_type and
        				b.post_content like '%' || c.cname || '%' or
        				b.subject like '%' || c.cname || '%'
