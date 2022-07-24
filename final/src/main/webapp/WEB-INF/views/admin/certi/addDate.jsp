@@ -77,6 +77,29 @@
 		if(len == 10) obj.value += " ";
 		if(len == 13) obj.value += ":";
 	}
+	function checkDate(obj){
+		var len = obj.value.length;
+		
+		var dateReg = RegExp(/^(20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/);
+		var timeReg = RegExp(/^(2[0-3]|[01][0-9]):[0-5][0-9]$/);
+		
+		if(len > 10 && len < 12){
+			if(!dateReg.test(obj)){
+				alert("올바른 날짜를 입력해주세요!");
+				obj.value="";
+				obj.focus();
+			}
+		}
+		
+		if(len > 15 ){
+			if(!timeReg.test(obj.value.split(" ")[1])){
+				alert("올바른 시간을 입력해주세요!");
+				obj.value=obj.value.split(" ")[0];
+				obj.focus();
+			}
+		}
+	}
+	
 	
 	/*
 	$(document).ready(function(){
