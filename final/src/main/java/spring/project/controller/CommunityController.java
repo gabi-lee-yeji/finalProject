@@ -74,7 +74,6 @@ public class CommunityController {
 		model.addAttribute("comm", comm);
 		return "board/modCommForm";
 	}
-		
 	@RequestMapping("modCommPro")
 	public String modCommPro(Comm_BoardDTO comm, String pageNum, Model model, HttpSession session) {
 		String sid = (String)session.getAttribute("sid");
@@ -101,7 +100,7 @@ public class CommunityController {
 		return "board/memberReportForm";
 	}
 	
-	// member_report DB�� ���� �Ű���/�Ű���ϴ���/�۹�ȣ�� �ش��ϴ� ���� ������ �Ű� �Ұ�
+	// member_report DB에 신고자/신고받는자/사저장
 	@RequestMapping("memberReportPro")
 	public String memberReportPro(MemberReportDTO mr, Model model) {
 
@@ -118,7 +117,7 @@ public class CommunityController {
 		return "board/certiReview";
 	}
 	
-	// Board의 add/mod/del/list(get) 공통 메서드
+	// Board의 add/mod/del/list 공통 메서드
 	public void addBoard(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		int number = 0;
 		if(pnum!=null)
@@ -305,7 +304,7 @@ public class CommunityController {
 		return "community/review/delReviewPro";
 	}
 
-	// ������ ���
+	// 질문 글 등록
 	@RequestMapping("question/addQuestion")
 	public String addQuestion(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		
@@ -319,28 +318,28 @@ public class CommunityController {
 		return "community/question/addQuestionPro";
 	}
 	
-	// ������ ���
+	// 질문 글 목록
 	@RequestMapping("question/questionList")
 	public String questionList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/question/questionList";
 	}
 	
-	// ������ �˻� ���
+	// 질문 글 검색 목록
 	@RequestMapping("question/searchList")
 	public String questionSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/question/searchList";
 	}
 	
-	// ������ �󼼺���
+	// 질문 글 보기
 	@RequestMapping("question/questionContent")
 	public String questionContent(HttpSession session, int pnum, String pageNum, Model model) {
 		boardContent(session, pnum, pageNum, model);
 		return "community/question/questionContent";
 	}
 	
-	// ������ ����
+	// 질문 글 수정
 	@RequestMapping("question/modQuestion")
 	public String modQuestion(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -352,7 +351,7 @@ public class CommunityController {
 		return "community/question/modQuestionPro";
 	}
 	
-	// ������ ����
+	// 질문 글 삭제
 	@RequestMapping("question/delQuestion")
 	public String delQuestion(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
@@ -364,70 +363,13 @@ public class CommunityController {
 		return "community/question/delQuestionPro";
 	}
 	
-	// �ڰ��� ���� ���
-	@RequestMapping("info/addInfo")
-	public String addInfo(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
-		addBoard(pnum, session, board, model);
-		return "community/info/addInfo";
-	}
-	@RequestMapping("info/addInfoPro")
-	public String addInfoPro(Post_BoardDTO board, Model model,
-			@RequestParam("file") MultipartFile[] files) {
-		addBoardPro(board, model, files);
-		return "community/info/addInfoPro";
-	}
-	
-	// �ڰ��� ���� ���
-	@RequestMapping("info/infoList")
-	public String infoList(String pageNum, String board_type, Model model) {
-		boardList(pageNum, board_type, model);
-		return "community/info/infoList";
-	}
 	@RequestMapping("info/jobNews")
 	public String getJobNews(Model model) throws Exception{
 		model.addAttribute("list", service.getJobNews());
 		return "community/info/infoNews";
 	}
-	
-	// �ڰ��� ���� �˻� ���
-	@RequestMapping("info/searchList")
-	public String infoSearch(String board_type, String search, String keyword, Model model) {
-		boardSearch(board_type, search, keyword, model);
-		return "community/info/searchList";
-	}
-	
-	// �ڰ��� ���� �󼼺���
-	@RequestMapping("info/infoContent")
-	public String infoContent(HttpSession session, int pnum, String pageNum, Model model) {
-		boardContent(session, pnum, pageNum, model);
-		return "community/info/infoContent";
-	}
-	
-	// �ڰ��� ���� ����
-	@RequestMapping("info/modInfo")
-	public String modInfo(String pageNum, int pnum, Model model) {
-		modBoard(pageNum, pnum, model);
-		return "community/info/modInfo";
-	}	
-	@RequestMapping("info/modInfoPro")
-	public String modInfoPro(Post_BoardDTO board, MemberInfoDTO dto, String pageNum, Model model) {
-		modBoardPro(board, dto, pageNum, model);
-		return "community/info/modInfoPro";
-	}
-	
-	// ������ ����
-	@RequestMapping("info/delInfo")
-	public String delInfo(String pageNum, int pnum, Model model) {
-		delBoard(pageNum, pnum, model);
-		return "community/info/delInfo";
-	}
-	@RequestMapping("info/delInfoPro")
-	public String delInfoPro(MemberInfoDTO dto, String pageNum, int pnum, Model model) {
-		delBoardPro(dto, pageNum, pnum, model);
-		return "community/info/delInfoPro";
-	}
-	
-	// ���ػ� ���� �� ���
+
+	// 취준생 공간 글 등록
 	@RequestMapping("job_seeker/addJob_seeker")
 	public String addJob_seeker(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
 		addBoard(pnum, session, board, model);	
@@ -439,29 +381,29 @@ public class CommunityController {
 		addBoardPro(board, model, files);
 		return "community/job_seeker/addJob_seekerPro";
 	}
-	
-	// ���ػ� ���� �� ���
+
+	// 취준생 공간 글 목록
 	@RequestMapping("job_seeker/job_seekerList")
 	public String job_seekerList(String pageNum, String board_type, Model model) {
 		boardList(pageNum, board_type, model);
 		return "community/job_seeker/job_seekerList";
 	}
 	
-	// ���ػ� ���� �� �˻� ���
+	// 취준생 공간 글 검색 목록
 	@RequestMapping("job_seeker/searchList")
 	public String job_seekerSearch(String board_type, String search, String keyword, Model model) {
 		boardSearch(board_type, search, keyword, model);
 		return "community/job_seeker/searchList";
 	}
 	
-	// ���ػ� ���� �� �󼼺���
+	// 취준생 공간 글 보기
 	@RequestMapping("job_seeker/job_seekerContent")
 	public String job_seekerContent(HttpSession session, int pnum, String pageNum, Model model) {
 		boardContent(session, pnum, pageNum, model);
 		return "community/job_seeker/job_seekerContent";
 	}
-	
-	// ���ػ� ���� �� ����
+
+	// 취준생 공간 글 수정
 	@RequestMapping("job_seeker/modJob_seeker")
 	public String modJob_seeker(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
@@ -472,8 +414,8 @@ public class CommunityController {
 		modBoardPro(board, dto, pageNum, model);
 		return "community/job_seeker/modJob_seekerPro";
 	}
-	
-	// ���ػ� ���� �� ����
+
+	// 취준생 공간 글 삭제
 	@RequestMapping("job_seeker/delJob_seeker")
 	public String delJob_seeker(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);

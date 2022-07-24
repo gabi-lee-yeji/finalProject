@@ -8,6 +8,7 @@ pageEncoding="UTF-8"%>
     <title>꿀팁, 후기</title>
   </head>
   <body>
+  <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
     <h1>꿀팁, 후기 글보기</h1>
     <jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false" />
     <input

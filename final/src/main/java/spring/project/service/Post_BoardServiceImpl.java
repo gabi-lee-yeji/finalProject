@@ -79,8 +79,6 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 					
 					list.add(attachDTO);	// ???? ??????? list?? ????
 					
-					System.out.println("attachDTO??" + attachDTO);
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -88,7 +86,6 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		
 		if(!list.isEmpty()) {
-			System.out.println("list?? board?? ??? ???? ???");
 			board.setAttachList(list);	// Post_BoardDTO?? attachList(?��)?? list ????
 		}
 			
@@ -263,8 +260,6 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		RConnection rc = new RConnection();
 		
 		rc.eval("library(rvest)");
-		rc.eval("subjects <- character()");
-		rc.eval("links <- character()");
 		
 		rc.eval("text <- \"https://www.jobkorea.co.kr/goodjob/tip/120001\" ");
 		rc.eval("html <- read_html(text)");
@@ -286,11 +281,6 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		String [] summary = rc.eval("summarys").asStrings();
 		
 		rc.close();
-		
-		System.out.println(Arrays.toString(subject));
-		System.out.println(Arrays.toString(link));
-		System.out.println(Arrays.toString(date));
-		System.out.println(Arrays.toString(summary));
 		
 		ArrayList<Post_BoardDTO> list = new ArrayList<Post_BoardDTO>();
 		for(int i=0; i< Math.min(subject.length,10) ; i++) {
