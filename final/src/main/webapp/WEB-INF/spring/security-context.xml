@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<security:http>
+		<security:intercept-url pattern="/mypage/member" access="hasRole('ROLE_MEMBER')" />
+		<security:intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')" />
+		
+		<security:form-login authentication-success-handler-ref="customLoginSuccess"/>
+		
+		<security:logout logout-url="/member/logout" invalidate-session="true" delete-cookies="JSESSIONID"/>
+		
+		<security:access-denied-handler ref="customAccessDenied"/>
+	</security:http>
+	<security:authentication-manager>
+		<security:authentication-provider>
+			
+			<security:jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="select memid, passwd, status from memberinfo where memid=?"
+				authorities-by-username-query="select a.memid, b.auth from memberinfo a, member_status b where a.status=b.status and a.memid=?"/>
+			<security:password-encoder ref="customPasswordEncoder"/>
+			
+			<!-- <security:user-service>
+				Spring version 4.x.x
+				<security:user name="java" password="1234" authorities="ROLE_MEMBER"/>
+				<security:user name="java" password="{noop}1234" authorities="ROLE_MEMBER"/>
+				<security:user name="test" password="{noop}1234" authorities="ROLE_ADMIN"/>
+				<security:user name="admin" password="{noop}1234" authorities="ROLE_ADMIN, ROLE_MEMBER"/>
+			</security:user-service> -->
+			 
+		</security:authentication-provider>
+	</security:authentication-manager>
+</beans>
