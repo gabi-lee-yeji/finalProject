@@ -13,7 +13,7 @@
 	
 	<!-- 찜 삭제 -->
 	<delete id="deleteLike">
-		delete from member_like where memid = #{memid}
+		delete from member_like where memid = #{memid} and cnum=#{cnum}
 	</delete>
 		
 	<!-- 찜 목록 -->
@@ -27,5 +27,14 @@
 		select * from member_like 
 		where memid=#{memid} and cnum=#{cnum}
 	</select>
+	
+	<!-- 찜 확인 -->
+	<select id="likeCheck" resultType="int"
+							parameterType="spring.project.model.LikeDTO">
+		select count(*) from member_like 
+		where memid=#{memid} and cnum=#{cnum}
+	</select>
+	
+
 	
   </mapper>

@@ -24,12 +24,11 @@ public class CertiServiceImpl implements CertiService {
 	static Map<String, CertiAccessible> certiMap = new HashMap<String, CertiAccessible>();
 
 	@Override
-	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category, String req_degree,String req_age,
-			String req_exp, String clevel) {
+	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category) {
 
-		return mapper.getCertiList(cnum,startRow, endRow, category,req_degree,req_age,
-				req_exp, clevel);
+		return mapper.getCertiList(cnum,startRow, endRow, category);
 	}
+	
 	
 	@Override
 	public Map<String, CertiAccessible> getCertiInfo(String cnum) {
@@ -70,5 +69,18 @@ public class CertiServiceImpl implements CertiService {
 		
 		return mapper.getCertiLangList();
 	}
+
+
+	@Override
+	public List<CertiInfoDTO> getFilteredList(String[] clevel) {	
+		return mapper.getFilteredList(clevel);
+	}
+	
+	@Override
+	public List<CertiInfoDTO> getreqList(String req_age,String req_degree,String req_exp){
+		return mapper.getreqList(req_age, req_degree, req_exp);
+	}
+	
+	
 
 }

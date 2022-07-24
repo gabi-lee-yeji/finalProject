@@ -1,5 +1,7 @@
 package spring.project.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,7 @@ import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.LikeDTO;
 import spring.project.service.CertiService;
+import spring.project.service.LikeService;
 
 @Controller
 @RequestMapping("/certificate/*")
@@ -27,6 +30,9 @@ public class CertiController {
 	
 	@Autowired
 	public CertiService service;
+	
+	@Autowired
+	private LikeService likeservice;
 	
 	// 占쏙옙체 占쌘곤옙占쏙옙 占쏙옙占�
 	@RequestMapping("certiMain")
@@ -44,12 +50,9 @@ public class CertiController {
 		List<CertiInfoDTO> clist = null;
 		
 		if(count > 0) {
-			clist = service.getCertiList(cnum,startRow, endRow, category,req_degree,req_age,
-					req_exp,clevel);
+			clist = service.getCertiList(cnum,startRow, endRow, category);
 		}		
 		number = count - (currentPage - 1) * pageSize;
-		
-		System.out.println(clevel);
 		
 		model.addAttribute("count", count);
 		model.addAttribute("pageNum", pageNum);
@@ -66,13 +69,11 @@ public class CertiController {
 	
 	// 자격증 상세정보
 	@RequestMapping("certiContent")
-		public String certiContent(String cnum, Model model) {
+		public String certiContent(String cnum, Model model,String ncs_cat) {
 		
 			Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
-			System.out.println(cnum);
 			
 			List<CertiDateDTO> dateList = null;
-			
 			if(cnum.substring(0,1).equals("N")) {
 				dateList = service.searchNatPeriod(cnum);
 			}else {
@@ -84,19 +85,32 @@ public class CertiController {
 			model.addAttribute("cnum", cnum);
 			model.addAttribute("info", map.get("info"));
 			model.addAttribute("req", map.get("req")); 
-			System.out.println(cnum);
+
 			return "/certificate/certiContent";
 	}
+	@RequestMapping("filterPro")
+	public String getFilteredList(LikeDTO like,HttpServletRequest request, String cnum, String pageNum, String category, Model model,String[] clevel,String req_degree, String req_age,String req_exp){
+	
+		List<CertiInfoDTO> list = null;
 
+		list = service.getFilteredList(clevel);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("category", category);
+		
+		return "/certificate/filterList";
+	}
 	
 	@RequestMapping("certiLang")
 	public String getCertiLangList(Model model) {
-		List<CertiInfoDTO> llist = service.getCertiLangList();
-		int count = llist.size();
-		model.addAttribute("llist", llist);
+		List<CertiInfoDTO> list = service.getCertiLangList();
+		int count = list.size();
+		model.addAttribute("list", list);
 		model.addAttribute("count", count);
 		return "/certificate/certiLang";
 	}
+	
+	
 	
 	
 }

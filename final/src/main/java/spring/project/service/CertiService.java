@@ -13,8 +13,8 @@ import spring.project.model.CertiRequirementDTO;
 public interface CertiService {
 	
 	// 전체 자격증 목록
-	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category, String req_degree,String req_age,
-			String req_exp,String clevel);
+	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category);
+	
 	
 	//등록된 자격증 전체 개수
 	public int getCertCnt();
@@ -28,6 +28,10 @@ public interface CertiService {
 	
 	// 어학 자격증 목록
 	public List<CertiInfoDTO> getCertiLangList();
+	
+	//필터링 결과
+	public List<CertiInfoDTO> getFilteredList(String[] clevel);
+	public List<CertiInfoDTO> getreqList(String req_age,String req_degree,String req_exp);
 
 
 }

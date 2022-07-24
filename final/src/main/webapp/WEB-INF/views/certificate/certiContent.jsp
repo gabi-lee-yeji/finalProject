@@ -2,26 +2,57 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-<script language="javascript">
-	function addWish(){
-		var sid = '<%=(String)session.getAttribute("sid")%>';
-	/*	if(sid == "null"){	
-			alert("로그인이 필요한 서비스입니다.");
-			window.location='/member/loginForm';
-		}else*/ if(document.getElementById("like").value != null){
-			alert("관심자격증에 추가되었습니다.");
-			window.location='/like/add';
+<jsp:include page="../userNavBar.jsp"></jsp:include>
+
+<script>
+//서버로 전송할 데이터
+const form = {
+		memid : '${sessionScope.sid}',
+		cnum : '${info.cnum}',
+}
+//장바구니 추가 버튼
+$(".btn_like").on("click", function(e){
+	$.ajax({
+		url: '/like/add2',
+		type: 'POST',
+		data: form,
+		success: function(result){
+			likeAlert(result);
 		}
+	})
+});
+
+function likeAlert(result){
+	if(result == '0'){
+		alert("장바구니에 추가를 하지 못하였습니다.");
+	} else if(result == '1'){
+		alert("장바구니에 추가되었습니다.");
+	} else if(result == '2'){
+		alert("장바구니에 이미 추가되어져 있습니다.");
+	} else if(result == '5'){
+		alert("로그인이 필요합니다.");	
 	}
+}
 </script>
 
 <body>
 	<table border=1 width="800" height="800">
 		<tr>
 			<th>${info.cname}</th>
-			<td>
-				<input type="button" class="addlike" value="+관심자격증" onclick="location.href='/like/add?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
+  			<td>
+			<c:if test="${sessionScope.sid != null}">
+			<div class="button">
+			<span>
+				<button class="btn_like">관심자격증</button>
+			</span>
+			</div>
+				<input type="button" class="btn_like" value="+관심자격증" onclick="location.href='/like/add?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
+				<c:if test="${clike.cnum != null}">
+					<input type="button" class="addlike" value="-관심자격증" onclick="location.href='/like/delete?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
+				</c:if>
+				</c:if>
 			</td>
 		</tr>
 		<tr>
@@ -31,7 +62,17 @@
 			</td>
 			<td>${info.clevel}</td>
 		</tr>
-		<tr>
+		<c:if test="${info.ncs_cat != null}">
+			<tr>
+			<td>분류</td>
+				<c:set var="ncs" 
+				value="${fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace
+				(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace
+				(fn:substring(info.ncs_cat,0,1),2,'경영'),6,'보건,의료'),7,'사회복지'),8,'문화예술,디자인,방송'),12,'미용,스포츠'),13,'음식,서비스')
+				,14,'건설'),16,'기계'),17,'재료'),18,'화학'),19,'섬유,의복'),20,'전기,전자'),21,'정보통신'),22,'식품,가공'),23,'인쇄,가구,공예'),24,'농립,어업'),25,'안전관리'),26,'환경,관리')}"/>
+			<td>${ncs}</td>
+		</tr>
+		</c:if>
 		<tr>
 			<td>${info.company}</td>
 			<td><a href="${info.website}">${info.website}</a></td>
@@ -96,7 +137,7 @@
 		<tr>
 			<td>합격기준</td>
 			<c:set var="cutArr" value="${fn:replace(info.cutline,'@',' <br/> •실기:')}"></c:set>
-		<td>•필기:<c:forEach var="cutline" items="${cutArr}">${cutline}</c:forEach></td>
+		<td><c:forEach var="cutline" items="${cutArr}">•필기:${cutline}</c:forEach></td>
 		</tr>
 		<tr>
 			<td>정보</td>
@@ -106,11 +147,6 @@
 			<td>관련 직업</td>
 			<td>${info.cjob}</td>
 		</tr>
-		<c:if test="${ncs_code != null}">
-		<tr>
-			<td></td>
-			<td></td>
-		</tr>
-		</c:if>
+
 	</table>
 </body>

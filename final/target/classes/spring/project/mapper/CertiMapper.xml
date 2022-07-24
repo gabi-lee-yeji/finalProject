@@ -4,6 +4,32 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="spring.project.mapper.CertiMapper">
+	<select id="getFilteredList" resultType="spring.project.model.CertiInfoDTO">
+		select * from certiinfo 
+			<where>	   
+				<if test="array != null">
+			      	clevel in
+				<foreach collection="array" item="clevel" open="(" separator="," close=")" >
+					#{clevel}
+				</foreach>		
+				</if>
+			</where>
+	</select>
+	
+	<select id="getreqList" resultType="spring.project.model.CertiInfoDTO">
+		select * from certiinfo a full outer join certi_requirement b on a.cnum=b.cnum
+		<where>	
+			<if test="req_age != null">
+				req_age=#{req_age}	
+			</if>	
+			<if test="req_degree != null">
+			    or req_degree=#{req_degree}	
+			</if>
+			<if test="req_exp != null">
+			     or req_exp=#{req_exp}	
+			</if>
+		</where>
+	</select>
 	
 	<select id="getCertiList" resultType="spring.project.model.CertiInfoDTO"
 								parameterType="spring.project.model.CertiInfoDTO">
@@ -16,27 +42,9 @@
 					<if test="category != null">
 						category=#{category} 
 					</if>
-					<if test="req_degree != null">
-			         or req_degree in
-			         <foreach collection="req_degree" item="degree" index="index" open="(" close=")" separator=",">
-			            #{degree}
-			         </foreach>
-			      </if>
-			      <if test="req_age != null">
-			         or req_age in
-			         <foreach collection="req_age" item="age" index="index" open="(" close=")" separator=",">
-			            #{age}
-			         </foreach>
-			      </if>
-			      <if test="req_exp != null">
-			         or b.req_exp=#{req_exp}
-			      </if>		   
-			      <if test="clevel != null">
-					or a.clevel=#{clevel}
-					</if>
 				</where>	
 				) list)
-		where r between #{startRow} and #{endRow}
+		where r between #{startRow} and #{endRow} and category != 'language'
 	</select>
 		
 	<select id="getCertCnt" resultType="int">
@@ -44,10 +52,8 @@
 	</select>
 		
 	<select id="getCertiLangList" resultType="spring.project.model.CertiInfoDTO">
-		select
-			cnum,cname
-		from certiinfo
-		where category='어학'	
+		select * from certiinfo
+		where category='language'	
 	</select>
 
 	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
@@ -92,7 +98,10 @@
 		select * from certidate 
 		where cnum=#{cnum,jdbcType=VARCHAR}
 	</select>
-		
+	
+	<select id="getNCS" resultType="spring.project.model.NcsDTO">
+		select * from ncs_code
+	</select>
 
 		
 </mapper>

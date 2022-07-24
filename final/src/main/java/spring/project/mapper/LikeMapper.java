@@ -1,5 +1,6 @@
 package spring.project.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import spring.project.model.LikeDTO;
@@ -17,5 +18,7 @@ public interface LikeMapper {
 	
 	// Âò È®ÀÎ
 	public LikeDTO checkLike(LikeDTO like);
-
+	
+	public int likeCheck(String cnum, String memid);
+	
 }

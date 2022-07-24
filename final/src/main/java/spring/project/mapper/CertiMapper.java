@@ -12,9 +12,8 @@ public interface CertiMapper {
 	
 	// 전체 자격증 목록
 	public List<CertiInfoDTO> getCertiList (@Param("cnum") String cnum, @Param("startRow") int startRow,
-										@Param("endRow") int endRow, @Param("category") String category,
-										@Param("req_degree") String req_degree,@Param("req_age") String req_age,
-										@Param("req_exp") String req_exp,@Param("clevel") String clevel);
+										@Param("endRow") int endRow, @Param("category") String category);
+	
 	
 	// 어학 자격증 목록
 	public List<CertiInfoDTO> getCertiLangList();
@@ -40,5 +39,10 @@ public interface CertiMapper {
 
 	// 상세 페이지 찜 취소 기능
 	public int deleteLike(MemberLikeDTO cnum); */		
+	
+	//필터링 결과 조회
+	public List<CertiInfoDTO> getFilteredList(String[] clevel);
+	public List<CertiInfoDTO> getreqList(@Param("req_age")String req_age,@Param("req_degree")String req_degree,@Param("req_exp")String req_exp);
+	
 	
 }

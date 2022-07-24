@@ -16,25 +16,26 @@ public class LikeServiceImpl implements LikeService{
 	public int addLike(LikeDTO like) {
 		
 		LikeDTO checkLike = mapper.checkLike(like);
-				
-		if(checkLike == null) {
-			return 1;
-		}else if(checkLike != null) {
+		
+		if(checkLike != null) {
 			return 2;
 		}
-				
-		// Âò µî·Ï
-		try {
-			return mapper.addLike(like);
-		} catch (Exception e) {
-			return 0;
-		}
 		
-		
-		
+		return mapper.addLike(like);
 	}
+	
 	@Override
-	public void deleteLikePro(LikeDTO like) {
-		mapper.deleteLike(like);
+	public LikeDTO check(LikeDTO like) {
+		return mapper.checkLike(like);
+	}
+	
+	@Override
+	public int count(String cnum, String memid) {
+		return mapper.likeCheck(cnum,memid);
+			};
+			
+	@Override
+	public int deleteLikePro(LikeDTO like) {
+		return mapper.deleteLike(like);
 	}
 }
