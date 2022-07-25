@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자격증 정보 스크랩</title>
+<title>취업톡톡</title>
 </head>
 
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
-<h1>자격증 및 취업정보 스크랩</h1>
+<h1>취업톡톡</h1>
 <div>
 	<c:forEach var="dto" items="${list}">
 		<table border="1">
@@ -31,4 +31,5 @@
 		</table>
 	</c:forEach>
 </div>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>

@@ -78,6 +78,9 @@
        <a href="/community/question/questionList?board_type=5&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
+<c:if test="${sessionScope.sid != null}">
+	<a href="/community/question/addQuestion">글쓰기</a>
+</c:if>
 </body>
-<a href="/community/question/addQuestion">글쓰기</a>
 </html>

@@ -16,5 +16,6 @@
 		<input type="button" value="삭제" onclick="window.location = '/help/notice/delNotice?pnum=${board.pnum}&pageNum=${pageNum}' " />
 	</c:if>
 	<input type="button" value="목록" onclick="window.location = '/help/notice/noticeList?board_type=1' "/>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

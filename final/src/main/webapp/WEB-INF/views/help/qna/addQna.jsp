@@ -33,5 +33,6 @@
 		</form>
 		<input type="button" value="글 목록" onclick="window.location='/help/qna/qnaList?board_type=3' "/>
 	</c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

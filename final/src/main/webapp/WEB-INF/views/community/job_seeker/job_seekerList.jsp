@@ -78,6 +78,9 @@
        <a href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
+<c:if test="${sessionScope.sid != null}">
+	<a href="/community/job_seeker/addJob_seeker">글쓰기</a>
+</c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
-<a href="/community/job_seeker/addJob_seeker">글쓰기</a>
 </html>

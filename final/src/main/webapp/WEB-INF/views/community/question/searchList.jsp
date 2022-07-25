@@ -69,5 +69,6 @@
        <a href="/community/question/questionList?board_type=5&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

@@ -17,4 +17,5 @@
 		</form>
 		<input type="button" value="글 목록" onclick="window.location='/help/faq/faqList?board_type=2' "/>
 </body>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </html>

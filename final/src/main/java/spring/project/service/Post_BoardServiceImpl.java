@@ -2,7 +2,6 @@ package spring.project.service;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Setter;
 import spring.project.mapper.Comm_BoardMapper;
 import spring.project.mapper.MemberMapper;
 import spring.project.mapper.Post_BoardAttachMapper;
@@ -28,16 +26,16 @@ import spring.project.model.Post_BoardDTO;
 @Service
 public class Post_BoardServiceImpl implements Post_BoardService {
 
-	@Setter(onMethod_= @Autowired)
+	@Autowired
 	private Post_BoardMapper pbMapper;
 	
-	@Setter(onMethod_= @Autowired)
+	@Autowired
 	private Post_BoardAttachMapper pbAMapper;
 	
-	@Setter(onMethod_= @Autowired)
+	@Autowired
 	private Comm_BoardMapper CommMapper;
 	
-	@Setter(onMethod_= @Autowired)
+	@Autowired
 	private MemberMapper memMapper;
 	
 	@Autowired
@@ -48,7 +46,6 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	public int addPost_Board(Post_BoardDTO board,
 			@RequestParam("file") MultipartFile[] files) {
 		List<Post_BoardAttachDTO> list = new ArrayList<>();
-	//	String uploadFolderPath = getFolder(); ??��? ????? ?��? ?????? ??????? ?????
 		
 		for(MultipartFile f : files) {
 			if(!f.isEmpty()) {
@@ -59,16 +56,16 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 				String realPath = sc.getRealPath(webPath);
 				System.out.println("realPath ====="+realPath);
 				
-				attachDTO.setFileName(uploadFileName);	// attachDTO FileName?? ???? ????? ????
+				attachDTO.setFileName(uploadFileName);	// attachDTO FileName에 원본 파일명 저장
 				
-				UUID uuid = UUID.randomUUID();	// ????????? ???? ????
-				uploadFileName = uuid.toString() + "_" + uploadFileName;	// ??????? ??????? ????????? UUID?? ??????? ???? ???��? ????????? ????
+				UUID uuid = UUID.randomUUID();	// 고유번호와 같은 개념
+				uploadFileName = uuid.toString() + "_" + uploadFileName;	// 파일원본 저장할때 중복방지로 UUID와 파일명을 붙인 새로운 파일명으로 저장
 
-				File savePath = new File(realPath);	// realPath ??��? ??????��? ???? ????? ???
+				File savePath = new File(realPath);	// realPath 경로에 파일업로드 폴더 있는지 확인
 				if(!savePath.exists())
-					savePath.mkdirs();	// ?????? ??��? ???? ?????
+					savePath.mkdirs();	// 없으면 경로에 폴더 만들기
 				
-				realPath += File.separator + uploadFileName; // "//" ?????? ?��? ?????? ???
+				realPath += File.separator + uploadFileName; // "//" 시스템에 맞는 구분자 출력
 				
 				try {
 					File saveFile = new File(realPath);
@@ -77,7 +74,7 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 					attachDTO.setUuid(uuid.toString());
 					attachDTO.setUploadPath(realPath);
 					
-					list.add(attachDTO);	// ???? ??????? list?? ????
+					list.add(attachDTO);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -86,10 +83,10 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		}
 		
 		if(!list.isEmpty()) {
-			board.setAttachList(list);	// Post_BoardDTO?? attachList(?��)?? list ????
+			board.setAttachList(list);	// Post_BoardDTO의 attachList(배열)에 list 저장
 		}
-			
-		// post_group ?????? +1 ??? ???��? ??�I???, ?????? ???? ???? ?????? ?? addPost_Board ????
+		
+		// post_group 없으면 +1 하여 새로운 그룹만들고, 있으면 값을 받아서 묶어준 후 addPost_Board 실행
 		int post_group = pbMapper.maxPost_group()+1;
 		if(board.getPost_group() != 0) {
 			board.setPost_group(board.getPost_group());

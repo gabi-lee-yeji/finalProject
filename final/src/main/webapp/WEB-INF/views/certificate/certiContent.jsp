@@ -107,4 +107,5 @@
 			<td>${info.status}</td>
 		</tr>
 	</table>
+	<c:import url = "/community/certiReview" />
 </body>

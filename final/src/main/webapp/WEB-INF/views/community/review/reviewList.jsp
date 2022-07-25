@@ -78,6 +78,9 @@
        <a href="/community/review/reviewList?board_type=4&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
+<c:if test="${sessionScope.sid != null}">
+	<a href="/community/review/addReview">글쓰기</a>
+</c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
-<a href="/community/review/addReview">글쓰기</a>
 </html>

@@ -28,5 +28,6 @@ pageEncoding="UTF-8"%>
 		history.go(-1);
 	</script>
 </c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

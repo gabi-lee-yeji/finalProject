@@ -20,13 +20,13 @@ public class Post_BoardDTO {
 	private int readCnt;			// 읽은 수
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date reg;				// 작성시간
-	private String img;				// 첨부파일 - transaction으로 넣어주면 삭제 필요
+	private String img;				// 첨부파일(빈 칼럼)
 	private List<Post_BoardAttachDTO> attachList; // 게시글과 해당하는 파일 리스트
 	private int status;				// 글 존재 유무(0-존재, 1-삭제)
 	
 	private String board_mapping;	// 각 게시판별 mapping
 	
-	// 잡코리아 취업톡톡 - 뉴스 크롤링 
+	// 잡코리아 취업톡톡 - 취업뉴스 크롤링
 	private String link;
 	private String date;
 	private String summary;

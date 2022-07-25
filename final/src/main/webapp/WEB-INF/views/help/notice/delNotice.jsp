@@ -12,5 +12,6 @@
 <form action="/help/notice/delNoticePro" method="post">
 	<jsp:include page="/WEB-INF/views/board/delBoardForm.jsp" flush="false"/>
 </form>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

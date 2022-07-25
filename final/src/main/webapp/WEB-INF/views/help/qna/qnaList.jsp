@@ -81,5 +81,6 @@
 <c:if test="${sessionScope.sid != null}">
 	<a href="/help/qna/addQna">글쓰기</a>
 </c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

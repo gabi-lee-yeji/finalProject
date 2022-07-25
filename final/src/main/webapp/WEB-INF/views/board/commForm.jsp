@@ -45,9 +45,31 @@
 			<td>${comm.comm_content}</td>
 			<td>${comm.writer}</td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${comm.reg}"/></td>
-			<td><input type="button" value="수정" onclick="modComm(${comm.comm_num});" ></td>
-			<td><input type="button" value="삭제" onclick="window.location='/community/delComm?comm_num=${comm.comm_num}&writer=${sessionScope.sid}&pnum=${comm.pnum}&pageNum=${pageNum}' "/></td>
-			<td><input type="button" value="신고" onclick="addReport(${comm.comm_num});" ></td>
+			<td><c:if test="${sessionScope.sid != null}">
+					<input type="button" value="수정" onclick="modComm(${comm.comm_num});" />
+				</c:if>
+				<c:if test="${sessionScope.sid == null}">
+					<input type="button" disabled value="수정" />
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${sessionScope.sid != null}">
+				<input type="button" value="삭제"
+					onclick="window.location='/community/delComm?comm_num=${comm.comm_num}
+							&writer=${sessionScope.sid}&pnum=${comm.pnum}&pageNum=${pageNum}' "/>
+				</c:if>
+				<c:if test="${sessionScope.sid == null}">
+					<input type="button" disabled value="삭제" />
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${sessionScope.sid != null}">
+					<input type="button" value="신고" onclick="addReport(${comm.comm_num});" />
+				</c:if>
+				<c:if test="${sessionScope.sid == null}">
+					<input type="button" disabled value="신고" />
+				</c:if>
+			</td>
 		</tr>
 	</c:forEach>
 	</table>
@@ -62,7 +84,7 @@
 	
 	// 변수로 대입하는 방법 위와 같음
 	function addReport(comm_num){
-	     var url = "/community/memberReportForm?comm_num="+comm_num ;
+	     var url = "/community/addMemberReportForm?comm_num="+comm_num ;
          var name = "댓글 신고";
          var option = "width=400, height=300, left=100, top=50"
          window.open(url, name, option);

@@ -30,7 +30,6 @@ public class HelpController {
 	
 	// Board의 add/mod/del/list 공통 메서드
 	public void addBoard(String pnum, Post_BoardDTO board, Model model) {
-		
 		int number = 0;
 		if(pnum!=null)
 			number = Integer.parseInt(pnum);

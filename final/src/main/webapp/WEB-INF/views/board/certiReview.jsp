@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <c:if test="${fn:length(boardList)>0}" >
+<h2>${info.cname} 관련 꿀팁/후기</h2>
 <table border=1>
 		<tr>
 			<th>글번호</th>
@@ -24,6 +25,3 @@
 	</c:forEach>
 </table>
 </c:if>
-
-** 자격증 상세페이지에 이대로 심어주기
-c:import url = "/community/certiReview" /

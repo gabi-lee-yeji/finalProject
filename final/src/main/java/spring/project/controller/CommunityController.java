@@ -33,7 +33,6 @@ public class CommunityController {
 	// 댓글등록
 	@RequestMapping("addComm")
 	public String addComm(Comm_BoardDTO comm, String pageNum, RedirectAttributes rttr) {
-		
 		Post_BoardDTO board = service.post_BoardContent(comm.getPnum());
 		
 		service.addComm_Board(comm);
@@ -42,7 +41,6 @@ public class CommunityController {
 		rttr.addAttribute("pageNum", pageNum);
 		
 		String url = board.getBoard_mapping();
-		
 		return "redirect:/"+url;
 	}
 	
@@ -61,7 +59,6 @@ public class CommunityController {
 		rttr.addAttribute("pageNum", pageNum);
 
 		String url = board.getBoard_mapping();
-		
 		return "redirect:/"+url;
 	}
 
@@ -86,9 +83,8 @@ public class CommunityController {
 	}
 	
 	// 회원 신고
-	@RequestMapping("memberReportForm")
-	public String memberReportForm(Post_BoardDTO board, Comm_BoardDTO comm, Model model) {
-		
+	@RequestMapping("addMemberReportForm")
+	public String addMemberReportForm(Post_BoardDTO board, Comm_BoardDTO comm, Model model) {
 		if(comm.getComm_num() == 0) {
 			board = service.post_BoardContent(board.getPnum());
 			model.addAttribute("board", board);
@@ -97,17 +93,17 @@ public class CommunityController {
 			model.addAttribute("comm", comm);
 		}
 		
-		return "board/memberReportForm";
+		return "board/addMemberReportForm";
 	}
 	
 	// member_report DB에 신고자/신고받는자/사저장
-	@RequestMapping("memberReportPro")
-	public String memberReportPro(MemberReportDTO mr, Model model) {
+	@RequestMapping("addMemberReportPro")
+	public String addMemberReportPro(MemberReportDTO mr, Model model) {
 
 		int result = service.addMemberReport(mr);
 		model.addAttribute("result", result);
 		
-		return "board/memberReportPro";
+		return "board/addMemberReportPro";
 	}
 	
 	// 자격증 상세페이지에 들어갈 자격증 관련 검색 결과
@@ -307,9 +303,8 @@ public class CommunityController {
 	// 질문 글 등록
 	@RequestMapping("question/addQuestion")
 	public String addQuestion(String pnum, HttpSession session, Post_BoardDTO board, Model model) {
-		
-			addBoard(pnum, session, board, model);
-			return "community/question/addQuestion";
+		addBoard(pnum, session, board, model);
+		return "community/question/addQuestion";
 	}
 	@RequestMapping("question/addQuestionPro")
 	public String addQuestionPro(Post_BoardDTO board, Model model,
@@ -363,7 +358,8 @@ public class CommunityController {
 		return "community/question/delQuestionPro";
 	}
 	
-	@RequestMapping("info/jobNews")
+	// 취업톡톡(취업 정보 스크랩)
+	@RequestMapping("info/infoNews")
 	public String getJobNews(Model model) throws Exception{
 		model.addAttribute("list", service.getJobNews());
 		return "community/info/infoNews";

@@ -12,5 +12,6 @@
 <form action="/community/job_seeker/delJob_seekerPro" method="post">
 	<jsp:include page="/WEB-INF/views/board/delBoardForm.jsp" flush="false"/>
 </form>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

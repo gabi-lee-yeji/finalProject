@@ -29,5 +29,6 @@
 		</form>
 		<input type="button" value="글 목록" onclick="window.location='/community/review/reviewList?board_type=4' "/>
 	</c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

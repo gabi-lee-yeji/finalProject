@@ -80,6 +80,6 @@
 <c:if test="${memberStatus == 1}">
 	<a href="/help/faq/addFaq">글쓰기</a>
 </c:if>
-
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

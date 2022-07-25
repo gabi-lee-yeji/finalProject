@@ -66,5 +66,6 @@
        <a href="/help/notice/noticeList?board_type=1&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

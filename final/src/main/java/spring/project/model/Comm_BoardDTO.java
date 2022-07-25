@@ -9,13 +9,13 @@ import lombok.Data;
 @Data
 public class Comm_BoardDTO {
 
-	private int comm_num;			// ��� ������ȣ
-	private String comm_content;	// ��۳���
-	private String writer;			// �ۼ���
+	private int comm_num;			// 댓글 고유 번호
+	private String comm_content;	// 댓글 내용
+	private String writer;			// 댓글 작성자
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
-	private Date reg;
-	private int comm_group;			// ��� �׷�
-	private int comm_level;			// ����� ��� �׷�
-	private int pnum;				// ����(�Խñ�)�� ������ȣ
-	private int status;				// ��� ���� ����(0-����, 1-����)
+	private Date reg;				// 댓글 작성일시
+	private int comm_group;			// 댓글 그룹
+	private int comm_level;			// 대댓글 그룹 
+	private int pnum;				// 게시글(원글) 고유 번호
+	private int status;				// 댓글 존재 유무(0-존재, 1-삭제)
 }

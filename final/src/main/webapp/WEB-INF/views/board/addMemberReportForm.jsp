@@ -8,7 +8,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <title>글/댓글 신고</title>
   </head>
   <body>
-    <form action="/community/memberReportPro" method="get">
+    <form action="/community/addMemberReportPro" method="post">
       <table border="1">
         <c:if test="${board != null}">
           <input type="hidden" name="wr_option" value="P" />
