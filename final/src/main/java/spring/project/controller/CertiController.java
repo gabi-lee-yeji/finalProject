@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class CertiController {
 	
 	// 占쏙옙체 占쌘곤옙占쏙옙 占쏙옙占�
 	@RequestMapping("certiMain")
-	public String getCertiList(LikeDTO like,HttpServletRequest request, String cnum, String pageNum, String category, Model model,String clevel,String req_degree, String req_age,String req_exp){
+	public String getCertiList(LikeDTO like,HttpSession session,HttpServletRequest request, String pageNum, Model model,String clevel){
 		
 		if(pageNum == null) pageNum = "1";
 	      int pageSize = 15;
@@ -47,13 +48,18 @@ public class CertiController {
 	      int number = 0;
 	      
 		count = service.getCertCnt();
-		List<CertiInfoDTO> clist = null;
+		System.out.println(count);
+		List<CertiInfoDTO> clist = service.getCertiList(startRow, endRow);
 		
-		if(count > 0) {
-			clist = service.getCertiList(cnum,startRow, endRow, category);
-		}		
+		String memid = (String)session.getAttribute("sid");
+		if(memid != null) {
+			List<String> mlist = service.getLikeList(memid);
+			model.addAttribute("check", mlist.size());
+			model.addAttribute("mlist", mlist);
+		}
+		
 		number = count - (currentPage - 1) * pageSize;
-		
+			
 		model.addAttribute("count", count);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pageSize", pageSize);
@@ -62,14 +68,13 @@ public class CertiController {
 		model.addAttribute("endRow", endRow);
 		model.addAttribute("number", number);
 		model.addAttribute("clist", clist);
-		model.addAttribute("category", category);
 		
 		return "/certificate/certiMain";
 	}
 	
 	// 자격증 상세정보
 	@RequestMapping("certiContent")
-		public String certiContent(String cnum, Model model,String ncs_cat) {
+		public String certiContent(String cnum, Model model,String ncs_cat,HttpSession session,HttpServletRequest request) {
 		
 			Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
 			
@@ -80,6 +85,12 @@ public class CertiController {
 				dateList = service.searchPeriod(cnum);
 			}
 			
+			String id = (String)session.getAttribute("sid");
+			int cnt = service.count(cnum,id);
+			System.out.println("cnt:"+cnt+"sessionID=="+id+"cnum:"+cnum);
+				
+			model.addAttribute("cnum",cnum);
+			model.addAttribute("cnt",cnt);
 			model.addAttribute("dateList", dateList);
 			model.addAttribute("info",service.getCertiInfo(cnum).get("info"));
 			model.addAttribute("cnum", cnum);
@@ -89,14 +100,13 @@ public class CertiController {
 			return "/certificate/certiContent";
 	}
 	@RequestMapping("filterPro")
-	public String getFilteredList(LikeDTO like,HttpServletRequest request, String cnum, String pageNum, String category, Model model,String[] clevel,String req_degree, String req_age,String req_exp){
+	public String getFilteredList(String pageNum, Model model,String[] clevel,String req_degree, String req_age,String req_exp){
 	
 		List<CertiInfoDTO> list = null;
 
 		list = service.getFilteredList(clevel);
 		
 		model.addAttribute("list", list);
-		model.addAttribute("category", category);
 		
 		return "/certificate/filterList";
 	}

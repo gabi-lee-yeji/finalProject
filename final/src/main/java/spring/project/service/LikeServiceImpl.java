@@ -32,7 +32,7 @@ public class LikeServiceImpl implements LikeService{
 	@Override
 	public int count(String cnum, String memid) {
 		return mapper.likeCheck(cnum,memid);
-			};
+	};
 			
 	@Override
 	public int deleteLikePro(LikeDTO like) {

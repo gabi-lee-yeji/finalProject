@@ -5,7 +5,7 @@
   
 <mapper namespace="spring.project.mapper.CertiMapper">
 	<select id="getFilteredList" resultType="spring.project.model.CertiInfoDTO">
-		select * from certiinfo 
+		select * from certiinfo a join certi_requirement b on a.clevel=b.clevel
 			<where>	   
 				<if test="array != null">
 			      	clevel in
@@ -13,6 +13,15 @@
 					#{clevel}
 				</foreach>		
 				</if>
+				<if test="req_age != null">
+				and req_age=#{req_age}	
+			</if>	
+			<if test="req_degree != null">
+			    and req_degree=#{req_degree}	
+			</if>
+			<if test="req_exp != null">
+			     and req_exp=#{req_exp}	
+			</if>
 			</where>
 	</select>
 	
@@ -30,20 +39,12 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="getCertiList" resultType="spring.project.model.CertiInfoDTO"
 								parameterType="spring.project.model.CertiInfoDTO">
 		select * from 
     		(select rownum r, list.* from 
-		        (select * from certiinfo a 
-		        full outer join certi_requirement b 
-		        on a.cnum=b.cnum
-				<where>
-					<if test="category != null">
-						category=#{category} 
-					</if>
-				</where>	
-				) list)
+		        (select * from certiinfo) list)
 		where r between #{startRow} and #{endRow} and category != 'language'
 	</select>
 		
@@ -103,5 +104,22 @@
 		select * from ncs_code
 	</select>
 
+<!-- 찜 확인 -->
+	<select id="checkLike" resultType="spring.project.model.LikeDTO">
+		select * from member_like 
+		where memid=#{memid} and cnum=#{cnum}
+	</select>
+	
+	<!-- 찜 확인 -->
+	<select id="likeCheck" resultType="int"
+							parameterType="spring.project.model.LikeDTO">
+		select count(*) from member_like 
+		where memid=#{memid} and cnum=#{cnum}
+	</select>
 		
+		
+	<select id="getLikeList" resultType="String">
+		select cnum from member_like where memid = #{memid}
+	</select>
+	
 </mapper>

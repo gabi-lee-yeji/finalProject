@@ -10,36 +10,45 @@
 	<title> 자격증 </title>
 	
 <jsp:include page="../userNavBar.jsp"></jsp:include>
-<jsp:include page="filterForm.jsp" />
+<jsp:include page="mainFilter.jsp" />
 </head>
 <body>
-	<table width=800 cellpadding="10" cellspacing="0" border=1" align="center" >
-	
+	<a href="/certificate/certiMain?category=national" >국가기술자격</a>
+	<a href="/certificate/certiMain?category=private">공인민간자격</a>
 	<c:if test="${count > 0}">
-		<a href="/certificate/certiMain?category=national" >국가기술자격</a>
-		<a href="/certificate/certiMain?category=private">공인민간자격</a>
-		<tr>
-			<th>NO</th>
-			<th>자격명</th>
-			<th>자격등급</th>
-			<th>분류</th>
-		</tr>
-	</c:if>
-
-		<c:forEach var="board" items="${clist}">
+		<table width=800 cellpadding="10" cellspacing="0" border=1" align="center" >
 			<tr>
-				<td>
-					<c:out value="${board.cnum}"/>
-				</td>
-				<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>	
-				<td><c:out value="${board.clevel}"/></td>
-				<td>
-					<c:set var="catArr" value="${fn:replace(fn:replace(board.category,'private','공인민간'),'national','국가기술')}"></c:set>
-						<c:out value="${catArr}"/>
-				</td>
+				<th>NO</th>
+				<th>자격명</th>
+				<th>자격등급</th>
+				<th>분류</th>
+				<th></th>
 			</tr>
-		</c:forEach>
+			<c:forEach var="board" items="${clist}"> <!-- 전체 자격증 -->
+				<tr>
+					<td>
+						${board.cnum}
+						<c:if test="${sessionScope.sid != null}">
+							<c:if test="${check > 0}">
+								<c:if test="${fn:contains( mlist, board.cnum )}">
+									<input type="image"src="/resources/img/좋아요후.png" alt="제출" height="25" width="20" onclick="location.href='/like/delete?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
+								</c:if>
+								<c:if test="${!fn:contains( mlist, board.cnum )}">
+									<input type="image"src="/resources/img/좋아요전.png" alt="제출" height="20" width="20" onclick="location.href='/like/add?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
+								</c:if>
+							</c:if>
+						</c:if>
+					</td>
+					<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>	
+					<td><c:out value="${board.clevel}"/></td>
+					<td>
+						<c:set var="catArr" value="${fn:replace(fn:replace(board.category,'private','공인민간'),'national','국가기술')}"></c:set>
+							<c:out value="${catArr}"/>
+					</td>
+				</tr>
+			</c:forEach>
 		</table>
+	</c:if>
 	
 	
 	<c:if test="${count > 0}">

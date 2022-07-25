@@ -6,52 +6,18 @@
 
 <jsp:include page="../userNavBar.jsp"></jsp:include>
 
-<script>
-//서버로 전송할 데이터
-const form = {
-		memid : '${sessionScope.sid}',
-		cnum : '${info.cnum}',
-}
-//장바구니 추가 버튼
-$(".btn_like").on("click", function(e){
-	$.ajax({
-		url: '/like/add2',
-		type: 'POST',
-		data: form,
-		success: function(result){
-			likeAlert(result);
-		}
-	})
-});
-
-function likeAlert(result){
-	if(result == '0'){
-		alert("장바구니에 추가를 하지 못하였습니다.");
-	} else if(result == '1'){
-		alert("장바구니에 추가되었습니다.");
-	} else if(result == '2'){
-		alert("장바구니에 이미 추가되어져 있습니다.");
-	} else if(result == '5'){
-		alert("로그인이 필요합니다.");	
-	}
-}
-</script>
-
 <body>
 	<table border=1 width="800" height="800">
 		<tr>
 			<th>${info.cname}</th>
   			<td>
-			<c:if test="${sessionScope.sid != null}">
-			<div class="button">
-			<span>
-				<button class="btn_like">관심자격증</button>
-			</span>
-			</div>
-				<input type="button" class="btn_like" value="+관심자격증" onclick="location.href='/like/add?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
-				<c:if test="${clike.cnum != null}">
-					<input type="button" class="addlike" value="-관심자격증" onclick="location.href='/like/delete?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
-				</c:if>
+				<c:if test="${sessionScope.sid != null}">
+					<c:if test="${cnt == 0}">
+						<input type="image"src="/resources/img/좋아요전.png" alt="제출" height="20" width="20" onclick="location.href='/like/add?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
+					</c:if>
+					<c:if test="${cnt != 0}">
+						<input type="image"src="/resources/img/좋아요후.png" alt="제출" height="25" width="20" onclick="location.href='/like/delete?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
+					</c:if>
 				</c:if>
 			</td>
 		</tr>

@@ -15,6 +15,7 @@ import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
+import spring.project.model.LikeDTO;
 
 @Service
 public class CertiServiceImpl implements CertiService {
@@ -24,9 +25,8 @@ public class CertiServiceImpl implements CertiService {
 	static Map<String, CertiAccessible> certiMap = new HashMap<String, CertiAccessible>();
 
 	@Override
-	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category) {
-
-		return mapper.getCertiList(cnum,startRow, endRow, category);
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow) {
+		return mapper.getCertiList(startRow, endRow);
 	}
 	
 	
@@ -80,7 +80,15 @@ public class CertiServiceImpl implements CertiService {
 	public List<CertiInfoDTO> getreqList(String req_age,String req_degree,String req_exp){
 		return mapper.getreqList(req_age, req_degree, req_exp);
 	}
+	@Override
+	public int count(String cnum, String memid) {
+		return mapper.likeCheck(cnum,memid);
+	};
 	
+	@Override
+	public List<String> getLikeList(String memid){
+		return mapper.getLikeList(memid);
+	}
 	
 
 }

@@ -39,46 +39,10 @@ public class LikeController {
 		return "/certificate/certiMain";
 	}
 	
-	@RequestMapping("/like/chk2")
-	public String chkLike2(LikeDTO like,String cnum, String memid,HttpServletResponse response,Model model,HttpServletRequest request) {
-		String num = request.getParameter("cnum");
-		HttpSession session=request.getSession();
-		String id=(String)session.getAttribute("sid");
-		
-	//	like.setCnum(num);
-	//	like.setMemid(id);
-		int cnt = service.count(num,id);
-		LikeDTO clike = service.check(like);
-		
-		model.addAttribute("num",num);
-		model.addAttribute("cnt",cnt);
-		model.addAttribute("clike",clike);
-
-
-		return "/certificate/certiContent";
-	}
-	
 	@RequestMapping("/like/delete")
 	public String deleteLike(Model model,String cnum, HttpSession session,LikeDTO like) {
 		model.addAttribute("result",service.deleteLikePro(new LikeDTO(cnum,(String)session.getAttribute("sid"))));
 		return "/certificate/deleteLikePro";
-	}
-	
-	@PostMapping("/like/add2")
-	@ResponseBody
-	public int addLikePOST(LikeDTO like, HttpServletRequest request) {
-		// 로그인 체크
-		HttpSession session = request.getSession();
-		String sid = (String)session.getAttribute("sid");
-		if(sid == null) {
-			return 5;
-		}
-		
-		// 카트 등록
-		
-		int result = service.addLike(like);
-		
-		return result;
 	}
 	
 
