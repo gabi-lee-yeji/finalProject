@@ -27,7 +27,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
-import spring.project.model.PassRateDTO;
+import spring.project.model.PassRatePrvDTO;
 
 @Service
 public class DataServiceImpl implements DataService {
@@ -149,7 +149,7 @@ public class DataServiceImpl implements DataService {
 		
 		for(int i=0; i<strList.size(); i++) {
 			
-			PassRateDTO dto = new PassRateDTO();
+			PassRatePrvDTO dto = new PassRatePrvDTO();
 			dto.setCname(strList.get(i).split(";")[0]);
 			dto.setClevel(strList.get(i).split(";")[1]);
 			dto.setCyear(Integer.parseInt(strList.get(i).split(";")[2]));

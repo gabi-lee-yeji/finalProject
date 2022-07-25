@@ -97,7 +97,7 @@
 		insert into certi_related values(#{cfrom}, #{cto})
 	</insert>
 
-	<insert id="addPassRate" parameterType="spring.project.model.PassRateDTO">
+	<insert id="addPassRate" parameterType="spring.project.model.PassRatePrvDTO">
 		insert into pass_rate values(
 			#{cname},
 			#{clevel, jdbcType=VARCHAR},

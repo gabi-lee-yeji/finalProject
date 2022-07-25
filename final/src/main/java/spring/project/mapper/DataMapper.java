@@ -11,7 +11,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
-import spring.project.model.PassRateDTO;
+import spring.project.model.PassRatePrvDTO;
 
 public interface DataMapper {
 
@@ -22,7 +22,7 @@ public interface DataMapper {
 	public String findCnum(String cname);
 	public int findCnumCount(String cname);
 	
-	public int addPassRate(PassRateDTO dto);
+	public int addPassRate(PassRatePrvDTO dto);
 	public void addCertiRelated(CertiMatchDTO dto);
 	public void addNatData(CertiInfoDTO dto);
 	public void updateNatClevel(CertiScheduleDTO dto);

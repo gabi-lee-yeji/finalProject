@@ -130,4 +130,28 @@
 		where r between #{startRow} and #{endRow}
    </select>
 		
+	<select id="pyramidGraph" resultType="spring.project.model.PassDetailDTO">
+		select * from pass_detail 
+			where cname in
+				(select cname from certiinfo where cnum=#{cnum})
+	</select>
+	
+	<select id="lineGraphNat" resultType="spring.project.model.PassRateNatDTO">
+		select * from(
+			select p.*, rownum r from pass_rate_nat p
+				where cname in
+					(select cname from certiinfo where cnum=#{cnum}))
+			where r between 1 and 5
+	</select>
+	
+	<select id="lineGraphPrv" resultType="spring.project.model.PassRatePrvDTO">
+		select * from (
+			select p.*, rownum r from pass_rate p
+				where cname in
+					(select cname from certiinfo where cnum=#{cnum})
+				and (clevel in
+						(select clevel from certiinfo where cnum=#{cnum}) 
+					or (select clevel from certiinfo where cnum=#{cnum}) is null))
+			where r between 1 and 5
+	</select>
 </mapper>

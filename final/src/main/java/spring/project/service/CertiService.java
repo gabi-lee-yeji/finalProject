@@ -11,6 +11,8 @@ import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.MypageNewsDTO;
+import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateAccessible;
 
 public interface CertiService {
 	
@@ -33,4 +35,10 @@ public interface CertiService {
 
 	// RServe이용해서 자격증 관련 뉴스 가져오기
 	public ArrayList<MypageNewsDTO> getNews(String cnum) throws Exception;
+
+	// cnum에 해당하는 pass_detail테이블 정보 가져오기
+	public ArrayList<PassDetailDTO> pyramidGraph(String cnum);
+	
+	// cnum에 해당하는 pass_rate(_nat)테이블 정보 가져오기
+	public ArrayList<? extends PassRateAccessible> lineGraph(CertiInfoDTO dto);
 }

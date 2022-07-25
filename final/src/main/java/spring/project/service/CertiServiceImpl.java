@@ -18,6 +18,8 @@ import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MypageNewsDTO;
+import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateAccessible;
 
 @Service
 public class CertiServiceImpl implements CertiService {
@@ -131,6 +133,20 @@ public class CertiServiceImpl implements CertiService {
 		
 		return list;
 	}
+	
+	@Override
+	public ArrayList<PassDetailDTO> pyramidGraph(String cnum) {
+		return mapper.pyramidGraph(cnum);
+	}
+	
+	@Override
+	public ArrayList<? extends PassRateAccessible> lineGraph(CertiInfoDTO dto) {
+		if(dto.getCnum().charAt(0) == 'N')
+			return mapper.lineGraphNat(dto);
+		else
+			return mapper.lineGraphPrv(dto);
+	}
+	
 }
 
 
