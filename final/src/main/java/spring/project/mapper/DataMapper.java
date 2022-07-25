@@ -31,4 +31,5 @@ public interface DataMapper {
 	public void addPrvInfo(CertiInfoDTO dto);
 	public void updatePrvInfo1(CertiInfoDTO dto);
 	public void addCertiReq(CertiRequirementDTO dto);
+	public void addLangInfo(CertiInfoDTO dto);
 }

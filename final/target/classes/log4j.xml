@@ -53,7 +53,7 @@
 		<appender-ref ref="console"/>
 	</logger>
 	<logger name="jdbc.sqlonly" additivity="false">
-		<level value="warn"/>
+		<level value="info"/>
 		<appender-ref ref="console"/>
 	</logger>
 	<logger name="jdbc.audit" additivity="false">

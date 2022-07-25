@@ -392,22 +392,22 @@ public class DataServiceImpl implements DataService {
 			CertiInfoDTO dto = new CertiInfoDTO();
 			
 			dto.setCname(datas[0]);
-			dto.setCompany(datas[1]);
+			dto.setCompany(datas[3]);
 			dto.setClevel(datas[2]);
-			dto.setCinfo(datas[3]);
-			dto.setCjob(datas[4]);
-			dto.setExpiry(datas[5]);
-			dto.setWebsite(datas[6]);
+			dto.setCinfo(datas[5]);
+			dto.setCjob(datas[6]);
+			dto.setExpiry(datas[7]);
+			dto.setWebsite(datas[4]);
 			
 			dto.setCategory("language");
 			dto.setStatus("Y");
 
-			if(am.findCurrseq("LAN_SEQ")==0) {
-				am.findNextseq("LAN_SEQ");
+			if(am.findCurrseq("LANG_SEQ")==0) {
+				am.findNextseq("LANG_SEQ");
 			}
-			dto.setCnum("L"+String.format("%05d", am.findNextseq("LAN_SEQ")));
+			dto.setCnum("L"+String.format("%05d", am.findNextseq("LANG_SEQ")));
 			
-//			mapper.addPrvInfo(dto);
+			mapper.addLangInfo(dto);
 		}
 	}
 	
