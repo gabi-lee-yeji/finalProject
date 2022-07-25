@@ -2,14 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>자주하는 질문</title>
 </head>
-
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>자주하는 질문 목록(전체 글:${count})</h1>
@@ -66,15 +64,15 @@
 	</c:if>
 	
 	<c:if test="${startPage > 10}" >
-        <a href="/help/faq/faqList?board_type=1&pageNum=${startPage - 10}">[이전]</a>
+        <a href="/help/faq/faqList?board_type=2&pageNum=${startPage - 10}">[이전]</a>
     </c:if>
     
     <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">    
-        <a href="/help/faq/faqList?board_type=1&pageNum=${i}">[${i}]</a>
+        <a href="/help/faq/faqList?board_type=2&pageNum=${i}">[${i}]</a>
     </c:forEach>
     
     <c:if test="${endPage < pageCount}" >
-       <a href="/help/faq/faqList?board_type=1&pageNum=${startPage + 10 }">[다음]</a>
+       <a href="/help/faq/faqList?board_type=2&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
 <c:if test="${memberStatus == 1}">

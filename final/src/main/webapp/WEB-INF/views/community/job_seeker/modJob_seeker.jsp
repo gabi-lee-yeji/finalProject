@@ -9,9 +9,8 @@
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>취준생 공간 글 수정</h1>
-	<form action="/community/job_seeker/modJob_seekerPro" method="post">
+	<form action="/community/job_seeker/modJob_seekerPro" method="post" onSubmit="return check()">
 		<jsp:include page="/WEB-INF/views/board/modBoardForm.jsp" flush="false"/>
-		<input type="submit" value="수정 완료" />
 	</form>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>

@@ -5,26 +5,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>질문글</title>
+<title>취준생 공간</title>
+<script>
+	function addMemberReport(pnum){
+		window.open("/community/addMemberReportForm?pnum="+pnum, 
+			"게시글 신고", "width=400, height=300, left=100, top=50"); 
+	}
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
-	<h1>질문글 글보기</h1>
+	<h1>취준생 공간 글보기</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
 	<c:if test="${sessionScope.sid != null}">
 		<input type="button" value="수정" 
-			onclick="window.location = '/community/question/modQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />
+			onclick="window.location = '/community/job_seeker/modJob_seeker?pnum=${board.pnum}&pageNum=${pageNum}' " />
 		<input type="button" value="삭제" 
-			onclick="window.location = '/community/question/delQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />
+			onclick="window.location = '/community/job_seeker/delJob_seeker?pnum=${board.pnum}&pageNum=${pageNum}' " />
 	
 		<c:if test="${board.post_level == 0}">
 			<input type="button" value="답글" 
-				onclick="window.location = '/community/question/addQuestion?pnum=${board.pnum}&post_group=${board.post_group}' " />
+				onclick="window.location = '/community/job_seeker/addJob_seeker?pnum=${board.pnum}&post_group=${board.post_group}' " />
 		</c:if>
 		<input type="button" value="신고" onclick="addMemberReport(${board.pnum});"/>
 	</c:if>
 	<input type="button" value="목록" 
-		onclick="window.location = '/community/question/questionList?board_type=5' "/>
+		onclick="window.location = '/community/job_seeker/job_seekerList?board_type=7' "/>
 	<br/><br/>
 	<div>
 		<jsp:include page="/WEB-INF/views/board/commForm.jsp" flush="false"/>
@@ -33,12 +39,6 @@
 	<c:if test="${memberStatus == 1}">
 		<c:import url = "/admin/board/reportDetails" />
 	</c:if>
-<script>
-	function addMemberReport(pnum){
-		window.open("/community/addMemberReportForm?pnum="+pnum, 
-			"게시글 신고", "width=400, height=300, left=100, top=50"); 
-	}
-</script>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

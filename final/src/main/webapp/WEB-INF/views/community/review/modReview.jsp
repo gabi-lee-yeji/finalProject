@@ -9,9 +9,8 @@ pageEncoding="UTF-8"%>
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 <h1>꿀팁, 리뷰 수정</h1>
-	<form action="/community/review/modReviewPro" method="post">
+	<form action="/community/review/modReviewPro" method="post" onSubmit="return check()">
 		<jsp:include page="/WEB-INF/views/board/modBoardForm.jsp" flush="false" />
-		<input type="submit" value="수정 완료" />
 	</form>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>

@@ -12,8 +12,10 @@
 	<h1>공지사항 글보기</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
 	<c:if test="${memberStatus == 1}">
-		<input type="button" value="수정" onclick="window.location = '/help/notice/modNotice?pnum=${board.pnum}&pageNum=${pageNum}' " />
-		<input type="button" value="삭제" onclick="window.location = '/help/notice/delNotice?pnum=${board.pnum}&pageNum=${pageNum}' " />
+		<input type="button" value="수정" 
+			onclick="window.location = '/help/notice/modNotice?pnum=${board.pnum}&pageNum=${pageNum}' " />
+		<input type="button" value="삭제" 
+			onclick="window.location = '/help/notice/delNotice?pnum=${board.pnum}&pageNum=${pageNum}' " />
 	</c:if>
 	<input type="button" value="목록" onclick="window.location = '/help/notice/noticeList?board_type=1' "/>
 <jsp:include page="/WEB-INF/views/footer.jsp" />

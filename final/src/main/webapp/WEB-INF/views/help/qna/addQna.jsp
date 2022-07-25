@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +11,8 @@
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<c:if test="${pnum == 0}" >
 		<h1>1:1 문의 등록</h1>
-		<form action="/help/qna/addQnaPro" name="addQna" method="post" encType="multipart/form-data" >
+		<form action="/help/qna/addQnaPro" name="addQna" 
+			method="post" encType="multipart/form-data" onSubmit="return check()">
 			<jsp:include page="/WEB-INF/views/board/addBoardForm.jsp" flush="false"/>
 			<input type="hidden" name="board_type" value="3"/>
 		</form>
@@ -21,7 +21,8 @@
 	
 	<c:if test="${pnum != 0}" >
 		<h1>1:1 문의 답글</h1>
-		<form action="/help/qna/addQnaPro" name="addQna" method="post" encType="multipart/form-data" >
+		<form action="/help/qna/addQnaPro" name="addQna" 
+			method="post" encType="multipart/form-data" onSubmit="return check()">
 			<h2>고객문의 원글</h2>
 			<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
 			<br/>

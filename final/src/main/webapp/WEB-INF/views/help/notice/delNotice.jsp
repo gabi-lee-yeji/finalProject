@@ -9,9 +9,9 @@
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>공지사항 삭제</h1>
-<form action="/help/notice/delNoticePro" method="post">
-	<jsp:include page="/WEB-INF/views/board/delBoardForm.jsp" flush="false"/>
-</form>
+	<form action="/help/notice/delNoticePro" method="post">
+		<jsp:include page="/WEB-INF/views/board/delBoardForm.jsp" flush="false"/>
+	</form>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>
