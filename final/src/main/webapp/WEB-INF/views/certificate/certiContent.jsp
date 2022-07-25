@@ -14,6 +14,16 @@
 			window.location='/like/add';
 		}
 	}
+	
+	addReqTbl();
+	function addReqTbl(){
+		$.ajax({
+			url:"/certificate/requirement",
+			success : function(data){
+				$("#requirement").html(data);
+			}
+		});
+	}
 </script>
 
 <body>
@@ -107,4 +117,5 @@
 			<td>${info.status}</td>
 		</tr>
 	</table>
+	<div id="requirement"></div>	
 </body>

@@ -22,7 +22,7 @@
 
 <body>
 
-<c:import url="filterForm.jsp" />
+<c:import url="/certificate/filterForm" />
 
 	<table width=800 cellpadding="10" cellspacing="0" border=1">
 	<c:if test="${count > 0}">

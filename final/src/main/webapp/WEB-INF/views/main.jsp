@@ -46,6 +46,7 @@
 		  clear: both;
 		  display: table;
 		}
+		
 	</style>
 </head>
 <body>
@@ -70,23 +71,37 @@
 		</form>
 	</div>
 	
-	<iframe src="/calendar/userMain" id="todayCalendar"></iframe>
+	<div id="todayCalendar">
+		<c:import url="/calendar/userMain"/>
+	</div>
 	
 	<div class="row">
 		<div class="col">
 			<table class="table table-hover">
-				<tr><th colspan="2">사용자 맞춤 인기자격증</th></tr>
-				<c:forEach var="dto" items="${clientList }" varStatus="status">
-					<tr>
-						<th>${status.count}</th>			
-						<td><a href="/certificate/certiContent?cnum=${dto.cnum }">${dto.cname }</a></td>
+				<tr><th colspan="2" style="text-align: center;font-size: 20px">사용자 맞춤 인기자격증</th></tr>
+				<c:if test="${sessionScope.sid != null }">
+					<c:forEach var="dto" items="${clientList }" varStatus="status">
+						<tr>
+							<th>${status.count}</th>			
+							<td><a href="/certificate/certiContent?cnum=${dto.cnum }">${dto.cname }</a></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${sessionScope.sid == null }">
+					<tr rowspan=10>
+						<td colspan=2 style="text-align: center;font-size: 20px;">
+							회원님과 <br> 
+							같은 성별, 연령대를 가진 사람들이 <br> 
+							취득하는 인기자격증을 <br>
+							확인하시려면 <a href="/member/login">로그인</a> 하세요!
+						</td>
 					</tr>
-				</c:forEach>
+				</c:if>
 			</table>
 		</div>
 		<div class="col">
 			<table class="table table-hover">
-				<tr><th colspan="2">국가기술 인기자격증</th></tr>
+				<tr><th colspan="2" style="text-align: center;font-size: 20px">국가기술 인기자격증</th></tr>
 				<c:forEach var="dto" items="${natList }" varStatus="status">
 					<tr>
 						<th>${status.count}</th>			
@@ -97,7 +112,7 @@
 		</div>
 		<div class="col">
 			<table class="table table-hover">
-				<tr><th colspan="2">공인민간 인기자격증</th></tr>
+				<tr><th colspan="2" style="text-align: center;font-size: 20px">공인민간 인기자격증</th></tr>
 				<c:forEach var="cname" items="${prvList }" varStatus="status">
 					<tr>
 						<th>${status.count}</th>			
@@ -109,6 +124,10 @@
 	</div>
 	
 	<script>
+		<c:if test="${needPopup > 0}">
+			window.open('/main/popup','접수마감일 임박한 시험','width=600,height=600');
+		</c:if>
+		
 		function getCnum(){
 			var cname = $('#certiSearch').val();
 			var cn = $('#searchList option').filter(function(){
@@ -121,6 +140,7 @@
 				document.frm.cnum.value = "";
 			}
 		}
+		
 	</script>
 </body>
 </html>

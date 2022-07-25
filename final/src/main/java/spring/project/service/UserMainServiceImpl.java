@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import spring.project.mapper.UserMainMapper;
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.SearchAccessible;
 import spring.project.pagination.PagingDTO;
@@ -215,6 +217,71 @@ public class UserMainServiceImpl implements UserMainService{
 			return calFormatList(mapper.getNatCertiDate(cnum));
 		}
 		return calFormatList(mapper.getCertiDate(cnum));
+	}
+
+	@Override
+	public List<CertiRequirementDTO> getCertiRequirement(String cnum) {
+		List<CertiRequirementDTO> list = mapper.getCertiRequirement(cnum);
+		if(list.size()==0) {
+			String clevel = mapper.checkClevel(cnum);
+			list = mapper.getNatCertiRequirement(clevel);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> getNcsCodeList() {
+		return mapper.getNcsCodeList();
+	}
+
+	@Override
+	public List<CertiInfoDTO> getCertiFilteredList(CertiFilterDTO dto, PagingDTO page) {
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("category", dto.getCategory());
+		parameterMap.put("ncs_cat", dto.getNcs_cat());
+		parameterMap.put("clevel", dto.getClevel());
+		parameterMap.put("startRow", page.getStartRow());
+		parameterMap.put("endRow", page.getEndRow());
+		return mapper.getCertiFilteredList(parameterMap);
+	}
+
+	@Override
+	public int getCertiFilteredCnt(CertiFilterDTO dto) {
+		return mapper.getCertiFilteredCnt(dto);
+	}
+
+	@Override
+	public List<String> getNcsName(CertiFilterDTO dto) {
+		return mapper.getNcsName(dto);
+	}
+
+	@Override
+	public CertiDateDTO getClosestNatSchedule() {
+		return mapper.getClosestNatSchedule();
+	}
+
+	@Override
+	public List<Map<String, Object>> getClosePrvTests() {
+		return mapper.getClosePrvTests();
+	}
+
+	@Override
+	public List<Map<String, Object>> getCloseNatTests() {
+		return mapper.getCloseNatTests();
+	}
+
+	@Override
+	public int getCloseTestCnt() {
+		return mapper.getCloseTestCnt();
+	}
+
+	@Override
+	public List<String> getCnumOfCloseTests() {
+		List<String> list = new ArrayList<String>();
+		list.addAll(mapper.getCloseNatCnumList());
+		list.addAll(mapper.getClosePrvCnumList());
+		return list;
 	}
 
 }

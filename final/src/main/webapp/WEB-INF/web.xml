@@ -6,7 +6,7 @@
 		http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 			id="WebApp_ID" version="3.1">
 			
-	<!-- Filters for setting spring security -->
+	<!-- Filters for setting spring security 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -15,7 +15,7 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+	-->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -38,7 +38,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring/root-context.xml
-			/WEB-INF/spring/security-context.xml
 		</param-value>
 	</context-param>
 	

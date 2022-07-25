@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.model.SearchAccessible;
 import spring.project.pagination.PagingDTO;
 
@@ -22,8 +24,10 @@ public interface UserMainService {
 	List<CertiDateDTO> getMemberCertiSchedules(String memid);
 	
 	//CertiInfo
-	//자격증별 상세일정 조회
+	//자격증별 상세일정 조회 (calendar)
 	List<CertiDateDTO> getCertiDate(String cnum);
+	List<CertiRequirementDTO> getCertiRequirement(String cnum);
+	
 	
 	//인기자격증 순위
 	//국가기술 top 10
@@ -43,4 +47,21 @@ public interface UserMainService {
 	int getHelpBoardSearchCnt(String keyword);
 	int getCommBoardSearchCnt(String keyword);
 	int getCommentSearchCnt(String keyword);
+	
+	//자격증 필터링
+	List<Map<String,Object>> getNcsCodeList();
+	List<CertiInfoDTO> getCertiFilteredList(CertiFilterDTO dto, PagingDTO page);
+	int getCertiFilteredCnt(CertiFilterDTO dto);
+	List<String> getNcsName(CertiFilterDTO dto);
+	
+	//목록에서 접수일 임박한지 비교할 list
+	List<String> getCnumOfCloseTests();
+	
+	//접수마감일 임박한 자격증 팝업창
+	CertiDateDTO getClosestNatSchedule();
+	List<Map<String,Object>> getClosePrvTests();
+	List<Map<String,Object>> getCloseNatTests();
+	
+	int getCloseTestCnt();
+	
 }

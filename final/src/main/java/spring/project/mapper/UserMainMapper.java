@@ -1,11 +1,14 @@
 package spring.project.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.model.Comm_BoardDTO;
 import spring.project.model.Post_BoardDTO;
 import spring.project.model.SearchAccessible;
@@ -49,4 +52,23 @@ public interface UserMainMapper {
 	List<CertiDateDTO> getNatCertiDate(String cnum);
 	//민간,어학
 	List<CertiDateDTO> getCertiDate(String cnum);
+	//자격증 상세정보 - 응시자격
+	List<CertiRequirementDTO> getCertiRequirement(String cnum);
+		//응시자격에 cnum이 없는 국가자격증인 경우
+		String checkClevel(String cnum);
+		List<CertiRequirementDTO> getNatCertiRequirement(String clevel);
+		
+	List<Map<String,Object>> getNcsCodeList();
+	List<CertiInfoDTO> getCertiFilteredList(Map map);
+	int getCertiFilteredCnt(CertiFilterDTO dto);
+	List<String> getNcsName(CertiFilterDTO dto);
+	
+	CertiDateDTO getClosestNatSchedule();
+	List<Map<String,Object>> getClosePrvTests();
+	List<Map<String,Object>> getCloseNatTests();
+	
+	int getCloseTestCnt();
+	
+	List<String> getCloseNatCnumList();
+	List<String> getClosePrvCnumList();
 }

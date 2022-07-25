@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiFilterDTO;
 import spring.project.pagination.PagingDTO;
 import spring.project.pagination.PagingService;
 import spring.project.service.AdminService;
@@ -44,6 +45,8 @@ public class UserMainController {
 		model.addAttribute("prvList", service.getPrvTopCerti());
 		
 		model.addAttribute("list", mpService.getCertiSearch());
+		
+		model.addAttribute("needPopup", service.getCloseTestCnt());
 		return "/main";
 	}
 	
@@ -100,9 +103,47 @@ public class UserMainController {
 		return "/calendar/certiInfo_monthly";
 	}
 	
+	@RequestMapping("certificate/requirement")
+	public String getCertiRequirement(String cnum, Model model) {
+		model.addAttribute("list", service.getCertiRequirement(cnum));
+		return "/certificate/certiReq_tbl";
+	}
+	
+	@RequestMapping("certificate/filterForm")
+	public String FilterForm(String category, Model model) {
+		model.addAttribute("ncsList", service.getNcsCodeList());
+		model.addAttribute("category", category);
+		return "/certificate/certiFilterForm";
+	}
+	
+	@RequestMapping("certificate/filterPro")
+	public String getFilterResult(CertiFilterDTO dto, String pageNum, Model model) {
+		PagingDTO page = pageService.getPaging(20, pageNum);
+		model.addAttribute("page", page);
+		model.addAttribute("dto", dto);
+		model.addAttribute("list", service.getCertiFilteredList(dto, page));
+		model.addAttribute("count", service.getCertiFilteredCnt(dto));
+		
+		if(dto.getNcs_cat().length>0) {
+			model.addAttribute("ncsName", service.getNcsName(dto));
+			model.addAttribute("ncs_length", dto.getNcs_cat().length+1);
+		}
+		model.addAttribute("check", service.getCnumOfCloseTests());
+		for(String cnum: service.getCnumOfCloseTests()) {
+			System.out.print("="+cnum+"=");
+		}
+		return "/certificate/certiFilterPro";
+	}
+	
+	@RequestMapping("/main/popup")
+	public String getApproachTests(Model model) {
+		model.addAttribute("natSchedule", service.getClosestNatSchedule());
+		model.addAttribute("closeNatTests", service.getCloseNatTests());
+		model.addAttribute("closePrvTests", service.getClosePrvTests());
+		return "/closeTestPopup";
+	}
+
 }
-
-
 
 
 
