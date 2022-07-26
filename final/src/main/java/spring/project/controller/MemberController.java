@@ -73,7 +73,6 @@ public class MemberController {
 			}
 		}
 		MemberInfoDTO dto2 = service.userCheck(dto);
-		System.out.println(dto2);
 		int result = 0;
 		if(dto2 != null) {
 		result = dto2.getCnt();
