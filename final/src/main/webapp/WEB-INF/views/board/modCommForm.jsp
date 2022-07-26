@@ -5,19 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>댓글 수정 창</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// 예지님 질문 ㅠ ㅠㅠ ! 
 	function check(){
 		var rtn = true;
 		var comm_content = document.getElementById("comm_content").value;
 		
 		//댓글내용 공백 확인
-		if($("#comm_content").val() == ""){
+		if(comm_content == ""){
 			alert("댓글을 입력해주세요");
 			$("#comm_content").focus();
 			return false;
 		}
-		return rtn;
 	}
 </script>
 </head>

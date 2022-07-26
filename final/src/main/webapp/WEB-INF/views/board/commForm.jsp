@@ -2,18 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	function check(){
-		var rtn = true;
-		var comm_content = document.getElementById("comm_content").value;
-		
 		//댓글내용 공백 확인
 		if($("#comm_content").val() == ""){
 			alert("댓글을 입력해주세요");
 			$("#comm_content").focus();
 			return false;
 		}
-		return rtn;
+		return true;
 	}
 
 	function modComm(comm_num){

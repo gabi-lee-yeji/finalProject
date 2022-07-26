@@ -4,10 +4,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	function check(){
-		var post_content = document.getElementById("post_content").value;
-		
 		//글 내용 공백 확인
 		if($("#post_content").val() == ""){
 			alert("글 내용을 입력해주세요");
@@ -36,7 +35,7 @@ ${board.post_content}</textarea>
     </tr>
 	<c:if test="${fn:length(boardAttach) > 0}">
 		<tr>
-			<td>첨부파일 ${boardAttach}</td>
+			<td>첨부파일</td>
 			<td>
 				<c:forEach var="list" items="${boardAttach}">
 					${list.fileName}<br />

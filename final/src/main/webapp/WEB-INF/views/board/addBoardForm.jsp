@@ -2,12 +2,9 @@
 pageEncoding="UTF-8"%> <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	function check(){
-		var rtn = true;
-		var subject = document.getElementById("subject").value;
-		var post_content = document.getElementById("post_content").value;
-		
 		//제목 공백 확인
 		if($("#subject").val() == ""){
 			alert("글 제목을 입력해주세요");
@@ -21,7 +18,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 			$("#post_content").focus();
 		     return false;
 		}
-		return rtn;
+		return true;
 	};
 </script>
 
