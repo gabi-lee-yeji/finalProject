@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>접수 마감 임박한 시험</title>
+	<title>접수 마감 임박한 시험 (국가)</title>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
 <body>

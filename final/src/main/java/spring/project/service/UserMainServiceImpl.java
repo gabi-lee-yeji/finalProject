@@ -272,8 +272,10 @@ public class UserMainServiceImpl implements UserMainService{
 	}
 
 	@Override
-	public int getCloseTestCnt() {
-		return mapper.getCloseTestCnt();
+	public int getCloseTestCnt(String category) {
+		int checkIfNat = 1;
+		if(!category.equals("national")) checkIfNat = 0;
+		return mapper.getCloseTestCnt(checkIfNat);
 	}
 
 	@Override
@@ -281,6 +283,7 @@ public class UserMainServiceImpl implements UserMainService{
 		List<String> list = new ArrayList<String>();
 		list.addAll(mapper.getCloseNatCnumList());
 		list.addAll(mapper.getClosePrvCnumList());
+		
 		return list;
 	}
 

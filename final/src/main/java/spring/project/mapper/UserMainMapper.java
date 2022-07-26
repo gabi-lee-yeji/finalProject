@@ -67,7 +67,7 @@ public interface UserMainMapper {
 	List<Map<String,Object>> getClosePrvTests();
 	List<Map<String,Object>> getCloseNatTests();
 	
-	int getCloseTestCnt();
+	int getCloseTestCnt(int checkIfNat);
 	
 	List<String> getCloseNatCnumList();
 	List<String> getClosePrvCnumList();

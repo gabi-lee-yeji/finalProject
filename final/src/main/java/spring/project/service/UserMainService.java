@@ -62,6 +62,6 @@ public interface UserMainService {
 	List<Map<String,Object>> getClosePrvTests();
 	List<Map<String,Object>> getCloseNatTests();
 	
-	int getCloseTestCnt();
+	int getCloseTestCnt(String category);
 	
 }

@@ -8,6 +8,28 @@
 <head>
 	<meta charset="UTF-8">
 	<title>필터링 결과 (${count}개)</title>
+	<style>
+		.pagination {
+		  display: inline-block;
+		}
+		
+		.pagination a {
+		  color: black;
+		  float: left;
+		  padding: 8px 16px;
+		  text-decoration: none;
+		  transition: background-color .3s;
+		  border: 1px solid #ddd;
+		}
+		
+		.pagination a.active {
+		  background-color: #4CAF50;
+		  color: white;
+		  border: 1px solid #4CAF50;
+		}
+		
+		.pagination a:hover:not(.active) {background-color: #ddd;}
+	</style>
 </head>
 <body>
 	<jsp:include page="../userNavBar.jsp"/>
@@ -53,8 +75,8 @@
 							<td>${dto.cnum}</td>
 							<td>
 								<a href="/certificate/certiContent?cnum=${dto.cnum}">${dto.cname}</a>
-								<c:if test="${fn:contains(check, dto.cnum) }">
-									<button type="button" class="btn btn-danger btn-sm">접수마감!</button>
+								<c:if test="${fn:contains(cnumList, dto.cnum)}">
+									<button type="button" class="btn btn-danger btn-xs">접수마감!</button>
 								</c:if>
 							</td>
 							<td>${dto.clevel}</td>
@@ -79,33 +101,44 @@
 		<c:if test="${endPage > pageCount}">
 			<c:set var="endPage" value="${pageCount}" />
 		</c:if>
-        
-        <c:if test="${startPage > 10 }">
-        	<a href="/certificate/filterPro?pageNum=${startPage-10}">[이전]</a>
-        </c:if>
-        
-        <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-        	<a href="/certificate/filterPro?pageNum=${i}" onclick="sendDto()">[${i}]</a>
-        	<input type="hidden" value="${i}" id="pageNum"/>
-		</c:forEach>
-		
-		<c:if test="${endPage < pageCount}">
-        	<a href="/certificate/filterPro?pageNum=${startPage + 10}">[다음]</a>
-		</c:if>
-    </c:if>
-    
-   	<c:forEach var="ncs_cat" items="${dto.ncs_cat}">
-   		<input type="hidden" name="ncs_cat" value="${ncs_cat}"/>
-   	</c:forEach>
-   	<c:forEach var="clevel" items="${dto.clevel}">
-   		<input type="hidden" name="clevel" value="${clevel}"/>
-   	</c:forEach>
-   	<input type="hidden" name="category" value="${dto.category}">
-   	
+       	<div class="pagination">
+	        <c:if test="${startPage > 10 }">
+	        	<a class="page-link" onclick="return submitForm('${startPage-10}')">
+	        		이전
+	        	</a>
+	        </c:if>
+	        <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
+	        	<a onclick="return submitForm('${i}')" >
+	        		${i}
+	        	</a>
+			</c:forEach>
+			<c:if test="${endPage < pageCount}">
+	        	<a onclick="return submitForm('${startPage + 10}')">
+	        		다음
+	        	</a>
+			</c:if>
+		</div>
+   	</c:if>
+   	<form name="frm" action="/certificate/filterPro" method="post">
+   		<c:forEach var="ncs_cat" items="${dto.ncs_cat}">
+	   		<input type="hidden" name="ncs_cat" value="${ncs_cat}"/>
+	   	</c:forEach>
+	   	<c:forEach var="clevel" items="${dto.clevel}">
+	   		<input type="hidden" name="clevel" value="${clevel}"/>
+	   	</c:forEach>
+	   	<input type="hidden" name="category" value="${dto.category}">
+	   	<input type="hidden" name="pageNum" value="">
+   	</form>
 </body>
 <script>
-	sendDto();
+	function submitForm(x){
+		console.log(x);
+		document.frm.pageNum.value = x;
+		document.frm.submit();
+	}
+	
 	function sendDto(){
+		/*
 		var ncsArray = [];
 		$('input[name="ncs_cat"]').each(function(i){
 			ncsArray.push($(this).val());
@@ -132,7 +165,7 @@
 			dataType: 'json',
 			type: 'post',
 			data: params			
-		});
+		});*/
 	}
 </script>
 </html>

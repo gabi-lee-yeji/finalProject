@@ -124,9 +124,12 @@
 	</div>
 	
 	<script>
-		<c:if test="${needPopup > 0}">
-			window.open('/main/popup','접수마감일 임박한 시험','width=600,height=600');
+		<c:if test="${natPopup > 0}">
+			window.open('/main/natPopup','접수마감일 임박한 시험 (국가)','width=600,height=600');
 		</c:if>
+		<c:if test="${prvPopup > 0}">
+			window.open('/main/prvPopup','접수마감일 임박한 시험 (민간)','width=600,height=600');
+		</c:if>	
 		
 		function getCnum(){
 			var cname = $('#certiSearch').val();

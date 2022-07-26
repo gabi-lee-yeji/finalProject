@@ -46,7 +46,8 @@ public class UserMainController {
 		
 		model.addAttribute("list", mpService.getCertiSearch());
 		
-		model.addAttribute("needPopup", service.getCloseTestCnt());
+		model.addAttribute("natPopup", service.getCloseTestCnt("national"));
+		model.addAttribute("prvPopup", service.getCloseTestCnt("private"));
 		return "/main";
 	}
 	
@@ -57,6 +58,7 @@ public class UserMainController {
 		model.addAttribute("keyword", keyword);
 		return "/certificate/searchList";
 	}
+	
 	@RequestMapping("search")
 	public String getSearchList(String pageNum, String keyword, Model model) {
 		PagingDTO page = pageService.getPaging(10, pageNum);
@@ -117,10 +119,12 @@ public class UserMainController {
 	}
 	
 	@RequestMapping("certificate/filterPro")
-	public String getFilterResult(CertiFilterDTO dto, String pageNum, Model model) {
+	public String getFilterResult(CertiFilterDTO dto, String pageNum,String ncs_cat, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
 		model.addAttribute("page", page);
+		
 		model.addAttribute("dto", dto);
+		
 		model.addAttribute("list", service.getCertiFilteredList(dto, page));
 		model.addAttribute("count", service.getCertiFilteredCnt(dto));
 		
@@ -128,19 +132,23 @@ public class UserMainController {
 			model.addAttribute("ncsName", service.getNcsName(dto));
 			model.addAttribute("ncs_length", dto.getNcs_cat().length+1);
 		}
-		model.addAttribute("check", service.getCnumOfCloseTests());
-		for(String cnum: service.getCnumOfCloseTests()) {
-			System.out.print("="+cnum+"=");
-		}
+		
+		model.addAttribute("cnumList", service.getCnumOfCloseTests());
+		
 		return "/certificate/certiFilterPro";
 	}
 	
-	@RequestMapping("/main/popup")
+	@RequestMapping("/main/natPopup")
 	public String getApproachTests(Model model) {
 		model.addAttribute("natSchedule", service.getClosestNatSchedule());
 		model.addAttribute("closeNatTests", service.getCloseNatTests());
+		return "/natPopup";
+	}
+	
+	@RequestMapping("/main/prvPopup")
+	public String getApproachPrvTests(Model model) {
 		model.addAttribute("closePrvTests", service.getClosePrvTests());
-		return "/closeTestPopup";
+		return "/prvPopup";
 	}
 
 }

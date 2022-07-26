@@ -17,7 +17,7 @@
 	<select id="getCloseNatCnumList" resultType="String">
 		select b.cnum from 
 		    (select cyear, cround, clevel from certidate
-		        where docregend1 between sysdate and sysdate+(interval'7'day)) a,
+		        where docregend1 between sysdate and sysdate+(interval'15'day)) a,
 		    certischedule b
 		    where a.cyear=b.cyear
 		    and a.cround=b.cround
@@ -25,11 +25,17 @@
 	</select>
 	<select id="getClosePrvCnumList" resultType="String">
 		select cnum from certidate 
-    		where docregend1 between sysdate and sysdate+(interval'7'day)
+    		where docregend1 between sysdate and sysdate+(interval'15'day)
 	</select>
 	<select id="getCloseTestCnt" resultType="int">
 		select count(*) from certidate 
-        where docregend1 between sysdate and sysdate+(interval'15'day)
+        	where docregend1 between sysdate and sysdate+(interval'15'day)
+            <if test="checkIfNat == 1">
+            	and cnum is null
+            </if>
+            <if test="checkIfNat == 0">
+            	and cnum is not null
+            </if>
 	</select>
 	<select id="getCloseNatTests" resultType="map">
 		select list.cnum, certi.cname, list.docregend1 from 
@@ -43,7 +49,7 @@
 	<select id="getClosePrvTests" resultType="map">
 		select a.cnum, b.cname, a.docregend1 from 
 		    (select cnum, docregend1 from certidate 
-		        where docregend1 between sysdate and sysdate+(interval'7'day) 
+		        where docregend1 between sysdate and sysdate+(interval'15'day) 
 		        and cnum is not null
 		        order by docregend1) a,
 		    certiinfo b
