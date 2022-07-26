@@ -72,15 +72,12 @@
 	<select id="idFind" resultType="spring.project.model.MemberInfoDTO">
 		select memid,status,ref_date from memberInfo where mem_name=#{mem_name} and mobile=#{mobile}
 	</select>
-	<select id="pwFind" resultType="spring.project.model.MemberInfoDTO">
-		select memid,passwd,status from memberInfo where memid=#{memid} and passwdQ1=#{passwdQ1} and passwdQ2=#{passwdQ2}
-	</select>
 
 	<select id="myList" resultType="spring.project.model.Post_BoardDTO">
 				select * from
 				(select post_board.*,rownum r from
 					(select * from post_board order by post_group desc, post_level)post_board
-				where writer=#{writer} and board_type=${board_type} and status in (0,1)
+				where writer=#{writer} and board_type=${board_type} and status in (0,1))
 		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
 	</select>
 	<select id="post_BoardCount" resultType="int">
@@ -98,11 +95,19 @@
 		select count(*) from comm_board where writer=#{writer} and status in (0,1)
 	</select>
 	<update id="updateTime">
-		update Memberinfo set ref_date=sysdate where memid=#{memid} and status in (0,1)
+		update MemberInfo set ref_date=sysdate where memid=#{memid} and status in (0,1)
 	</update>
 	
 	<select id="memberStatusCheck" resultType="int">
-		select status from memberInfo where memid=#{memid}
+		select status from MemberInfo where memid=#{memid}
 	</select>
-		
+	<select id="pwCheck" resultType="int">
+		select count(*) from MemberInfo where memid=#{memid} and email=#{email}
+	</select>
+	<select id="pwFind" resultType="spring.project.model.MemberInfoDTO">
+		select * from MemberInfo where memid=#{memid} and email=#{email}
+	</select>
+	<update id="domancyUpdate">
+		update MemberInfo set status = 0 where memid=#{memid}
+	</update>	
 </mapper>

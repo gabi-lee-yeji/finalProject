@@ -8,7 +8,7 @@
 <script language="javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script >
+<script>
 
 function execDaumPostcode() {
     new daum.Postcode({
@@ -262,8 +262,6 @@ function Check(){
        		$("#phone3").focus();
        		return false;
        	}
-       	
-       	
 		$.ajax({
 			url : '/member/idDuplicate?memid=' + memid,
 			type : 'get',
@@ -273,11 +271,10 @@ function Check(){
 				document.frm.result.value = data;
 			if(document.frm.result.value == 0){
 				if(document.frm.injeung.value == document.frm.mail_check_input.value){
-					alert("ㅇㅇ")
 					rtn = true;
 				}
-				if(document.frm.injeung.value != document.frm.mail_check_input.value()){
-					alert("인증번호가 일치하지 않습니다")
+				if(document.frm.injeung.value != document.frm.mail_check_input.value){
+					alert("인증번호를 확인해주세요")
 					rtn = false;
 					}
 			}
@@ -337,7 +334,6 @@ $(document).ready(function (){
 		
 		if(inputCode == code){
 			document.frm.injeung.value=code
-			alert(document.frm.injeung.value);
 			
 			$resultMsg.html('인증번호가 일치합니다.');
 			$resultMsg.css('color','green');
@@ -414,7 +410,7 @@ $(document).ready(function (){
 			전공 : <input type="text" name="major" id="major" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			직업 : <input type="text" name="mem_job" id="mem_job" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 				  <input type="hidden" name="result" id="result"/>
-				  <input type="hidden" name="injeung" id="injeung"/>
+				  <input type="hidden" name="injeung" id="injeung" value="1"/>
 				  
 				</div>
 			<input type="submit" id="btn" value="완료"/>

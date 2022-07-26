@@ -1,6 +1,7 @@
 package spring.project.controller;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.net.http.HttpRequest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,9 +56,9 @@ public class MemberController {
 	@RequestMapping("loginPro")
 	public String loginPro(HttpServletRequest request,HttpSession session,HttpServletResponse response,Model model,MemberInfoDTO dto,String auto) {
 		
-		//HttpServletRequest�� getCookies(��Ű �ٰ�������(�迭)) �� �� �ʿ��ϰ�,
-		//HttpSession�� ���ǹ޾ƿ� �� �ʿ��ϰ�,
-		//HttpServletResponse�� addCookie�� �� �ʿ���
+		//HttpServletRequest�뜝�룞�삕 getCookies(�뜝�룞�삕�궎 �뜝�뙐怨ㅼ삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕(�뜝�띁�뿴)) �뜝�룞�삕 �뜝�룞�삕 �뜝�떗�슱�삕�뜝�떦怨ㅼ삕,
+		//HttpSession�뜝�룞�삕 �뜝�룞�삕�뜝�떎諛쏆븘�슱�삕 �뜝�룞�삕 �뜝�떗�슱�삕�뜝�떦怨ㅼ삕,
+		//HttpServletResponse�뜝�룞�삕 addCookie�뜝�룞�삕 �뜝�룞�삕 �뜝�떗�슱�삕�뜝�룞�삕
 		
 		String memid = (String)dto.getMemid();
 		String passwd = (String)dto.getPasswd();
@@ -71,10 +72,12 @@ public class MemberController {
 				if(cname.equals("cauto")) auto = c.getValue();
 			}
 		}
-		
 		MemberInfoDTO dto2 = service.userCheck(dto);
-		int result = dto2.getCnt();
-		System.out.println(dto2.getCnt());
+		System.out.println(dto2);
+		int result = 0;
+		if(dto2 != null) {
+		result = dto2.getCnt();
+		}
 		if(result==1) {
 			if(auto != null) {
 				Cookie cid = new Cookie("cid",memid);
@@ -98,14 +101,21 @@ public class MemberController {
 			session.setAttribute("sid", dto.getMemid());
 			session.setMaxInactiveInterval(60*60*24);
 		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+		//�떆媛� �뜑�븯湲�
+		Calendar cal = Calendar.getInstance();
 		Date time = new Date();
-		String time1 = format.format(time);
-		long time2 = dto.getRef_date().getTime();
+		if(dto2 != null) {
+		time = dto2.getRef_date();
+		}
+		cal.setTime(time);
+		cal.add(Calendar.DATE,7);
+		//add濡� 異붽��븯怨� 遺덈윭�삱�븧 getTime		
 		
+		//�떎�떆 date ���엯�쑝濡�
+		Date time1 = new Date(cal.getTimeInMillis()); //(洹몃깷 �빐蹂멸쾬�엫)
 		
-		
-		model.addAttribute("time",time1);
+		model.addAttribute("time",format1.format(cal.getTime()));
 		model.addAttribute("result",result);
 		model.addAttribute("dto",dto2);
 		
@@ -182,6 +192,64 @@ public class MemberController {
 		int result = service.idDuplicate(memid);
 		return result+"";
 	}
+	
+	@RequestMapping(value = "pwCheck",method=RequestMethod.GET)
+	@ResponseBody String pwFind(MemberInfoDTO dto) {
+		System.out.println("1"+dto.getMail1());
+		System.out.println("2"+dto.getMail2());
+		System.out.println("3"+dto.getEmail());
+		int result = service.pwCheck(dto);
+		System.out.println(result);
+		return result+"";
+	}
+	
+	@RequestMapping("pwFindForm")
+	public String pwFindForm() {
+		return "member/pwFindForm";
+	}
+	
+	@RequestMapping("pwFindPro")
+	public String pwFindPro(MemberInfoDTO dto,Model model) {
+		//responsebody로 넘어오는 것에는 dto.email이 있기때문에 service에서 못 넣고 여기서 넣음
+		dto.setEmail(dto.getMail1()+'@'+dto.getMail2());
+		int result = service.pwCheck(dto);
+		System.out.println(dto);
+
+		MemberInfoDTO dto2 = service.pwFind(dto);
+		System.out.println(dto2);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+		Calendar cal = Calendar.getInstance();
+		Date date = dto2.getRef_date();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, 7);
+		
+		model.addAttribute("time",sdf.format(cal.getTime()));
+		model.addAttribute("dto",dto2);
+		model.addAttribute("result",result);
+		return "member/pwFindPro";
+	}
+	@RequestMapping("dormancyForm")
+	public String dormancyForm() {
+		return "member/dormancyForm";
+	}
+	
+	@RequestMapping("dormancyPro")
+	public String domancyPro(MemberInfoDTO dto,Model model) {
+		//responsebody로 넘어오는 것에는 dto.email이 있기때문에 service에서 못 넣고 여기서 넣음
+		dto.setEmail(dto.getMail1()+'@'+dto.getMail2());
+		int result = service.pwCheck(dto);
+		System.out.println(dto);
+		service.domancyUpdate(dto);
+		MemberInfoDTO dto2 = service.pwFind(dto);
+		
+		System.out.println(dto2);
+		
+		model.addAttribute("dto",dto2);
+		model.addAttribute("result",result);
+		return "member/dormancyPro";
+	}
+	
 	
 	@RequestMapping("modifyConfirm")
 	public String modifyConfirm() {
@@ -319,21 +387,6 @@ public class MemberController {
 		return "member/myList";
 	}
 	
-	@RequestMapping("pwFindForm")
-	public String pwFindForm() {
-		return "member/pwFindForm";
-	}
-	@RequestMapping("pwFindPro")
-	public String pwFindPro(MemberInfoDTO dto,Model model) {
-		int result = 0;
-		dto = service.pwFind(dto);
-		if(dto != null) {
-			result = 1;
-		}
-		model.addAttribute("dto",dto);
-		model.addAttribute("result",result);
-		return "member/pwFindPro";
-	}
 	@RequestMapping("myComments")
 	public String myComments(String pageNum,String writer,Model model) {
 		if(pageNum == null) pageNum = "1";

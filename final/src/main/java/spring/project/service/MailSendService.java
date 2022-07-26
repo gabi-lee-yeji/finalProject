@@ -15,49 +15,44 @@ public class MailSendService {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	private int authNumber; 
-	// ë‚œìˆ˜ ë°œìƒ(ì—¬ëŸ¬ë¶„ë“¤ ë§˜ëŒ€ëŸ¬)
-	
+		
+		// ³­¼ö ¹ß»ı(¿©·¯ºĞµé ¸¾´ë·¯)
 		public void makeRandomNumber() {
-			// ë‚œìˆ˜ì˜ ë²”ìœ„ 111111 ~ 999999 (6ìë¦¬ ë‚œìˆ˜)
+			// ³­¼öÀÇ ¹üÀ§ 111111 ~ 999999 (6ÀÚ¸® ³­¼ö)
 			Random r = new Random();
 			int checkNum = r.nextInt(888888) + 111111;
-			System.out.println("ì¸ì¦ë²ˆí˜¸ : " + checkNum);
+			System.out.println("ÀÎÁõ¹øÈ£ : " + checkNum);
 			authNumber = checkNum;
 		}
-		
-		
-				//ì´ë©”ì¼ ë³´ë‚¼ ì–‘ì‹! 
+		//ÀÌ¸ŞÀÏ º¸³¾ ¾ç½Ä! 
 		public String joinEmail(String email) {
 			makeRandomNumber();
-			String setFrom = "qusrhkdgus5@naver.com"; // email-configì— ì„¤ì •í•œ ìì‹ ì˜ ì´ë©”ì¼ ì£¼ì†Œë¥¼ ì…ë ¥ 
+			String setFrom = "qusrhkdgus5@naver.com"; // email-config¿¡ ¼³Á¤ÇÑ ÀÚ½ÅÀÇ ÀÌ¸ŞÀÏ ÁÖ¼Ò¸¦ ÀÔ·Â 
 			String toMail = email;
-			String title = "íšŒì› ê°€ì… ì¸ì¦ ì´ë©”ì¼ ì…ë‹ˆë‹¤."; // ì´ë©”ì¼ ì œëª© 
+			String title = "È¸¿ø °¡ÀÔ ÀÎÁõ ÀÌ¸ŞÀÏ ÀÔ´Ï´Ù."; // ÀÌ¸ŞÀÏ Á¦¸ñ 
 			String content = 
-					"í™ˆí˜ì´ì§€ë¥¼ ë°©ë¬¸í•´ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤." + 	//html í˜•ì‹ìœ¼ë¡œ ì‘ì„± ! 
+					"È¨ÆäÀÌÁö¸¦ ¹æ¹®ÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù." + 	// html Çü½ÄÀ¸·Î ÀÛ¼º ! 
 	                "<br><br>" + 
-				    "ì¸ì¦ ë²ˆí˜¸ëŠ” " + authNumber + "ì…ë‹ˆë‹¤." + 
+				    "ÀÎÁõ ¹øÈ£´Â " + authNumber + "ÀÔ´Ï´Ù." + 
 				    "<br>" + 
-				    "í•´ë‹¹ ì¸ì¦ë²ˆí˜¸ë¥¼ ì¸ì¦ë²ˆí˜¸ í™•ì¸ë€ì— ê¸°ì…í•˜ì—¬ ì£¼ì„¸ìš”."; //ì´ë©”ì¼ ë‚´ìš© ì‚½ì…
+				    "ÇØ´ç ÀÎÁõ¹øÈ£¸¦ ÀÎÁõ¹øÈ£ È®ÀÎ¶õ¿¡ ±âÀÔÇÏ¿© ÁÖ¼¼¿ä."; //ÀÌ¸ŞÀÏ ³»¿ë »ğÀÔ
 			mailSend(setFrom, toMail, title, content);
 			return Integer.toString(authNumber);
 		}
-		
-		//ì´ë©”ì¼ ì „ì†¡ ë©”ì†Œë“œ
+		//ÀÌ¸ŞÀÏ Àü¼Û ¸Ş¼Òµå
 		public void mailSend(String setFrom, String toMail, String title, String content) { 
 			MimeMessage message = mailSender.createMimeMessage();
-			// true ë§¤ê°œê°’ì„ ì „ë‹¬í•˜ë©´ multipart í˜•ì‹ì˜ ë©”ì„¸ì§€ ì „ë‹¬ì´ ê°€ëŠ¥.ë¬¸ì ì¸ì½”ë”© ì„¤ì •ë„ ê°€ëŠ¥í•˜ë‹¤.
+			// true ¸Å°³°ªÀ» Àü´ŞÇÏ¸é multipart Çü½ÄÀÇ ¸Ş¼¼Áö Àü´ŞÀÌ °¡´É.¹®ÀÚ ÀÎÄÚµù ¼³Á¤µµ °¡´ÉÇÏ´Ù.
 			try {
-				MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
+				MimeMessageHelper helper = new MimeMessageHelper(message,true,"utf-8");
 				helper.setFrom(setFrom);
 				helper.setTo(toMail);
 				helper.setSubject(title);
-				// true ì „ë‹¬ > html í˜•ì‹ìœ¼ë¡œ ì „ì†¡ , ì‘ì„±í•˜ì§€ ì•Šìœ¼ë©´ ë‹¨ìˆœ í…ìŠ¤íŠ¸ë¡œ ì „ë‹¬.
+				// true Àü´Ş > html Çü½ÄÀ¸·Î Àü¼Û , ÀÛ¼ºÇÏÁö ¾ÊÀ¸¸é ´Ü¼ø ÅØ½ºÆ®·Î Àü´Ş.
 				helper.setText(content,true);
 				mailSender.send(message);
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			}
 		}
-		
-	
 }

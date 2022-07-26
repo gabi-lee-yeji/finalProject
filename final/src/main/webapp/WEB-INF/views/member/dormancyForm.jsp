@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<h1>비밀번호찾기</h1>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script language="javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+<h1>휴면해제</h1>
 <script>
 
 function Check(){
@@ -139,7 +139,7 @@ $(document).ready(function (){
 
 </script>
 
-<form action="/member/pwFindPro" name="frm" method="post" onsubmit="return Check()">
+<form action="/member/dormancyPro" name="frm" method="post" onsubmit="return Check()">
 	아이디 : <input type="text" name="memid" id="memid"/><br/>
 	<div class="form-group email-form">
 				 <label for="email">이메일</label>
