@@ -6,7 +6,6 @@
 <h2>가입완료</h2>
 <%-- <c:redirect uri="/member/main"/> --%>
 
-
 <script>
 	alert("가입 되었습니다.");
 	window.location="/member/loginForm";
