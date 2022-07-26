@@ -135,7 +135,7 @@ public class CertiServiceImpl implements CertiService {
 	}
 	
 	@Override
-	public ArrayList<PassDetailDTO> pyramidGraph(String cnum) {
+	public PassDetailDTO pyramidGraph(String cnum) {
 		return mapper.pyramidGraph(cnum);
 	}
 	

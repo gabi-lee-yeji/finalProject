@@ -43,7 +43,7 @@ public interface CertiService {
 	public ArrayList<MypageNewsDTO> getNews(String cnum) throws Exception;
 
 	// cnum에 해당하는 pass_detail테이블 정보 가져오기
-	public ArrayList<PassDetailDTO> pyramidGraph(String cnum);
+	public PassDetailDTO pyramidGraph(String cnum);
 	
 	// cnum에 해당하는 pass_rate(_nat)테이블 정보 가져오기
 	public ArrayList<? extends PassRateAccessible> lineGraph(CertiInfoDTO dto);

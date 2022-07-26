@@ -40,7 +40,7 @@ public interface CertiMapper {
 	// �� ������ �� ��� ���
 	public int deleteLike(MemberLikeDTO cnum); */		
 	
-	public ArrayList<PassDetailDTO> pyramidGraph(String cnum);
+	public PassDetailDTO pyramidGraph(String cnum);
 	public ArrayList<PassRateNatDTO> lineGraphNat(CertiInfoDTO dto);
 	public ArrayList<PassRateNatDTO> lineGraphPrv(CertiInfoDTO dto);
 	//���͸� ��� ��ȸ
