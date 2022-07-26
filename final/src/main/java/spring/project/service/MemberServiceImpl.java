@@ -14,7 +14,7 @@ import spring.project.model.Post_BoardDTO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
-	
+
 	@Autowired
 	private MemberMapper mapper;
 	
@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int userCheck(MemberInfoDTO dto) {
+	public MemberInfoDTO userCheck(MemberInfoDTO dto) {
 		return mapper.userCheck(dto);
 	}
 
@@ -66,10 +66,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MemberInfoDTO pwFind(MemberInfoDTO dto) {
-		dto.setPasswdQ1(dto.getQuiz1()+" "+dto.getFindPw1());
-		dto.setPasswdQ2(dto.getQuiz2()+" "+dto.getFindPw2());
-		return mapper.pwFind(dto);
+	public int pwCheck(MemberInfoDTO dto) {
+		return mapper.pwCheck(dto);
 	}
 
 	@Override
@@ -106,6 +104,14 @@ public class MemberServiceImpl implements MemberService{
 	public int memberStatusCheck(String memid) {
 		return mapper.memberStatusCheck(memid);
 	}
+	@Override
+	public MemberInfoDTO pwFind(MemberInfoDTO dto) {
+		return mapper.pwFind(dto);
+	}
 
+	@Override
+	public void domancyUpdate(MemberInfoDTO dto) {
+		mapper.domancyUpdate(dto);
+	}
 
 }

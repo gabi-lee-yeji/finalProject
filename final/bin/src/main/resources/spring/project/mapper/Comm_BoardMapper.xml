@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.Comm_BoardMapper">
+
+	<insert id="addComm_Board" parameterType="spring.project.model.Comm_BoardDTO">
+		insert into comm_board values (comm_num_seq.nextval, 
+										#{comm_content},
+										#{writer},
+										sysdate,
+										#{comm_group},
+										#{comm_level},
+										#{pnum},
+										0 )
+		<selectKey resultType="int" keyProperty="comm_num" order="AFTER">
+  			select max(comm_num) from comm_board
+  		</selectKey>	
+	</insert>
+	
+	<select id="maxComm_group" resultType="int">
+		select nvl(max(comm_group), 0) from comm_board
+	</select>
+	
+	<select id="comm_BoardLists" resultType="spring.project.model.Comm_BoardDTO">
+		select comm_board.*, rownum r from 
+			(select * from comm_board order by comm_group desc, comm_level) comm_board 
+				where pnum=#{pnum} and status='0'
+	</select>
+	
+	<select id="getComm_Board" resultType="spring.project.model.Comm_BoardDTO">
+		select * from comm_board where comm_num=#{comm_num} and status='0'
+	</select>
+	
+	<select id="comm_BoardCount" parameterType="int" resultType="int">
+		select count(*) from comm_board where pnum=#{pnum} and status=0
+	</select>
+	
+	<update id="delComm_Board">
+		update comm_board set status='1' where comm_num=#{comm_num}
+	</update>
+	
+	<update id="modComm_Board">
+		update comm_board 
+			<set> 
+				<if test="comm_content != null"> comm_content = #{comm_content}, </if> 
+				reg = sysdate
+			</set>
+				where comm_num = #{comm_num}
+	</update>
+	
+</mapper>

@@ -42,6 +42,7 @@ public class MemberInfoDTO {
 	private String passwdQ1;
 	private String passwdQ2;
 	
+	private int cnt;
 	
 	//신고횟수 조회 기능 사용할때만 사용할 변수
 	private int reportCnt;

@@ -18,4 +18,6 @@ public class Comm_BoardDTO {
 	private int comm_level;			// 대댓글 그룹 
 	private int pnum;				// 게시글(원글) 고유 번호
 	private int status;				// 댓글 존재 유무(0-존재, 1-삭제)
+	private int board_type;
+	private String board_mapping;
 }

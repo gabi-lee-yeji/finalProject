@@ -28,7 +28,7 @@
 	<c:forEach var="comm" items="${commList}">
 		<tr>
 			<td>${comm.comm_num}</td>
-			<td><a href="/community/review/reviewContent?pnum=${comm.pnum}&">${comm.comm_content}</a></td>
+			<td><a href="/${comm.board_mapping}?pnum=${comm.pnum}">${comm.comm_content}</a></td>
 			<td>${comm.writer}</td>
 			<td>${comm.reg}</td>
 			<td>${comm.pnum}</td>
