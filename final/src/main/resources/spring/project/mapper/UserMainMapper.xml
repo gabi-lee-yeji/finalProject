@@ -14,7 +14,7 @@
 		<result property="board_mapping" column="board_mapping"/>
 		<collection property="commBoard" resultMap="commBoard"/>
 	</resultMap>
-	<select id="" resultType="String">
+	<select id="getLangTestName" resultType="String">
 	 	select lname from ncs_code where code=#{ncs_cat}
 	</select>
 	<select id="getCloseLangCnumList" resultType="String">
@@ -29,12 +29,12 @@
 	<select id="getLangFilteredList" resultType="spring.project.model.CertiInfoDTO">
 		select * from 
 			(select rownum r, list.* from 
-				(select * from certiinfo where ncs_cat = #{ncs_cat}))
+				(select * from certiinfo where ncs_cat = #{ncs_cat}) list )
 			where r between #{startRow} and #{endRow}
 			
 	</select>
 	<select id="getLanguageList" resultType="map">
-		select code, lname where code between 1 and 10
+		select code, lname from ncs_code where code between 1 and 10
 	</select>
 	
 	<select id="getCloseNatCnumList" resultType="String">

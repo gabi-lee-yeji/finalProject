@@ -29,48 +29,47 @@
 	</style>
 </head>
 <body>
-	<div class="collapse navbar-collapse justify-content-between">
-		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
 		<a class="navbar-brand" href="/main">자격증모두모아</a>
-		
+		<div class="collapse navbar-collapse justify-content-between">
 		<!-- Links -->
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-				자격증
-			</a>
-			<div class="dropdown-menu">
-				<a class="dropdown-item" href="/certificate/certiMain">자격증 (국가/민간)</a>
-				<a class="dropdown-item" href="/certificate/certiLang">어학시험</a>
-			</div>
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+					자격증
+				</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="/certificate/certiMain">자격증 (국가/민간)</a>
+					<a class="dropdown-item" href="/certificate/certiLang">어학시험</a>
+				</div>
 			</li>
 			
 			<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-				고객센터 
-			</a>
-			<div class="dropdown-menu">
-				<a class="dropdown-item" href="/help/notice/noticeList?board_type=1">공지사항</a>
-				<a class="dropdown-item" href="/help/faq/faqList?board_type=2">자주하는 질문</a>
-				<a class="dropdown-item" href="/help/qna/qnaList?board_type=3">1:1 문의</a>
-			</div>
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+					고객센터 
+				</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="/help/notice/noticeList?board_type=1">공지사항</a>
+					<a class="dropdown-item" href="/help/faq/faqList?board_type=2">자주하는 질문</a>
+					<a class="dropdown-item" href="/help/qna/qnaList?board_type=3">1:1 문의</a>
+				</div>
 			</li>
 			
 			<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-				커뮤니티
-			</a>
-			<div class="dropdown-menu">
-				<a class="dropdown-item" href="/community/review/reviewList?board_type=4">꿀팁 / 후기</a>
-				<a class="dropdown-item" href="/community/question/questionList?board_type=5">질문글</a>
-				<a class="dropdown-item" href="/community/info/infoNews">취업톡톡</a>
-				<a class="dropdown-item" href="/community/job_seeker/job_seekerList?board_type=7">취준생 공간</a>
-			</div>
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+					커뮤니티
+				</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="/community/review/reviewList?board_type=4">꿀팁 / 후기</a>
+					<a class="dropdown-item" href="/community/question/questionList?board_type=5">질문글</a>
+					<a class="dropdown-item" href="/community/info/infoNews">취업톡톡</a>
+					<a class="dropdown-item" href="/community/job_seeker/job_seekerList?board_type=7">취준생 공간</a>
+				</div>
 			</li>
-			
+		</ul>
+		<ul class="navbar-nav">
 			<c:if test="${sessionScope.sid != null}">
-		
 					<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="/mypage/" id="navbardrop" data-hover="dropdown">
 						My Page
@@ -107,7 +106,6 @@
 				<button class="btn btn-success" type="submit">검색</button>
 			</form>
 		</div>
-		</nav>
-	</div>
+	</nav>
 	<br>
 </body>

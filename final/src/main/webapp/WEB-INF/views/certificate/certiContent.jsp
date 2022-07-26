@@ -65,45 +65,53 @@
 			<td>${info.company}</td>
 			<td><a href="${info.website}">${info.website}</a></td>
 		</tr>
-		<c:forEach var="date" items="${dateList}" >
-		<tr>
-			<td>시험 일정 </td>
-			<td>필기시험 일정<br/>
-			-원서접수 : ${date.docRegStart1}~${date.docRegEnd1} <br/>
-			<c:if test="${date.docRegStart2 != null }">
-				-추가접수 : ${date.docRegStart2} ~ ${date.docRegStart2 } <br/>
-			</c:if>
-				-시험일 : ${date.docTestStart } 
-			<c:if test="${date.docTestEnd != null }">
-				~ ${date.docTestEnd}
-			</c:if> <br/>
-				-발표일 : ${date.docResultStart }
-			<c:if test="${date.docResultEnd != null }">
-				~ ${date.docResultEnd }
-			</c:if> <br/>
-			실기시험 일정 <br/>
-			<c:if test="${date.docSubmitStart != null }">
-				-응시자격 서류제출 : ${date.docSubmitStart } ~ ${date.docSubmitEnd } <br/>
-			</c:if>
-			<c:if test="${date.pracRegStart1 != null}">
-				-원서접수 : ${date.pracRegStart1 } ~ ${date.pracRegEnd1} <br/>
-			</c:if>
-			<c:if test="${date.pracRegStart2 != null}">
-				-추가접수 : ${date.pracRegStart2 } ~ ${date.pracRegEnd2} <br/>
-			</c:if>
-			<c:if test="${date.pracTestStart != null}">
-				-시험일 : ${date.pracTestStart }
-			<c:if test="${date.pracTestEnd != null}">
-						~ ${date.pracTestEnd }
-			</c:if><br/>
-				-발표일 : ${date.pracResStart }
-			<c:if test="${date.pracResEnd != null}">
-							~ ${date.pracResEnd }
-			</c:if>
-			</c:if>
-			</td>
-		</tr>
-		</c:forEach>
+		<c:if test="${dateList == null }">
+			<tr>
+				<td>시험 일정</td>
+				<td>상시 응시 가능 **<a href="${info.website}">웹사이트</a> 참고</td>
+			</tr>
+		</c:if>
+		<c:if test="${dateList != null }">
+			<c:forEach var="date" items="${dateList}" >
+				<tr>
+					<td>시험 일정 </td>
+					<td>필기시험 일정<br/>
+						-원서접수 : ${date.docRegStart1}~${date.docRegEnd1} <br/>
+					<c:if test="${date.docRegStart2 != null }">
+						-추가접수 : ${date.docRegStart2} ~ ${date.docRegStart2 } <br/>
+					</c:if>
+						-시험일 : ${date.docTestStart } 
+					<c:if test="${date.docTestEnd != null }">
+						~ ${date.docTestEnd}
+					</c:if> <br/>
+						-발표일 : ${date.docResultStart }
+					<c:if test="${date.docResultEnd != null }">
+						~ ${date.docResultEnd }
+					</c:if> <br/>
+					실기시험 일정 <br/>
+					<c:if test="${date.docSubmitStart != null }">
+						-응시자격 서류제출 : ${date.docSubmitStart } ~ ${date.docSubmitEnd } <br/>
+					</c:if>
+					<c:if test="${date.pracRegStart1 != null}">
+						-원서접수 : ${date.pracRegStart1 } ~ ${date.pracRegEnd1} <br/>
+					</c:if>
+					<c:if test="${date.pracRegStart2 != null}">
+						-추가접수 : ${date.pracRegStart2 } ~ ${date.pracRegEnd2} <br/>
+					</c:if>
+					<c:if test="${date.pracTestStart != null}">
+						-시험일 : ${date.pracTestStart }
+					<c:if test="${date.pracTestEnd != null}">
+								~ ${date.pracTestEnd }
+					</c:if><br/>
+						-발표일 : ${date.pracResStart }
+					<c:if test="${date.pracResEnd != null}">
+									~ ${date.pracResEnd }
+					</c:if>
+					</c:if>
+					</td>
+				</tr>
+			</c:forEach>
+		</c:if>
 		<tr>
 			<td>응시료</td>
 			<td>${info.price}</td>
