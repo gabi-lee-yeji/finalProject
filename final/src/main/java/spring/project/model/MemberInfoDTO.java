@@ -35,12 +35,6 @@ public class MemberInfoDTO {
 	private int mem_point; //멤버 포인트
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date regdate; //가입 날짜
-	private String quiz1; 
-	private String quiz2;
-	private String findPw1;
-	private String findPw2;
-	private String passwdQ1;
-	private String passwdQ2;
 	
 	private int cnt; //controller의 userCheck메서드에서 조인문으로 가져온 count를 dto로 받아옴
 	

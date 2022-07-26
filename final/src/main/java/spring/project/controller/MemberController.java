@@ -331,7 +331,6 @@ public class MemberController {
 		}
 		model.addAttribute("result",result);
 		model.addAttribute("dto",dto2);
-		
 		return "member/idFindPro";
 	}
 	//이메일 인증

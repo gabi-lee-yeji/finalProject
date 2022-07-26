@@ -111,7 +111,6 @@ function Check(){
         var id= RegExp(/^[a-zA-Z0-9]+$/)
         var pass= RegExp(/^[a-zA-Z0-9]{4,12}$/)
         var named= RegExp(/^[가-힣]+$/)
-        var quiz = RegExp(/^[가-힣a-zA-Z]+$/)
         var fmt = RegExp(/^\d{6}[1234]\d{6}$/)  //포멧 설정
         var phone1 = RegExp(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})$/)
         var phone2 = RegExp(/^[0-9]{3,4}$/)
