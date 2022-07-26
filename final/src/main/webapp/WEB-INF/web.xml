@@ -57,13 +57,6 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
-	<multipart-config>
-		<location>/resources/image</location>
-		<max-file-size>20971520</max-file-size> <!-- 1MB * 20 -->
-		<max-request-size>41943040</max-request-size> <!-- 40MB -->
-		<file-size-threshold>20971520</file-size-threshold> <!-- 20MB -->
-	</multipart-config>
-		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>

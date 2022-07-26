@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
   <table>
     <tr>
       <td>비밀번호를 입력해주세요</td>
-      <td><input type="text" name="passwd" /></td>
+      <td><input type="password" name="passwd" /></td>
     </tr>
     <tr>
       <td><input type="submit" value="전송" /></td>

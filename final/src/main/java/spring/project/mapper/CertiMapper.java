@@ -1,5 +1,6 @@
 package spring.project.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,16 +11,14 @@ import spring.project.model.*;
 
 public interface CertiMapper {
 	
-	// ÀüÃ¼ ÀÚ°ÝÁõ ¸ñ·Ï
-	public List<CertiInfoDTO> getCertiList (@Param("cnum") String cnum, @Param("startRow") int startRow,
-										@Param("endRow") int endRow, @Param("category") String category,
-										@Param("req_degree") String req_degree,@Param("req_age") String req_age,
-										@Param("req_exp") String req_exp,@Param("clevel") String clevel);
+	// ï¿½ï¿½Ã¼ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	public List<CertiInfoDTO> getCertiList (@Param("startRow") int startRow, @Param("endRow") int endRow,@Param("category")String category);
 	
-	// ¾îÇÐ ÀÚ°ÝÁõ ¸ñ·Ï
+	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public List<CertiInfoDTO> getCertiLangList();
 	
-	// ÀÚ°ÝÁõ »ó¼¼Á¤º¸
+	// ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public CertiInfoDTO getCertiInfo(String cnum);
 	public CertiRequirementDTO getCertiReqInfo(String cnum);
 	
@@ -29,16 +28,36 @@ public interface CertiMapper {
 											@Param("cyear_list")List<Integer> cyear_list,
 											@Param("cround_list")List<Integer> cround_list);
 	
-	// ÀÚ°ÝÁõ °³¼ö
+	// ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int getCertCnt();
 	
-/*	// ÇØ´ç ÀÚ°ÝÁõ Âò ¿©ºÎ È®ÀÎ¿ë µ¥ÀÌÅÍ °¡Á®¿À±â
+/*	// ï¿½Ø´ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public MemberLikeDTO getLike(String memid);
 
-	// »ó¼¼ ÆäÀÌÁö ÂòÇÏ±â
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 	public void setLike(MemberLikeDTO cnum);
 
-	// »ó¼¼ ÆäÀÌÁö Âò Ãë¼Ò ±â´É
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public int deleteLike(MemberLikeDTO cnum); */		
+	
+	public ArrayList<PassDetailDTO> pyramidGraph(String cnum);
+	public ArrayList<PassRateNatDTO> lineGraphNat(CertiInfoDTO dto);
+	public ArrayList<PassRateNatDTO> lineGraphPrv(CertiInfoDTO dto);
+	//ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
+	public List<CertiInfoDTO> getreqList(@Param("req_age")String req_age,@Param("req_degree")String req_degree,@Param("req_exp")String req_exp);
+	public List<CertiInfoDTO> getNcsList();
+	
+	//ï¿½ï¿½È®ï¿½ï¿½
+	public LikeDTO checkLike(LikeDTO like);
+	
+	public int likeCheck(@Param("cnum")String cnum, @Param("memid")String memid);
+	
+	public List<String> getLikeList(String memid);
+	
+	List<Map<String,Object>> getNcsCodeList();
+	List<CertiInfoDTO> getCertiFilteredList(Map map);
+	int getCertiFilteredCnt(CertiFilterDTO dto);
+	List<String> getNcsName(CertiFilterDTO dto);
+	
 	
 }

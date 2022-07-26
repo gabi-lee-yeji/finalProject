@@ -2,12 +2,31 @@
 pageEncoding="UTF-8"%> <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	function check(){
+		//제목 공백 확인
+		if($("#subject").val() == ""){
+			alert("글 제목을 입력해주세요");
+			$("#subject").focus();
+			return false;
+		}
+		
+		//글 내용 공백 확인
+		if($("#post_content").val() == ""){
+			alert("글 내용을 입력해주세요");
+			$("#post_content").focus();
+		     return false;
+		}
+		return true;
+	};
+</script>
 
 <table>
 	<tr>
 		<td>제목</td>
 		<c:if test="${pnum == 0}" >
-			<td><input type="text" name="subject" /></td>
+			<td><input type="text" id="subject" name="subject" /></td>
 		</c:if>
 		<c:if test="${pnum != 0}" >
 			<td>[re] ${board.subject}</td>
@@ -16,20 +35,15 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 	</tr>
 	<tr>
 		<td>작성자</td>
-		<c:if test="${memberStatus == 1}">
-			<td>관리자(${sessionScope.sid})
-				<input type="hidden" name="writer" value="${sessionScope.sid}"/>
-			</td>
-		</c:if>
-		<c:if test="${memberStatus == 0}">
 			<td>${sessionScope.sid}
 				<input type="hidden" name="writer" value="${sessionScope.sid}"/>
 			</td>
-		</c:if>
 	</tr>
 	<tr>
 		<td>내용</td>
-		<td><textarea name="post_content" rows="13" cols="40" ></textarea></td>
+		<td>
+			<textarea name="post_content" id="post_content" rows="13" cols="40" >* 관련자격증을 입력해주세요: </textarea>
+		</td>
 	</tr>
 	<tr>
 		<td>이미지</td>

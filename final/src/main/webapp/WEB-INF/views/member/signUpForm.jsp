@@ -8,7 +8,7 @@
 <script language="javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script >
+<script>
 
 function execDaumPostcode() {
     new daum.Postcode({
@@ -106,7 +106,7 @@ function degreeFunc(e){
 }	
 	
 function Check(){
-		var rtn = true;
+		var rtn = false;
         var email = RegExp(/^[A-Za-z0-9]+$/)
         var id= RegExp(/^[a-zA-Z0-9]+$/)
         var pass= RegExp(/^[a-zA-Z0-9]{4,12}$/)
@@ -222,7 +222,13 @@ function Check(){
             $("#userEmail1").val("");
             $("#userEmail1").focus();
             return false;
-        }//번호 유효성 검사
+        }
+        if($("mail_check_input").val() == ""){
+       		alert("인증번호를 입력해주세요")
+       		$("mail_check_input").val("");
+       		$("mail_check_input").focus();
+       	}
+        //번호 유효성 검사
         if($("#phone1").val() == ""){
         	alert("전화번호는 비워둘 수 없습니다.")
         	$("#phone1").focus();
@@ -256,52 +262,6 @@ function Check(){
        		$("#phone3").focus();
        		return false;
        	}
-       	if($("#findPw1").val() == ""){
-       		alert("비밀번호찾기 답을 비워둘 수 없습니다")
-       		$("#findPw1").focus();
-       		return false;
-       	}
-       	if(!quiz.test($("#findPw1").val())){
-       		alert("비밀번호 답에 특수문자와 숫자는 사용하실 수 없습니다.")
-       		$("#findPw1").val("");
-       		$("#findPw1").focus();
-       		return false;
-       	}
-       	if($("#findPw2").val() == ""){
-       		alert("비밀번호찾기 답을 비워둘 수 없습니다")
-       		$("#findPw1").focus();
-       		return false;
-       	}
-       	if(!quiz.test($("#findPw2").val())){
-       		alert("비밀번호 답에 특수문자와 숫자는 사용하실 수 없습니다.")
-       		$("#findPw2").val("");
-       		$("#findPw2").focus();
-       		return false;
-       	}
-       	if(!named.test($("#major")).val()){
-       		alert("전공은 한글로 작성해주세요")
-       		$("#major").val("")
-       		$("#major").focus();
-       		return false;
-       	}
-       	if(!named.test($("#mem_job"))){
-       		alert("직업은 한글로 적어주세요")
-       		$("#mem_job").val("")
-       		$("#mem_job").focus();
-       		return false;
-       	}
-       	if($("#major").val() == ""){
-       		alert("전공을 입력하세요.")
-       		$("#major").val("")
-       		$("#major").focus();
-       		return false;
-       	}
-       	if($("#mem_job").val() == ""){
-       		alert("직업을 입력하세요.");
-       		$("#mem_job").val("")
-       		$("#mem_job").focus();
-       		return false;
-       	}
 		$.ajax({
 			url : '/member/idDuplicate?memid=' + memid,
 			type : 'get',
@@ -310,7 +270,13 @@ function Check(){
 				console.log("1 = 중복o / 0 = 중복x" + data);
 				document.frm.result.value = data;
 			if(document.frm.result.value == 0){
-				alert("가입을 축하드립니다")
+				if(document.frm.injeung.value == document.frm.mail_check_input.value){
+					rtn = true;
+				}
+				if(document.frm.injeung.value != document.frm.mail_check_input.value){
+					alert("인증번호를 확인해주세요")
+					rtn = false;
+					}
 			}
 			if(document.frm.result.value == 1){
 				alert("존재하는 아이디 입니다. 검사를 다시해주세요")
@@ -333,6 +299,56 @@ function noSpaceForm(obj){
 	}
 }	
 
+var code = "";
+$(document).ready(function (){
+	$("#mail-Check-Btn").click(function(){
+		if($("#userEmail1").val() != ""){
+		var mail = document.getElementById("userEmail1").value;
+		var mail2 = document.getElementById("userEmail2").value;
+		var email = mail+"@"+mail2;
+		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
+		var cehckBox = $(".mail_check_input");
+		var boxWrap = $(".mail_check_box");
+		$.ajax({
+			type:"GET",
+			url:"mailCheck?email=" + email,
+			cache : false,
+			success:function(data){
+				
+				//console.log("data :" + data);	
+				cehckBox.attr("disabled",false);
+				boxWrap.attr("id", "mail_check_box_true");
+				code = data;
+				console.log(code);
+				alert("인증번호가 전송되었습니다")
+				}
+			});
+		}else{
+			alert("이메일을 입력하시기 바랍니다.")
+		}
+		});
+	$(".mail_check_input").blur(function() {
+		const inputCode = $(".mail_check_input").val();
+		const $resultMsg = $("#mail-check-warn");
+		console.log(inputCode);
+		
+		if(inputCode == code){
+			document.frm.injeung.value=code
+			
+			$resultMsg.html('인증번호가 일치합니다.');
+			$resultMsg.css('color','green');
+			$('#mail-Check-Btn').attr('disabled',true);
+			$('#userEmail1').attr('readonly',true);
+			$('#userEmail2').attr('readonly',true);
+			$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+	         $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+		}else{
+			$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
+			$resultMsg.css('color','red');
+		}
+		
+	})
+});
 
 </script>
 
@@ -345,21 +361,25 @@ function noSpaceForm(obj){
 			비밀번호 확인 : <input type="password" name="passwd2" id="passwd2"/><br/>
 			이름 : <input type="text" name="mem_name" id="mem_name" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			<div class="form-group email-form">
-	 <label for="email">이메일</label>
-<div class="input-group">
-	<input type="text" class="form-control" name="mail1" id="userEmail1" placeholder="이메일">@
-	<select class="form-control" name="mail2" id="userEmail2">
-		<option>naver.com</option>
-		<option>daum.net</option>
-		<option>gmail.com</option>
-		<option>hanmail.com</option>
-		<option>yahoo.co.kr</option>
-	</select>
-</div>   
-	<div class="mail-check-box">
-</div>
-	<span id="mail-check-warn"></span>
-</div>
+				 <label for="email">이메일</label>
+				<div class="input-group">
+				<input type="text" class="form-control" name="mail1" id="userEmail1" placeholder="이메일">@
+				<select class="form-control" name="mail2" id="userEmail2">
+					<option>naver.com</option>
+					<option>daum.net</option>
+					<option>gmail.com</option>
+					<option>hanmail.com</option>
+					<option>yahoo.co.kr</option>
+				</select>
+				</div>   
+				<div class="input-group-addon">
+				<button type="button" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
+				</div>
+				<div class="mail_check_box">
+				<input class="mail_check_input" placeholder="인증번호 6자리를 입력해주세요!" name="mail_check_input" disabled="disabled" maxlength="6"/>
+				</div>
+				<span id="mail-check-warn"></span>
+			</div>
 			생일 : <input type="date" name="birthday" id="birthday" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			성별 <br/>
 			남<input type="radio" name="gender" value="M" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" checked/>
@@ -378,16 +398,6 @@ function noSpaceForm(obj){
 			<input type="text" name="phone1" id="phone1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
 			<input type="text" name="phone2" id="phone2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
 			<input type="text" name="phone3" id="phone3" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" /><br/>
-			<select name="quiz1">
-				<option value="1">어린시절 가장 친했던 친구의 이름은?</option>
-				<option value="2">다시 만나고 싶은 친구의 이름은?</option>
-			</select>
-			<input type="text" name="findPw1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-			<select name="quiz2">
-				<option value="3">기억에 남는 추억의 장소는?</option>
-				<option value="4">어린시절 나의 별명은?</option>
-			</select>
-			<input type="text" name="findPw2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			학위 : <select name="mem_degree" id="mem_degree" onchange="degreeFunc(this)">
 					<option value="elementary">초등학교 졸업</option>			
 					<option value="middle">중학교 졸업</option>
@@ -400,6 +410,8 @@ function noSpaceForm(obj){
 			전공 : <input type="text" name="major" id="major" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			직업 : <input type="text" name="mem_job" id="mem_job" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 				  <input type="hidden" name="result" id="result"/>
+				  <input type="hidden" name="injeung" id="injeung" value="1"/>
+				  
 				</div>
 			<input type="submit" id="btn" value="완료"/>
 	

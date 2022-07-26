@@ -1,5 +1,6 @@
 package spring.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,27 +8,52 @@ import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
+import spring.project.model.MypageNewsDTO;
+import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateAccessible;
+import spring.project.model.LikeDTO;
 
 public interface CertiService {
 	
-	// ÀüÃ¼ ÀÚ°İÁõ ¸ñ·Ï
-	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category, String req_degree,String req_age,
-			String req_exp,String clevel);
+	// ï¿½ï¿½Ã¼ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category);
 	
-	//µî·ÏµÈ ÀÚ°İÁõ ÀüÃ¼ °³¼ö
+	
+	//ï¿½ï¿½Ïµï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	public int getCertCnt();
 	
-	// ÀÚ°İÁõ »ó¼¼Á¤º¸
+	// ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Map<String, CertiAccessible> getCertiInfo(String cnum);
 	
-	// ÀÚ°İÁõº° ÀÏÁ¤Á¤º¸ ¸ñ·Ï Á¶È¸ ¹× ÀÏÁ¤ °Ë»ö
+	// ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	public List<CertiDateDTO> searchPeriod(String cnum);
 	public List<CertiDateDTO> searchNatPeriod(String cnum);
 	
-	// ¾îÇĞ ÀÚ°İÁõ ¸ñ·Ï
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public List<CertiInfoDTO> getCertiLangList();
+	
+	//ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½
+	public List<CertiInfoDTO> getFilteredList(CertiFilterDTO dto);
+	public List<CertiInfoDTO> getreqList(String req_age,String req_degree,String req_exp);
 
+	// RServeì´ìš©í•´ì„œ ìê²©ì¦ ê´€ë ¨ ë‰´ìŠ¤ ê°€ì ¸ì˜¤ê¸°
+	public ArrayList<MypageNewsDTO> getNews(String cnum) throws Exception;
 
+	// cnumì— í•´ë‹¹í•˜ëŠ” pass_detailí…Œì´ë¸” ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+	public ArrayList<PassDetailDTO> pyramidGraph(String cnum);
+	
+	// cnumì— í•´ë‹¹í•˜ëŠ” pass_rate(_nat)í…Œì´ë¸” ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+	public ArrayList<? extends PassRateAccessible> lineGraph(CertiInfoDTO dto);
+	public List<Map<String,Object>> getNcsCodeList();
+	public int getCertiFilteredCnt(CertiFilterDTO dto);
+	public List<String> getNcsName(CertiFilterDTO dto);
+	
+	// ï¿½ï¿½È®ï¿½ï¿½
+	public int count(String cnum, String memid);
+	
+	public List<String> getLikeList(String memid);
+	
 }

@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.AdminMapper">
+	<resultMap type="spring.project.model.MemberInfoDTO" id="memberInfo">
+		<result property="memid" column="memid"/>
+		<result property="passwd" column="passwd"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="email" column="email"/>
+		<result property="birthday" column="birthday"/>
+		<result property="gender" column="gender"/>
+		<result property="postalCode" column="postalCode"/>
+		<result property="address" column="address"/>
+		<result property="addr_detail" column="addr_detail"/>
+		<result property="mobile" column="mobile"/>
+		<result property="mem_degree" column="mem_degree"/>
+		<result property="major" column="major"/>
+	</resultMap>
+	<resultMap type="spring.project.model.EmpInfoDTO" id="empInfo">
+		<result property="empid" column="empid"/>
+		<result property="job" column="job"/>
+		<result property="hiredate" column="hiredate"/>
+		<result property="sal" column="sal"/>
+		<result property="status" column="status"/>
+		<result property="ref_date" column="ref_date"/>
+		<collection property="memberInfo" resultMap="memberInfo"/>
+	</resultMap>
+	<update id="updateToMember">
+		update memberinfo
+			set
+			status = 0,
+			ref_date = sysdate
+		where memid=#{memid}
+	</update>
+	<update id="delEmpInfo">
+		update emp_info 
+			set
+			ref_date = sysdate,
+			status = '퇴사',
+			leaving_reason = #{leaving_reason}
+		where empid=#{empid}
+	</update>
+	<update id="modEmpInfo">
+		update emp_info 
+			set
+			hiredate = NVL(#{hiredate}, hiredate),
+			job = NVL(#{job}, job),
+			status = NVL(#{status}, status),
+			ref_date = NVL(#{ref_date}, ref_date),
+			sal = NVL(#{sal}, sal)
+		where empid = #{empid}
+	</update>
+	<select id="getEmpInfo" resultMap="empInfo">
+		select 
+			a.mem_name, a.email, 
+			to_char(a.birthday, 'YYYY.MM.DD') as birthday, a.gender,
+			a.postalCode, a.address, a.addr_detail,
+			a.mobile, a.mem_degree, a.major,
+			b.* 
+			from memberinfo a, emp_info b
+		where a.memid=b.empid
+		and b.empid=#{empid}
+	</select>
+	<select id="getEmpCnt" resultType="int">
+		select count(*) from emp_info
+	</select>
+	<select id="getEmpList" resultType="map">
+		select * from 
+    		(select rownum r, list.* from 
+		        (select 
+		            a.mem_name, a.email, a.mobile, a.birthday, 
+		            b.* from memberinfo a, emp_info b
+		            where a.memid=b.empid)list)
+    		where r between #{startRow} and #{endRow} 
+	</select>
+	<update id="updateToAdmin">
+		update memberinfo 
+			set status = 1,
+			ref_date = sysdate
+		where memid=#{memid}
+	</update>
+	<insert id="addEmpInfo">
+		insert into emp_info values(
+			#{empid},
+			#{job},
+			#{hiredate},
+			#{sal},
+			'일반',
+			sysdate,
+			''
+		)
+	</insert>
+	<update id="updateCertiStatus">
+		update certiinfo 
+			set status = 'EXP'
+			<![CDATA[ where expiry < sysdate ]]>
+	</update>
+	<select id="getMemberSearchCnt" resultType="int">
+		select count(*) from memberinfo
+			where ${search} like '%${keyword}%'
+	</select>
+	<select id="getMemberSearchList" resultType="spring.project.model.MemberInfoDTO">
+		select * from
+			(select rownum r, a.*, b.status_name from
+				(select * from memberinfo
+					where ${search} like '%${keyword}%'
+					order by regdate desc) a,
+				member_status b
+				where a.status=b.status)
+			where r between #{startRow} and #{endRow}
+	</select>
+	<update id="updateFromBlock">
+		update memberinfo
+			set status=0, ref_date = sysdate
+		where status = 2 
+		<![CDATA[and ref_date <= sysdate-(interval'7'day)]]>
+	</update>
+	<update id="updateToSleep">
+		update memberinfo
+			set status=5, ref_date=sysdate
+		where status = 0 
+		<![CDATA[and to_char(ref_date,'YYYY-MM-DD') <= to_char(sysdate-(interval'1'year), 'YYYY-MM-DD')]]>
+	</update>
+	<update id="delEmpNotice">
+		update emp_board
+			set status=1
+		where ebnum=#{ebnum}
+	</update>
+	<update id="modEmpNotice">
+		update emp_board 
+			set subject=#{subject},
+			post_content=#{post_content}
+		where ebnum=#{ebnum}
+	</update>
+	<update id="updateReadCnt">
+		update emp_board set readCnt = readCnt+1 where ebnum=#{ebnum}
+	</update>
+	<select id="getEmpNotice" resultType="spring.project.model.EmpBoardDTO">
+		select * from emp_board where ebnum=#{ebnum}
+	</select>
+	<insert id="addEmpNotice">
+		insert into emp_board values(
+			eb_seq.nextval,
+			#{subject},
+			#{post_content},
+			#{writer},
+			1,
+			0,
+			sysdate,
+			0
+		)
+	</insert>
+	<select id="getEmpNoticeCnt" resultType="int">
+		select count(*) from emp_board where status=0
+	</select>
+	<select id="getEmpNoticeList" resultType="spring.project.model.EmpBoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from emp_board 
+					where status=0
+				order by reg desc) list)
+		where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getSearchBothCnt" resultType="int">
+		select count(*) from post_board 
+		<trim prefix="where">
+			<if test="board_type != null and board_type != ''">
+				board_type=#{board_type} and
+			</if>
+			subject like '%${keyword}%' or post_content like '%${keyword}%'
+		</trim>
+	</select>
+	<select id="getBoardSearchBoth" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+    		(select rownum r, list.* from 
+		        (select * from post_board a 
+		        left join boardtype b 
+		        on a.board_type=b.board_type
+				<trim prefix="where">
+					<if test="board_type != null ">
+						a.board_type = #{board_type} and
+					</if>
+					subject like '%${keyword}%' or post_content like '%${keyword}%'
+				</trim>
+				order by reg desc) list )
+		where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getSearchWriterCnt" resultType="int">
+		select count(*) from post_board 
+			where writer like '%${keyword}%'
+			<if test="board_type != null ">
+				and board_type=#{board_type}
+			</if>
+	</select>
+	<select id="getBoardSearchWriter" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+    		(select rownum r, a.* from 
+		        (select * from post_board a 
+		        left join boardtype b 
+		        on a.board_type=b.board_type
+		        where writer like '%안%' 
+		        <if test="board_type != null">
+		        	and a.board_type = #{board_type}
+		        </if>
+		        order by reg desc) a)
+		where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getBoardCnt" resultType="int">
+		select count(*) from post_board
+		<where>
+			<if test="board_type != null">
+				board_type = #{board_type}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="getBoardList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+    		(select rownum r, list.* from 
+		        (select * from post_board a 
+		        left join boardtype b 
+		        on a.board_type=b.board_type
+				<where>
+					<if test="board_type != null">
+						a.board_type = #{board_type}
+					</if>
+					<if test="status != null">
+						and status = #{status}
+					</if>
+				</where>	
+				) list)
+		where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getNewReportCnt" resultType="int">
+		select count(*) from 
+			(select memid, count(*) as reportCnt from member_report group by memid) rep,
+      		memberinfo info
+		where info.memid=rep.memid
+		and info.status=0
+	</select>
+	<select id="getNewCertiCnt" resultType="int">
+		select count(*) from certiinfo 
+		    where to_char(registDate,'YYYY-MM-DD') 
+		    between to_char(sysdate-5, 'YYYY-MM-DD') and to_char(sysdate, 'YYYY-MM-DD')
+	</select>
+	<select id="getMemberLastWeekCnt" resultType="int">
+		select count(*) from memberinfo 
+	    	where to_char(regDate,'YYYY-MM-DD') 
+	    	between to_char(sysdate-7, 'YYYY-MM-DD') and to_char(sysdate, 'YYYY-MM-DD')
+	</select>
+	<select id="getMemberTodayCnt" resultType="int">
+		select count(*) from memberinfo 
+			where to_char(regDate,'YYYY-MM-DD') = to_char(sysdate, 'YYYY-MM-DD')
+	</select>
+	<select id="getNewRequestCnt" resultType="int">
+		select count(*) from post_board 
+				where board_type = 3 and post_level=0 
+	</select>
+	<select id="getNewRequestList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from post_board 
+				where board_type = 3 and post_level=0 
+				order by reg) list)
+			where r between #{startRow} and #{endRow}
+	</select>
+	
+	<update id="delCerti">
+		update certiinfo set status = #{status} where cnum=#{cnum}
+	</update>
+	
+	<update id="modCertiDate">
+		update certidate 
+		<set>
+			docRegStart1 = NVL(TO_DATE(#{docRegStart1},'YYYY-MM-DD HH24:MI'), docRegStart1),
+			<if test="docRegEnd1 != null">
+				docRegEnd1 = TO_DATE(#{docRegEnd1},'YYYY-MM-DD HH24:MI'),
+			</if>
+			docRegStart2 = NVL(TO_DATE(#{docRegStart2},'YYYY-MM-DD HH24:MI'),docRegStart2),
+			<if test="docRegEnd2 != null">
+				docRegEnd2 = TO_DATE(#{docRegEnd2},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docTestStart != null">
+				docTestStart = TO_DATE(#{docTestStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docTestEnd != null">
+				docTestEnd = TO_DATE(#{docTestEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docResultStart != null">
+				docResultStart = TO_DATE(#{docResultStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docResultEnd != null">
+				docResultEnd = TO_DATE(#{docResultEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docSubmitStart != null">
+				docSubmitStart = TO_DATE(#{docSubmitStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="docSubmitEnd != null">
+				docSubmitEnd = TO_DATE(#{docSubmitEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracRegStart1 != null">
+				pracRegStart1 = TO_DATE(#{pracRegStart1},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracRegEnd1 != null">
+				pracRegEnd1 = TO_DATE(#{pracRegEnd1},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracRegStart2 != null">
+				pracRegStart2 = TO_DATE(#{pracRegStart2},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracRegEnd2 != null">
+				pracRegEnd2 = TO_DATE(#{pracRegEnd2},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracTestStart != null">
+				pracTestStart = TO_DATE(#{pracTestStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracTestEnd != null">
+				pracTestEnd = TO_DATE(#{pracTestEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracResStart != null">
+				pracResStart = TO_DATE(#{pracResStart},'YYYY-MM-DD HH24:MI'),
+			</if>
+			<if test="pracResEnd != null">
+				pracResEnd = TO_DATE(#{pracResEnd},'YYYY-MM-DD HH24:MI'),
+			</if>
+		</set>
+		where datepk = #{datePK}
+	</update>
+	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate where datepk = #{datePK}
+	</select>
+	<select id="getNatSameScheduleList" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+		    (select rownum r, list.* from 
+		        (select b.* from certischedule a, certiinfo b 
+		            where a.cnum=b.cnum 
+		            and a.cyear=#{cyear} and a.cround=#{cround} and a.clevel=#{clevel}
+		            order by a.cnum) list)
+		    where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getNatSameCnt" resultType="int">
+		select count(*) from certidate a, certischedule b 
+			where a.datepk=#{datepk}
+			and a.cyear=b.cyear and a.cround=b.cround and a.clevel=b.clevel 
+	</select>
+	<delete id="deleteCertiDate">
+		delete from certidate
+		where datepk in 
+		<foreach collection="array" item="datePK" open="(" separator="," close=")">
+			#{datePK}
+		</foreach>
+	</delete>
+	<delete id="deleteCertiNatDate">
+		delete from certischedule
+		where 
+			cnum=#{cnum}
+			and cyear=#{cyear}
+			and cround=#{cround}
+			and clevel=#{clevel} 
+	</delete>
+	
+	<select id="getReportReasonList" resultType="spring.project.model.MemberReportDTO">
+		select * from member_report where wr_option ='P' and pnum=#{pnum}
+	</select>
+	<update id="updateRepMemStatus">
+		update memberinfo 
+			<set>
+				status = #{status},
+				<if test="status != 0">
+					mem_level = '',
+					mem_point = 0,
+				</if>
+				ref_date = sysdate
+			</set>
+		where memid=#{memid}
+	</update>
+	
+	<select id="getMemberInfo" resultType="spring.project.model.MemberInfoDTO">
+		select a.*, b.status_name from memberinfo a, member_status b 
+			where a.status=b.status 
+			and memid=#{memid}
+	</select>
+	
+	<select id="getMemberCertList" resultType="spring.project.model.CertiInfoDTO">
+		select a.cert_name, a.expirydate, b.* from 
+			(select * from member_cert where memid=#{memid}) a
+		left join certiinfo b
+		on a.cnum=b.cnum
+	</select>
+	<select id="getMemberLikeList" resultType="spring.project.model.CertiInfoDTO">
+		select b.* from 
+			(select * from member_like where memid=#{memid}) a, 
+			certiinfo b
+		where a.cnum=b.cnum
+	</select>
+	<select id="getReportMemCommCnt" resultType="int">
+		select count(*) from 
+			(select pnum, count(*) as reportCnt from member_report 
+				where memid=#{memid}
+				and wr_option='C' 
+				group by pnum)
+	</select>
+	<select id="getReportMemComment" resultType="map">
+		select 
+			a.reportcnt, a.comm_num, 
+            b.comm_content, b.reg, b.pnum, b.status 
+			from 
+				(select pnum as comm_num, count(*) as reportCnt from member_report 
+					where memid=#{memid} and wr_option='C' group by pnum) a
+			left join comm_board b
+                on a.comm_num=b.comm_num
+	</select>
+	<select id="getCommReportDetails" resultType="spring.project.model.MemberReportDTO">
+		select * from member_report 
+			where pnum=#{pnum}
+			and wr_option='C'
+	</select>
+	<select id="getReportMemPostingCnt" resultType="int">
+		select count(*) from 
+			(select pnum, count(*) as reportCnt from member_report 
+				where memid=#{memid}
+				and wr_option='P' 
+				group by pnum)
+	</select>
+	<select id="getReportMemPosting" resultType="map">
+		select 
+			a.pnum, b.subject, 
+			a.reportcnt,
+			c.board_type, c.board_mapping, c.board_name 
+			from 
+			(select pnum, count(*) as reportCnt from member_report 
+				where memid=#{memid} and wr_option='P'
+				group by pnum) a
+			left join post_board b
+                on a.pnum=b.pnum
+            left join boardtype c
+                on b.board_type=c.board_type
+	</select>
+	<select id="getReportMemCnt" resultType="int">
+		select count(*) from member_report a, memberinfo b
+		where a.memid=b.memid
+		<if test="status != null"> 
+			and b.status = #{status} 
+		</if>
+	</select>
+	<select id="getReportMemList" resultType="spring.project.model.MemberInfoDTO">
+		select 
+			a.*, 
+			b.email, b.mem_name, b.mobile, b.mem_point, b.regdate,
+			c.status_name 
+			from 
+				(select memid, count(*) as reportCnt from member_report group by memid) a, 
+				memberinfo b,
+	            member_status c
+			where 
+			<![CDATA[ a.reportCnt >= 1	]]>
+			and a.memid=b.memid
+			and b.status=c.status
+			<if test="status != null"> 
+				and b.status = #{status} 
+			</if>
+		order by a.reportCnt
+	</select>
+	
+	<select id="getMemberFilter" resultType="spring.project.model.MemberInfoDTO"
+								parameterType="hashmap">
+		select * from memberinfo  where
+			<if test="search != null">
+				${search} like '%${keyword}%'
+			</if>
+			<if test="status != null">
+				and status in 
+				<foreach collection="status" item="type" index="index" open="(" close=")" separator=",">
+					#{type[index])
+				</foreach>
+			</if>
+			<if test="mem_level != null">
+				and mem_level in 
+				<foreach collection="mem_level" item="type" index="index" open="(" close=")" separator=",">
+					#{type[index])
+				</foreach>
+			</if>
+			<if test="mem_point1 != 0">
+				<![CDATA[ and mem_point >= #{mem_point1} ]]>
+			</if>
+			<if test="mem_point2 != 0">
+				<![CDATA[ and mem_point <= #{mem_point2} ]]>
+			</if>
+			<if test="regDate1 != null">
+				and regdate between #{regDate1} and #{regDate2}
+			</if>
+			order by 
+	</select>
+	<select id="getMemStatusName" resultType="String">
+		select status_name from member_status 
+		where status=#{status}
+	</select>
+	<select id="getMemberCnt" resultType="int">
+		select count(*) from memberinfo	
+			<if test="status != null">
+				where status=#{status}
+			</if>
+	</select>
+	<select id="getMemberList" resultType="spring.project.model.MemberInfoDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select a.*, b.status_name from memberinfo a, member_status b
+					where a.status=b.status
+					<if test="status != null">
+						and a.status=#{status}
+					</if>
+					order by regdate desc ) list) 
+			where r between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="getSearchCnt" resultType="int">
+		select count(*) from certiinfo where ${search} like '%${keyword}%'
+	</select>
+	<select id="getSearchList" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select	* from certiinfo where ${search} like '%${keyword}%') list)
+        where r between #{startRow} and #{endRow}
+        order by cnum
+	</select>
+	
+	<select id="getCertCnt" resultType="int">
+		select count(*) from certiinfo
+		<if test="category != null">
+			where category = #{category}
+		</if>
+	</select>
+	
+	
+	<update id="modCertiInfo">
+		update certiinfo
+		<set>
+			<if test="cname != null">cname=#{cname},</if>
+			<if test="category != null">category=#{category},</if>
+			<if test="clevel != null">clevel=#{clevel},</if>
+			company = NVL(#{company}, company),
+			website = NVL(#{website}, website),
+			price = NVL(#{price}, price),
+			cmethod = NVL(#{cmethod}, cmethod),
+			subject = NVL(#{subject}, subject),
+			cutline = NVL(#{cutline}, cutline),
+			cinfo = NVL(#{cinfo}, cinfo),
+			cjob = NVL(#{cjob}, cjob),
+			ncs_cat = NVL(#{ncs_cat}, ncs_cat),
+			notice = NVL(#{notice}, notice)
+		</set>
+		where cnum=#{cnum}
+	</update>
+	<update id="modCertiReq">
+		update certi_requirement
+		<set>
+			req_degree = NVL(#{req_degree}, req_degree),
+			req_age = NVL(#{req_age}, req_age),
+			req_exp = NVL(#{req_exp}, req_exp),
+			pre_requisite = NVL(#{pre_requisite}, pre_requisite),
+			ref = NVL(#{ref}, ref)
+		</set>
+		where cnum=#{cnum}
+	</update>
+	
+	<select id="searchNatPeriod" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate 
+		where clevel=#{clevel}
+		and cyear in
+		<foreach collection="cyear_list" item="cyear" open="(" separator="," close=")">
+			#{cyear}
+		</foreach>
+		and cround in 
+		<foreach collection="cround_list" item="cround" open="(" separator="," close=")">
+			#{cround}
+		</foreach>
+	</select>
+	
+	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">
+		select * from certidate 
+		where cnum=#{cnum}
+	</select>
+	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
+		select * from certi_requirement where cnum=#{cnum}
+	</select>
+	<select id="getQnetDate" resultType="spring.project.model.CertiDateDTO"
+							parameterType="spring.project.model.CertiScheduleDTO">
+		select * from certidate 
+			where cyear=#{cyear}
+			and cround=#{cround}
+			and clevel=#{clevel}						
+	</select>
+	<select id="getQnetDateInfo" resultType="spring.project.model.CertiScheduleDTO">
+		select * from certischedule where cnum=#{cnum}
+	</select>
+	
+	<select id="getCertiInfo" resultType="spring.project.model.CertiInfoDTO">
+		select * from certiinfo where cnum=#{cnum}
+	</select>
+	
+	<select id="findNextseq" resultType="int">
+		select ${sequence}.nextval from dual
+	</select>
+	
+	<select id="findCurrseq" resultType="int">
+		select last_number from seq
+		where sequence_name = #{sequence}
+	</select>
+	
+	<select id="getCertList" resultType="spring.project.model.CertiInfoDTO">
+		select * from (select rownum r, list.* from (select *
+		from certiinfo 
+			<if	test="category != null and category != ''">
+        		where category = #{category}
+        	</if>
+			<if test="sort != null and sort != 'null' and sort != '' ">
+				order by ${sort} ${order}
+			</if>
+			<if test="sort==null or sort=='' or sort == 'null' ">
+				order by cnum asc
+			</if>
+			nulls last) list)
+        where r between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="getDelList" resultType="spring.project.model.CertiInfoDTO"> 
+		select 
+			cnum,cname,category,clevel,cround,
+			to_char(regStart,'YYYY-MM-DD') as regStart,
+			to_char(regEnd,'YYYY-MM-DD') as regEnd,
+			to_char(reg_addStart,'YYYY-MM-DD') as reg_addStart,
+			to_char(reg_addEnd,'YYYY-MM-DD') as reg_addEnd,
+			to_char(regStartTime,'HH24:MI') as regStartTime,
+			to_char(regEndTime,'HH24:MI') as regEndTime,
+			to_char(testDate,'YYYY-MM-DD') as testDate,
+			to_char(resDate,'YYYY-MM-DD') as resDate
+		from certiinfo where cnum in 
+		<foreach collection="array" item="cnum" open="(" separator="," close=")">
+			#{cnum}
+		</foreach>
+		order by cnum
+	</select>
+	
+	<insert id="addCertiReq">
+		insert into certi_requirement values(
+			#{cnum},
+			#{req_degree, jdbcType=VARCHAR},
+			#{req_age, jdbcType=VARCHAR},
+			#{req_exp, jdbcType=VARCHAR},
+			#{pre_requisite, jdbcType=VARCHAR},
+			#{ref}
+		)
+	</insert>
+	
+	<insert id="addCertiSchedule">
+		insert into certiSchedule values (
+			#{cnum},
+			#{cyear,jdbcType=INTEGER},
+			nvl(#{cround}, 0),
+			#{clevel},
+			sysdate
+		)
+	</insert>
+	
+	<insert id="addCertiInfo">
+		insert into certiInfo values (
+			#{cnum},
+			#{cname},
+			#{category},
+			#{clevel,jdbcType=VARCHAR},
+			#{company,jdbcType=VARCHAR},
+			#{website,jdbcType=VARCHAR},
+			#{requirement,jdbcType=VARCHAR},
+			#{cmethod,jdbcType=VARCHAR},
+			#{subject,jdbcType=VARCHAR},
+			#{cutline,jdbcType=VARCHAR},
+			#{cinfo,jdbcType=VARCHAR},
+			#{cjob,jdbcType=VARCHAR},
+			to_date(#{expiry, jdbcType=VARCHAR},'YYYY-MM-DD'),
+			#{status, jdbcType=VARCHAR},
+			#{price, jdbcType=VARCHAR},
+			#{ncs_cat,jdbcType=INTEGER},
+			#{notice, jdbcType=VARCHAR},
+			sysdate
+		)
+	</insert>
+	
+	<insert id="addCertiDate" parameterType="spring.project.model.CertiDateDTO">
+		insert into certidate values(
+			#{cnum, jdbcType=VARCHAR},
+			#{cyear},
+			#{cround},
+			#{clevel},
+			to_date(#{docRegStart1} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docRegEnd1} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docRegStart2} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docRegEnd2} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docTestStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docTestEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docResultStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docResultEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docSubmitStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{docSubmitEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracRegStart1} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracRegEnd1} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracRegStart2} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracRegEnd2} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracTestStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracTestEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracResStart} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			to_date(#{pracResEnd} DEFAULT null ON CONVERSION ERROR,'YYYY-MM-DD HH24:MI'),
+			CERTIDATE_SEQ.nextval
+		)
+	</insert>
+	
+</mapper>

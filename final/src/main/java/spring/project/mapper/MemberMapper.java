@@ -13,14 +13,13 @@ import spring.project.model.Post_BoardDTO;
 public interface MemberMapper {
 	
 	public int insertMember(MemberInfoDTO dto);
-	public int userCheck(MemberInfoDTO dto);
+	public MemberInfoDTO userCheck(MemberInfoDTO dto);
 	public MemberInfoDTO AccountInfo(String memid);
 	public void deleteUser(MemberInfoDTO dto);
 	public MemberInfoDTO findUser(MemberInfoDTO dto);
 	public void modifyList(MemberInfoDTO dto);
 	public int idDuplicate(String memid);
 	public MemberInfoDTO idFind(MemberInfoDTO dto);
-	public MemberInfoDTO pwFind(MemberInfoDTO dto);
 	public ArrayList<Post_BoardDTO> myList
 	(@Param("writer") String writer , @Param("board_type") int board_type , @Param("startRow") int startRow , @Param("endRow") int endRow);
 	public int post_BoardCount(@Param("board_type")int board_type,@Param("writer")String writer);
@@ -33,4 +32,7 @@ public interface MemberMapper {
 	public List<Comm_BoardDTO> myComments(@Param("writer") String writer, @Param("startRow") int startRow , @Param("endRow") int endRow);
 	public int commentsCount(String writer);
 	public void updateTime(String memid);
+	public int pwCheck(MemberInfoDTO dto);
+	public MemberInfoDTO pwFind(MemberInfoDTO dto);
+	public void domancyUpdate(MemberInfoDTO dto);
 }

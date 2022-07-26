@@ -5,9 +5,24 @@
 <head>
 <meta charset="UTF-8">
 <title>댓글 수정 창</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	function check(){
+		var rtn = true;
+		var comm_content = document.getElementById("comm_content").value;
+		
+		//댓글내용 공백 확인
+		if(comm_content == ""){
+			alert("댓글을 입력해주세요");
+			$("#comm_content").focus();
+			return false;
+		}
+	}
+</script>
 </head>
 <body>
-<form role="form" action="/community/modCommPro" >
+<form role="form" action="/community/modCommPro" name="modComm" onsubmit="return check()">
+	<h2>댓글 수정</h2>
 	<table border=1>
 		<tr>
 			<td>작성자</td>
@@ -15,7 +30,7 @@
 		</tr>
 		<tr>
 			<td>댓글</td>
-			<td><textarea name="comm_content" rows="5" cols="40">${comm.comm_content}</textarea></td>
+			<td><textarea name="comm_content" id="comm_content" rows="5" cols="40" >${comm.comm_content}</textarea></td>
 		</tr>
 	</table>
 	

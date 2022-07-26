@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.mapper.Post_BoardMapper">
+	
+	<insert id="addPost_Board" parameterType="spring.project.model.Post_BoardDTO">
+		insert into post_board values (
+			board_seq.nextval,   
+			#{subject},
+			#{post_content},
+			#{writer},
+			sysdate,
+			#{post_group},
+			#{post_level},
+			#{board_type},
+			0,
+			#{img, jdbcType=VARCHAR},
+			0
+			)
+		 <selectKey keyProperty="pnum" resultType="int" order="AFTER">
+            select board_seq.currval from dual
+        </selectKey>
+	</insert>
+	
+	<select id="maxPost_group" resultType="int">
+		select nvl(max(post_group), 0) from post_board
+	</select>
+	
+	<select id="post_BoardLists" resultType="spring.project.model.Post_BoardDTO">
+		<![CDATA[
+			select * from 
+				(select post_board.*, rownum r from 
+					(select * from post_board order by post_group desc, post_level) post_board 
+						where board_type=#{board_type} and status=0)
+							where r >= #{startRow} and r <= #{endRow}
+		]]>
+	</select>
+	<select id="getSearchList" resultType="spring.project.model.Post_BoardDTO">
+		select * from 
+			(select post_board.*, rownum r from 
+				(select * from post_board order by post_group desc, post_level) post_board 
+					where board_type=#{board_type} and status=0 and ${search} like '%${keyword}%')
+        				<![CDATA[ where r >= #{startRow} and r <= #{endRow} ]]>
+	</select>
+	
+	<select id="post_BoardCount" resultType="int">
+		select count(*) from post_board where board_type=#{board_type} and status=0
+	</select>
+	
+	<select id="post_BoardContent" resultType="spring.project.model.Post_BoardDTO">
+		select post_board.*, to_char(reg, 'YYYY-MM-DD HH24:MI') as regdate 
+			from post_board where pnum=#{pnum}
+	</select>
+	
+	<update id="modPost_Board">
+		update post_board 
+			<set> 
+				<if test="subject != null"> subject=#{subject}, </if> 
+				<if test="post_content != null"> post_content=#{post_content}, </if> 
+				reg=sysdate
+			</set>
+				where pnum=#{pnum}
+	</update>
+	
+	<update id="delPost_Board">
+		update post_board set status='1' where pnum=#{pnum}
+	</update>
+	
+	<update id="upReadCnt" parameterType="spring.project.model.Post_BoardDTO">
+		update post_board set readcnt=readcnt+1 where pnum=#{pnum}
+	</update>
+	
+	<select id="passwdCheck" parameterType="String"
+								resultType="int">
+		select count(*) from memberinfo where memid=#{memid} and passwd=#{passwd}
+	</select>
+	
+	<insert id="addMemberReport" parameterType="spring.project.model.MemberReportDTO">
+		insert into member_report (memid, report_id, wr_option, pnum, reason, reg)
+				values(#{memid},
+						#{report_id}, 
+						#{wr_option},
+						#{pnum},
+						#{reason},
+						sysdate)
+	</insert>
+	
+	<select id="getMemberReport" parameterType="spring.project.model.MemberReportDTO"
+									resultType="int">
+		select count(*) from member_report
+	</select>
+	
+</mapper>

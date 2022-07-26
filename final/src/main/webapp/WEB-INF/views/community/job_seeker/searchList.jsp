@@ -6,9 +6,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>질문글</title>
+<title>취준생 공간</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>
 		<c:if test="${search eq 'writer' }">
 			작성자 
@@ -22,7 +23,7 @@
 		'${keyword}' 검색 결과 [총: ${count}개] 
 	</h1>
 	
-	<input type="button" value="목록" onclick="window.location='/community/question/questionList?board_type=5' "/>
+	<input type="button" value="목록" onclick="window.location='/community/question/questionList?board_type=7' "/>
 	
 	<table border=1>
 	<c:if test="${count > 0}">
@@ -39,7 +40,7 @@
 			<td>${board.pnum}</td>
 			<td><a href="/community/question/questionContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td> 
 			<td>${board.writer}</td>
-			<td>${board.reg}</td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.reg}"/></td>
 			<td>${board.readCnt}</td>
 		</tr>
 	</c:forEach>
@@ -57,16 +58,17 @@
 	</c:if>
 	
 	<c:if test="${startPage > 10}" >
-        <a href="/community/question/questionList?board_type=5&pageNum=${startPage - 10}">[이전]</a>
+        <a href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${startPage - 10}">[이전]</a>
     </c:if>
     
     <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">    
-        <a href="/community/question/questionList?board_type=5&pageNum=${i}">[${i}]</a>
+        <a href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${i}">[${i}]</a>
     </c:forEach>
     
     <c:if test="${endPage < pageCount}" >
-       <a href="/community/question/questionList?board_type=5&pageNum=${startPage + 10 }">[다음]</a>
+       <a href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

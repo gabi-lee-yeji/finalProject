@@ -63,7 +63,7 @@ public class AdminController {
 	
 	static Map<String, Object> paramMap = new HashMap<String, Object>();
 	
-	//�옄寃⑹쬆 �벑濡� �럹�씠吏� 
+	//?��격증 ?���? ?��?���? 
 	@RequestMapping("addCerti")
 	public String addCerti() {
 		return "admin/certi/addCerti";
@@ -78,10 +78,10 @@ public class AdminController {
 		return "admin/certi/addCertiPro";
 	}
 	
-	//�옄寃⑹쬆 紐⑸줉 �럹�씠吏�
+	//?��격증 목록 ?��?���?
 	@RequestMapping("certiList")
 	public String getCertiList(String pageNum, String sort, String order, String category, Model model) {
-		//�븳 �럹�씠吏��뿉 蹂댁뿬二쇨퀬 �떢�� 寃뚯떆湲��닔 留ㅺ컻蹂��닔濡� �쟾�떖
+		//?�� ?��?���??�� 보여주고 ?��?? 게시�??�� 매개�??���? ?��?��
 		int pageSize = 30;
 		PagingDTO page = pageService.getPaging(pageSize, pageNum);
 		model.addAttribute("list", service.getCertList(page, sort, order, category));
@@ -94,7 +94,7 @@ public class AdminController {
 		return "admin/certi/certiList";
 	}
 	
-	//�옄寃⑹쬆 寃��깋湲곕뒫 (寃곌낵�럹�씠吏�)
+	//?��격증 �??��기능 (결과?��?���?)
 	@RequestMapping("search")
 	public String searchList(String pageNum, String search, String keyword, Model model) {
 		PagingDTO page = pageService.getPaging(30, pageNum);
@@ -108,7 +108,7 @@ public class AdminController {
 		return "/admin/certi/searchList";
 	}
 	
-	//�옄寃⑹쬆 �닔�젙 - �긽�꽭�젙蹂� �솗�씤媛��뒫 
+	//?��격증 ?��?�� - ?��?��?���? ?��?���??�� 
 	@RequestMapping("certiInfo")
 	public String getCertiInfo(String cnum, Model model) {
 		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
@@ -118,7 +118,7 @@ public class AdminController {
 		return "admin/certi/certiInfo";
 	}
 	
-	//�옄寃⑹쬆蹂� �긽�꽭�씪�젙 紐⑸줉
+	//?��격증�? ?��?��?��?�� 목록
 	@RequestMapping("certiDate")
 	public String getcertiDateInfo(String cnum, Model model) {
 		List<CertiDateDTO> dateList = null;
@@ -133,7 +133,7 @@ public class AdminController {
 		
 		return "admin/certi/certiDate";
 	}
-	//�옄寃⑹쬆 �씪�젙 異붽�
+	//?��격증 ?��?�� 추�?
 	@RequestMapping("certi/addDate")
 	public String addDate(String cnum, Model model) {
 		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
@@ -181,22 +181,22 @@ public class AdminController {
 		return "admin/certi/addDatePro";
 	}
 	
-	//�옄寃⑹쬆 �씪�젙 異붽� �뀒�씠釉�
+	//?��격증 ?��?�� 추�? ?��?���?
 	@RequestMapping("certi/addDateTbl")
 	public String ajaxDateTbl(String count, Model model) {
 		model.addAttribute("count", count);
 		return "admin/ajax/addDateTbl";
 	}
 	
-	//�옄寃⑹쬆 �씪�젙 �궘�젣  
+	//?��격증 ?��?�� ?��?��  
 	@RequestMapping("certi/deleteDate")
 	public String deleteDate(String cnum, String[] dateList, Model model){
-		//援�媛��옄寃⑹쬆�씤 寃쎌슦 �씪�젙 �궘�젣 �쟾 而⑦럩 �럹�씠吏�濡� �씠�룞 
+		//�?�??��격증?�� 경우 ?��?�� ?��?�� ?�� 컨펌 ?��?���?�? ?��?�� 
 		if(cnum.startsWith("N")) {
-			//CertiSchedule�뿉�꽌 �빐�떦 �옄寃⑹쬆 �뜲�씠�꽣 �궘�젣 
+			//CertiSchedule?��?�� ?��?�� ?��격증 ?��?��?�� ?��?�� 
 			model.addAttribute("result", service.deleteCertiNatDate(dateList, cnum));
 		}else {
-			//CertiDate�뿉�꽌 �씪�젙 �젙蹂� �궘�젣 (datePK �궗�슜) 
+			//CertiDate?��?�� ?��?�� ?���? ?��?�� (datePK ?��?��) 
 			model.addAttribute("result",service.deleteCertiDate(dateList));
 		}
 		
@@ -232,22 +232,22 @@ public class AdminController {
 		return "admin/certi/modDatePro";
 	}
 	
-	//�옄寃⑹쬆 �젙蹂� �궘�젣 (update status)
+	//?��격증 ?���? ?��?�� (update status)
 	@RequestMapping("certi/deleteForm")
 	public String deleteForm(String cnum, MemberInfoDTO dto, Model model) {
-		//�궘�젣�븯湲� �쟾 �꽑�깮�븳 �옄寃⑹쬆 諛� 沅뚰븳 �솗�씤
+		//?��?��?���? ?�� ?��?��?�� ?��격증 �? 권한 ?��?��
 		model.addAttribute("dto", service.getCertiInfo(cnum).get("info"));
 		return "admin/certi/deleteForm";
 	}
 	@RequestMapping("deletePro")
 	public String deletePro(String cnum, String name, MemberInfoDTO dto, Model model) {
-		//ID || ps 誘몄엯�젰�떆 �쑀�슚�꽦 寃��궗 (2李�) -> view�뿉�꽌�룄 鍮덉뭏 泥댄겕�븯湲�! 
+		//ID || ps 미입?��?�� ?��?��?�� �??�� (2�?) -> view?��?��?�� 빈칸 체크?���?! 
 		if(dto.getMemid()==null || dto.getPasswd()==null) return "member/loginForm";
 		
-		//�엯�젰�븳 ID媛� 愿�由ъ옄 ID�씤吏� 
+		//?��?��?�� ID�? �?리자 ID?���? 
 		if(dto.getMemid().contains("admin")) {
-			//id, pw 泥댄겕
-			if(memService.userCheck(dto)==1) {
+			//id, pw 체크
+			if(memService.userCheck(dto).getCnt()==1) {
 				model.addAttribute("result",service.delCerti(cnum, name));
 			}
 		}else {
@@ -324,12 +324,12 @@ public class AdminController {
 		model.addAttribute("memid", memid);
 		model.addAttribute("reportCnt", reportCnt);
 		
-		//�떊怨좊떦�븳 �쉶�썝 �젙蹂�
+		//?��고당?�� ?��?�� ?���?
 		model.addAttribute("dto", service.getMemberInfo(memid));
-		//�떊怨좊떦�븳 �쉶�썝�쓽 �떊怨좊맂 湲� 紐⑸줉 議고쉶
+		//?��고당?�� ?��?��?�� ?��고된 �? 목록 조회
 		model.addAttribute("postList", service.getReportMemPosting(memid));
 		model.addAttribute("postingCnt", service.getReportMemPostingCnt(memid));
-		//�떊怨좊떦�븳 �쉶�썝�쓽 �떊怨좊맂 �뙎湲� 紐⑸줉 議고쉶
+		//?��고당?�� ?��?��?�� ?��고된 ?���? 목록 조회
 		model.addAttribute("commList", service.getReportMemComment(memid));
 		model.addAttribute("commCnt", service.getReportMemCommCnt(memid));
 		return "/admin/member/reportMemInfo";
@@ -408,7 +408,7 @@ public class AdminController {
 		model.addAttribute("memReportList", service.getReportMemList(0));
 		model.addAttribute("empNotice", service.getEmpNoticeList(page));
 		
-		//�쉶�썝�벑湲� �옄�룞議곗젙 
+		//?��?��?���? ?��?��조정 
 		service.updateMemberStatus();
 		return "/admin/main";
 	}
@@ -427,7 +427,7 @@ public class AdminController {
 	}
 	@RequestMapping("ajax/visitor")
 	public String adminMainVisitor() {
-		//援ш� �넻怨꾩뿉�꽌 諛⑸Ц�옄�닔 議고쉶�빐�꽌 view濡� 蹂대궡湲�
+		//구�? ?��계에?�� 방문?��?�� 조회?��?�� view�? 보내�?
 		return "/admin/ajax/visitor";
 	}
 	
@@ -436,14 +436,14 @@ public class AdminController {
 	public String googleTest(Model model) throws Exception {
 		String start = "7daysAgo";
 		String today = "today";
-		//援ш� �넻怨꾩뿉�꽌 諛⑸Ц�옄�닔 議고쉶�빐�꽌 view濡� 蹂대궡湲�
+		//구�? ?��계에?�� 방문?��?�� 조회?��?�� view�? 보내�?
 		model.addAttribute("usersToday", gaService.getUsersStats(today, today));
 		model.addAttribute("users7Days", gaService.getUsersStats(start, today));
 		return "/admin/stats/test";
 	}
 	
 	
-	//愿�由ъ옄 - 吏곸썝寃뚯떆�뙋 - 吏곸썝怨듭�
+	//�?리자 - 직원게시?�� - 직원공�?
 	@RequestMapping("emp/noticeList")
 	public String getEmpNoticeList(String pageNum, Model model) {
 		PagingDTO page = pageService.getPaging(10, pageNum);
@@ -467,7 +467,7 @@ public class AdminController {
 	public String getEmpNotice(int ebnum, HttpSession session, Model model) {
 		//model.addAttribute("id", session.getAttribute("memid"));
 		model.addAttribute("id", "test");
-		service.updateReadCnt(ebnum);  //議고쉶�닔+1
+		service.updateReadCnt(ebnum);  //조회?��+1
 		model.addAttribute("dto",service.getEmpNotice(ebnum));
 		return "/admin/emp/board/notice";
 	}
@@ -487,20 +487,20 @@ public class AdminController {
 		return "/admin/emp/board/delNotice";
 	}
 	
-	//愿�由ъ옄 - �궗�썝寃뚯떆�뙋 
-	//�궗�썝紐⑸줉
+	//�?리자 - ?��?��게시?�� 
+	//?��?��목록
 	@RequestMapping("emp/empList")
 	public String getEmpList(String pageNum, String sort, String order, String empjob, String status, 
 							HttpSession session, Model model) {
 		
-		//sessionId媛� 留ㅻ땲���씠�긽�씤吏� 泥댄겕
+		//sessionId�? 매니???��?��?���? 체크
 		String empid = (String)session.getAttribute("sid");
 		//String empid = "manager";
 		int checkIfMgr = service.checkifMgr(empid);
 		model.addAttribute("checkIfMgr", checkIfMgr);
 		
-		//�눜�궗�옄 �젙蹂대뒗 留ㅻ땲��湲� �씠�긽留� 議고쉶媛��뒫
-		if(status != null && status.equals("퇴사")){
+		//?��?��?�� ?��보는 매니??�? ?��?���? 조회�??��
+		if(status != null && status.equals("���")){
 			if(checkIfMgr != 1) {
 				return "/admin/warning";
 			}
@@ -517,14 +517,14 @@ public class AdminController {
 		model.addAttribute("totalCnt", service.getEmpCnt(empjob, status));
 		model.addAttribute("quitCnt", service.getQuitCnt(empjob));
 		
-		//jobList - DB�벑濡앸맂 吏곸뾽由ъ뒪�듃 蹂대궡湲�
+		//jobList - DB?��록된 직업리스?�� 보내�?
 		model.addAttribute("jobList", service.getEmpjobList());
-		//statusList - DB�벑濡앸맂 吏곴툒由ъ뒪�듃 蹂대궡湲� 
+		//statusList - DB?��록된 직급리스?�� 보내�? 
 		model.addAttribute("statusList", service.getEmpStatusList());
 		
 		return "/admin/emp/info/empList";
 	}
-	//�궗�썝紐⑸줉 - 寃��깋寃곌낵
+	//?��?��목록 - �??��결과
 	@RequestMapping("emp/searchList")
 	public String getEmpSearchList(String pageNum, String search, String keyword, HttpSession session, Model model) {
 		model.addAttribute("keyword", keyword);
@@ -540,7 +540,7 @@ public class AdminController {
 		model.addAttribute("checkIfMgr", service.checkifMgr(empid));
 		return "/admin/emp/info/searchEmpList";
 	}
-	//�궗�썝�젙蹂�
+	//?��?��?���?
 	@RequestMapping("emp/empInfo")
 	public String getEmpInfo(String empid, HttpSession session, Model model) {
 		String sessionId = (String)session.getAttribute("sid");
@@ -551,11 +551,11 @@ public class AdminController {
 		model.addAttribute("checkIfMgr", service.checkifMgr(sessionId));
 		return "/admin/emp/info/empInfo";
 	}
-	//�궗�썝 �벑濡�
+	//?��?�� ?���?
 	@RequestMapping("emp/addEmp")
 	public String addEmpForm(String memid, Model model) {
-		//�씠誘� �쉶�썝媛��엯 �릺�뼱�엳�뜕 �궗�썝留� 媛��뒫
-		//泥섏쓬 媛��엯 �븘�슂�븳 �궗�썝 -> �쉶�썝媛��엯遺��꽣 
+		//?���? ?��?���??�� ?��?��?��?�� ?��?���? �??��
+		//처음 �??�� ?��?��?�� ?��?�� -> ?��?���??���??�� 
 		model.addAttribute("memid", memid);
 		
 		if(memid!=null)
@@ -569,7 +569,7 @@ public class AdminController {
 		model.addAttribute("result", service.addEmpInfo(dto));
 		return "/admin/emp/info/addEmpPro";
 	}
-	//�궗�썝�젙蹂� �닔�젙
+	//?��?��?���? ?��?��
 	@RequestMapping("emp/modEmp")
 	public String modEmpInfo(String empid, HttpSession session, Model model) {
 		//model.addAttribute("sessionId", session.getAttribute("empid"));
@@ -582,7 +582,7 @@ public class AdminController {
 		model.addAttribute("empid", dto.getEmpid());
 		return "/admin/emp/info/modEmpPro";
 	}
-	//�궗�썝�젙蹂� �궘�젣
+	//?��?��?���? ?��?��
 	@RequestMapping("emp/delEmp")
 	public String delEmpInfo(String empid, Model model) {
 		model.addAttribute("dto", service.getEmpInfo(empid));
@@ -597,7 +597,7 @@ public class AdminController {
 	
 	@RequestMapping("emp/myPage")
 	public String empMypage(Model model) {
-		//�궗�썝 id 泥댄겕 
+		//?��?�� id 체크 
 		return "/admin/emp/info/empInfo";
 	}
 }

@@ -34,4 +34,5 @@ $(document).ready( function() {
 		</tr>
 	</table>
 	<input type="hidden" name="mcnum" value="${dto.mcnum }"/>
+	<input type="hidden" name="memid" value="${sessionScope.sid}" />
 </form>

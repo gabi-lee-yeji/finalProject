@@ -9,6 +9,21 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
+	<!-- daily log -->
+	<appender name="dailyout" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="${catalina.home}/logs/dailyout.log"/>
+		<param name="Append" value="true"/>
+		<param name="DatePattern" value="'.'yyMMdd"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%t> [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] %m %n"/>
+		</layout>
+	</appender>
+	<!-- xml log -->
+	<appender name="xmlout" class="org.apache.log4j.FileAppender">
+		<param name="file" value="${catalina.home}/logs/log4jxml.xml"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.xml.XMLLayout"/>
+	</appender>
 	
 	<!-- Application Loggers -->
 	<logger name="spring.project.controller">

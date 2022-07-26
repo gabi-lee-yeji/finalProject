@@ -1,6 +1,11 @@
 package spring.project.mapper;
 
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.LikeDTO;
 
@@ -10,12 +15,14 @@ public interface LikeMapper {
 	public int addLike(LikeDTO like);
 	
 	// Âò »èÁ¦
-	public int deleteLike(int memid);
+	public int deleteLike(LikeDTO like);
 	
 	// Âò ¸ñ·Ï
 	public List<LikeDTO> getLike(String memid);	
 	
 	// Âò È®ÀÎ
 	public LikeDTO checkLike(LikeDTO like);
-
+	
+	public int likeCheck(@Param("cnum")String cnum, @Param("memid")String memid);
+	
 }
