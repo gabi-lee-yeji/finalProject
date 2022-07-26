@@ -16,23 +16,41 @@
 				</c:forEach>
 			],
 			datasets: [{
-				label: '${data[0].cname}',
+				label: '${data[0].cname}'
+					<c:if test="${cnum.charAt(0) == 78}">
+						+ " 필기"
+					</c:if>
+				,
 				data: [
 					<c:forEach var="d" items="${data}">
 						<c:if test="${cnum.charAt(0) == 78}">
-							${d.prac_pass/d.prac_apply},
+							${d.doc_pass/d.doc_apply*100},
 						</c:if>
 						<c:if test="${cnum.charAt(0) != 78}">
-							${d.passed/d.tested},
+							${d.passed/d.tested*100},
 						</c:if>
 					</c:forEach>
-				]
-			}]
+				],
+				borderColor: 'green'
+			},
+				<c:if test="${cnum.charAt(0) == 78}">
+					{
+						label: '${data[0].cname}' + " 실기",
+						data:[
+							<c:forEach var="d" items="${data}">
+								${d.prac_pass/d.prac_apply*100},
+							</c:forEach>
+						],
+						borderColor: 'blue'
+					}
+				</c:if>
+			]
 		},
 		options:{
 			scales:{
 				y:{
-					beginAtZero: true
+					beginAtZero: true,
+					max: 100
 				}
 			}
 		}

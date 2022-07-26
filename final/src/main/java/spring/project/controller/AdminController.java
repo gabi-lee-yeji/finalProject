@@ -63,7 +63,7 @@ public class AdminController {
 	
 	static Map<String, Object> paramMap = new HashMap<String, Object>();
 	
-	//?ê²©ì¦ ?“±ë¡? ?˜?´ì§? 
+	//?ï¿½ï¿½ê²©ì¦ ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½? 
 	@RequestMapping("addCerti")
 	public String addCerti() {
 		return "admin/certi/addCerti";
@@ -78,10 +78,10 @@ public class AdminController {
 		return "admin/certi/addCertiPro";
 	}
 	
-	//?ê²©ì¦ ëª©ë¡ ?˜?´ì§?
+	//?ï¿½ï¿½ê²©ì¦ ëª©ë¡ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?
 	@RequestMapping("certiList")
 	public String getCertiList(String pageNum, String sort, String order, String category, Model model) {
-		//?•œ ?˜?´ì§??— ë³´ì—¬ì£¼ê³  ?‹¶?? ê²Œì‹œê¸??ˆ˜ ë§¤ê°œë³??ˆ˜ë¡? ? „?‹¬
+		//?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½ ë³´ì—¬ì£¼ê³  ?ï¿½ï¿½?? ê²Œì‹œï¿½??ï¿½ï¿½ ë§¤ê°œï¿½??ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		int pageSize = 30;
 		PagingDTO page = pageService.getPaging(pageSize, pageNum);
 		model.addAttribute("list", service.getCertList(page, sort, order, category));
@@ -94,7 +94,7 @@ public class AdminController {
 		return "admin/certi/certiList";
 	}
 	
-	//?ê²©ì¦ ê²??ƒ‰ê¸°ëŠ¥ (ê²°ê³¼?˜?´ì§?)
+	//?ï¿½ï¿½ê²©ì¦ ï¿½??ï¿½ï¿½ê¸°ëŠ¥ (ê²°ê³¼?ï¿½ï¿½?ï¿½ï¿½ï¿½?)
 	@RequestMapping("search")
 	public String searchList(String pageNum, String search, String keyword, Model model) {
 		PagingDTO page = pageService.getPaging(30, pageNum);
@@ -108,7 +108,7 @@ public class AdminController {
 		return "/admin/certi/searchList";
 	}
 	
-	//?ê²©ì¦ ?ˆ˜? • - ?ƒ?„¸? •ë³? ?™•?¸ê°??Š¥ 
+	//?ï¿½ï¿½ê²©ì¦ ?ï¿½ï¿½?ï¿½ï¿½ - ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½ 
 	@RequestMapping("certiInfo")
 	public String getCertiInfo(String cnum, Model model) {
 		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
@@ -118,7 +118,7 @@ public class AdminController {
 		return "admin/certi/certiInfo";
 	}
 	
-	//?ê²©ì¦ë³? ?ƒ?„¸?¼? • ëª©ë¡
+	//?ï¿½ï¿½ê²©ì¦ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ëª©ë¡
 	@RequestMapping("certiDate")
 	public String getcertiDateInfo(String cnum, Model model) {
 		List<CertiDateDTO> dateList = null;
@@ -133,7 +133,7 @@ public class AdminController {
 		
 		return "admin/certi/certiDate";
 	}
-	//?ê²©ì¦ ?¼? • ì¶”ê?
+	//?ï¿½ï¿½ê²©ì¦ ?ï¿½ï¿½?ï¿½ï¿½ ì¶”ï¿½?
 	@RequestMapping("certi/addDate")
 	public String addDate(String cnum, Model model) {
 		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
@@ -181,22 +181,22 @@ public class AdminController {
 		return "admin/certi/addDatePro";
 	}
 	
-	//?ê²©ì¦ ?¼? • ì¶”ê? ?…Œ?´ë¸?
+	//?ï¿½ï¿½ê²©ì¦ ?ï¿½ï¿½?ï¿½ï¿½ ì¶”ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½?
 	@RequestMapping("certi/addDateTbl")
 	public String ajaxDateTbl(String count, Model model) {
 		model.addAttribute("count", count);
 		return "admin/ajax/addDateTbl";
 	}
 	
-	//?ê²©ì¦ ?¼? • ?‚­? œ  
+	//?ï¿½ï¿½ê²©ì¦ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½  
 	@RequestMapping("certi/deleteDate")
 	public String deleteDate(String cnum, String[] dateList, Model model){
-		//êµ?ê°??ê²©ì¦?¸ ê²½ìš° ?¼? • ?‚­? œ ? „ ì»¨íŒ ?˜?´ì§?ë¡? ?´?™ 
+		//ï¿½?ï¿½??ï¿½ï¿½ê²©ì¦?ï¿½ï¿½ ê²½ìš° ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ ì»¨íŒ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ 
 		if(cnum.startsWith("N")) {
-			//CertiSchedule?—?„œ ?•´?‹¹ ?ê²©ì¦ ?°?´?„° ?‚­? œ 
+			//CertiSchedule?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê²©ì¦ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ 
 			model.addAttribute("result", service.deleteCertiNatDate(dateList, cnum));
 		}else {
-			//CertiDate?—?„œ ?¼? • ? •ë³? ?‚­? œ (datePK ?‚¬?š©) 
+			//CertiDate?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ (datePK ?ï¿½ï¿½?ï¿½ï¿½) 
 			model.addAttribute("result",service.deleteCertiDate(dateList));
 		}
 		
@@ -232,22 +232,22 @@ public class AdminController {
 		return "admin/certi/modDatePro";
 	}
 	
-	//?ê²©ì¦ ? •ë³? ?‚­? œ (update status)
+	//?ï¿½ï¿½ê²©ì¦ ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ (update status)
 	@RequestMapping("certi/deleteForm")
 	public String deleteForm(String cnum, MemberInfoDTO dto, Model model) {
-		//?‚­? œ?•˜ê¸? ? „ ?„ ?ƒ?•œ ?ê²©ì¦ ë°? ê¶Œí•œ ?™•?¸
+		//?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê²©ì¦ ï¿½? ê¶Œí•œ ?ï¿½ï¿½?ï¿½ï¿½
 		model.addAttribute("dto", service.getCertiInfo(cnum).get("info"));
 		return "admin/certi/deleteForm";
 	}
 	@RequestMapping("deletePro")
 	public String deletePro(String cnum, String name, MemberInfoDTO dto, Model model) {
-		//ID || ps ë¯¸ì…? ¥?‹œ ?œ ?š¨?„± ê²??‚¬ (2ì°?) -> view?—?„œ?„ ë¹ˆì¹¸ ì²´í¬?•˜ê¸?! 
+		//ID || ps ë¯¸ì…?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ï¿½??ï¿½ï¿½ (2ï¿½?) -> view?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ë¹ˆì¹¸ ì²´í¬?ï¿½ï¿½ï¿½?! 
 		if(dto.getMemid()==null || dto.getPasswd()==null) return "member/loginForm";
 		
-		//?…? ¥?•œ IDê°? ê´?ë¦¬ì ID?¸ì§? 
+		//?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ IDï¿½? ï¿½?ë¦¬ì ID?ï¿½ï¿½ï¿½? 
 		if(dto.getMemid().contains("admin")) {
 			//id, pw ì²´í¬
-			if(memService.userCheck(dto)==1) {
+			if(memService.userCheck(dto).getCnt()==1) {
 				model.addAttribute("result",service.delCerti(cnum, name));
 			}
 		}else {
@@ -324,12 +324,12 @@ public class AdminController {
 		model.addAttribute("memid", memid);
 		model.addAttribute("reportCnt", reportCnt);
 		
-		//?‹ ê³ ë‹¹?•œ ?šŒ?› ? •ë³?
+		//?ï¿½ï¿½ê³ ë‹¹?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?
 		model.addAttribute("dto", service.getMemberInfo(memid));
-		//?‹ ê³ ë‹¹?•œ ?šŒ?›?˜ ?‹ ê³ ëœ ê¸? ëª©ë¡ ì¡°íšŒ
+		//?ï¿½ï¿½ê³ ë‹¹?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê³ ëœ ï¿½? ëª©ë¡ ì¡°íšŒ
 		model.addAttribute("postList", service.getReportMemPosting(memid));
 		model.addAttribute("postingCnt", service.getReportMemPostingCnt(memid));
-		//?‹ ê³ ë‹¹?•œ ?šŒ?›?˜ ?‹ ê³ ëœ ?Œ“ê¸? ëª©ë¡ ì¡°íšŒ
+		//?ï¿½ï¿½ê³ ë‹¹?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê³ ëœ ?ï¿½ï¿½ï¿½? ëª©ë¡ ì¡°íšŒ
 		model.addAttribute("commList", service.getReportMemComment(memid));
 		model.addAttribute("commCnt", service.getReportMemCommCnt(memid));
 		return "/admin/member/reportMemInfo";
@@ -408,7 +408,7 @@ public class AdminController {
 		model.addAttribute("memReportList", service.getReportMemList(0));
 		model.addAttribute("empNotice", service.getEmpNoticeList(page));
 		
-		//?šŒ?›?“±ê¸? ??™ì¡°ì • 
+		//?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ì¡°ì • 
 		service.updateMemberStatus();
 		return "/admin/main";
 	}
@@ -427,7 +427,7 @@ public class AdminController {
 	}
 	@RequestMapping("ajax/visitor")
 	public String adminMainVisitor() {
-		//êµ¬ê? ?†µê³„ì—?„œ ë°©ë¬¸??ˆ˜ ì¡°íšŒ?•´?„œ viewë¡? ë³´ë‚´ê¸?
+		//êµ¬ï¿½? ?ï¿½ï¿½ê³„ì—?ï¿½ï¿½ ë°©ë¬¸?ï¿½ï¿½?ï¿½ï¿½ ì¡°íšŒ?ï¿½ï¿½?ï¿½ï¿½ viewï¿½? ë³´ë‚´ï¿½?
 		return "/admin/ajax/visitor";
 	}
 	
@@ -436,14 +436,14 @@ public class AdminController {
 	public String googleTest(Model model) throws Exception {
 		String start = "7daysAgo";
 		String today = "today";
-		//êµ¬ê? ?†µê³„ì—?„œ ë°©ë¬¸??ˆ˜ ì¡°íšŒ?•´?„œ viewë¡? ë³´ë‚´ê¸?
+		//êµ¬ï¿½? ?ï¿½ï¿½ê³„ì—?ï¿½ï¿½ ë°©ë¬¸?ï¿½ï¿½?ï¿½ï¿½ ì¡°íšŒ?ï¿½ï¿½?ï¿½ï¿½ viewï¿½? ë³´ë‚´ï¿½?
 		model.addAttribute("usersToday", gaService.getUsersStats(today, today));
 		model.addAttribute("users7Days", gaService.getUsersStats(start, today));
 		return "/admin/stats/test";
 	}
 	
 	
-	//ê´?ë¦¬ì - ì§ì›ê²Œì‹œ?Œ - ì§ì›ê³µì?
+	//ï¿½?ë¦¬ì - ì§ì›ê²Œì‹œ?ï¿½ï¿½ - ì§ì›ê³µï¿½?
 	@RequestMapping("emp/noticeList")
 	public String getEmpNoticeList(String pageNum, Model model) {
 		PagingDTO page = pageService.getPaging(10, pageNum);
@@ -467,7 +467,7 @@ public class AdminController {
 	public String getEmpNotice(int ebnum, HttpSession session, Model model) {
 		//model.addAttribute("id", session.getAttribute("memid"));
 		model.addAttribute("id", "test");
-		service.updateReadCnt(ebnum);  //ì¡°íšŒ?ˆ˜+1
+		service.updateReadCnt(ebnum);  //ì¡°íšŒ?ï¿½ï¿½+1
 		model.addAttribute("dto",service.getEmpNotice(ebnum));
 		return "/admin/emp/board/notice";
 	}
@@ -487,20 +487,20 @@ public class AdminController {
 		return "/admin/emp/board/delNotice";
 	}
 	
-	//ê´?ë¦¬ì - ?‚¬?›ê²Œì‹œ?Œ 
-	//?‚¬?›ëª©ë¡
+	//ï¿½?ë¦¬ì - ?ï¿½ï¿½?ï¿½ï¿½ê²Œì‹œ?ï¿½ï¿½ 
+	//?ï¿½ï¿½?ï¿½ï¿½ëª©ë¡
 	@RequestMapping("emp/empList")
 	public String getEmpList(String pageNum, String sort, String order, String empjob, String status, 
 							HttpSession session, Model model) {
 		
-		//sessionIdê°? ë§¤ë‹ˆ???´?ƒ?¸ì§? ì²´í¬
+		//sessionIdï¿½? ë§¤ë‹ˆ???ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ì²´í¬
 		String empid = (String)session.getAttribute("sid");
 		//String empid = "manager";
 		int checkIfMgr = service.checkifMgr(empid);
 		model.addAttribute("checkIfMgr", checkIfMgr);
 		
-		//?‡´?‚¬? ? •ë³´ëŠ” ë§¤ë‹ˆ??ê¸? ?´?ƒë§? ì¡°íšŒê°??Š¥
-		if(status != null && status.equals("Åğ»ç")){
+		//?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ë³´ëŠ” ë§¤ë‹ˆ??ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ì¡°íšŒï¿½??ï¿½ï¿½
+		if(status != null && status.equals("ï¿½ï¿½ï¿½")){
 			if(checkIfMgr != 1) {
 				return "/admin/warning";
 			}
@@ -517,14 +517,14 @@ public class AdminController {
 		model.addAttribute("totalCnt", service.getEmpCnt(empjob, status));
 		model.addAttribute("quitCnt", service.getQuitCnt(empjob));
 		
-		//jobList - DB?“±ë¡ëœ ì§ì—…ë¦¬ìŠ¤?Š¸ ë³´ë‚´ê¸?
+		//jobList - DB?ï¿½ï¿½ë¡ëœ ì§ì—…ë¦¬ìŠ¤?ï¿½ï¿½ ë³´ë‚´ï¿½?
 		model.addAttribute("jobList", service.getEmpjobList());
-		//statusList - DB?“±ë¡ëœ ì§ê¸‰ë¦¬ìŠ¤?Š¸ ë³´ë‚´ê¸? 
+		//statusList - DB?ï¿½ï¿½ë¡ëœ ì§ê¸‰ë¦¬ìŠ¤?ï¿½ï¿½ ë³´ë‚´ï¿½? 
 		model.addAttribute("statusList", service.getEmpStatusList());
 		
 		return "/admin/emp/info/empList";
 	}
-	//?‚¬?›ëª©ë¡ - ê²??ƒ‰ê²°ê³¼
+	//?ï¿½ï¿½?ï¿½ï¿½ëª©ë¡ - ï¿½??ï¿½ï¿½ê²°ê³¼
 	@RequestMapping("emp/searchList")
 	public String getEmpSearchList(String pageNum, String search, String keyword, HttpSession session, Model model) {
 		model.addAttribute("keyword", keyword);
@@ -540,7 +540,7 @@ public class AdminController {
 		model.addAttribute("checkIfMgr", service.checkifMgr(empid));
 		return "/admin/emp/info/searchEmpList";
 	}
-	//?‚¬?›? •ë³?
+	//?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½?
 	@RequestMapping("emp/empInfo")
 	public String getEmpInfo(String empid, HttpSession session, Model model) {
 		String sessionId = (String)session.getAttribute("sid");
@@ -551,11 +551,11 @@ public class AdminController {
 		model.addAttribute("checkIfMgr", service.checkifMgr(sessionId));
 		return "/admin/emp/info/empInfo";
 	}
-	//?‚¬?› ?“±ë¡?
+	//?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?
 	@RequestMapping("emp/addEmp")
 	public String addEmpForm(String memid, Model model) {
-		//?´ë¯? ?šŒ?›ê°??… ?˜?–´?ˆ?˜ ?‚¬?›ë§? ê°??Š¥
-		//ì²˜ìŒ ê°??… ?•„?š”?•œ ?‚¬?› -> ?šŒ?›ê°??…ë¶??„° 
+		//?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ï¿½??ï¿½ï¿½
+		//ì²˜ìŒ ï¿½??ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ -> ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½ï¿½??ï¿½ï¿½ 
 		model.addAttribute("memid", memid);
 		
 		if(memid!=null)
@@ -569,7 +569,7 @@ public class AdminController {
 		model.addAttribute("result", service.addEmpInfo(dto));
 		return "/admin/emp/info/addEmpPro";
 	}
-	//?‚¬?›? •ë³? ?ˆ˜? •
+	//?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 	@RequestMapping("emp/modEmp")
 	public String modEmpInfo(String empid, HttpSession session, Model model) {
 		//model.addAttribute("sessionId", session.getAttribute("empid"));
@@ -582,7 +582,7 @@ public class AdminController {
 		model.addAttribute("empid", dto.getEmpid());
 		return "/admin/emp/info/modEmpPro";
 	}
-	//?‚¬?›? •ë³? ?‚­? œ
+	//?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 	@RequestMapping("emp/delEmp")
 	public String delEmpInfo(String empid, Model model) {
 		model.addAttribute("dto", service.getEmpInfo(empid));
@@ -597,7 +597,7 @@ public class AdminController {
 	
 	@RequestMapping("emp/myPage")
 	public String empMypage(Model model) {
-		//?‚¬?› id ì²´í¬ 
+		//?ï¿½ï¿½?ï¿½ï¿½ id ì²´í¬ 
 		return "/admin/emp/info/empInfo";
 	}
 }
