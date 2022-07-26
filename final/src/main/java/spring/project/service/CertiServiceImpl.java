@@ -14,12 +14,14 @@ import org.springframework.stereotype.Service;
 import spring.project.mapper.CertiMapper;
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MypageNewsDTO;
 import spring.project.model.PassDetailDTO;
 import spring.project.model.PassRateAccessible;
+import spring.project.model.LikeDTO;
 
 @Service
 public class CertiServiceImpl implements CertiService {
@@ -29,12 +31,10 @@ public class CertiServiceImpl implements CertiService {
 	static Map<String, CertiAccessible> certiMap = new HashMap<String, CertiAccessible>();
 
 	@Override
-	public List<CertiInfoDTO> getCertiList(String cnum,int startRow, int endRow, String category, String req_degree,String req_age,
-			String req_exp, String clevel) {
-
-		return mapper.getCertiList(cnum,startRow, endRow, category,req_degree,req_age,
-				req_exp, clevel);
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category) {
+		return mapper.getCertiList(startRow, endRow, category);
 	}
+	
 	
 	@Override
 	public Map<String, CertiAccessible> getCertiInfo(String cnum) {
@@ -147,6 +147,45 @@ public class CertiServiceImpl implements CertiService {
 			return mapper.lineGraphPrv(dto);
 	}
 	
+
+	@Override
+	public List<CertiInfoDTO> getFilteredList(CertiFilterDTO dto) {	
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("category", dto.getCategory());
+		parameterMap.put("ncs_cat", dto.getNcs_cat());
+		parameterMap.put("company", dto.getCompany());
+		return mapper.getCertiFilteredList(parameterMap);
+	}
+	
+	@Override
+	public List<CertiInfoDTO> getreqList(String req_age,String req_degree,String req_exp){
+		return mapper.getreqList(req_age, req_degree, req_exp);
+	}
+	@Override
+	public int count(String cnum, String memid) {
+		return mapper.likeCheck(cnum,memid);
+	}
+	
+	@Override
+	public List<String> getLikeList(String memid){
+		return mapper.getLikeList(memid);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getNcsCodeList() {
+		return mapper.getNcsCodeList();
+	}
+	
+	@Override
+	public int getCertiFilteredCnt(CertiFilterDTO dto) {
+		return mapper.getCertiFilteredCnt(dto);
+	}
+	
+	@Override
+	public List<String> getNcsName(CertiFilterDTO dto) {
+		return mapper.getNcsName(dto);
+	}
+
 }
 
 

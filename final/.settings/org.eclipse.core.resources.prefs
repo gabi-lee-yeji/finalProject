@@ -1,6 +1,8 @@
 eclipse.preferences.version=1
 encoding//src/main/java/spring/project/controller/MemberController.java=UTF-8
 encoding//src/main/java/spring/project/controller/AdminController.java=UTF-8
+encoding//src/main/java/spring/project/controller/CertiController.java=UTF-8
+encoding//src/main/java/spring/project/controller/LikeController.java=UTF-8
 encoding//src/main/java/spring/project/model/CertiDateDTO.java=UTF-8
 encoding//src/main/java/spring/project/service/AdminServiceImpl.java=UTF-8
 encoding//src/main/java/spring/project/service/MemberService.java=UTF-8

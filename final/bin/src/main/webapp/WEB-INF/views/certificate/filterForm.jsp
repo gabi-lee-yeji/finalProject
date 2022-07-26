@@ -1,17 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
 
-<form name="frm" action="/certificate/certiMain" method="post" >
-	<h3>분야</h3>
-		<input type="checkbox" name="NCS_CAT" value=""> 기계ㆍ금속ㆍ화공 <br/>
-		<input type="checkbox" name="NCS_CAT" value=""> 전기ㆍ전자ㆍ통신 <br/>
-		<input type="checkbox" name="NCS_CAT" value=""> 조선ㆍ항공 <br/>
-		<input type="checkbox" name="NCS_CAT" value=""> 토목ㆍ건축 <br/>
-		<input type="checkbox" name="NCS_CAT" value=""> 에너지ㆍ환경ㆍ안전 <br/>
-		<input type="checkbox" name="NCS_CAT" value=""> 산업디자인ㆍ응용ㆍ전문사무 <br/>
-		<input type="checkbox" name="NCS_CAT" value=""> 금속ㆍ화공 <br/>
-		<input type="checkbox" name="NCS_CAT" value=""> 섬유ㆍ해양ㆍ음식료품 <br/>
-		<input type="checkbox" name="NCS_CAT" value=""> 의약 <br/>
+<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:250px;" id="mySidebar">
+<button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+<form name="frm" action="/certificate/filterPro" method="post" >
 	<h3>자격등급</h3>	
 		<input type="checkbox" name="clevel" value="기술사"> 기술사 <br/>
 		<input type="checkbox" name="clevel" value="기능장"> 기능장 <br/>
@@ -19,26 +15,37 @@
 		<input type="checkbox" name="clevel" value="산업기사"> 산업기사 <br/>
 		<input type="checkbox" name="clevel" value="기능사"> 기능사 <br/>	
 
-<h2>응시자격</h2>
-	<h3>나이</h3>
-		<input type="checkbox" name="req_age" value="">30대 이상<br/>
-		<input type="checkbox" name="req_age" value="">20대<br/>
-		<input type="checkbox" name="req_age" value="">10대<br/>
-	<h3>학력</h3>
-		<input type="checkbox" name="req_degree" value="대졸">4년제 졸업 이상<br/>
-		<input type="checkbox" name="req_degree" value="초대졸">2년제 졸업 이상<br/>
-		<input type="checkbox" name="req_degree" value="고졸">고등학교 졸업 이상<br/>
-		<input type="checkbox" name="req_degree" value="학력무관">학력 무관<br/>
-	<h3>경력</h3>
-		<input type="checkbox" name="req_exp" value="4년이상">4년 이상<br/>
-		<input type="checkbox" name="req_exp" value="2년이상">2년 이상<br/>
-		<input type="checkbox" name="req_exp" value="1년이상">1년 이상<br/>
-		<input type="checkbox" name="req_exp" value="경력무관">경력 무관<br/>
-		
-<h2>기간</h2>	
-	<input type="checkbox" name="date" value=""> <br/>
-	<input type="checkbox" name="date" value=""> <br/>
-	<input type="checkbox" name="date" value=""> <br/>
+<h3>응시자격</h3>
+	<h4>나이</h4>
+		<select	name="req_age" onchange="setSearch(this)">
+			<option value="">나이선택</option>
+			<option value="0">나이 무관</option>
+		</select>
+	<h4>학력</h4>
+		<select	name="req_degree" onchange="setSearch(this)">
+			<option value="">학력선택</option>
+			<option value="0">석사 학위 이상</option>
+			<option value="4년제 대학 졸업(예정)자">4년제 대학 졸업자</option>
+			<option value="3년제 대학 졸업(예정)자">3년제 대학 졸업자</option>
+			<option value="2년제 대학 졸업(예정)자">2년제 대학 졸업자</option>
+			<option value="0">학력무관</option>
+		</select>
+	<h4>경력</h4>
+		<input type="text" id="req_exp" name="req_exp"><br/>
 
 <input type="submit" value="적용"/>	
 </form>
+</div>
+
+<script>
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+     
+</body>
+</html>
