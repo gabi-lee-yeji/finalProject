@@ -83,10 +83,6 @@
 		</tr>
 		</c:forEach>
 		<tr>
-			<td>응시자격</td>
-			<td width="80%">${info.requirement}</td>
-		</tr>
-		<tr>
 			<td>응시료</td>
 			<td>${info.price}</td>
 		</tr>

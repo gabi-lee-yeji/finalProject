@@ -4,26 +4,56 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="spring.project.mapper.CertiMapper">
-	<select id="getFilteredList" resultType="spring.project.model.CertiInfoDTO">
-		select * from certiinfo a join certi_requirement b on a.clevel=b.clevel
-			<where>	   
-				<if test="array != null">
-			      	clevel in
-				<foreach collection="array" item="clevel" open="(" separator="," close=")" >
-					#{clevel}
-				</foreach>		
+<select id="getNcsName" resultType="String">
+		select distinct lname from ncs_code where floor(code/100) in
+		<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
+			#{ncs_cat}
+		</foreach>
+	</select>
+	<select id="getCertiFilteredCnt" resultType="int">
+		select count(*) from certiinfo 
+			<where>
+				<if test="category != null and category != ''">
+					category = #{category}
 				</if>
-				<if test="req_age != null">
-				and req_age=#{req_age}	
-			</if>	
-			<if test="req_degree != null">
-			    and req_degree=#{req_degree}	
-			</if>
-			<if test="req_exp != null">
-			     and req_exp=#{req_exp}	
-			</if>
+				<if test="ncs_cat != null">
+					and floor(ncs_cat/100) in
+					<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
+						#{ncs_cat}
+					</foreach>
+				</if>
+				<if test="company != null">
+					and company like '%${keyword}%'
+				</if>
 			</where>
 	</select>
+	<select id="getCertiFilteredList" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from certiinfo 
+					<where>
+						<if test="category != null and category != ''">
+							category = #{category}
+						</if>
+						<if test="ncs_cat != null">
+							and floor(ncs_cat/100) in
+							<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
+								#{ncs_cat}
+							</foreach>
+						</if>
+						<if test="company != null">
+							and company like '%${company}%'
+						</if>
+					</where>
+					) list)
+			where r between #{startRow} and #{endRow}
+	</select>
+	<select id="getNcsCodeList" resultType="map">
+		select * from (select floor(code/100) as code, lname from ncs_code)
+			group by code, lname
+			order by code
+	</select>
+	
 	
 	<select id="getreqList" resultType="spring.project.model.CertiInfoDTO">
 		select * from certiinfo a full outer join certi_requirement b on a.cnum=b.cnum
@@ -44,7 +74,13 @@
 								parameterType="spring.project.model.CertiInfoDTO">
 		select * from 
     		(select rownum r, list.* from 
-		        (select * from certiinfo) list)
+		        (select * from certiinfo
+		        <where>
+					<if test="category != null and category != ''">
+						category = #{category}
+					</if>
+				</where>
+				) list)
 		where r between #{startRow} and #{endRow} and category != 'language'
 	</select>
 		
@@ -104,13 +140,12 @@
 		select * from ncs_code
 	</select>
 
-<!-- 찜 확인 -->
+	<!-- 찜 확인 -->
 	<select id="checkLike" resultType="spring.project.model.LikeDTO">
 		select * from member_like 
 		where memid=#{memid} and cnum=#{cnum}
 	</select>
 	
-	<!-- 찜 확인 -->
 	<select id="likeCheck" resultType="int"
 							parameterType="spring.project.model.LikeDTO">
 		select count(*) from member_like 

@@ -5,16 +5,24 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-<head>
-
 	<title> 자격증 </title>
 	
 <jsp:include page="../userNavBar.jsp"></jsp:include>
-<jsp:include page="mainFilter.jsp" />
+
+<jsp:include page="mainFilter.jsp"></jsp:include>
+
+<style>
+	.center{
+		text-align: center;
+	}
+</style>
 </head>
+
 <body>
-	<a href="/certificate/certiMain?category=national" >국가기술자격</a>
-	<a href="/certificate/certiMain?category=private">공인민간자격</a>
+	<div class="center">
+		<a href="/certificate/certiMain?category=national" >국가기술자격</a>
+		<a href="/certificate/certiMain?category=private">공인민간자격</a>
+	</div>
 	<c:if test="${count > 0}">
 		<table width=800 cellpadding="10" cellspacing="0" border=1" align="center" >
 			<tr>
@@ -22,13 +30,15 @@
 				<th>자격명</th>
 				<th>자격등급</th>
 				<th>분류</th>
-				<th></th>
+				<th>자격관리기관</th>
 			</tr>
 			<c:forEach var="board" items="${clist}"> <!-- 전체 자격증 -->
 				<tr>
 					<td>
 						${board.cnum}
-						<c:if test="${sessionScope.sid != null}">
+					</td>
+					<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>	
+					<c:if test="${sessionScope.sid != null}">
 							<c:if test="${check > 0}">
 								<c:if test="${fn:contains( mlist, board.cnum )}">
 									<input type="image"src="/resources/img/좋아요후.png" alt="제출" height="25" width="20" onclick="location.href='/like/delete?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
@@ -38,13 +48,12 @@
 								</c:if>
 							</c:if>
 						</c:if>
-					</td>
-					<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>	
 					<td><c:out value="${board.clevel}"/></td>
 					<td>
 						<c:set var="catArr" value="${fn:replace(fn:replace(board.category,'private','공인민간'),'national','국가기술')}"></c:set>
 							<c:out value="${catArr}"/>
 					</td>
+					<td>${board.company}</td>
 				</tr>
 			</c:forEach>
 		</table>

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.LikeDTO;
@@ -14,7 +15,7 @@ import spring.project.model.LikeDTO;
 public interface CertiService {
 	
 	// ��ü �ڰ��� ���
-	public List<CertiInfoDTO> getCertiList(int startRow, int endRow);
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category);
 	
 	
 	//��ϵ� �ڰ��� ��ü ����
@@ -31,11 +32,16 @@ public interface CertiService {
 	public List<CertiInfoDTO> getCertiLangList();
 	
 	//���͸� ���
-	public List<CertiInfoDTO> getFilteredList(String[] clevel);
+	public List<CertiInfoDTO> getFilteredList(CertiFilterDTO dto);
 	public List<CertiInfoDTO> getreqList(String req_age,String req_degree,String req_exp);
 
+	public List<Map<String,Object>> getNcsCodeList();
+	public int getCertiFilteredCnt(CertiFilterDTO dto);
+	public List<String> getNcsName(CertiFilterDTO dto);
+	
 	// ��Ȯ��
 	public int count(String cnum, String memid);
 	
 	public List<String> getLikeList(String memid);
+	
 }

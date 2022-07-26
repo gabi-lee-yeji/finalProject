@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -7,16 +8,39 @@
 
 <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:250px;" id="mySidebar">
 <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+
+<h4>๊ณ์—ด๋ณ ๋ถ๋ฅ</h4>
+
 <form name="frm" action="/certificate/filterPro" method="post" >
-	<h3>บะท๙</h3>	
-		<input type="checkbox" name="ncs_cat" value="ฑโผ๚ป็"> ฑโผ๚ป็ <br/>
-		<input type="checkbox" name="ncs_cat" value="ฑโดษภๅ"> ฑโดษภๅ <br/>
-		<input type="checkbox" name="ncs_cat" value="ฑโป็"> ฑโป็ <br/>
-		<input type="checkbox" name="ncs_cat" value="ป๊พ๗ฑโป็"> ป๊พ๗ฑโป็ <br/>
-		<input type="checkbox" name="ncs_cat" value="ฑโดษป็"> ฑโดษป็ <br/>	
-		
-<input type="submit" value="ภ๛ฟ๋"/>	
+
+	<select name="ncs_cat" style="height:400px" multiple="multiple">
+		<c:forEach var="map" items="${ncsList}">
+			<option value="${map.CODE}">${map.LNAME}</option>
+		</c:forEach>
+	</select>
+
+
+<c:if test="${category == 'private'}">
+	<h4>์ํ–๊ธฐ๊ด€ ๊ฒ€์</h4>	
+	<input type="text" id="compony" name="company"/>
+</c:if>
+
+<br>
+
+<c:if test="${category == 'language'}">
+	<h4>์–ดํ• ๋ถ๋ฅ</h4>
+	<input type="checkbox" name="ncs_cat" value=""> ์์–ด <br/>
+	<input type="checkbox" name="ncs_cat" value=""> ์ผ๋ณธ์–ด <br/>
+	<input type="checkbox" name="ncs_cat" value=""> ์ค‘๊ตญ์–ด <br/>
+	<input type="checkbox" name="ncs_cat" value=""> ์ ๋ฝ <br/>
+	<input type="checkbox" name="ncs_cat" value=""> ์•์์• <br/>
+</c:if>
 </form>
+
+<input type="hidden" value="${category}" name="category">
+<br>
+
+<input type="submit" value="์ ์ฉ"/>	
 </div>
 
 <script>

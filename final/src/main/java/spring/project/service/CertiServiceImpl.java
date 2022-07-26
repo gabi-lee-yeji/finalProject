@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import spring.project.mapper.CertiMapper;
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
+import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
@@ -25,8 +26,8 @@ public class CertiServiceImpl implements CertiService {
 	static Map<String, CertiAccessible> certiMap = new HashMap<String, CertiAccessible>();
 
 	@Override
-	public List<CertiInfoDTO> getCertiList(int startRow, int endRow) {
-		return mapper.getCertiList(startRow, endRow);
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category) {
+		return mapper.getCertiList(startRow, endRow, category);
 	}
 	
 	
@@ -72,8 +73,12 @@ public class CertiServiceImpl implements CertiService {
 
 
 	@Override
-	public List<CertiInfoDTO> getFilteredList(String[] clevel) {	
-		return mapper.getFilteredList(clevel);
+	public List<CertiInfoDTO> getFilteredList(CertiFilterDTO dto) {	
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("category", dto.getCategory());
+		parameterMap.put("ncs_cat", dto.getNcs_cat());
+		parameterMap.put("company", dto.getCompany());
+		return mapper.getCertiFilteredList(parameterMap);
 	}
 	
 	@Override
@@ -83,12 +88,26 @@ public class CertiServiceImpl implements CertiService {
 	@Override
 	public int count(String cnum, String memid) {
 		return mapper.likeCheck(cnum,memid);
-	};
+	}
 	
 	@Override
 	public List<String> getLikeList(String memid){
 		return mapper.getLikeList(memid);
 	}
 	
+	@Override
+	public List<Map<String, Object>> getNcsCodeList() {
+		return mapper.getNcsCodeList();
+	}
+	
+	@Override
+	public int getCertiFilteredCnt(CertiFilterDTO dto) {
+		return mapper.getCertiFilteredCnt(dto);
+	}
+	
+	@Override
+	public List<String> getNcsName(CertiFilterDTO dto) {
+		return mapper.getNcsName(dto);
+	}
 
 }
