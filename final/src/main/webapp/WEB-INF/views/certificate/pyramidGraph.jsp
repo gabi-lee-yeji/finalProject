@@ -1,70 +1,80 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+		pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<canvas id="pchart" width="100px" height="100px"></canvas>
+<canvas id="myChart"></canvas>
 
 <script>
-	const tooltip = {
-			yAlign: 'bottom',
-			titleAlign: 'center',
-			callbacks: {
-				label: function(context){
-					return `${context.dataset.label} ${context.raw}`;
-				}
-			}
-		}
+	// data convert
+	const maleData = [${data.m60},${data.m50},${data.m40},${data.m30},${data.m20},${data.m10}];
 	const female = [${data.f60},${data.f50},${data.f40},${data.f30},${data.f20},${data.f10}];
 	const femaleData = [];
 	female.forEach(element => femaleData.push(element*-1));
 
-	var pchartArea = document.getElementById('pchart').getContext('2d');
-	var pchart = new Chart(pchartArea, {
+	// setup 
+	const data = {
+		labels: ['60대+', '50대', '40대', '30대', '20대', '10대'],
+		datasets: [{
+			label: '남성',
+			data: maleData,
+			backgroundColor:'rgba(54, 162, 235, 1)',
+			borderColor: 'rgba(54, 162, 235, 1)',
+			borderWidth: 1
+		},{
+			label: '여성',
+			data: femaleData,
+			backgroundColor: 'rgba(255, 26, 104, 1)',
+			borderColor: 'rgba(255, 26, 104, 1)',
+			borderWidth: 1
+		}]
+	};
+
+	// block tooltip
+	const tooltip = {
+		yAlign: 'bottom',
+		titleAlign: 'center',
+		callbacks:{
+			label: function(context){
+				return Math.abs(context.raw);
+			}
+		}
+	};
+	
+	
+	// config 
+	const config = {
 		type: 'bar',
-		data: {
-			labels: ['60+', '50', '40','30','20','10'],
-			datasets: [{
-				label: '남',
-				data: [
-					${data.m60},${data.m50},${data.m40},${data.m30},${data.m20},${data.m10}
-				],
-				backgroundColor: 'rgba(54,162,235,1)',
-				borderColor: 'rgba(54,162,235,1)',
-				borderWidth: 1,
-				borderRadius: 5
-			},{
-				label: '여',
-				data: femaleData,
-				backgroundColor: 'rgba(255,26,104,1)',
-				borderColor: 'rgba(255,26,104,1)',
-				borderWidth: 1,
-				borderRadius: 5
-			}]
-		},
+		data,
 		options: {
-			indexAxis: 'y',
-			scales:{
-				x:{
+ 			indexAxis: 'y',
+			scales: {
+				x: {
 					stacked: true,
 					ticks:{
-						callback: function(value, index,values){
+						callback: function(value,index,values){
+							if(Math.abs(value) > xmax)
+								var xmax = Math.abs(value);
 							return Math.abs(value);
 						}
-					}
+					},
+					max: Math.ceil(Math.max(...maleData, ...femaleData)/Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...femaleData)))))*Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...femaleData)))),
+					min: -Math.ceil(Math.max(...maleData, ...femaleData)/Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...femaleData)))))*Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...femaleData))))
 				},
-				y:{
+				y: {
 					beginAtZero: true,
 					stacked: true
 				}
 			},
 			plugins:{
-				tooltip,
+				tooltip: tooltip
 			}
 		}
-	});
+	};
+
+	// render init block
+	const myChart = new Chart(
+		document.getElementById('myChart'),
+		config
+	);
 </script>
-
-
-${data}<br>
-${data.m10}
