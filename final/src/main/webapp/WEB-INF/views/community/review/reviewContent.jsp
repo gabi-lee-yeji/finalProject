@@ -18,6 +18,12 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:if test="${board.status != 0}">
+		<script>
+			alert("삭제된 게시글 입니다.");
+			history.go(-1);
+		</script>
+	</c:if>
 	<h1>꿀팁, 후기 글보기</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false" />
 	<c:if test="${sessionScope.sid != null}">
