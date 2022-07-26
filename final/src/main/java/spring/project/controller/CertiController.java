@@ -1,6 +1,11 @@
 package spring.project.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +81,9 @@ public class CertiController {
 	// 자격증 상세정보
 	@RequestMapping("certiContent")
 		public String certiContent(String cnum, Model model,String ncs_cat,HttpSession session,HttpServletRequest request) {
-		
+			// 현재 날짜 구하기	
+			LocalDate now = LocalDate.now();	        
+
 			Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
 			
 			List<CertiDateDTO> dateList = null;
@@ -97,6 +104,7 @@ public class CertiController {
 			model.addAttribute("cnum", cnum);
 			model.addAttribute("info", map.get("info"));
 			model.addAttribute("req", map.get("req")); 
+			model.addAttribute("now",now);
 
 			return "/certificate/certiContent";
 	}

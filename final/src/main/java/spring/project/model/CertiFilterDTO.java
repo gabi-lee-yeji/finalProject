@@ -9,7 +9,6 @@ public class CertiFilterDTO {
 	
 	private int[] ncs_cat;
 	private String[] clevel;
-	
-	String company;
+	private String company;
 	
 }

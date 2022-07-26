@@ -7,7 +7,7 @@
 <jsp:include page="../userNavBar.jsp"></jsp:include>
 
 <body>
-	<table border=1 width="800" height="800">
+	<table border=1 width="1000" height="800">
 		<tr>
 			<th>${info.cname}</th>
   			<td>

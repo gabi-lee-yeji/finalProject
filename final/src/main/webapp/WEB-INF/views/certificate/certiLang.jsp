@@ -25,6 +25,5 @@
 			<td><c:out value="${board.clevel}"/></td>
 			<td><c:out value="${board.company}"/></td>
 			</tr>
-		</tr>
 		</c:forEach>
 </table>
