@@ -74,35 +74,51 @@
 		</c:forEach>
 	</table>
 	<h1>신고당한 댓글목록 [${commCnt}]</h1>
-	<table>
-		<tr>
-			<th>게시글(댓글)</th>
-			<th>댓글</th>
-			<th>작성일</th>
-			<th>신고(회)</th>
-			<th>삭제여부</th>
-		</tr>
-		<c:forEach var="map" items="${commList }">
+	<form action="/admin/member/delComment" method="post">
+		<table>
 			<tr>
-				<td>${map.PNUM }(${map.COMM_NUM})</td>
-				<td>${map.COMM_CONTENT }</td>
-				<td><fmt:formatDate value="${map.REG }" pattern="yyyy-MM-dd HH:mm"/></td>
-				<td>${map.REPORTCNT }</td>
-				<td>
-					<c:if test="${map.STATUS == 0 }">정상</c:if>
-					<c:if test="${map.STATUS == 1 }">삭제</c:if>
-				</td>
-				<td>
-					<a href="javascript:getReasons(${map.COMM_NUM})">신고사유</a>
-				</td>
+				<th>게시글(댓글)</th>
+				<th>댓글</th>
+				<th>작성일</th>
+				<th>신고(회)</th>
+				<th>삭제여부</th>
+				<th></th>
+				<th>선택</th>
 			</tr>
-			<script>
-				function getReasons(val){
-					var url = "/admin/member/commReport?memid=${memid }&pnum="+val
-					window.open(url, "신고사유","width=500,height=500");
-				}
-			</script>
-		</c:forEach>
-	</table>
+			<c:forEach var="map" items="${commList }">
+				<tr>
+					<td>${map.PNUM }(${map.COMM_NUM})</td>
+					<td>${map.COMM_CONTENT }</td>
+					<td><fmt:formatDate value="${map.REG }" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td>${map.REPORTCNT }</td>
+					<td>
+						<c:if test="${map.STATUS == 0 }">
+							게시 
+						</c:if>
+						<c:if test="${map.STATUS == 1 }">
+							삭제
+						</c:if>
+					</td>
+					<td>
+						<a href="javascript:getReasons(${map.COMM_NUM})">신고사유</a>
+					</td>
+					<td>
+						<c:if test="${map.STATUS == 0 }">
+							<input type="checkbox" value="${map.COMM_NUM}" name="comm_num">
+						</c:if>
+					</td>
+				</tr>
+				<script>
+					function getReasons(val){
+						var url = "/admin/member/commReport?memid=${memid }&pnum="+val
+						window.open(url, "신고사유","width=500,height=500");
+					}
+				</script>
+			</c:forEach>
+		</table>
+		<input type="hidden" value="${reportCnt}" name="reportCnt">
+		<input type="hidden" value="${memid}" name="memid">
+		<input type="submit" value="선택한 댓글 삭제">
+	</form>
 </body>
 </html>

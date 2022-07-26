@@ -14,6 +14,16 @@
 			window.location='/like/add';
 		}
 	}
+	
+	addReqTbl();
+	function addReqTbl(){
+		$.ajax({
+			url:"/certificate/requirement",
+			success : function(data){
+				$("#requirement").html(data);
+			}
+		});
+	}
 </script>
 
 <body>
@@ -108,4 +118,5 @@
 		</tr>
 	</table>
 	<c:import url = "/community/certiReview" />
+	<div id="requirement"></div>	
 </body>

@@ -6,6 +6,7 @@
 	<title>자격증 정보 등록</title>
 	
 	<script>
+	/*
 		function inputDate(obj){
 			if(event.keyCode != 8){
 				if(obj.value.replace(/[0-9\-]/g,"").length==0){
@@ -36,13 +37,37 @@
             	return false;
 		    }
 		}
-		
+	*/	
 		function dateFormat(obj){
 			var len = obj.value.length;
+			
 			if(len == 4) obj.value += "-";
 			if(len == 7) obj.value += "-";
 			if(len == 10) obj.value += " ";
 			if(len == 13) obj.value += ":";
+		}
+		
+		function checkDate(obj){
+			var len = obj.value.length;
+			
+			var dateReg = RegExp(/^(20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/);
+			var timeReg = RegExp(/^(2[0-3]|[01][0-9]):[0-5][0-9]$/);
+			
+			if(len > 10 && len < 12){
+				if(!dateReg.test(obj)){
+					alert("올바른 날짜를 입력해주세요!");
+					obj.value="";
+					obj.focus();
+				}
+			}
+			
+			if(len > 15 ){
+				if(!timeReg.test(obj.value.split(" ")[1])){
+					alert("올바른 시간을 입력해주세요!");
+					obj.value=obj.value.split(" ")[0];
+					obj.focus();
+				}
+			}
 		}
 		
 		
@@ -52,7 +77,7 @@
 <body>
 	<jsp:include page="../adminNavBar.jsp"/>
 	<h1>자격증 등록</h1>
-	<form action="/admin/addCertiPro" method="post">
+	<form action="/admin/addCertiPro" method="post" >
 		<h2>필수정보</h2>
 		<table>
 			<tr>
@@ -90,7 +115,7 @@
 			<tr>
 				<td>공인 유효날짜</td>
 				<td>
-					<input type="text" name="docResultStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="docResultStart" onKeypress="dateFormat(this);" onChange="checkDate(this);" placeholder="yyyy-MM-dd" maxlength="10">
 				</td>
 			</tr>
 		</table>
@@ -104,64 +129,64 @@
 			<tr>
 				<td>필기 원서접수</td>
 				<td>
-					<input type="text" name="docRegStart1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docRegEnd1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="docRegStart1" onKeypress="dateFormat(this);" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="docRegEnd1" onKeypress="dateFormat(this);" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>
 				<td>필기원서 - 추가접수</td>
 				<td>
-					<input type="text" name="docRegStart2" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docRegEnd2" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="docRegStart2" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="docRegEnd2" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>
 				<td>필기시험</td>
 				<td>
-					<input type="text" name="docTestStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docTestEnd" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="docTestStart" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="docTestEnd" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>
 				<td>필기-합격자발표</td>
 				<td>
-					<input type="text" name="docResultStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docResultEnd" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="docResultStart" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="docResultEnd" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>
 				<td>응시자격 서류제출</td>
 				<td>
-					<input type="text" name="docSubmitStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="docSubmitEnd" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="docSubmitStart" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="docSubmitEnd" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>
 				<td>실기시험 원서 접수</td>
 				<td>
-					<input type="text" name="pracRegStart1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="pracRegEnd1" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="pracRegStart1" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="pracRegEnd1" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>
 				<td>실기시험 추가 접수</td>
 				<td>
-					<input type="text" name="pracRegStart2" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="pracRegEnd2" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="pracRegStart2" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="pracRegEnd2" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>
 				<td>실기시험</td>
 				<td>
-					<input type="text" name="pracTestStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="pracTestEnd" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="pracTestStart" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="pracTestEnd" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 			<tr>
 				<td>실기 합격자 발표</td>
 				<td>
-					<input type="text" name="pracResStart" onKeypress="dateFormat(this)" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-					~ <input type="text" name="pracResEnd" onKeypress="dateFormat(this)"placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					<input type="text" name="pracResStart" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
+					~ <input type="text" name="pracResEnd" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
 				</td>
 			</tr>
 		</table>

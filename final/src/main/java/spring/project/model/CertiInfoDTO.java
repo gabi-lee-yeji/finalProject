@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 //자격증 정보 DTO
-public class CertiInfoDTO implements CertiAccessible{
+public class CertiInfoDTO implements CertiAccessible,SearchAccessible{
 	private String cnum;	//자격증 분류 PK
 	private String cname;	//자격증 이름
 	private String category; //자격증 종류(국가기술, 공인민간, 어학)

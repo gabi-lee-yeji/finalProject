@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class Post_BoardDTO {
+public class Post_BoardDTO implements SearchAccessible {
 
 	private int pnum;				// 글고유번호	
 	private String subject;			// 글제목

@@ -8,7 +8,7 @@
 		window.location="/admin/certiInfo?cnum=${cnum}";
 	</script>
 </c:if>
-<c:if test="${result == 0 }">
+<c:if test="${result < 1 }">
 	<script>
 		alert("다시 시도해주세요");
 		history.go(-1);

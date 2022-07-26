@@ -91,12 +91,12 @@
 			<tr>
 				<td>${dto.cnum }</td>
 				<td>	
-					<a href="사용자 자격증상세정보 페이지로 이동">${dto.cname }</a>
+					<a href="/certificate/certiContent?cnum=${dto.cnum }">${dto.cname }</a>
 				</td>
 				<td>${dto.category }</td>
 				<td>${dto.clevel }</td>
 				<td>
-					<a href="시행기관에서 실시하는 자격증 모아서 보여주기">${dto.company }</a>
+					<a href="${dto.website}">${dto.company }</a>
 				</td>
 				<td>${dto.status }</td>
 				<td>${dto.registDate }</td>

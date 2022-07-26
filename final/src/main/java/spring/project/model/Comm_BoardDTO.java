@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class Comm_BoardDTO {
+public class Comm_BoardDTO implements SearchAccessible {
 
 	private int comm_num;			// 댓글 고유 번호
 	private String comm_content;	// 댓글 내용
