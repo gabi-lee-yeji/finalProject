@@ -56,9 +56,9 @@ public class MemberController {
 	@RequestMapping("loginPro")
 	public String loginPro(HttpServletRequest request,HttpSession session,HttpServletResponse response,Model model,MemberInfoDTO dto,String auto) {
 		
-		//HttpServletRequest�뜝�룞�삕 getCookies(�뜝�룞�삕�궎 �뜝�뙐怨ㅼ삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕(�뜝�띁�뿴)) �뜝�룞�삕 �뜝�룞�삕 �뜝�떗�슱�삕�뜝�떦怨ㅼ삕,
-		//HttpSession�뜝�룞�삕 �뜝�룞�삕�뜝�떎諛쏆븘�슱�삕 �뜝�룞�삕 �뜝�떗�슱�삕�뜝�떦怨ㅼ삕,
-		//HttpServletResponse�뜝�룞�삕 addCookie�뜝�룞�삕 �뜝�룞�삕 �뜝�떗�슱�삕�뜝�룞�삕
+		//HttpServletRequest는 getCookies(쿠키 다가져오기(배열)) 할 때 필요하고,
+		//HttpSession는 세션받아올 때 필요하고,
+		//HttpServletResponse는 addCookie할 때 필요함
 		
 		String memid = (String)dto.getMemid();
 		String passwd = (String)dto.getPasswd();
@@ -101,7 +101,7 @@ public class MemberController {
 			session.setMaxInactiveInterval(60*60*24);
 		}
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
-		//�떆媛� �뜑�븯湲�
+		//날짜 더하기
 		Calendar cal = Calendar.getInstance();
 		Date time = new Date();
 		if(dto2 != null) {
@@ -109,10 +109,6 @@ public class MemberController {
 		}
 		cal.setTime(time);
 		cal.add(Calendar.DATE,7);
-		//add濡� 異붽��븯怨� 遺덈윭�삱�븧 getTime		
-		
-		//�떎�떆 date ���엯�쑝濡�
-		Date time1 = new Date(cal.getTimeInMillis()); //(洹몃깷 �빐蹂멸쾬�엫)
 		
 		model.addAttribute("time",format1.format(cal.getTime()));
 		model.addAttribute("result",result);
@@ -120,6 +116,7 @@ public class MemberController {
 		
 		return "member/loginPro";
 	}
+	//로그아웃 - 세션,쿠키 삭제
 	@RequestMapping("logout")
 	public String logout(HttpSession session,HttpServletRequest request,HttpServletResponse response) {
 		session.invalidate();
@@ -145,6 +142,7 @@ public class MemberController {
 		
 		return "member/logout";
 	}
+	//메인
 	@RequestMapping("main")
 	public String main(HttpServletResponse response,HttpSession session,Model model,HttpServletRequest request) {
 		
@@ -176,14 +174,7 @@ public class MemberController {
 		}
 		return "member/main";
 	}
-
-	/*
-	 * @RequestMapping("idDuplicate") public String idDuplicate(String
-	 * memid,HttpServletRequest request,Model model) { memid =
-	 * (String)request.getParameter("memid"); int result =
-	 * service.idDuplicate(memid); model.addAttribute("result",result); return
-	 * "member/idDuplicate"; }
-	 */
+	//아이디 중복 확인
 	@RequestMapping(value = "idDuplicate", method = RequestMethod.GET)
 	public @ResponseBody String idDuplicate(String memid,HttpServletRequest request,Model model) {
 		
@@ -191,32 +182,25 @@ public class MemberController {
 		int result = service.idDuplicate(memid);
 		return result+"";
 	}
-	
+	//아이디,이메일로 검색 후 확인
 	@RequestMapping(value = "pwCheck",method=RequestMethod.GET)
 	@ResponseBody String pwFind(MemberInfoDTO dto) {
-		System.out.println("1"+dto.getMail1());
-		System.out.println("2"+dto.getMail2());
-		System.out.println("3"+dto.getEmail());
 		int result = service.pwCheck(dto);
-		System.out.println(result);
 		return result+"";
 	}
-	
+	//비밀번호 찾기 폼
 	@RequestMapping("pwFindForm")
 	public String pwFindForm() {
 		return "member/pwFindForm";
 	}
-	
+	//비밀번호 찾기 프로
 	@RequestMapping("pwFindPro")
 	public String pwFindPro(MemberInfoDTO dto,Model model) {
 		//responsebody로 넘어오는 것에는 dto.email이 있기때문에 service에서 못 넣고 여기서 넣음
 		dto.setEmail(dto.getMail1()+'@'+dto.getMail2());
 		int result = service.pwCheck(dto);
-		System.out.println(dto);
 
 		MemberInfoDTO dto2 = service.pwFind(dto);
-		System.out.println(dto2);
-		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 		Calendar cal = Calendar.getInstance();
 		Date date = dto2.getRef_date();
@@ -228,33 +212,30 @@ public class MemberController {
 		model.addAttribute("result",result);
 		return "member/pwFindPro";
 	}
+	//휴면계정 폼
 	@RequestMapping("dormancyForm")
 	public String dormancyForm() {
 		return "member/dormancyForm";
 	}
-	
+	//휴면계정 프로
 	@RequestMapping("dormancyPro")
 	public String domancyPro(MemberInfoDTO dto,Model model) {
 		//responsebody로 넘어오는 것에는 dto.email이 있기때문에 service에서 못 넣고 여기서 넣음
 		dto.setEmail(dto.getMail1()+'@'+dto.getMail2());
 		int result = service.pwCheck(dto);
-		System.out.println(dto);
 		service.domancyUpdate(dto);
 		MemberInfoDTO dto2 = service.pwFind(dto);
-		
-		System.out.println(dto2);
 		
 		model.addAttribute("dto",dto2);
 		model.addAttribute("result",result);
 		return "member/dormancyPro";
 	}
-	
-	
+	//수정 아이디확인 폼
 	@RequestMapping("modifyConfirm")
 	public String modifyConfirm() {
 		return "member/modifyConfirm";
 	}
-	
+	//수정 폼
 	@RequestMapping("modifyForm")
 	public String modifyForm(HttpSession session,MemberInfoDTO dto,Model model) {
 		
@@ -283,24 +264,29 @@ public class MemberController {
 		model.addAttribute("result",result);
 		return "member/modifyForm";
 	}
+	//수정 프로
 	@RequestMapping("modifyPro")
 	public String modifyPro(MemberInfoDTO dto) {
 		service.modifyList(dto);
 		return "member/modifyPro";
 	}
+	//가입 폼
 	@RequestMapping("signUpForm")
 	public String signUpForm() {
 		return "member/signUpForm";
 	}
+	//가입 프로
 	@RequestMapping("signUpPro")
 	public String signUpPro(MemberInfoDTO dto,Model model) {
 		service.insertMember(dto);
 		return "member/signUpPro";
 	}
+	//삭제 폼
 	@RequestMapping("deleteForm")
 	public String deleteForm() {
 		return "member/deleteForm";
 	}
+	//삭제 프로
 	@RequestMapping("deletePro")
 	public String deletePro(HttpServletRequest request,HttpServletResponse response,HttpSession session,MemberInfoDTO dto,Model model) {
 		MemberInfoDTO dto2 = service.userCheck(dto);
@@ -330,11 +316,12 @@ public class MemberController {
 		model.addAttribute("result",result);
 	return "member/deletePro";
 	}
- 	
+ 	//아이디 찾기 폼
 	@RequestMapping("idFindForm")
 	public String idFindForm() {
 		return "member/idFindForm";
 	}
+	//아이디 찾기 프로
 	@RequestMapping("idFindPro")
 	public String idFindPro(MemberInfoDTO dto,Model model) {
 		int result = 0;
@@ -348,14 +335,14 @@ public class MemberController {
 		return "member/idFindPro";
 	}
 	//이메일 인증
-		@GetMapping("/mailCheck")
-		@ResponseBody
-		public String mailCheck(String email) {
-			System.out.println("이메일 인증 요청이 들어옴!");
-			System.out.println("이메일 인증 이메일 : " + email);
-			return mailService.joinEmail(email);
-		}
-	
+	@GetMapping("/mailCheck")
+	@ResponseBody
+	public String mailCheck(String email) {
+		System.out.println("이메일 인증 요청이 들어옴!");
+		System.out.println("이메일 인증 이메일 : " + email);
+		return mailService.joinEmail(email);
+	}
+	//내가 쓴 글 확인
 	@RequestMapping("myList")
 	public String Mylist(String pageNum,Model model,int board_type,String writer) {
 		if(pageNum == null) pageNum = "1";
@@ -385,7 +372,7 @@ public class MemberController {
 		   
 		return "member/myList";
 	}
-	
+	//내 댓글 확인
 	@RequestMapping("myComments")
 	public String myComments(String pageNum,String writer,Model model) {
 		if(pageNum == null) pageNum = "1";

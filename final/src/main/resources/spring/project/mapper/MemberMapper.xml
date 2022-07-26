@@ -32,10 +32,6 @@
 		select status,ref_date,count(*) cnt from memberInfo where memid=#{memid} and passwd=#{passwd} group by status,ref_date order by ref_date desc
 	</select>	
 	
-	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
-		select * from memberInfo where memid=#{memid} and status in (0,1)
-	</select>
-	
 	<select id="deleteUser">
 		update MemberInfo set status = '3' where memid=#{memid} and passwd=#{passwd}
 	</select>
