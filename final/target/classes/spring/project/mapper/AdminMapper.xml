@@ -398,7 +398,27 @@
 		where datepk = #{datePK}
 	</update>
 	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate where datepk = #{datePK}
+		select 
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd
+			from certidate where datepk = #{datePK}
 	</select>
 	<select id="getNatSameScheduleList" resultType="spring.project.model.CertiInfoDTO">
 		select * from 
@@ -635,7 +655,27 @@
 	</update>
 	
 	<select id="searchNatPeriod" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate 
+		select
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd 
+		from certidate 
 		where clevel=#{clevel}
 		and cyear in
 		<foreach collection="cyear_list" item="cyear" open="(" separator="," close=")">
@@ -648,7 +688,27 @@
 	</select>
 	
 	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate 
+		select 
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd
+		from certidate 
 		where cnum=#{cnum}
 	</select>
 	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">

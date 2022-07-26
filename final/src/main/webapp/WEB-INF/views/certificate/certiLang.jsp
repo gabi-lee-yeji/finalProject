@@ -6,31 +6,36 @@
 	<title> 어학 자격증 </title>
 </head>
 	<jsp:include page="../userNavBar.jsp"/>
-	<div>
-		<c:import url="/certificate/langFilterForm"/>
+	<div class="row" >
+		<div class="col-2" style="margin-left:20px">
+			<c:import url="/certificate/langFilterForm"/>
+		</div>
+		<div class="col-8" >
+			<h2>어학시험</h2>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>NO</th>
+						<th>시험명</th>
+						<th>자격등급</th>
+						<th>시행기관</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="dto" items="${list}">
+						<tr>
+							<td>${dto.cnum}</td>
+							<td>
+								<a href="/certificate/certiContent?cnum=${dto.cnum}">${dto.cname}</a>
+							</td>
+							<td>${dto.clevel}</td>
+							<td><a href="${dto.website}">${dto.company}</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
 	</div>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>NO</th>
-				<th>시험명</th>
-				<th>자격등급</th>
-				<th>시행기관</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="dto" items="${list}">
-				<tr>
-					<td>${dto.cnum}</td>
-					<td>
-						<a href="/certificate/certiContent?cnum=${dto.cnum}">${dto.cname}</a>
-					</td>
-					<td>${dto.clevel}</td>
-					<td><a href="${dto.website}">${dto.company}</a></td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
 	<c:if test="${count > 0}">
 		<c:set var="pageCount" value="${count / page.pageSize + ( count % page.pageSize == 0 ? 0 : 1)}"/>
 		

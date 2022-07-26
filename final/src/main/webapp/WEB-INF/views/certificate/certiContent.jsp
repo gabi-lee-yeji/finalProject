@@ -4,13 +4,14 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-<script language="javascript">
+<script>
 	function addWish(){
 		var sid = '<%=(String)session.getAttribute("sid")%>';
 	/*	if(sid == "null"){	
 			alert("로그인이 필요한 서비스입니다.");
 			window.location='/member/loginForm';
-		}else*/ if(document.getElementById("like").value != null){
+		}else*/ 
+		if(document.getElementById("like").value != null){
 			alert("관심자격증에 추가되었습니다.");
 			window.location='/like/add';
 		}

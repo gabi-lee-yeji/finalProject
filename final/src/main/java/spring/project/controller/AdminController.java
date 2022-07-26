@@ -172,6 +172,7 @@ public class AdminController {
 						request.getParameter("pracResEnd"+i)
 					);
 			System.out.println(dto);
+			System.out.println(dto.getDocRegStart1().split(" ")[0]+"T"+dto.getDocRegStart1().split(" ")[1]);
 			result += service.addCertiDate(dto);
 		}
 		
@@ -227,6 +228,7 @@ public class AdminController {
 	
 	@RequestMapping("certi/modDatePro")
 	public String modifyDatePro(CertiDateDTO dto, Model model) {
+		System.out.println(dto);
 		model.addAttribute("result", service.modCertiDate(dto));
 		model.addAttribute("cnum", dto.getCnum());
 		return "admin/certi/modDatePro";
