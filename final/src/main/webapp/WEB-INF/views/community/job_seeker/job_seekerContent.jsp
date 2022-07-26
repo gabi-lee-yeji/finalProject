@@ -15,6 +15,12 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:if test="${board.status != 0}">
+		<script>
+			alert("삭제된 게시글 입니다.");
+			history.go(-1);
+		</script>
+	</c:if>
 	<h1>취준생 공간 글보기</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
 	<c:if test="${sessionScope.sid != null}">
