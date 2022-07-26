@@ -8,7 +8,7 @@ import spring.project.model.MemberLikeDTO;
 
 public interface MypageService {
 
-	//전체 자격증 리스트 보여줌(datalist 태그)
+	//전체 자격증 리스트 보여줌(datalist 태그) - addform에 사용
 	public ArrayList<CertiInfoDTO> getCertiSearch();
 	
 	//보유자격증 추가

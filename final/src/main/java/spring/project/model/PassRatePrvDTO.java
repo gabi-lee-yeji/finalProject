@@ -3,7 +3,7 @@ package spring.project.model;
 import lombok.Data;
 
 @Data
-public class PassRateDTO {
+public class PassRatePrvDTO implements PassRateAccessible{
 	private String cname;	//자격증 이름
 	private String clevel;	//자격증 급수
 	private int cyear;		//연도

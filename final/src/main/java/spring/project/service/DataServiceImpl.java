@@ -27,7 +27,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
-import spring.project.model.PassRateDTO;
+import spring.project.model.PassRatePrvDTO;
 
 @Service
 public class DataServiceImpl implements DataService {
@@ -149,7 +149,7 @@ public class DataServiceImpl implements DataService {
 		
 		for(int i=0; i<strList.size(); i++) {
 			
-			PassRateDTO dto = new PassRateDTO();
+			PassRatePrvDTO dto = new PassRatePrvDTO();
 			dto.setCname(strList.get(i).split(";")[0]);
 			dto.setClevel(strList.get(i).split(";")[1]);
 			dto.setCyear(Integer.parseInt(strList.get(i).split(";")[2]));
@@ -231,7 +231,7 @@ public class DataServiceImpl implements DataService {
 			dto.setCompany(datas[7]);
 			dto.setClevel(datas[8]);
 			
-			dto.setCategory("국가기술");
+			dto.setCategory("national");
 			dto.setStatus("Y");
 			
 			if(am.findCurrseq("NAT_SEQ")==0) {
@@ -240,9 +240,6 @@ public class DataServiceImpl implements DataService {
 			dto.setCnum("N"+String.format("%05d", am.findNextseq("NAT_SEQ")));
 			
 			mapper.addNatData(dto);
-			CertiRequirementDTO req = new CertiRequirementDTO();
-			req.setCnum(dto.getCnum());
-			am.addCertiReq(req);
 		}
 	}
 	
@@ -320,7 +317,7 @@ public class DataServiceImpl implements DataService {
 			dto.setCinfo(datas[3]);
 			dto.setCjob(datas[4]);
 			
-			dto.setCategory("공인민간");
+			dto.setCategory("private");
 			dto.setStatus("Y");
 
 			if(am.findCurrseq("PRV_SEQ")==0) {
@@ -380,6 +377,37 @@ public class DataServiceImpl implements DataService {
 			dto.setReq_exp(Integer.parseInt(datas[6]));
 			
 			mapper.addCertiReq(dto);
+		}
+	}
+	
+	@Override
+	@Transactional
+	public void addLangInfo() throws Exception{
+		FileInputStream fis = new FileInputStream(new File("f:/data/lang.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiInfoDTO dto = new CertiInfoDTO();
+			
+			dto.setCname(datas[0]);
+			dto.setCompany(datas[3]);
+			dto.setClevel(datas[2]);
+			dto.setCinfo(datas[5]);
+			dto.setCjob(datas[6]);
+			dto.setExpiry(datas[7]);
+			dto.setWebsite(datas[4]);
+			
+			dto.setCategory("language");
+			dto.setStatus("Y");
+
+			if(am.findCurrseq("LANG_SEQ")==0) {
+				am.findNextseq("LANG_SEQ");
+			}
+			dto.setCnum("L"+String.format("%05d", am.findNextseq("LANG_SEQ")));
+			
+			mapper.addLangInfo(dto);
 		}
 	}
 	

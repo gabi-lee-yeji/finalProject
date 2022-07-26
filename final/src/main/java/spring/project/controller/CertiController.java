@@ -102,4 +102,17 @@ public class CertiController {
 		return "certificate/news";
 	}
 	
+	@RequestMapping("pyramidGraph")
+	public String pyramidGraph(Model model, String cnum) {
+		model.addAttribute("data", service.pyramidGraph(cnum));
+		return "certificate/pyramidGraph";
+	}
+	
+	@RequestMapping("lineGraph")
+	public String lineGraph(Model model, CertiInfoDTO dto) {
+		model.addAttribute("cnum", dto.getCnum());
+		model.addAttribute("data", service.lineGraph(dto));
+		return "certificate/lineGraph";
+	}
+	
 }

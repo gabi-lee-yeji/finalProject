@@ -18,6 +18,8 @@ import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MypageNewsDTO;
+import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateAccessible;
 
 @Service
 public class CertiServiceImpl implements CertiService {
@@ -109,7 +111,7 @@ public class CertiServiceImpl implements CertiService {
 				
 				+ "  nodes <- html_nodes(text, paste0(\"#sp_nws\",i,\" > div > div > div.news_dsc > div > a\"));"
 				+ "  content <- html_text(nodes);"
-				+ "  if(length(content)!=0) content <- paste0(content, \"...\");"
+				+ "  if(length(content)!=0) content <- paste0(substring(content,1,100), \"...\");"
 				+ "  contents <- c(contents, content);"
 				+ "}");
 		
@@ -123,11 +125,28 @@ public class CertiServiceImpl implements CertiService {
 		
 		ArrayList<MypageNewsDTO> list = new ArrayList<MypageNewsDTO>();
 		for(int i=0; i< Math.min(press.length,5) ; i++) {
+			if(content[i].length() >50) {
+				content[i] = content[i].substring(0,50) + "<br/>" + content[i].substring(50);
+			}
 			list.add(new MypageNewsDTO(press[i], info[i], link[i], title[i], content[i]));
 		}
 		
 		return list;
 	}
+	
+	@Override
+	public ArrayList<PassDetailDTO> pyramidGraph(String cnum) {
+		return mapper.pyramidGraph(cnum);
+	}
+	
+	@Override
+	public ArrayList<? extends PassRateAccessible> lineGraph(CertiInfoDTO dto) {
+		if(dto.getCnum().charAt(0) == 'N')
+			return mapper.lineGraphNat(dto);
+		else
+			return mapper.lineGraphPrv(dto);
+	}
+	
 }
 
 
