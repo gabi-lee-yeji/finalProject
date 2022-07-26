@@ -3,22 +3,19 @@ package spring.project.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
-
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
-import spring.project.model.CertiRequirementDTO;
-import spring.project.model.LikeDTO;
+
 
 public interface CertiService {
 	
-	// ��ü �ڰ��� ���
+	// 전체 자격증 목록
 	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category);
 	
 	
-	//��ϵ� �ڰ��� ��ü ����
+	// 자격증 개수
 	public int getCertCnt();
 	
 	// �ڰ��� ������
@@ -28,10 +25,10 @@ public interface CertiService {
 	public List<CertiDateDTO> searchPeriod(String cnum);
 	public List<CertiDateDTO> searchNatPeriod(String cnum);
 	
-	// ���� �ڰ��� ���
+	// 어학 자격증 목록
 	public List<CertiInfoDTO> getCertiLangList();
 	
-	//���͸� ���
+	// 자격증 필터
 	public List<CertiInfoDTO> getFilteredList(CertiFilterDTO dto);
 	public List<CertiInfoDTO> getreqList(String req_age,String req_degree,String req_exp);
 
@@ -39,7 +36,7 @@ public interface CertiService {
 	public int getCertiFilteredCnt(CertiFilterDTO dto);
 	public List<String> getNcsName(CertiFilterDTO dto);
 	
-	// ��Ȯ��
+	// 찜 목록
 	public int count(String cnum, String memid);
 	
 	public List<String> getLikeList(String memid);

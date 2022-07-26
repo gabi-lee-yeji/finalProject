@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
-import spring.project.model.LikeDTO;
 
 @Service
 public class CertiServiceImpl implements CertiService {
@@ -29,7 +27,6 @@ public class CertiServiceImpl implements CertiService {
 	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category) {
 		return mapper.getCertiList(startRow, endRow, category);
 	}
-	
 	
 	@Override
 	public Map<String, CertiAccessible> getCertiInfo(String cnum) {

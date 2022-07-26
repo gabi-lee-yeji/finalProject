@@ -1,12 +1,6 @@
 package spring.project.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,19 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
-import spring.project.model.CertiRequirementDTO;
 import spring.project.model.LikeDTO;
 import spring.project.service.CertiService;
 import spring.project.service.LikeService;
@@ -41,7 +30,7 @@ public class CertiController {
 	@Autowired
 	private LikeService likeservice;
 	
-	// 占쏙옙체 占쌘곤옙占쏙옙 占쏙옙占�
+	// 전체 자격증 목록 페이지
 	@RequestMapping("certiMain")
 	public String getCertiList(LikeDTO like,HttpSession session,HttpServletRequest request, String pageNum, Model model,String clevel,String category){
 		
@@ -78,37 +67,37 @@ public class CertiController {
 		return "/certificate/certiMain";
 	}
 	
-	// 자격증 상세정보
+	// 자격증 상세정보 페이지
 	@RequestMapping("certiContent")
-		public String certiContent(String cnum, Model model,String ncs_cat,HttpSession session,HttpServletRequest request) {
+	public String certiContent(String cnum, Model model,String ncs_cat,HttpSession session,HttpServletRequest request) {
 			// 현재 날짜 구하기	
-			LocalDate now = LocalDate.now();	        
+		LocalDate now = LocalDate.now();	        
 
-			Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
+		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
 			
-			List<CertiDateDTO> dateList = null;
-			if(cnum.substring(0,1).equals("N")) {
-				dateList = service.searchNatPeriod(cnum);
-			}else {
-				dateList = service.searchPeriod(cnum);
-			}
+		List<CertiDateDTO> dateList = null;
+		if(cnum.substring(0,1).equals("N")) {
+			dateList = service.searchNatPeriod(cnum);
+		}else {
+			dateList = service.searchPeriod(cnum);
+		}
 			
-			String id = (String)session.getAttribute("sid");
-			int cnt = service.count(cnum,id);
-			System.out.println("cnt:"+cnt+"sessionID=="+id+"cnum:"+cnum);
+		String id = (String)session.getAttribute("sid");
+		int cnt = service.count(cnum,id);
 				
-			model.addAttribute("cnum",cnum);
-			model.addAttribute("cnt",cnt);
-			model.addAttribute("dateList", dateList);
-			model.addAttribute("info",service.getCertiInfo(cnum).get("info"));
-			model.addAttribute("cnum", cnum);
-			model.addAttribute("info", map.get("info"));
-			model.addAttribute("req", map.get("req")); 
-			model.addAttribute("now",now);
+		model.addAttribute("cnum",cnum);
+		model.addAttribute("cnt",cnt);
+		model.addAttribute("dateList", dateList);
+		model.addAttribute("info",service.getCertiInfo(cnum).get("info"));
+		model.addAttribute("cnum", cnum);
+		model.addAttribute("info", map.get("info"));
+		model.addAttribute("req", map.get("req")); 
+		model.addAttribute("now",now);
 
-			return "/certificate/certiContent";
+		return "/certificate/certiContent";
 	}
 	
+	// 자격증 필터창
 	@RequestMapping("mainFilter")
 	public String FilterForm(String category, Model model) {
 		model.addAttribute("ncsList", service.getNcsCodeList());
@@ -144,6 +133,7 @@ public class CertiController {
 		return "/certificate/filterList";
 	}*/
 	
+	// 어학 자격증 페이지
 	@RequestMapping("certiLang")
 	public String getCertiLangList(Model model) {
 		List<CertiInfoDTO> list = service.getCertiLangList();

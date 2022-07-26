@@ -29,31 +29,30 @@
 	</select>
 	<select id="getCertiFilteredList" resultType="spring.project.model.CertiInfoDTO">
 		select * from 
-			(select rownum r, list.* from 
-				(select * from certiinfo 
-					<where>
-						<if test="category != null and category != ''">
-							category = #{category}
-						</if>
-						<if test="ncs_cat != null">
-							and floor(ncs_cat/100) in
-							<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
-								#{ncs_cat}
-							</foreach>
-						</if>
-						<if test="company != null">
-							and company like '%${company}%'
-						</if>
-					</where>
-					) list)
-			where r between #{startRow} and #{endRow}
+		(select rownum r, list.* from 
+			(select * from certiinfo 
+				<where>
+					<if test="category != null and category != ''">
+						category = #{category}
+					</if>
+					<if test="ncs_cat != null">
+						and floor(ncs_cat/100) in
+					<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
+						#{ncs_cat}
+					</foreach>
+					</if>
+					<if test="company != null">
+						and company like '%${company}%'
+					</if>
+				</where>
+		) list)
+		where r between #{startRow} and #{endRow}
 	</select>
 	<select id="getNcsCodeList" resultType="map">
 		select * from (select floor(code/100) as code, lname from ncs_code)
 			group by code, lname
 			order by code
 	</select>
-	
 	
 	<select id="getreqList" resultType="spring.project.model.CertiInfoDTO">
 		select * from certiinfo a full outer join certi_requirement b on a.cnum=b.cnum
