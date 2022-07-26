@@ -6,29 +6,44 @@
 <head>
 <meta charset="UTF-8">
 <title>질문글</title>
+<script>
+	function addMemberReport(pnum){
+		window.open("/community/addMemberReportForm?pnum="+pnum, 
+			"게시글 신고", "width=400, height=300, left=100, top=50"); 
+	}
+</script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:if test="${board.status != 0}">
+		<script>
+			alert("삭제된 게시글 입니다.");
+			history.go(-1);
+		</script>
+	</c:if>
 	<h1>질문글 글보기</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
-	<input type="button" value="수정" onclick="window.location = '/community/question/modQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />
-	<input type="button" value="삭제" onclick="window.location = '/community/question/delQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />
-	<input type="button" value="목록" onclick="window.location = '/community/question/questionList?board_type=5' "/>
-	<c:if test="${board.post_level == 0}">
-		<input type="button" value="답글" 
-			onclick="window.location = '/community/question/addQuestion?pnum=${board.pnum}&post_group=${board.post_group}' " />
+	<c:if test="${sessionScope.sid != null}">
+		<input type="button" value="수정" 
+			onclick="window.location = '/community/question/modQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />
+		<input type="button" value="삭제" 
+			onclick="window.location = '/community/question/delQuestion?pnum=${board.pnum}&pageNum=${pageNum}' " />
+		<c:if test="${board.post_level == 0}">
+			<input type="button" value="답글" 
+				onclick="window.location = '/community/question/addQuestion?pnum=${board.pnum}&post_group=${board.post_group}' " />
+		</c:if>
+		<input type="button" value="신고" onclick="addMemberReport(${board.pnum});"/>
 	</c:if>
-	<input type="button" value="신고" onclick="memberReport(${board.pnum});"/>
+		<input type="button" value="목록" 
+		onclick="window.location = '/community/question/questionList?board_type=5' "/>
 	<br/><br/>
 	
 	<div>
 		<jsp:include page="/WEB-INF/views/board/commForm.jsp" flush="false"/>
 	</div>
-	
-<script>
-	function memberReport(pnum){
-		window.open("/community/memberReportForm?pnum="+pnum, 
-			"게시글 신고", "width=400, height=300, left=100, top=50"); 
-	}
-</script>
+	<br/><br/>
+	<c:if test="${memberStatus == 1}">
+		<c:import url = "/admin/board/reportDetails" />
+	</c:if>
 </body>
 </html>

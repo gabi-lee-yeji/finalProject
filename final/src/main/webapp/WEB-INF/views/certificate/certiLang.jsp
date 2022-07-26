@@ -6,23 +6,25 @@
 	<title> 어학 자격증 </title>
 </head>
 
-<a href="/certificate/certiLang?=">영어</a>
-<a href="/certificate/certiLang?=">일본어</a>
-<a href="/certificate/certiLang?=">중국어</a>
-<a href="/certificate/certiLang?=">유럽</a>
-<a href="/certificate/certiLang?=">아시아</a>
-<table>
+<jsp:include page="../userNavBar.jsp"></jsp:include>
+<jsp:include page="mainFilter.jsp" />
+<table width=800 cellpadding="10" cellspacing="0" border=1" align="center">
 	<tr>
 		<th>NO</th>
 		<th>자격명</th>
+		<th>자격등급</th>
 		<th>자격관리기관</th>
-		<th>접수일</th>
-		<th>시험일</th>
 	</tr>
 	
-	<c:forEach var="board" items="${llist}">
+	<c:forEach var="board" items="${list}">
 		<tr>
-			<td><c:out value="${board.cnum}"/></td>
+			<td>
+				<c:out value="${board.cnum}"/>
+			</td>
+			<td><a href="/certificate/certiContent?cnum=${board.cnum}">${board.cname}</a>	
+			<td><c:out value="${board.clevel}"/></td>
+			<td><c:out value="${board.company}"/></td>
+			</tr>
 		</tr>
-	</c:forEach>
+		</c:forEach>
 </table>

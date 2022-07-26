@@ -44,13 +44,24 @@
         				<![CDATA[ where r >= #{startRow} and r <= #{endRow} ]]>
 	</select>
 	
+	<select id="getCertiKeywordList" resultType="spring.project.model.Post_BoardDTO">
+		select b.*, btype.board_mapping 
+    		from post_board b, boardtype btype, (select * from certiinfo where cnum=#{cnum}) c
+       			where b.status=0 and 
+       				b.board_type = 4 and
+       				b.board_type = btype.board_type and
+       				b.post_content like '%' || c.cname || '%' or
+       				b.subject like '%' || c.cname || '%'
+	</select>
+	
 	<select id="post_BoardCount" resultType="int">
 		select count(*) from post_board where board_type=#{board_type} and status=0
 	</select>
 	
 	<select id="post_BoardContent" resultType="spring.project.model.Post_BoardDTO">
-		select post_board.*, to_char(reg, 'YYYY-MM-DD HH24:MI') as regdate 
-			from post_board where pnum=#{pnum}
+		select post_board.*, btype.board_mapping 
+			from post_board, boardtype btype 
+				where post_board.board_type = btype.board_type and pnum=#{pnum}
 	</select>
 	
 	<update id="modPost_Board">
@@ -88,7 +99,17 @@
 	
 	<select id="getMemberReport" parameterType="spring.project.model.MemberReportDTO"
 									resultType="int">
-		select count(*) from member_report
+		select count(*) from member_report 
+	</select>
+	
+	<select id="getMemberReportCnt" parameterType="spring.project.model.MemberReportDTO"
+									resultType="int">
+		select count(*) from member_report 
+			where
+				memid = #{memid} and
+				report_id = #{report_id} and
+				wr_option=#{wr_option} and
+				pnum = #{pnum}
 	</select>
 	
 </mapper>

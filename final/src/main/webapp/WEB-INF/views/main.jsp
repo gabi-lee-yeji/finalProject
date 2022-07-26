@@ -6,54 +6,144 @@
 <head>
 	<meta charset="UTF-8">
 	<title>HOME - 자격증모두모아</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		#todayCalendar{
+			height:570px;
+			width:40%;
+			float:right;
+			margin-right:20px;
+			border:none;
+		}
+		
+		form.example input[type=text] {
+		  padding: 10px;
+		  font-size: 17px;
+		  border: 1px solid grey;
+		  float: left;
+		  width: 80%;
+		  background: #f1f1f1;
+		}
+
+		form.example button {
+		  float: left;
+		  width: 20%;
+		  padding: 10px;
+		  background: #2196F3;
+		  color: white;
+		  font-size: 17px;
+		  border: 1px solid grey;
+		  border-left: none;
+		  cursor: pointer;
+		}
+
+		form.example button:hover {
+		  background: #0b7dda;
+		}
+
+		form.example::after {
+		  content: "";
+		  clear: both;
+		  display: table;
+		}
+		
+	</style>
 </head>
 <body>
 	<jsp:include page="userNavBar.jsp"/>
 	
-	<table>
-		<tr><th colspan="2">사용자 맞춤 인기자격증</th></tr>
-		<c:forEach var="dto" items="${clientList }" varStatus="status">
-			<tr>
-				<th>${status.count}</th>			
-				<td><a href="">${dto.cname }</a></td>
-			</tr>
-		</c:forEach>
-	</table>
+	<div>
+		<form name="frm" action="/searchCerti" onsubmit="getCnum()" method="post" 
+			class="example" style="margin:auto;margin-bottom:20px;max-width:600px">
+			<input type="text" id="certiSearch" placeholder="자격증 이름을 입력하세요" list="searchList" name="keyword"/>
+			<datalist id="searchList" >
+				<c:forEach var="dto" items="${list }">
+					<c:if test="${dto.cnum.charAt(0) == 80 }">
+						<option data-value="${dto.cnum }">${dto.cname.concat(dto.clevel) }</option>
+					</c:if>
+					<c:if test="${dto.cnum.charAt(0) != 80 }">
+						<option data-value="${dto.cnum }">${dto.cname}</option>
+					</c:if>
+				</c:forEach>
+			</datalist>
+			<input type="hidden" name="cnum" />
+			<button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+	</div>
 	
-	<table>
-		<tr><th colspan="2">국가기술 인기자격증</th></tr>
-		<c:forEach var="dto" items="${natList }" varStatus="status">
-			<tr>
-				<th>${status.count}</th>			
-				<td><a href="">${dto.cname }</a></td>
-			</tr>
-		</c:forEach>
-	</table>
+	<div id="todayCalendar">
+		<c:import url="/calendar/userMain"/>
+	</div>
 	
-	<table>
-		<tr><th colspan="2">공인민간 인기자격증</th></tr>
-		<c:forEach var="cname" items="${prvList }" varStatus="status">
-			<tr>
-				<th>${status.count}</th>			
-				<td><a href="">${cname }</a></td>
-			</tr>
-		</c:forEach>
-	</table>
+	<div class="row">
+		<div class="col">
+			<table class="table table-hover">
+				<tr><th colspan="2" style="text-align: center;font-size: 20px">사용자 맞춤 인기자격증</th></tr>
+				<c:if test="${sessionScope.sid != null }">
+					<c:forEach var="dto" items="${clientList }" varStatus="status">
+						<tr>
+							<th>${status.count}</th>			
+							<td><a href="/certificate/certiContent?cnum=${dto.cnum }">${dto.cname }</a></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${sessionScope.sid == null }">
+					<tr rowspan=10>
+						<td colspan=2 style="text-align: center;font-size: 20px;">
+							회원님과 <br> 
+							같은 성별, 연령대를 가진 사람들이 <br> 
+							취득하는 인기자격증을 <br>
+							확인하시려면 <a href="/member/login">로그인</a> 하세요!
+						</td>
+					</tr>
+				</c:if>
+			</table>
+		</div>
+		<div class="col">
+			<table class="table table-hover">
+				<tr><th colspan="2" style="text-align: center;font-size: 20px">국가기술 인기자격증</th></tr>
+				<c:forEach var="dto" items="${natList }" varStatus="status">
+					<tr>
+						<th>${status.count}</th>			
+						<td><a href="/certificate/certiContent?cnum=${dto.cnum }">${dto.cname }</a></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+		<div class="col">
+			<table class="table table-hover">
+				<tr><th colspan="2" style="text-align: center;font-size: 20px">공인민간 인기자격증</th></tr>
+				<c:forEach var="cname" items="${prvList }" varStatus="status">
+					<tr>
+						<th>${status.count}</th>			
+						<td><a href="/searchCerti?keyword=${cname }">${cname }</a></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
 	
-
-	- 오늘의 자격증 (캘린더)
-		- 오늘 접수 시작하는 자격증
-		- 오늘 시험일인 자격증
-		- 오늘 결과발표하는 자격증 
-	- 인기자격증
-		- login 
-			- meminfo 맞는 성별 / 연령별 인기자격증 top 10
-			- 보유(or 관심)자격증이 있는 경우 
-				그 자격증을 가지고 있는 회원들이 추가로 많이 딴 자격증 순위 노출
-		- visitor
-			- pass_detail / pass_rate 테이블 응시자수 기반으로 category별 top 10
-			- NCS코드 저장되면 분야별 인기자격증 top 5?
-	
-	- 자격증 검색 기능 
+	<script>
+		<c:if test="${natPopup > 0}">
+			window.open('/main/natPopup','접수마감일 임박한 시험 (국가)','width=600,height=600');
+		</c:if>
+		<c:if test="${prvPopup > 0}">
+			window.open('/main/prvPopup','접수마감일 임박한 시험 (민간)','width=600,height=600');
+		</c:if>	
+		
+		function getCnum(){
+			var cname = $('#certiSearch').val();
+			var cn = $('#searchList option').filter(function(){
+				return this.value == cname;
+			}).data('value');
+			
+			if(typeof cn !== 'undefined'){
+				document.frm.cnum.value = cn;
+			}else{
+				document.frm.cnum.value = "";
+			}
+		}
+		
+	</script>
 </body>
 </html>

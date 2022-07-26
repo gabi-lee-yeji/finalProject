@@ -80,6 +80,8 @@
 	          color: '#257e4a'
 			},
   		</c:forEach>
+		<c:forEach var="dto" items="${certiList}">
+		</c:forEach>
       ]
     });
 

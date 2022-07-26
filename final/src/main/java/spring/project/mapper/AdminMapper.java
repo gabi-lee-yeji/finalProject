@@ -108,6 +108,8 @@ public interface AdminMapper {
 	public List<Post_BoardDTO> getNewRequestList(PagingDTO page);
 	public int getNewRequestCnt();
 	
+	//신고당한 댓글 삭제
+	public int delReportComment(int comm_num);
 	
 	//관리자 메인
 	//오늘 가입한 회원수
@@ -155,8 +157,8 @@ public interface AdminMapper {
 	public int addEmpInfo(EmpInfoDTO dto);
 	public int updateToAdmin(String memid);
 	//전체사원 조회
-	public List<Map<String,Object>> getEmpList(Map map);
-	public int getEmpCnt();
+	public List<EmpInfoDTO> getEmpList(Map map);
+	public int getEmpCnt(Map map);
 	//사원정보 
 	public EmpInfoDTO getEmpInfo(String empid);
 	//사원정보 수정
@@ -165,4 +167,17 @@ public interface AdminMapper {
 	public int delEmpInfo(@Param("empid")String empid, 
 						@Param("leaving_reason")String leavingReason);
 	public int updateToMember(String memid);
+	
+	//사원등급이 매니저인지 체크
+	public int checkifMgr(String empid);
+	//전체 직무리스트
+	public List<String> getEmpjobList();
+	//전체 직급리스트
+	public List<String> getEmpStatusList();
+	//퇴사자수 조회
+	public int getQuitCnt(String empjob);
+	public int getQuitCnt_search(Map map);
+	//직원목록 - 검색 결과 
+	public List<EmpInfoDTO> getEmpSearchList(Map map);
+	public int getEmpSearchCnt(Map map);
 }

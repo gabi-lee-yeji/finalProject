@@ -24,8 +24,56 @@
 		<result property="sal" column="sal"/>
 		<result property="status" column="status"/>
 		<result property="ref_date" column="ref_date"/>
+		<result property="leaving_reason" column="leaving_reason"/>
 		<collection property="memberInfo" resultMap="memberInfo"/>
 	</resultMap>
+	
+	<update id="delReportComment">
+		update comm_board set status=1 where comm_num=#{comm_num}
+	</update>
+	<select id="getEmpSearchCnt" resultType="int">
+		select count(*) from 
+        (select 
+            a.mem_name, a.email, a.mobile, a.birthday, 
+            b.* from memberinfo a, emp_info b
+            where a.memid=b.empid)
+        where ${search} like '%${keyword}%'
+	</select>
+	<select id="getEmpSearchList" resultMap="empInfo">
+		select * from 
+	        (select 
+	            a.mem_name, a.email, a.mobile, a.birthday, 
+	            b.* from memberinfo a, emp_info b
+	            where a.memid=b.empid)
+        where ${search} like '%${keyword}%'
+        order by hiredate desc
+	</select>
+	<select id="getQuitCnt" resultType="int">
+		select count(*) from emp_info where status='퇴사'
+			<if test="empjob != null and empjob != ''">
+        		and job=#{empjob}
+        	</if>
+	</select>
+	<select id="getQuitCnt_search" resultType="int">
+		select count(*) from 
+		    (select 
+		        b.mem_name, b.email, b.mobile, b.birthday, 
+		        a.*
+		        from emp_info a, memberinfo b 
+		        where a.empid=b.memid
+		        and a.status='퇴사')
+		    where ${search} like '%${keyword}%'
+	</select>
+	<select id="getEmpjobList" resultType="String">
+		select distinct job from emp_info
+	</select>
+	<select id="getEmpStatusList" resultType="String">
+		select distinct status from emp_info
+	</select>
+	<select id="checkifMgr" resultType="int">
+		select count(*) from emp_info 
+			where empid=#{empid} and status not in ('일반', '퇴사')
+	</select>
 	<update id="updateToMember">
 		update memberinfo
 			set
@@ -64,15 +112,36 @@
 	</select>
 	<select id="getEmpCnt" resultType="int">
 		select count(*) from emp_info
+			<where>
+	        	<if test="empjob != null and empjob != ''">
+	        		job=#{empjob}
+	        	</if>
+	        	<if test="status != null and status != ''">
+		        	and status=#{status}
+		        </if>
+	        </where>
 	</select>
-	<select id="getEmpList" resultType="map">
+	<select id="getEmpList" resultMap="empInfo">
 		select * from 
-    		(select rownum r, list.* from 
-		        (select 
-		            a.mem_name, a.email, a.mobile, a.birthday, 
-		            b.* from memberinfo a, emp_info b
-		            where a.memid=b.empid)list)
-    		where r between #{startRow} and #{endRow} 
+			(select rownum r, list.* from
+			    (select * from 
+			        (select 
+			            a.mem_name, a.email, a.mobile, a.birthday, 
+			            b.* from memberinfo a, emp_info b
+			            where a.memid=b.empid )
+			        <where>
+			        	<if test="empjob != null and empjob != ''">
+			        		job=#{empjob}
+			        	</if>
+			        	<if test="status != null and status != ''">
+				        	and status=#{status}
+				        </if>
+			        </where>
+			        <if test="order != null and order != ''">
+			        	order by ${sort} ${order}
+			        </if>
+			        ) list)
+			    where r between #{startRow} and #{endRow}
 	</select>
 	<update id="updateToAdmin">
 		update memberinfo 
@@ -646,6 +715,7 @@
 	<insert id="addCertiReq">
 		insert into certi_requirement values(
 			#{cnum},
+			#{clevel},
 			#{req_degree, jdbcType=VARCHAR},
 			#{req_age, jdbcType=VARCHAR},
 			#{req_exp, jdbcType=VARCHAR},

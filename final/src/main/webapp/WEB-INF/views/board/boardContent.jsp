@@ -13,7 +13,7 @@
 	</tr>
 	<tr>
 		<td>작성일</td>
-		<td>${board.reg}</td>
+		<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.reg}"/></td>
 	</tr>
 	<tr>
 		<td>내용</td>
@@ -28,7 +28,6 @@
 				${list.fileName}
 				<br/>
 			</c:forEach>
-			
 		</td>
 	</tr>
 	</c:if>

@@ -11,6 +11,7 @@
 		}).data('value');
 		
 		if(typeof cn !== 'undefined'){
+			document.frm.cnum.value = cn;
 			return true;
 		}else{
 			alert("올바른 자격증명을 입력하세요.");
@@ -21,7 +22,7 @@
 </script>
 
 <h1>관심자격증 추가</h1>
-<form name="frm" action="/mypage/addMemberCertiPro" onsubmit="return getCnum()" method="post">
+<form name="frm" action="/mypage/addMemberLikePro" onsubmit="return getCnum()" method="post">
 
 	<table border="1">
 		<tr>
