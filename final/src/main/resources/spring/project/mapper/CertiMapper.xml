@@ -177,7 +177,6 @@
 					or (select clevel from certiinfo where cnum=#{cnum}) is null))
 			where r between 1 and 5
 	</select>
-</mapper>
 	<select id="getLikeList" resultType="String">
 		select cnum from member_like where memid = #{memid}
 	</select>

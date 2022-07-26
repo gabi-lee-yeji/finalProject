@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../userNavBar.jsp"></jsp:include>
-<jsp:include page="filterForm.jsp" />
+
 <title>필터링 결과</title>
 </head>
 <body>

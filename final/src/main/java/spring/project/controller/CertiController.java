@@ -109,34 +109,6 @@ public class CertiController {
 		return "/certificate/mainFilter";
 	}
 	
-	@RequestMapping("filterPro")
-	public String getFilterResult(CertiFilterDTO dto, Model model) {
-		
-		model.addAttribute("dto", dto);
-		model.addAttribute("list", service.getFilteredList(dto));
-		model.addAttribute("count", service.getCertiFilteredCnt(dto));
-		
-		
-		if(dto.getNcs_cat().length>0) {
-			model.addAttribute("ncsName", service.getNcsName(dto));
-			model.addAttribute("ncs_length", dto.getNcs_cat().length+1);
-		}
-		
-		return "/certificate/certiFilterPro";
-	}
-	
-/*	@RequestMapping("filterPro")
-	public String getFilteredList(String pageNum, Model model,String[] clevel,String req_degree, String req_age,String req_exp){
-	
-		List<CertiInfoDTO> list = null;
-
-		list = service.getFilteredList(clevel);
-		
-		model.addAttribute("list", list);
-		
-		return "/certificate/filterList";
-	}*/
-	
 	@RequestMapping("certiLang")
 	public String getCertiLangList(Model model) {
 		List<CertiInfoDTO> list = service.getCertiLangList();
