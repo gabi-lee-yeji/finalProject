@@ -32,7 +32,7 @@
 			<th>분류</th>
 			<th>자격관리기관</th>
 		</tr>
-		<c:forEach var="board" items="${clist}"> <!-- 전체 자격증 -->
+		<c:forEach var="board" items="${clist}"> 
 		<tr>
 			<td>${board.cnum}</td>
 			<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>	

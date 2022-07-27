@@ -18,10 +18,8 @@ public interface CertiService {
 	// 자격증 개수
 	public int getCertCnt();
 	
-	// �ڰ��� ������
+	// 자격증 상세페이지
 	public Map<String, CertiAccessible> getCertiInfo(String cnum);
-	
-	// �ڰ����� �������� ��� ��ȸ �� ���� �˻�
 	public List<CertiDateDTO> searchPeriod(String cnum);
 	public List<CertiDateDTO> searchNatPeriod(String cnum);
 	

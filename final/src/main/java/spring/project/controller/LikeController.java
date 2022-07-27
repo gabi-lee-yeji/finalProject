@@ -22,15 +22,16 @@ public class LikeController {
 	@Autowired
 	private LikeService service;
 	
+	// 찜 등록
 	@RequestMapping("/like/add")
 	public String addLike(LikeDTO like, HttpServletResponse response, HttpSession session,Model model, HttpServletRequest request,String cnum) {
-		
-		// 찜 등록
+
 		model.addAttribute("result", service.addLike(like));
 		
 		return "/certificate/addLikePro";
 	}
 	
+	// 찜 등록 확인
 	@RequestMapping("/like/chk")
 	public String chkLike(String cnum,LikeDTO like,HttpServletResponse response,HttpSession session,Model model,HttpServletRequest request) {
 		
@@ -39,6 +40,7 @@ public class LikeController {
 		return "/certificate/certiMain";
 	}
 	
+	// 찜 삭제
 	@RequestMapping("/like/delete")
 	public String deleteLike(Model model,String cnum, HttpSession session,LikeDTO like) {
 		model.addAttribute("result",service.deleteLikePro(new LikeDTO(cnum,(String)session.getAttribute("sid"))));

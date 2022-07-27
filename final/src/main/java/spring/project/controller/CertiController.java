@@ -121,18 +121,6 @@ public class CertiController {
 		return "/certificate/certiFilterPro";
 	}
 	
-/*	@RequestMapping("filterPro")
-	public String getFilteredList(String pageNum, Model model,String[] clevel,String req_degree, String req_age,String req_exp){
-	
-		List<CertiInfoDTO> list = null;
-
-		list = service.getFilteredList(clevel);
-		
-		model.addAttribute("list", list);
-		
-		return "/certificate/filterList";
-	}*/
-	
 	// 어학 자격증 페이지
 	@RequestMapping("certiLang")
 	public String getCertiLangList(Model model) {
@@ -142,8 +130,4 @@ public class CertiController {
 		model.addAttribute("count", count);
 		return "/certificate/certiLang";
 	}
-	
-	
-	
-	
 }
