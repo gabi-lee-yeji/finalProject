@@ -73,4 +73,10 @@ public class DataController {
 	public void addLangInfo() throws Exception{
 		ds.addLangInfo();
 	}
+	
+	//PRV데이터 수동으로 가져온것들 DB에 업데이트(certiinfo)
+	@RequestMapping("updatePrvInfo")
+	public void updatePrvInfo() throws Exception{
+		ds.updatePrvInfo();
+	}
 }

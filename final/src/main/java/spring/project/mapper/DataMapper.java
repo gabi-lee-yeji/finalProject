@@ -20,6 +20,7 @@ public interface DataMapper {
 	public void addPassDetailN(PassDetailDTO dto);
 	
 	public String findCnum(String cname);
+	public String findPrvCnum(@Param("cname") String cname, @Param("clevel") String clevel);
 	public int findCnumCount(String cname);
 	
 	public int addPassRate(PassRatePrvDTO dto);
@@ -30,6 +31,7 @@ public interface DataMapper {
 	public void addNcsCode(NcsDTO dto);
 	public void addPrvInfo(CertiInfoDTO dto);
 	public void updatePrvInfo1(CertiInfoDTO dto);
+	public void updatePrvInfo2(CertiInfoDTO dto);
 	public void addCertiReq(CertiRequirementDTO dto);
 	public void addLangInfo(CertiInfoDTO dto);
 }
