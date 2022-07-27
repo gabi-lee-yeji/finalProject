@@ -150,6 +150,25 @@ public class UserMainController {
 		model.addAttribute("closePrvTests", service.getClosePrvTests());
 		return "/prvPopup";
 	}
+	
+	@RequestMapping("/certificate/langFilterForm")
+	public String langFilterForm(Model model) {
+		//DB에 저장된 어학시험 언어 목록 
+		model.addAttribute("langOption", service.getLanguageList());
+		return "/certificate/langFilterForm";
+	}
+	@RequestMapping("/certificate/langFilterPro")
+	public String langFilterPro(Integer ncs_cat, String pageNum, Model model) {
+		PagingDTO page = pageService.getPaging(20, pageNum);
+		model.addAttribute("page", page);
+		
+		model.addAttribute("ncs_cat", ncs_cat);
+		model.addAttribute("ncsName", service.getLangTestName(ncs_cat));
+		model.addAttribute("list", service.getLangFilteredList(page, ncs_cat) );
+		model.addAttribute("count",service.getLangFilterCnt(ncs_cat));
+		model.addAttribute("cnumList", service.getCloseLangCnumList());
+		return "/certificate/langFilterPro";
+	}
 
 }
 

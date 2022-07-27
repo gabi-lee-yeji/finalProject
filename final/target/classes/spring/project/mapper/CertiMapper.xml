@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="spring.project.mapper.CertiMapper">
-<select id="getNcsName" resultType="String">
+	<select id="getNcsName" resultType="String">
 		select distinct lname from ncs_code where floor(code/100) in
 		<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
 			#{ncs_cat}
@@ -89,8 +89,15 @@
 	</select>
 		
 	<select id="getCertiLangList" resultType="spring.project.model.CertiInfoDTO">
-		select * from certiinfo
-		where category='language'	
+		select * from
+			(select rownum r, list.* from 
+				(select * from certiinfo
+					where category='language') list)
+			where r between #{startRow} and #{endRow}	
+	</select>
+	<select id="getCertiLangCnt" resultType="int">
+		select count(*) from certiinfo
+					where category='language'
 	</select>
 
 	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
