@@ -218,10 +218,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Transactional
 	@Override
-	public int modCerti(CertiInfoDTO info, CertiRequirementDTO req) {
-		int result = mapper.modCertiInfo(info);
-		result += mapper.modCertiReq(req);
-		return result;
+	public int modCerti(CertiInfoDTO info) {
+		return mapper.modCertiInfo(info);
 	}
 	
 	@Override

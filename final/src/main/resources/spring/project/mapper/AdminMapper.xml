@@ -711,7 +711,7 @@
 		from certidate 
 		where cnum=#{cnum}
 	</select>
-	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
+	<select id="getCertiReqList" resultType="spring.project.model.CertiRequirementDTO">
 		select * from certi_requirement where cnum=#{cnum}
 	</select>
 	<select id="getQnetDate" resultType="spring.project.model.CertiDateDTO"

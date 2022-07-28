@@ -63,7 +63,7 @@ public interface AdminService {
 	//자격증 정보 삭제 
 	public int delCerti(String cnum, String name);
 	//자격증 정보 수정
-	public int modCerti(CertiInfoDTO info, CertiRequirementDTO req);
+	public int modCerti(CertiInfoDTO info);
 	
 	
 	
