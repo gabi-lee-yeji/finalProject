@@ -37,12 +37,11 @@
 	</bean>
 	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-		 p:host="smtp.daum.net"
+		 p:host="smtp.naver.com"
 	    p:port="465"
-	    p:username="bgm2007"
-	    p:password="y456852@"
-	> 
-				 
+	    p:username="아이디"
+	    p:password="비밀번호"> 
+			 
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.starttls.enable">true</prop>
@@ -59,11 +58,9 @@
 	
 	<mybatis-spring:scan base-package="spring.project.mapper"/>
 	<context:component-scan base-package="spring.project" />
-	<context:component-scan base-package="google.analytics.reportingAPI" />
-	
+	<context:component-scan base-package="google.analytics.reportingAPI"/>
 	
 	 <!-- daummail설정 -->
 
 	<aop:aspectj-autoproxy />
-	
 </beans>

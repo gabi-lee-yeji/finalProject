@@ -25,6 +25,19 @@ public interface DataService {
 	
 	//민간공인자격 데이터 추가(mingan4.csv, 062702.csv -> certiinfo)
 	public void addPrvInfo() throws Exception;
+	
+	//자격증 응시조건 데이터 추가(certi_requirement)
+	public void addCertiReq() throws Exception;
+	
+	//외국어 데이터 추가(lang.csv -> certiinfo)
+	public void addLangInfo() throws Exception;
+	
+	//PRV데이터 수동으로 가져온것들 DB에 업데이트(certiinfo)
+	public void updatePrvInfo() throws Exception;
+
+	//temp
+	public void temp1() throws Exception;
+	public void temp2() throws Exception;
 }
 
 

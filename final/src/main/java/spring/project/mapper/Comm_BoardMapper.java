@@ -20,8 +20,4 @@ public interface Comm_BoardMapper {
 	
 	public int delComm_Board(int comm_num);
 	
-//	public int passwdCheck(@Param("memid") String memid, @Param("passwd") String passwd);
-	
-//	public int upReadCnt(Post_BoardDTO dto);
-	
 }

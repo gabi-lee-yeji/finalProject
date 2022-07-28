@@ -24,8 +24,56 @@
 		<result property="sal" column="sal"/>
 		<result property="status" column="status"/>
 		<result property="ref_date" column="ref_date"/>
+		<result property="leaving_reason" column="leaving_reason"/>
 		<collection property="memberInfo" resultMap="memberInfo"/>
 	</resultMap>
+	
+	<update id="delReportComment">
+		update comm_board set status=1 where comm_num=#{comm_num}
+	</update>
+	<select id="getEmpSearchCnt" resultType="int">
+		select count(*) from 
+        (select 
+            a.mem_name, a.email, a.mobile, a.birthday, 
+            b.* from memberinfo a, emp_info b
+            where a.memid=b.empid)
+        where ${search} like '%${keyword}%'
+	</select>
+	<select id="getEmpSearchList" resultMap="empInfo">
+		select * from 
+	        (select 
+	            a.mem_name, a.email, a.mobile, a.birthday, 
+	            b.* from memberinfo a, emp_info b
+	            where a.memid=b.empid)
+        where ${search} like '%${keyword}%'
+        order by hiredate desc
+	</select>
+	<select id="getQuitCnt" resultType="int">
+		select count(*) from emp_info where status='퇴사'
+			<if test="empjob != null and empjob != ''">
+        		and job=#{empjob}
+        	</if>
+	</select>
+	<select id="getQuitCnt_search" resultType="int">
+		select count(*) from 
+		    (select 
+		        b.mem_name, b.email, b.mobile, b.birthday, 
+		        a.*
+		        from emp_info a, memberinfo b 
+		        where a.empid=b.memid
+		        and a.status='퇴사')
+		    where ${search} like '%${keyword}%'
+	</select>
+	<select id="getEmpjobList" resultType="String">
+		select distinct job from emp_info
+	</select>
+	<select id="getEmpStatusList" resultType="String">
+		select distinct status from emp_info
+	</select>
+	<select id="checkifMgr" resultType="int">
+		select count(*) from emp_info 
+			where empid=#{empid} and status not in ('일반', '퇴사')
+	</select>
 	<update id="updateToMember">
 		update memberinfo
 			set
@@ -64,15 +112,36 @@
 	</select>
 	<select id="getEmpCnt" resultType="int">
 		select count(*) from emp_info
+			<where>
+	        	<if test="empjob != null and empjob != ''">
+	        		job=#{empjob}
+	        	</if>
+	        	<if test="status != null and status != ''">
+		        	and status=#{status}
+		        </if>
+	        </where>
 	</select>
-	<select id="getEmpList" resultType="map">
+	<select id="getEmpList" resultMap="empInfo">
 		select * from 
-    		(select rownum r, list.* from 
-		        (select 
-		            a.mem_name, a.email, a.mobile, a.birthday, 
-		            b.* from memberinfo a, emp_info b
-		            where a.memid=b.empid)list)
-    		where r between #{startRow} and #{endRow} 
+			(select rownum r, list.* from
+			    (select * from 
+			        (select 
+			            a.mem_name, a.email, a.mobile, a.birthday, 
+			            b.* from memberinfo a, emp_info b
+			            where a.memid=b.empid )
+			        <where>
+			        	<if test="empjob != null and empjob != ''">
+			        		job=#{empjob}
+			        	</if>
+			        	<if test="status != null and status != ''">
+				        	and status=#{status}
+				        </if>
+			        </where>
+			        <if test="order != null and order != ''">
+			        	order by ${sort} ${order}
+			        </if>
+			        ) list)
+			    where r between #{startRow} and #{endRow}
 	</select>
 	<update id="updateToAdmin">
 		update memberinfo 
@@ -329,7 +398,27 @@
 		where datepk = #{datePK}
 	</update>
 	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate where datepk = #{datePK}
+		select 
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd
+			from certidate where datepk = #{datePK}
 	</select>
 	<select id="getNatSameScheduleList" resultType="spring.project.model.CertiInfoDTO">
 		select * from 
@@ -566,7 +655,27 @@
 	</update>
 	
 	<select id="searchNatPeriod" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate 
+		select
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd 
+		from certidate 
 		where clevel=#{clevel}
 		and cyear in
 		<foreach collection="cyear_list" item="cyear" open="(" separator="," close=")">
@@ -579,10 +688,30 @@
 	</select>
 	
 	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate 
+		select 
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd
+		from certidate 
 		where cnum=#{cnum}
 	</select>
-	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
+	<select id="getCertiReqList" resultType="spring.project.model.CertiRequirementDTO">
 		select * from certi_requirement where cnum=#{cnum}
 	</select>
 	<select id="getQnetDate" resultType="spring.project.model.CertiDateDTO"
@@ -646,6 +775,7 @@
 	<insert id="addCertiReq">
 		insert into certi_requirement values(
 			#{cnum},
+			#{clevel},
 			#{req_degree, jdbcType=VARCHAR},
 			#{req_age, jdbcType=VARCHAR},
 			#{req_exp, jdbcType=VARCHAR},

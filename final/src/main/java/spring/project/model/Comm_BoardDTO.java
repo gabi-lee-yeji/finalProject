@@ -1,16 +1,23 @@
 package spring.project.model;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
-public class Comm_BoardDTO {
+public class Comm_BoardDTO implements SearchAccessible {
 
-	private int comm_num;			// ´ñ±Û °íÀ¯¹øÈ£
-	private String comm_content;	// ´ñ±Û³»¿ë
-	private String writer;			// ÀÛ¼ºÀÚ
-	private String reg;				// ÀÛ¼º½Ã°£
-	private int comm_group;			// ´ñ±Û ±×·ì
-	private int comm_level;			// ´ñ±ÛÀÇ ´ä±Û ±×·ì
-	private int pnum;				// ¿ø±Û(°Ô½Ã±Û)ÀÇ °íÀ¯¹øÈ£
-	private int status;				// ´ñ±Û Á¸Àç À¯¹«(0-Á¸Àç, 1-»èÁ¦)
+	private int comm_num;			// ëŒ“ê¸€ ê³ ìœ  ë²ˆí˜¸
+	private String comm_content;	// ëŒ“ê¸€ ë‚´ìš©
+	private String writer;			// ëŒ“ê¸€ ì‘ì„±ì
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+	private Date reg;				// ëŒ“ê¸€ ì‘ì„±ì¼ì‹œ
+	private int comm_group;			// ëŒ“ê¸€ ê·¸ë£¹
+	private int comm_level;			// ëŒ€ëŒ“ê¸€ ê·¸ë£¹ 
+	private int pnum;				// ê²Œì‹œê¸€(ì›ê¸€) ê³ ìœ  ë²ˆí˜¸
+	private int status;				// ëŒ“ê¸€ ì¡´ì¬ ìœ ë¬´(0-ì¡´ì¬, 1-ì‚­ì œ)
+	private int board_type;
+	private String board_mapping;
 }

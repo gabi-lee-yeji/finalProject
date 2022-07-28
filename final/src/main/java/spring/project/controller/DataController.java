@@ -62,4 +62,32 @@ public class DataController {
 		ds.addPrvInfo();
 	}
 	
+	//자격증 응시조건 데이터 추가(certi_requirement)
+	@RequestMapping("addCertiReq")
+	public void addCertiReq() throws Exception {
+		ds.addCertiReq();
+	}
+	
+	//외국어 데이터 추가(certiinfo)
+	@RequestMapping("addLangInfo")
+	public void addLangInfo() throws Exception{
+		ds.addLangInfo();
+	}
+	
+	//PRV데이터 수동으로 가져온것들 DB에 업데이트(certiinfo)
+	@RequestMapping("updatePrvInfo")
+	public void updatePrvInfo() throws Exception{
+		ds.updatePrvInfo();
+	}
+	
+	//temp
+	@RequestMapping("temp1")
+	public void temp1() throws Exception{
+		ds.temp1();
+	}
+	//temp2
+	@RequestMapping("temp2")
+	public void temp2() throws Exception{
+		ds.temp2();
+	}
 }

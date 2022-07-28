@@ -9,8 +9,8 @@
 <meta charset="UTF-8">
 <title>질문글</title>
 </head>
-
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>질문글 목록(전체 글:${count})</h1>
 	
 	<c:if test="${count == 0}">
@@ -36,7 +36,7 @@
 			<td>${board.pnum}</td>
 			<td><a href="/community/question/questionContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td> 
 			<td>${board.writer}</td>
-			<td>${board.reg}</td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.reg}"/></td>
 			<td>${board.readCnt}</td>
 		</tr>
 	</c:forEach>
@@ -77,6 +77,9 @@
        <a href="/community/question/questionList?board_type=5&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
+<c:if test="${sessionScope.sid != null}">
+	<a href="/community/question/addQuestion">글쓰기</a>
+</c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
-<a href="/community/question/addQuestion">글쓰기</a>
 </html>

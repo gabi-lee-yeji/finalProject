@@ -27,7 +27,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
-import spring.project.model.PassRateDTO;
+import spring.project.model.PassRatePrvDTO;
 
 @Service
 public class DataServiceImpl implements DataService {
@@ -149,7 +149,7 @@ public class DataServiceImpl implements DataService {
 		
 		for(int i=0; i<strList.size(); i++) {
 			
-			PassRateDTO dto = new PassRateDTO();
+			PassRatePrvDTO dto = new PassRatePrvDTO();
 			dto.setCname(strList.get(i).split(";")[0]);
 			dto.setClevel(strList.get(i).split(";")[1]);
 			dto.setCyear(Integer.parseInt(strList.get(i).split(";")[2]));
@@ -224,14 +224,14 @@ public class DataServiceImpl implements DataService {
 			HashMap<String,String> map = splitd4(datas[4]);
 			dto.setSubject(splitSubject(map.get("subject")));
 			dto.setRequirement(map.get("requirement"));
-			dto.setCmethod(splitCmethod(map.get("cmethod")));
+			dto.setCmethod(map.get("cmethod"));
 			dto.setCutline(map.get("cutline"));
 			dto.setPrice(datas[5]);
 			dto.setNcs_cat(Integer.parseInt(datas[6]));
 			dto.setCompany(datas[7]);
 			dto.setClevel(datas[8]);
 			
-			dto.setCategory("국가기술");
+			dto.setCategory("national");
 			dto.setStatus("Y");
 			
 			if(am.findCurrseq("NAT_SEQ")==0) {
@@ -240,9 +240,6 @@ public class DataServiceImpl implements DataService {
 			dto.setCnum("N"+String.format("%05d", am.findNextseq("NAT_SEQ")));
 			
 			mapper.addNatData(dto);
-			CertiRequirementDTO req = new CertiRequirementDTO();
-			req.setCnum(dto.getCnum());
-			am.addCertiReq(req);
 		}
 	}
 	
@@ -320,7 +317,7 @@ public class DataServiceImpl implements DataService {
 			dto.setCinfo(datas[3]);
 			dto.setCjob(datas[4]);
 			
-			dto.setCategory("공인민간");
+			dto.setCategory("private");
 			dto.setStatus("Y");
 
 			if(am.findCurrseq("PRV_SEQ")==0) {
@@ -355,6 +352,106 @@ public class DataServiceImpl implements DataService {
 		}
 	}
 	
+	@Override
+	@Transactional
+	public void addCertiReq() throws Exception{
+		FileInputStream fis = new FileInputStream(new File("f:/data/req.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			
+			CertiRequirementDTO dto = new CertiRequirementDTO();
+			if(!datas[0].equals("")) {
+				dto.setCnum(mapper.findPrvCnum(datas[0],datas[1]));
+				if(dto.getCnum() == null) System.out.println(datas[0]);
+			}
+			dto.setClevel(datas[1]);
+			dto.setReq_degree(datas[2]);
+			if(!datas[3].equals(""))
+				dto.setReq_age(Integer.parseInt(datas[3]));
+			dto.setPre_requisite(datas[4]);
+			dto.setRef(datas[5]);
+			if(!datas[6].equals(""))
+			dto.setReq_exp(Integer.parseInt(datas[6]));
+			
+			mapper.addCertiReq(dto);
+		}
+	}
+	
+	@Override
+	@Transactional
+	public void addLangInfo() throws Exception{
+		FileInputStream fis = new FileInputStream(new File("f:/data/lang.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis,"CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiInfoDTO dto = new CertiInfoDTO();
+			
+			dto.setCname(datas[0]);
+			dto.setCompany(datas[3]);
+			dto.setClevel(datas[2]);
+			dto.setCinfo(datas[5]);
+			dto.setCjob(datas[6]);
+			dto.setExpiry(datas[7]);
+			dto.setWebsite(datas[4]);
+			dto.setNcs_cat(Integer.parseInt(datas[1]));
+			dto.setPrice(datas[8]);
+			dto.setCmethod(datas[9]);
+			dto.setSubject(datas[10]);
+			dto.setCutline(datas[11]);
+			
+			dto.setCategory("language");
+			dto.setStatus("Y");
+
+			if(am.findCurrseq("LANG_SEQ")==0) {
+				am.findNextseq("LANG_SEQ");
+			}
+			dto.setCnum("L"+String.format("%05d", am.findNextseq("LANG_SEQ")));
+			
+			mapper.addLangInfo(dto);
+		}
+	}
+	
+	@Override
+	public void updatePrvInfo() throws Exception{
+		FileInputStream fis = new FileInputStream(new File("f:/data/prvinfo.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiInfoDTO dto = new CertiInfoDTO();
+			
+			dto.setCname(datas[0]);
+			dto.setClevel(datas[1]);
+			dto.setPrice(datas[2]);
+			dto.setCmethod(datas[3]);
+			dto.setSubject(formatSubject(datas[4]));
+			dto.setCutline(datas[5]);
+			if(!datas[6].equals("제한없음")) {
+				dto.setRequirement(datas[6]);
+			}
+			
+			dto.setCnum(mapper.findPrvCnum(datas[0], datas[1]));
+			if(dto.getCnum() == null) {
+				System.out.println(dto.getCname() + " " + dto.getClevel());
+			}else {
+				mapper.updatePrvInfo2(dto);
+			}
+			
+		}
+	}
+	
+	//prvinfo.csv 파일 시험과목 포맷변경 ,@ -> @^
+	private String formatSubject(String subject) {
+		
+		return subject.replace('@', '^').replace(',', '@');
+	}
+	
 	//시험정보 줄글 split하기
 	private HashMap<String,String> splitd4(String data) {
 		
@@ -386,7 +483,7 @@ public class DataServiceImpl implements DataService {
 		
 		return result;
 	}
-
+/*
 	//검정방법 split
 	private String splitCmethod(String cmethod) {
 		
@@ -406,7 +503,7 @@ public class DataServiceImpl implements DataService {
 		}
 		return data;
 	}
-	
+*/
 	//시험과목 과목별로 분리
 	private String splitSubject(String subject) {
 		
@@ -510,7 +607,54 @@ public class DataServiceImpl implements DataService {
 		str = str.replaceAll("\"\"\"", "");
 		return str;
 	}
-	
+
+	@Override
+	@Transactional
+	public void temp1() throws Exception{
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/temp1.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiDateDTO dto = new CertiDateDTO();
+			
+			dto.setCnum(datas[0]);
+			dto.setCyear(2022);
+			dto.setCround(Integer.parseInt(datas[2]));
+			dto.setDocRegStart1(datas[3]);
+			dto.setDocRegEnd1(datas[4]);
+			dto.setDocTestStart(datas[5]);
+			dto.setDocResultStart(datas[6]);
+			dto.setDocResultEnd(datas[7]);
+			
+			mapper.temp1(dto);
+		}
+	}
+	@Override
+	@Transactional
+	public void temp2() throws Exception{
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/temp2.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiDateDTO dto = new CertiDateDTO();
+			
+			dto.setCnum(datas[0]);
+			dto.setCyear(2022);
+			dto.setCround(Integer.parseInt(datas[2]));
+			dto.setDocRegStart1(datas[3]);
+			dto.setDocRegEnd1(datas[4]);
+			dto.setDocTestStart(datas[5]);
+			dto.setDocResultStart(datas[6]);
+			
+			mapper.temp2(dto);
+		}
+	}
 }
 
 

@@ -39,6 +39,7 @@ public class AdminServiceImpl implements AdminService{
 		String cnum = "";
 		String sequence = "";
 		
+		//자격증 종류에 따라서 자격증 일련번호 앞자리 알파벳 설정
 		if(info.getCategory().equals("national")) {
 			cnum = "N";
 			sequence = "NAT_SEQ";
@@ -50,23 +51,27 @@ public class AdminServiceImpl implements AdminService{
 			sequence = "LANG_SEQ";
 		}
 		
-		//?��????�� �? 0?���? 1�??�� ?��?��?���? ?���? (+1)
+		//currval이 0인 경우 시퀀스 +1 
 		if(mapper.findCurrseq(sequence)==0) {
 			mapper.findNextseq(sequence);
 		}
 		
+		//자격증 번호 생성 (알파벳+숫자5자리)
 		cnum += String.format("%05d", mapper.findCurrseq(sequence));
 		
 		info.setCnum(cnum); 
 		schedule.setCnum(cnum);
 		requirement.setCnum(cnum);
-		//CSV���� ���� ������ ���� ��� ���
+		
+		//자격증일정이 입력됐는지 체크후 certiDate에도 cnum 설정
 		if(certiDate != null) {
 			certiDate.setCnum(cnum);
-			
 		}
 		
 		int result = 0;
+		
+		//국가자격증 - certiinfo / certischedule(큐넷일정) 에만 insert
+		//민간,어학 - certiinfo / certidate(상세일정) 에 insert
 		if(info.getCategory().equals("national")) {
 			result += mapper.addCertiInfo(info);
 			result += mapper.addCertiSchedule(schedule);
@@ -74,9 +79,14 @@ public class AdminServiceImpl implements AdminService{
 		}else {
 			result += mapper.addCertiInfo(info);
 			result += mapper.addCertiDate(certiDate);
-			result += mapper.addCertiReq(requirement);
-			if(result==3) mapper.findNextseq(sequence);
+			
+			//입력된 certirequirement(응시자격)이 있을 경우 insert
+			if(requirement != null) {
+				result += mapper.addCertiReq(requirement);
+			}
+			if(result>=2) mapper.findNextseq(sequence);
 		}
+		System.out.println("===자격증등록==="+result);
 		return result;
 	}
 
@@ -110,15 +120,16 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	
-	//�ڰ��� ������
+	//자격증 상세정보 조회
 	@Override
-	public Map<String, CertiAccessible> getCertiInfo(String cnum) {
-		CertiInfoDTO info = mapper.getCertiInfo(cnum);
-		CertiRequirementDTO requirement = mapper.getCertiReqInfo(cnum);
+	public CertiInfoDTO getCertiInfo(String cnum) {
+		return mapper.getCertiInfo(cnum);
+	}
 		
-		certiMap.put("info", info);
-		certiMap.put("req", requirement);
-		return certiMap;
+	//자격증 응시자격 조회 - 응시자격은 여러개일 수 있어서 분리함
+	@Override 
+	public List<CertiRequirementDTO> getCertiReqList(String cnum) {
+		return mapper.getCertiReqList(cnum);
 	}
 	
 	//�ڰ��� ������
@@ -478,15 +489,22 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<Map<String,Object>> getEmpList(PagingDTO page) {
+	public List<EmpInfoDTO> getEmpList(PagingDTO page, String empjob, String status, String sort, String order) {
 		map.put("startRow", page.getStartRow());
 		map.put("endRow", page.getEndRow());
 		
+		map.put("empjob", empjob);
+		map.put("status", status);
+		map.put("sort", sort);
+		map.put("order", order);
 		return mapper.getEmpList(map);
 	}
 	@Override
-	public int getEmpCnt() {
-		return mapper.getEmpCnt();
+	public int getEmpCnt(String empjob, String status) {
+		map.put("empjob", empjob);
+		map.put("status", status);
+		
+		return mapper.getEmpCnt(map);
 	}
 	@Override
 	public EmpInfoDTO getEmpInfo(String empid){
@@ -504,6 +522,57 @@ public class AdminServiceImpl implements AdminService{
 		int result = 0;
 		result += mapper.delEmpInfo(empid, leavingReason);
 		result += mapper.updateToMember(empid);
+		return result;
+	}
+
+	@Override
+	public int checkifMgr(String empid) {
+		return mapper.checkifMgr(empid);
+	}
+
+	@Override
+	public List<String> getEmpjobList() {
+		return mapper.getEmpjobList();
+	}
+
+	@Override
+	public List<String> getEmpStatusList() {
+		return mapper.getEmpStatusList();
+	}
+
+	@Override
+	public int getQuitCnt(String empjob) {
+		return mapper.getQuitCnt(empjob);
+	}
+	@Override
+	public int getQuitCnt_search(String search, String keyword) {
+		map.put("search", search);
+		map.put("keyword", keyword);
+		return mapper.getQuitCnt_search(map);
+	}
+
+	@Override
+	public List<EmpInfoDTO> getEmpSearchList(PagingDTO page, String search, String keyword) {
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		map.put("search", search);
+		map.put("keyword", keyword);
+		return mapper.getEmpSearchList(map);
+	}
+
+	@Override
+	public int getEmpSearchCnt(String search, String keyword) {
+		map.put("search", search);
+		map.put("keyword", keyword);
+		return mapper.getEmpSearchCnt(map);
+	}
+
+	@Override
+	public int delReportComment(Integer[] comm_num) {
+		int result = 0;
+		for(int c : comm_num) {
+			result += mapper.delReportComment(c);
+		}
 		return result;
 	}
 

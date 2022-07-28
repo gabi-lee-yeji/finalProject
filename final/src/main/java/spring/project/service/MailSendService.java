@@ -15,8 +15,8 @@ public class MailSendService {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	private int authNumber; 
-	// 난수 발생(여러분들 맘대러)
 	
+		//난수 발생(여러분들 맘대러)
 		public void makeRandomNumber() {
 			// 난수의 범위 111111 ~ 999999 (6자리 난수)
 			Random r = new Random();
@@ -25,11 +25,10 @@ public class MailSendService {
 			authNumber = checkNum;
 		}
 		
-		
-				//이메일 보낼 양식! 
+		//이메일 보낼 양식
 		public String joinEmail(String email) {
 			makeRandomNumber();
-			String setFrom = "bgm2007@daum.net"; // email-config에 설정한 자신의 이메일 주소를 입력 
+			String setFrom = "이메일주소칸"; // email-config에 설정한 자신의 이메일 주소를 입력 
 			String toMail = email;
 			String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목 
 			String content = 
@@ -58,6 +57,5 @@ public class MailSendService {
 				e.printStackTrace();
 			}
 		}
-		
 	
 }

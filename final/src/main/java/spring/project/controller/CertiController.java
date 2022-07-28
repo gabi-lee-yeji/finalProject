@@ -1,7 +1,5 @@
 package spring.project.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,20 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
-import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.LikeDTO;
+import spring.project.pagination.PagingDTO;
+import spring.project.pagination.PagingService;
+import spring.project.service.AdminService;
 import spring.project.service.CertiService;
 import spring.project.service.LikeService;
 
@@ -36,7 +32,13 @@ public class CertiController {
 	@Autowired
 	private LikeService likeservice;
 	
-	// 占쏙옙체 占쌘곤옙占쏙옙 占쏙옙占�
+	@Autowired
+	private AdminService adminservice;
+	
+	@Autowired
+	private PagingService pageService;
+	
+	// 자격증 메인 페이지
 	@RequestMapping("certiMain")
 	public String getCertiList(LikeDTO like,HttpSession session,HttpServletRequest request, String pageNum, Model model,String clevel,String category){
 		
@@ -75,9 +77,9 @@ public class CertiController {
 	
 	// 자격증 상세정보
 	@RequestMapping("certiContent")
-		public String certiContent(String cnum, Model model,String ncs_cat,HttpSession session,HttpServletRequest request) {
-		
-			Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
+		public String certiContent(String cnum, String ncs_cat, HttpSession session, Model model) {
+		//	Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
+			List<CertiRequirementDTO> reqList = adminservice.getCertiReqList(cnum);
 			
 			List<CertiDateDTO> dateList = null;
 			if(cnum.substring(0,1).equals("N")) {
@@ -87,20 +89,25 @@ public class CertiController {
 			}
 			
 			String id = (String)session.getAttribute("sid");
-			int cnt = service.count(cnum,id);
-			System.out.println("cnt:"+cnt+"sessionID=="+id+"cnum:"+cnum);
+			if(id != null) {
+				int cnt = service.count(cnum,id); //관심자격증 등록되어있는지 체크
+				model.addAttribute("cnt",cnt);
+			}
 				
 			model.addAttribute("cnum",cnum);
-			model.addAttribute("cnt",cnt);
+		//	model.addAttribute("cnt",cnt);
 			model.addAttribute("dateList", dateList);
-			model.addAttribute("info",service.getCertiInfo(cnum).get("info"));
+			model.addAttribute("info",adminservice.getCertiInfo(cnum));
 			model.addAttribute("cnum", cnum);
-			model.addAttribute("info", map.get("info"));
-			model.addAttribute("req", map.get("req")); 
+	//		model.addAttribute("info", map.get("info"));
+			model.addAttribute("reqList", reqList);
+			model.addAttribute("reqCnt", reqList.size()); 
 
 			return "/certificate/certiContent";
 	}
 	
+	
+	// 메인 페이지 필터
 	@RequestMapping("mainFilter")
 	public String FilterForm(String category, Model model) {
 		model.addAttribute("ncsList", service.getNcsCodeList());
@@ -108,43 +115,36 @@ public class CertiController {
 		return "/certificate/mainFilter";
 	}
 	
-	@RequestMapping("filterPro")
-	public String getFilterResult(CertiFilterDTO dto, Model model) {
-		
-		model.addAttribute("dto", dto);
-		model.addAttribute("list", service.getFilteredList(dto));
-		model.addAttribute("count", service.getCertiFilteredCnt(dto));
-		
-		
-		if(dto.getNcs_cat().length>0) {
-			model.addAttribute("ncsName", service.getNcsName(dto));
-			model.addAttribute("ncs_length", dto.getNcs_cat().length+1);
-		}
-		
-		return "/certificate/certiFilterPro";
-	}
-	
-/*	@RequestMapping("filterPro")
-	public String getFilteredList(String pageNum, Model model,String[] clevel,String req_degree, String req_age,String req_exp){
-	
-		List<CertiInfoDTO> list = null;
-
-		list = service.getFilteredList(clevel);
-		
-		model.addAttribute("list", list);
-		
-		return "/certificate/filterList";
-	}*/
-	
+	// 어학 자격증 페이지
 	@RequestMapping("certiLang")
-	public String getCertiLangList(Model model) {
-		List<CertiInfoDTO> list = service.getCertiLangList();
-		int count = list.size();
-		model.addAttribute("list", list);
-		model.addAttribute("count", count);
+	public String getCertiLangList(String pageNum, Model model) {
+		PagingDTO page = pageService.getPaging(20, pageNum);
+		
+		model.addAttribute("page", page);
+		model.addAttribute("list", service.getCertiLangList(page));
+		model.addAttribute("count", service.getCertiLangCnt());
 		return "/certificate/certiLang";
 	}
 	
+	// 자격증 관련 뉴스
+	@RequestMapping("news")
+	public String getNews(String cnum, Model model) throws Exception{
+		model.addAttribute("list", service.getNews(cnum));
+		return "certificate/news";
+	}
+	
+	@RequestMapping("pyramidGraph")
+	public String pyramidGraph(Model model, String cnum) {
+		model.addAttribute("data", service.pyramidGraph(cnum));
+		return "certificate/pyramidGraph";
+	}
+	
+	@RequestMapping("lineGraph")
+	public String lineGraph(Model model, CertiInfoDTO dto) {
+		model.addAttribute("cnum", dto.getCnum());
+		model.addAttribute("data", service.lineGraph(dto));
+		return "certificate/lineGraph";
+	}
 	
 	
 	

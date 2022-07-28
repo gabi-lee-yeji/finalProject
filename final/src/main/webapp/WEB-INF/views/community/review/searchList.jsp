@@ -9,6 +9,7 @@
 <title>꿀팁, 후기</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<h1>
 		<c:if test="${search eq 'writer' }">
 			작성자 
@@ -39,7 +40,7 @@
 			<td>${board.pnum}</td>
 			<td><a href="/community/review/reviewContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td> 
 			<td>${board.writer}</td>
-			<td>${board.reg}</td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.reg}"/></td>
 			<td>${board.readCnt}</td>
 		</tr>
 	</c:forEach>
@@ -68,5 +69,6 @@
        <a href="/community/review/reviewList?board_type=4&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

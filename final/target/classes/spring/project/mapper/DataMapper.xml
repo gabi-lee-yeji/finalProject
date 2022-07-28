@@ -4,11 +4,90 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
 
+	
+	<insert id="temp2" parameterType="spring.project.model.CertiDateDTO">
+		insert into certidate(
+			cnum, cyear, cround, clevel, docregstart1, docregend1, docteststart, docresultstart, datepk) 
+			values(#{cnum},
+				#{cyear},
+				#{cround},
+				(select clevel from certiinfo where cnum=#{cnum}),
+				#{docRegStart1},
+				#{docRegEnd1},
+				#{docTestStart},
+				#{docResultStart},
+				CERTIDATE_SEQ.nextval
+				
+			)
+	</insert>
+
+	<insert id="temp1" parameterType="spring.project.model.CertiDateDTO">
+		insert into certidate(
+			cnum, cyear, cround, clevel, docregstart1, docregend1, docteststart, docresultstart, docresultend, datepk) 
+			values(#{cnum},
+				#{cyear},
+				#{cround},
+				(select clevel from certiinfo where cnum=#{cnum}),
+				#{docRegStart1},
+				#{docRegEnd1},
+				#{docTestStart},
+				#{docResultStart},
+				#{docResultEnd},
+				CERTIDATE_SEQ.nextval
+				
+			)
+	</insert>
+
+	<insert id="addLangInfo" parameterType="spring.project.model.CertiInfoDTO">
+		insert into certiinfo values(
+			#{cnum},
+			#{cname},
+			#{category},
+			#{clevel},
+			#{company},
+			#{website},
+			#{requirement, jdbcType=VARCHAR},
+			#{cmethod, jdbcType=VARCHAR},
+			#{subject, jdbcType=VARCHAR},
+			#{cutline, jdbcType=VARCHAR},
+			#{cinfo},
+			#{cjob},
+			#{expiry, jdbcType=VARCHAR},
+			#{status},
+			#{price, jdbcType=VARCHAR},
+			#{ncs_cat, jdbcType=INTEGER},
+			#{notice, jdbcType=VARCHAR},
+			sysdate
+		)
+	</insert>
+
+	<insert id="addCertiReq" parameterType="spring.project.model.CertiRequirementDTO">
+		insert into certi_requirement values(
+			#{cnum, jdbcType=VARCHAR},
+			#{clevel, jdbcType=VARCHAR},
+			#{req_degree, jdbcType=VARCHAR},
+			#{req_age},
+			#{req_exp},
+			#{pre_requisite, jdbcType=VARCHAR},
+			#{ref, jdbcType=VARCHAR}
+		)
+	</insert>
+
 	<update id="updatePrvInfo1" parameterType="spring.project.model.CertiInfoDTO">
 		update certiinfo set
 			website=#{website},
 			expiry=#{expiry}
 				where cname=#{cname}
+	</update>
+	
+	<update id="updatePrvInfo2" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo set 
+			price=#{price},
+			cmethod=#{cmethod},
+			subject=#{subject},
+			cutline=#{cutline},
+			requirement=#{requirement, jdbcType=VARCHAR}
+				where cnum=#{cnum}
 	</update>
 
 	<insert id="addPrvInfo" parameterType="spring.project.model.CertiInfoDTO">
@@ -62,7 +141,7 @@
 		insert into certi_related values(#{cfrom}, #{cto})
 	</insert>
 
-	<insert id="addPassRate" parameterType="spring.project.model.PassRateDTO">
+	<insert id="addPassRate" parameterType="spring.project.model.PassRatePrvDTO">
 		insert into pass_rate values(
 			#{cname},
 			#{clevel, jdbcType=VARCHAR},
@@ -75,6 +154,11 @@
 	
 	<select id="findCnum" resultType="String">
 		select cnum from certiinfo where cname=#{cname}
+	</select>
+	
+	<select id="findPrvCnum" resultType="String" parameterType="spring.project.model.CertiInfoDTO">
+		select cnum from certiinfo where cname=#{cname} and 
+			( clevel=#{clevel, jdbcType=VARCHAR} or #{clevel} is null)
 	</select>
 	
 	<select id="findCnumCount" resultType="int">

@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<jsp:include page="/WEB-INF/views/mypage/sidebar.jsp"></jsp:include>
+<div style="margin-left:200px">
 <c:if test="${count == 0}">
 	<h1>내 댓글 모음 (전체 댓글:${count})</h1>
 		<table border=1>
@@ -10,7 +12,6 @@
 				<td>작성한 댓글이 없습니다.</td>
 			</tr>
 		</table>
-		 <a href="/member/main">메인메뉴</a>
 	</c:if>
 
 	<table border=1>
@@ -28,7 +29,7 @@
 	<c:forEach var="comm" items="${commList}">
 		<tr>
 			<td>${comm.comm_num}</td>
-			<td><a href="/community/review/reviewContent?pnum=${comm.pnum}&">${comm.comm_content}</a></td>
+			<td><a href="/${comm.board_mapping}?pnum=${comm.pnum}">${comm.comm_content}</a></td>
 			<td>${comm.writer}</td>
 			<td>${comm.reg}</td>
 			<td>${comm.pnum}</td>
@@ -57,6 +58,6 @@
         <a href="/member/myComments?pageNum=${startPage + 10}&writer=${sessionScope.sid}">[다음]</a>
     </c:if>
     <br/>
- 	<a href="/member/main">메인메뉴</a>
 </c:if>
+</div>
 </body>

@@ -6,40 +6,52 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>FAQ</title>
+<title>자주하는 질문</title>
 </head>
 <body>
-<h1>자주하는 질문 목록(전체 글:${count})</h1>
+<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<h1>자주하는 질문 목록(전체 글:${count})</h1>
+	
 	<c:if test="${count == 0}">
-		<table>
+		<table border=1>
 			<tr>
-				<td>자주하는 질문 글이 없습니다.</td>
+				<td>공지사항이 없습니다.</td>
 			</tr>
 		</table>
 	</c:if>
 	
-	<table>
-		<c:if test="${count > 0}">
-			<tr>
-				<th>글번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>조회수</th>
-			</tr>
-		</c:if>
-	
-		<c:forEach var="faq" items="${faqList}">
-			<tr>
-				<td>${faq.pnum}</td>
-				<td><a href="/help/faq/faqContent?pnum=${faq.pnum}&pageNum=${currentPage}">${faq.subject}</a></td> 
-				<td>${faq.writer}</td>
-				<td>${faq.reg}</td>
-				<td>${faq.readCnt}</td>
-			</tr>
-		</c:forEach>
+	<table border=1>
+	<c:if test="${count > 0}">
+		<tr>
+			<th>글번호</th>
+			<th>제 목</th>
+			<th>작성자</th>
+			<th>작성일</th>
+			<th>조회수</th>
+		</tr>
+	</c:if>
+	<c:forEach var="board" items="${boardList}">
+		<tr>
+			<td>${board.pnum}</td>
+			<td><a href="/help/faq/faqContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td> 
+			<td>${board.writer}</td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.reg}"/></td>
+			<td>${board.readCnt}</td>
+		</tr>
+	</c:forEach>
 	</table>
 	
+<form action="/help/faq/searchList" method="get">
+	<select name="search" >
+		<option value="">==검색==</option>
+		<option value="subject">제목</option>
+		<option value="post_content">내용</option>
+	</select>
+	<input type="text" name="keyword"/>
+	<input type="submit" value="검색"/>
+	<input type="hidden" name="board_type" value="2"/>
+</form>
+
 <c:if test="${count > 0}">
 	<c:set var="pageCount" value="${count / pageSize + (count % pageSize == 0 ? 0 : 1)}"/>
 	<fmt:parseNumber var="result" value="${(currentPage/10)}" integerOnly="true" />
@@ -52,18 +64,20 @@
 	</c:if>
 	
 	<c:if test="${startPage > 10}" >
-        <a href="/help/faq/faqList?pageNum=${startPage - 10}">[이전]</a>
+        <a href="/help/faq/faqList?board_type=2&pageNum=${startPage - 10}">[이전]</a>
     </c:if>
     
     <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">    
-        <a href="/help/faq/faqList?pageNum=${i}">[${i}]</a>
+        <a href="/help/faq/faqList?board_type=2&pageNum=${i}">[${i}]</a>
     </c:forEach>
     
     <c:if test="${endPage < pageCount}" >
-       <a href="/help/faq/faqList?pageNum=${startPage + 10 }">[다음]</a>
+       <a href="/help/faq/faqList?board_type=2&pageNum=${startPage + 10 }">[다음]</a>
     </c:if>
 </c:if>
-<a href="/help/faq/addFaq">글쓰기</a>
-
+<c:if test="${memberStatus == 1}">
+	<a href="/help/faq/addFaq">글쓰기</a>
+</c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>
