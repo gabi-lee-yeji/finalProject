@@ -45,7 +45,7 @@ public interface AdminMapper {
 	
 	//자격증 상세정보 페이지
 	public CertiInfoDTO getCertiInfo(String cnum);
-	public CertiRequirementDTO getCertiReqInfo(String cnum);
+	public List<CertiRequirementDTO> getCertiReqList(String cnum);
 	
 	public List<CertiDateDTO> searchPeriod(String cnum);
 	public List<CertiScheduleDTO> getQnetDateInfo(String cnum);

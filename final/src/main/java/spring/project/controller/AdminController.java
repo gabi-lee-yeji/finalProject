@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
@@ -18,6 +19,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,11 +65,12 @@ public class AdminController {
 	
 	static Map<String, Object> paramMap = new HashMap<String, Object>();
 	
-	//?��격증 ?���? ?��?���? 
+	//자격증 등록 페이지 
 	@RequestMapping("addCerti")
 	public String addCerti() {
 		return "admin/certi/addCerti";
 	}
+	
 	@RequestMapping("addCertiPro")
 	public String addCertiPro(CertiInfoDTO info, CertiScheduleDTO schedule, 
 								CertiDateDTO certiDate, CertiRequirementDTO requirement,
@@ -111,10 +114,9 @@ public class AdminController {
 	//?��격증 ?��?�� - ?��?��?���? ?��?���??�� 
 	@RequestMapping("certiInfo")
 	public String getCertiInfo(String cnum, Model model) {
-		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
 		model.addAttribute("cnum", cnum);
-		model.addAttribute("info", map.get("info"));
-		model.addAttribute("req", map.get("requirement"));
+		model.addAttribute("info", service.getCertiInfo(cnum));
+		model.addAttribute("reqList", service.getCertiReqList(cnum));
 		return "admin/certi/certiInfo";
 	}
 	
@@ -129,15 +131,14 @@ public class AdminController {
 		}
 	
 		model.addAttribute("dateList", dateList);
-		model.addAttribute("info",service.getCertiInfo(cnum).get("info"));
+		model.addAttribute("info",service.getCertiInfo(cnum));
 		
 		return "admin/certi/certiDate";
 	}
 	//?��격증 ?��?�� 추�?
 	@RequestMapping("certi/addDate")
 	public String addDate(String cnum, Model model) {
-		Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
-		model.addAttribute("info", map.get("info"));
+		model.addAttribute("info", service.getCertiInfo(cnum));
 		return "admin/certi/addDate";
 	}
 	@RequestMapping("certi/addDatePro")
@@ -238,7 +239,7 @@ public class AdminController {
 	@RequestMapping("certi/deleteForm")
 	public String deleteForm(String cnum, MemberInfoDTO dto, Model model) {
 		//?��?��?���? ?�� ?��?��?�� ?��격증 �? 권한 ?��?��
-		model.addAttribute("dto", service.getCertiInfo(cnum).get("info"));
+		model.addAttribute("dto", service.getCertiInfo(cnum));
 		return "admin/certi/deleteForm";
 	}
 	@RequestMapping("deletePro")
@@ -601,5 +602,12 @@ public class AdminController {
 	public String empMypage(Model model) {
 		//?��?�� id 체크 
 		return "/admin/emp/info/empInfo";
+	}
+	
+	@RequestMapping("realpath")
+	public void realPath(HttpServletRequest request) {
+		ServletContext servletContext = request.getSession().getServletContext();
+		String realPath = servletContext.getRealPath("/");
+		System.out.println(realPath);
 	}
 }
