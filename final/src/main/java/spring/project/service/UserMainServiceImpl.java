@@ -221,6 +221,7 @@ public class UserMainServiceImpl implements UserMainService{
 
 	@Override
 	public List<CertiRequirementDTO> getCertiRequirement(String cnum) {
+		System.out.println(cnum);
 		List<CertiRequirementDTO> list = mapper.getCertiRequirement(cnum);
 		if(list.size()==0) {
 			String clevel = mapper.checkClevel(cnum);

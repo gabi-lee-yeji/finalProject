@@ -37,7 +37,7 @@
 					</tbody>
 				</table>
 				<c:if test="${certiCnt > 10 }">
-					<button type="button" class="btn btn-outline-primary" onclick="window.location='/main/searchCerti?keyword=${keyword}'">검색결과 더보기</button>
+					<button type="button" class="btn btn-outline-primary" onclick="window.location='/searchCerti?keyword=${keyword}'">검색결과 더보기</button>
 				</c:if>
 				<hr>
 			</c:if>

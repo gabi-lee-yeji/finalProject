@@ -92,7 +92,9 @@ public class CertiController {
 			}
 			
 			String id = (String)session.getAttribute("sid");
-			int cnt = service.count(cnum,id); //관심자격증 등록되어있는지 체크
+			int cnt = 0;
+			if(id != null)
+				cnt = service.count(cnum,id); //관심자격증 등록되어있는지 체크
 				
 			model.addAttribute("cnum",cnum);
 			model.addAttribute("cnt",cnt);

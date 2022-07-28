@@ -25,6 +25,7 @@ public class Post_BoardDTO implements SearchAccessible {
 	private int status;				// 글 존재 유무(0-존재, 1-삭제)
 	
 	private String board_mapping;	// 각 게시판별 mapping
+	private String board_name; //게시판 이름
 	
 	// 잡코리아 취업톡톡 - 취업뉴스 크롤링
 	private String link;
