@@ -50,7 +50,7 @@
 	</style>
 </head>
 <body>
-	<jsp:include page="userNavBar.jsp"/>
+	<jsp:include page="./userNavBar.jsp"/>
 	
 	<div>
 		<form name="frm" action="/searchCerti" onsubmit="getCnum()" method="post" 
@@ -93,7 +93,7 @@
 							회원님과 <br> 
 							같은 성별, 연령대를 가진 사람들이 <br> 
 							취득하는 인기자격증을 <br>
-							확인하시려면 <a href="/member/login">로그인</a> 하세요!
+							확인하시려면 <a href="/member/loginForm">로그인</a> 하세요!
 						</td>
 					</tr>
 				</c:if>

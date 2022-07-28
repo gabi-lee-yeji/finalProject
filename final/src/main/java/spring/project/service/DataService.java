@@ -31,6 +31,9 @@ public interface DataService {
 	
 	//외국어 데이터 추가(lang.csv -> certiinfo)
 	public void addLangInfo() throws Exception;
+	
+	//PRV데이터 수동으로 가져온것들 DB에 업데이트(certiinfo)
+	public void updatePrvInfo() throws Exception;
 }
 
 

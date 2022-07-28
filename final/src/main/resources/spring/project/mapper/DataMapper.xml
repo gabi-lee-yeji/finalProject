@@ -18,7 +18,7 @@
 			#{cutline, jdbcType=VARCHAR},
 			#{cinfo},
 			#{cjob},
-			#{expiry},
+			#{expiry, jdbcType=VARCHAR},
 			#{status},
 			#{price, jdbcType=VARCHAR},
 			#{ncs_cat, jdbcType=INTEGER},
@@ -44,6 +44,16 @@
 			website=#{website},
 			expiry=#{expiry}
 				where cname=#{cname}
+	</update>
+	
+	<update id="updatePrvInfo2" parameterType="spring.project.model.CertiInfoDTO">
+		update certiinfo set 
+			price=#{price},
+			cmethod=#{cmethod},
+			subject=#{subject},
+			cutline=#{cutline},
+			requirement=#{requirement, jdbcType=VARCHAR}
+				where cnum=#{cnum}
 	</update>
 
 	<insert id="addPrvInfo" parameterType="spring.project.model.CertiInfoDTO">
@@ -110,6 +120,11 @@
 	
 	<select id="findCnum" resultType="String">
 		select cnum from certiinfo where cname=#{cname}
+	</select>
+	
+	<select id="findPrvCnum" resultType="String" parameterType="spring.project.model.CertiInfoDTO">
+		select cnum from certiinfo where cname=#{cname} and 
+			( clevel=#{clevel, jdbcType=VARCHAR} or #{clevel} is null)
 	</select>
 	
 	<select id="findCnumCount" resultType="int">

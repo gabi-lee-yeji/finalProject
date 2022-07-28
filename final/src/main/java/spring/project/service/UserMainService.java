@@ -64,4 +64,10 @@ public interface UserMainService {
 	
 	int getCloseTestCnt(String category);
 	
+	List<Map<String,Object>> getLanguageList();
+	List<CertiInfoDTO> getLangFilteredList(PagingDTO page, int ncs_cat);
+	int getLangFilterCnt(int ncs_cat);
+	List<String> getCloseLangCnumList();
+	String getLangTestName(int ncs_cat);
+	
 }

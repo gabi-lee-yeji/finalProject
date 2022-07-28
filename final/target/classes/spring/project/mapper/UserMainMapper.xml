@@ -14,6 +14,29 @@
 		<result property="board_mapping" column="board_mapping"/>
 		<collection property="commBoard" resultMap="commBoard"/>
 	</resultMap>
+	<select id="getLangTestName" resultType="String">
+	 	select lname from ncs_code where code=#{ncs_cat}
+	</select>
+	<select id="getCloseLangCnumList" resultType="String">
+		select cnum from certidate 
+    		where docregend1 between sysdate and sysdate+(interval'15'day)
+    		and cnum is not null 
+    		and cnum like 'L%'
+	</select>
+	<select id="getLangFilterCnt" resultType="int">
+		select count(*) from certiinfo where ncs_cat = #{ncs_cat}
+	</select>
+	<select id="getLangFilteredList" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from certiinfo where ncs_cat = #{ncs_cat}) list )
+			where r between #{startRow} and #{endRow}
+			
+	</select>
+	<select id="getLanguageList" resultType="map">
+		select code, lname from ncs_code where code between 1 and 10
+	</select>
+	
 	<select id="getCloseNatCnumList" resultType="String">
 		select b.cnum from 
 		    (select cyear, cround, clevel from certidate
@@ -26,6 +49,8 @@
 	<select id="getClosePrvCnumList" resultType="String">
 		select cnum from certidate 
     		where docregend1 between sysdate and sysdate+(interval'15'day)
+    		and cnum is not null 
+    		and cnum like 'P%'
 	</select>
 	<select id="getCloseTestCnt" resultType="int">
 		select count(*) from certidate 

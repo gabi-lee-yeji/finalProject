@@ -24,6 +24,8 @@ import spring.project.model.CertiFilterDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.LikeDTO;
+import spring.project.pagination.PagingDTO;
+import spring.project.pagination.PagingService;
 import spring.project.service.CertiService;
 import spring.project.service.LikeService;
 
@@ -36,6 +38,9 @@ public class CertiController {
 	
 	@Autowired
 	private LikeService likeservice;
+	
+	@Autowired
+	private PagingService pageService;
 	
 	// 占쏙옙체 占쌘곤옙占쏙옙 占쏙옙占�
 	@RequestMapping("certiMain")
@@ -76,8 +81,7 @@ public class CertiController {
 	
 	// 자격증 상세정보
 	@RequestMapping("certiContent")
-		public String certiContent(String cnum, Model model,String ncs_cat,HttpSession session,HttpServletRequest request) {
-		
+		public String certiContent(String cnum, String ncs_cat, HttpSession session, Model model) {
 			Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
 			
 			List<CertiDateDTO> dateList = null;
@@ -88,8 +92,7 @@ public class CertiController {
 			}
 			
 			String id = (String)session.getAttribute("sid");
-			int cnt = service.count(cnum,id);
-			System.out.println("cnt:"+cnt+"sessionID=="+id+"cnum:"+cnum);
+			int cnt = service.count(cnum,id); //관심자격증 등록되어있는지 체크
 				
 			model.addAttribute("cnum",cnum);
 			model.addAttribute("cnt",cnt);
@@ -110,11 +113,12 @@ public class CertiController {
 	}
 	
 	@RequestMapping("certiLang")
-	public String getCertiLangList(Model model) {
-		List<CertiInfoDTO> list = service.getCertiLangList();
-		int count = list.size();
-		model.addAttribute("list", list);
-		model.addAttribute("count", count);
+	public String getCertiLangList(String pageNum, Model model) {
+		PagingDTO page = pageService.getPaging(20, pageNum);
+		
+		model.addAttribute("page", page);
+		model.addAttribute("list", service.getCertiLangList(page));
+		model.addAttribute("count", service.getCertiLangCnt());
 		return "/certificate/certiLang";
 	}
 	

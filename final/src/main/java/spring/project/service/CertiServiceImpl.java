@@ -21,6 +21,7 @@ import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MypageNewsDTO;
 import spring.project.model.PassDetailDTO;
 import spring.project.model.PassRateAccessible;
+import spring.project.pagination.PagingDTO;
 import spring.project.model.LikeDTO;
 
 @Service
@@ -31,7 +32,7 @@ public class CertiServiceImpl implements CertiService {
 	static Map<String, CertiAccessible> certiMap = new HashMap<String, CertiAccessible>();
 
 	@Override
-	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category) {
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow, String category) {
 		return mapper.getCertiList(startRow, endRow, category);
 	}
 	
@@ -71,9 +72,12 @@ public class CertiServiceImpl implements CertiService {
 	}
 
 	@Override
-	public List<CertiInfoDTO> getCertiLangList() {
-		
-		return mapper.getCertiLangList();
+	public List<CertiInfoDTO> getCertiLangList(PagingDTO page) {
+		return mapper.getCertiLangList(page);
+	}
+	@Override
+	public int getCertiLangCnt() {
+		return mapper.getCertiLangCnt();
 	}
 
 	@Override
@@ -135,7 +139,7 @@ public class CertiServiceImpl implements CertiService {
 	}
 	
 	@Override
-	public ArrayList<PassDetailDTO> pyramidGraph(String cnum) {
+	public PassDetailDTO pyramidGraph(String cnum) {
 		return mapper.pyramidGraph(cnum);
 	}
 	
@@ -185,6 +189,7 @@ public class CertiServiceImpl implements CertiService {
 	public List<String> getNcsName(CertiFilterDTO dto) {
 		return mapper.getNcsName(dto);
 	}
+
 
 }
 

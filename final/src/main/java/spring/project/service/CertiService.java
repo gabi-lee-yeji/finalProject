@@ -14,14 +14,13 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.MypageNewsDTO;
 import spring.project.model.PassDetailDTO;
 import spring.project.model.PassRateAccessible;
+import spring.project.pagination.PagingDTO;
 import spring.project.model.LikeDTO;
 
 public interface CertiService {
 	
 	// ��ü �ڰ��� ���
 	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category);
-	
-	
 	//��ϵ� �ڰ��� ��ü ����
 	public int getCertCnt();
 	
@@ -33,7 +32,8 @@ public interface CertiService {
 	public List<CertiDateDTO> searchNatPeriod(String cnum);
 	
 	// ���� �ڰ��� ���
-	public List<CertiInfoDTO> getCertiLangList();
+	public List<CertiInfoDTO> getCertiLangList(PagingDTO page);
+	public int getCertiLangCnt();
 	
 	//���͸� ���
 	public List<CertiInfoDTO> getFilteredList(CertiFilterDTO dto);
@@ -43,7 +43,7 @@ public interface CertiService {
 	public ArrayList<MypageNewsDTO> getNews(String cnum) throws Exception;
 
 	// cnum에 해당하는 pass_detail테이블 정보 가져오기
-	public ArrayList<PassDetailDTO> pyramidGraph(String cnum);
+	public PassDetailDTO pyramidGraph(String cnum);
 	
 	// cnum에 해당하는 pass_rate(_nat)테이블 정보 가져오기
 	public ArrayList<? extends PassRateAccessible> lineGraph(CertiInfoDTO dto);
