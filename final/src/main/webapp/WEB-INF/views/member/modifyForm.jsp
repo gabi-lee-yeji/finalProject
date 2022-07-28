@@ -69,7 +69,6 @@ function pwCheck(){
 
 }
 
-
 function noSpaceForm(obj){
 	var str_space = /\s/;
 	if(str_space.exec(obj.value)){
@@ -81,8 +80,6 @@ function noSpaceForm(obj){
 }	
 	
 </script>
-
-${memberInfoDTO.memid}
 
 <form action="/member/modifyPro" method="post" name="frm" onsubmit="return pwCheck();">
 			아이디 : ${dto.memid} <input type="hidden" name="memid" value="${dto.memid}"/><br/>

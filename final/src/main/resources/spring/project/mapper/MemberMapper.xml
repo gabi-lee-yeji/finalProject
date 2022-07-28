@@ -20,7 +20,6 @@
 										<if test="mem_job != null">#{mem_job},</if>
 											0,
 											0,
-											0,
 											sysdate,
 											'',
 											'',
@@ -31,10 +30,6 @@
 	<select id="userCheck" resultType="spring.project.model.MemberInfoDTO">
 		select status,ref_date,count(*) cnt from memberInfo where memid=#{memid} and passwd=#{passwd} group by status,ref_date order by ref_date desc
 	</select>	
-	
-	<select id="AccountInfo" resultType="spring.project.model.MemberInfoDTO">
-		select * from memberInfo where memid=#{memid} and status in (0,1)
-	</select>
 	
 	<select id="deleteUser">
 		update MemberInfo set status = '3' where memid=#{memid} and passwd=#{passwd}
@@ -77,17 +72,24 @@
 				select * from
 				(select post_board.*,rownum r from
 					(select * from post_board order by post_group desc, post_level)post_board
-				where writer=#{writer} and board_type=${board_type} and status in (0,1))
+					<where>
+				writer=#{writer}<if test="board_type != 0">and board_type=${board_type}</if>
+				and status in (0,1))
+				</where>
 		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
 	</select>
 	<select id="post_BoardCount" resultType="int">
-		select count(*) from post_board where board_type=#{board_type} and writer=#{writer} and status in (0,1)
+		select count(*) from post_board 
+		<where> 
+		<if test="board_type != 0">board_type=#{board_type}</if>
+		and writer=#{writer} and status in (0,1)
+		</where>
 	</select>
 	<select id="myComments" resultType="spring.project.model.Comm_BoardDTO">
 		select board.*,cboard.board_mapping from
 		(select comm_board.*,rownum r,p.board_type from
 		(select * from comm_board order by comm_group desc, comm_level)comm_board,post_board p
-		where comm_board.pnum = p.pnum and comm_board.writer=#{writer} and comm_board.status=0) board,boardtype cboard
+		where comm_board.pnum = p.pnum and comm_board.writer=#{writer} and comm_board.status in (0,1)) board,boardtype cboard
         where board.board_type = cboard.board_type and
 		<![CDATA[ r>=#{startRow} and r<=#{endRow} ]]>
 	</select>

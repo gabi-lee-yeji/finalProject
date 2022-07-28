@@ -17,7 +17,7 @@
 		<c:if test="${memid == null }">
 			<form action="/admin/emp/addEmp">
 				사원으로 전환할 ID를 입력해주세요. <br>
-				* ID가 없을 경우, <a href="/member/signUpForm">회원가입</a>부터 진행해주세요. <br>
+				* ID가 없을 경우, <a href="/member/agreeForm">회원가입</a>부터 진행해주세요. <br>
 				<input type="text" name="memid">
 				<input type="submit" value="확인">
 			</form>

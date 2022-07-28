@@ -30,6 +30,6 @@ function Check(){
 			<input type="checkbox" name="auto" value="1"/>자동로그인<br/>
 			<input type="submit" value="로그인"/>
 </form>
-	<a href="signUpForm">회원가입</a>	
+	<a href="/member/agreeForm">회원가입</a>	
 	<a href="idFindForm">아이디찾기</a>
 	<a href="pwFindForm">비밀번호 찾기</a>

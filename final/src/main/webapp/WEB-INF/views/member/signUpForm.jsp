@@ -111,7 +111,6 @@ function Check(){
         var id= RegExp(/^[a-zA-Z0-9]+$/)
         var pass= RegExp(/^[a-zA-Z0-9]{4,12}$/)
         var named= RegExp(/^[가-힣]+$/)
-        var quiz = RegExp(/^[가-힣a-zA-Z]+$/)
         var fmt = RegExp(/^\d{6}[1234]\d{6}$/)  //포멧 설정
         var phone1 = RegExp(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})$/)
         var phone2 = RegExp(/^[0-9]{3,4}$/)
@@ -352,7 +351,7 @@ $(document).ready(function (){
 
 </script>
 
-<form action="/member/signUpPro" name="frm" id="frm" method="post" name="memberInput" onSubmit="return Check()" >
+<form action="/member/signUpPro" name="frm" id="frm" method="post" onSubmit="return Check()" >
 			아이디 : <input type="text" id="memid" name="memid" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/> 
 				   <input type="button" value="아이디중복체크" onclick="idDuplicate();"> <font id = "checkId" size = "2"></font>
 				<br/>
@@ -414,5 +413,4 @@ $(document).ready(function (){
 				  
 				</div>
 			<input type="submit" id="btn" value="완료"/>
-	
 </form>

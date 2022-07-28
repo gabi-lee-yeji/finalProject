@@ -10,6 +10,6 @@
 		</script>
 	</c:if>
 	<h1>비밀번호는 ${dto.passwd} 입니다</h1>	
-	<a href="/member/signUpForm">회원 가입</a>
+	<a href="/member/agreeForm">회원 가입</a>
 	<a href="/member/loginForm?memid=${dto.memid}">로그인 하기</a>
 </c:if>

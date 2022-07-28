@@ -4,7 +4,6 @@
 <h1>회원가입Pro</h1>
 <c:if test="${result} = 1"></c:if>
 <h2>가입완료</h2>
-<%-- <c:redirect uri="/member/main"/> --%>
 
 <script>
 	alert("가입 되었습니다.");

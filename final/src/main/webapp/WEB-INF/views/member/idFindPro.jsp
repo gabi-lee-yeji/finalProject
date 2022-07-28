@@ -27,7 +27,7 @@
 	</script>
 </c:if>
 	<h1>아이디는 ${dto.memid} 입니다.</h1>
-<a href="/member/signUpForm">회원 가입</a>
+<a href="/member/agreeForm">회원가입</a>
 <a href="/member/loginForm?memid=${dto.memid}">로그인 하기</a>
 <a href="/member/pwFindForm">비밀번호 찾기</a>
 </c:if>

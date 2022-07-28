@@ -12,10 +12,19 @@
   <hr>
   <a href="/mypage/memberCerti" class="w3-bar-item w3-button">나의 자격증 관리</a>
   <hr>
-  <a href="#" class="w3-bar-item w3-button">내 1:1 문의</a>
-  <a href="#" class="w3-bar-item w3-button">내가 작성한 게시글</a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=3" class="w3-bar-item w3-button">내 1:1 문의</a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=4" class="w3-bar-item w3-button">후기글</a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=5" class="w3-bar-item w3-button">질문글</a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=6" class="w3-bar-item w3-button">정보글</a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=7" class="w3-bar-item w3-button">취준생공간</a>
+  <a href="/member/myList?writer=${sessionScope.sid}" class="w3-bar-item w3-button">내가 작성한 게시글</a>
   <hr>
-  <a href="#" class="w3-bar-item w3-button">개인정보수정</a>
+  <a href="/member/myComments?writer=${sessionScope.sid}" class="w3-bar-item w3-button">내가 작성한 댓글</a>
+  <hr>
+  <a href="/member/modifyConfirm" class="w3-bar-item w3-button">개인정보수정</a>
+  <hr>
+  <a href="/member/deleteForm" class="w3-bar-item w3-button">회원탈퇴</a>
+  
 </div>
 
 <script>
