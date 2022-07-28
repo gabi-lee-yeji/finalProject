@@ -607,7 +607,54 @@ public class DataServiceImpl implements DataService {
 		str = str.replaceAll("\"\"\"", "");
 		return str;
 	}
-	
+
+	@Override
+	@Transactional
+	public void temp1() throws Exception{
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/temp1.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiDateDTO dto = new CertiDateDTO();
+			
+			dto.setCnum(datas[0]);
+			dto.setCyear(2022);
+			dto.setCround(Integer.parseInt(datas[2]));
+			dto.setDocRegStart1(datas[3]);
+			dto.setDocRegEnd1(datas[4]);
+			dto.setDocTestStart(datas[5]);
+			dto.setDocResultStart(datas[6]);
+			dto.setDocResultEnd(datas[7]);
+			
+			mapper.temp1(dto);
+		}
+	}
+	@Override
+	@Transactional
+	public void temp2() throws Exception{
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/temp2.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiDateDTO dto = new CertiDateDTO();
+			
+			dto.setCnum(datas[0]);
+			dto.setCyear(2022);
+			dto.setCround(Integer.parseInt(datas[2]));
+			dto.setDocRegStart1(datas[3]);
+			dto.setDocRegEnd1(datas[4]);
+			dto.setDocTestStart(datas[5]);
+			dto.setDocResultStart(datas[6]);
+			
+			mapper.temp2(dto);
+		}
+	}
 }
 
 
