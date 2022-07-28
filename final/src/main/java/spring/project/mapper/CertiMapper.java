@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import spring.project.model.*;
+import spring.project.pagination.PagingDTO;
 
 public interface CertiMapper {
 	
@@ -16,7 +17,8 @@ public interface CertiMapper {
 	
 	
 	// ���� �ڰ��� ���
-	public List<CertiInfoDTO> getCertiLangList();
+	public List<CertiInfoDTO> getCertiLangList(PagingDTO page);
+	public int getCertiLangCnt();
 	
 	// �ڰ��� ������
 	public CertiInfoDTO getCertiInfo(String cnum);

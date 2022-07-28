@@ -1,7 +1,10 @@
 package spring.project.model;
 
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -14,7 +17,6 @@ public class CertiDateDTO implements CertiAccessible{
 	private int cyear;	//시행연도
 	private Integer cround;	//시행회차
 	private String clevel;	//자격증 등급
-	
     private String docRegStart1;	//필기원서접수시작
     private String docRegEnd1;		//필기원서접수마감
     
@@ -77,12 +79,5 @@ public class CertiDateDTO implements CertiAccessible{
 		this.pracResStart = pracResStart;
 		this.pracResEnd = pracResEnd;
 	}
-    
-//    public String getDocRegStart1() {
-//    	if(!docRegStart1.split(" ")[1].startsWith("00")) {
-//    		return docRegStart1.split(" ")[0];
-//    	}
-//    	return docRegStart1.split(" ")[0]+"T"+docRegStart1.split(" ")[1];
-//    }
     
 }

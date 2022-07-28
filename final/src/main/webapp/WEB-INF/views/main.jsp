@@ -50,7 +50,7 @@
 	</style>
 </head>
 <body>
-	<jsp:include page="userNavBar.jsp"/>
+	<jsp:include page="./userNavBar.jsp"/>
 	
 	<div>
 		<form name="frm" action="/searchCerti" onsubmit="getCnum()" method="post" 

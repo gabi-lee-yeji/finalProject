@@ -120,16 +120,18 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	
-	//�ڰ��� ������
+	//자격증 상세정보 조회
 	@Override
-	public Map<String, CertiAccessible> getCertiInfo(String cnum) {
-		CertiInfoDTO info = mapper.getCertiInfo(cnum);
-		CertiRequirementDTO requirement = mapper.getCertiReqInfo(cnum);
-		
-		certiMap.put("info", info);
-		certiMap.put("req", requirement);
-		return certiMap;
+	public CertiInfoDTO getCertiInfo(String cnum) {
+		return mapper.getCertiInfo(cnum);
 	}
+	
+	//자격증 응시자격 조회 - 응시자격은 여러개일 수 있어서 분리함
+	@Override 
+	public List<CertiRequirementDTO> getCertiReqList(String cnum) {
+		return mapper.getCertiReqList(cnum);
+	}
+
 	
 	//�ڰ��� ������
 	@Override
@@ -216,10 +218,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Transactional
 	@Override
-	public int modCerti(CertiInfoDTO info, CertiRequirementDTO req) {
-		int result = mapper.modCertiInfo(info);
-		result += mapper.modCertiReq(req);
-		return result;
+	public int modCerti(CertiInfoDTO info) {
+		return mapper.modCertiInfo(info);
 	}
 	
 	@Override

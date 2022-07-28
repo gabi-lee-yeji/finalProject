@@ -35,8 +35,10 @@ public interface AdminService {
 	public int getSearchCnt(String search, String keyword);
 		
 	
-	//등록된 자격증 정보 - 상세정보
-	public Map<String, CertiAccessible> getCertiInfo(String cnum);
+	//등록된 자격증 정보 
+	public CertiInfoDTO getCertiInfo(String cnum);
+	//응시자격
+	public List<CertiRequirementDTO> getCertiReqList(String cnum);
 	
 	//자격증별 일정정보 목록 조회 및 일정 검색
 	public List<CertiDateDTO> searchPeriod(String cnum);
@@ -61,7 +63,7 @@ public interface AdminService {
 	//자격증 정보 삭제 
 	public int delCerti(String cnum, String name);
 	//자격증 정보 수정
-	public int modCerti(CertiInfoDTO info, CertiRequirementDTO req);
+	public int modCerti(CertiInfoDTO info);
 	
 	
 	

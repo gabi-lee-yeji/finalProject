@@ -12,6 +12,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.Comm_BoardDTO;
 import spring.project.model.Post_BoardDTO;
 import spring.project.model.SearchAccessible;
+import spring.project.pagination.PagingDTO;
 
 public interface UserMainMapper {
 
@@ -71,4 +72,10 @@ public interface UserMainMapper {
 	
 	List<String> getCloseNatCnumList();
 	List<String> getClosePrvCnumList();
+	
+	List<Map<String,Object>> getLanguageList();
+	List<CertiInfoDTO> getLangFilteredList(Map map);
+	int getLangFilterCnt(int ncs_cat);
+	List<String> getCloseLangCnumList();
+	String getLangTestName(int ncs_cat);
 }

@@ -287,4 +287,33 @@ public class UserMainServiceImpl implements UserMainService{
 		return list;
 	}
 
+	@Override
+	public List<Map<String,Object>> getLanguageList() {
+		return mapper.getLanguageList();
+	}
+
+	@Override
+	public List<CertiInfoDTO> getLangFilteredList(PagingDTO page, int ncs_cat) {
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("ncs_cat", ncs_cat);
+		parameterMap.put("startRow", page.getStartRow());
+		parameterMap.put("endRow", page.getEndRow());
+		return mapper.getLangFilteredList(parameterMap);
+	}
+
+	@Override
+	public int getLangFilterCnt(int ncs_cat) {
+		return mapper.getLangFilterCnt(ncs_cat);
+	}
+
+	@Override
+	public List<String> getCloseLangCnumList() {
+		return mapper.getCloseLangCnumList();
+	}
+
+	@Override
+	public String getLangTestName(int ncs_cat) {
+		return mapper.getLangTestName(ncs_cat);
+	}
+
 }
