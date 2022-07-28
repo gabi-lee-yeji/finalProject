@@ -4,6 +4,40 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
 
+	
+	<insert id="temp2" parameterType="spring.project.model.CertiDateDTO">
+		insert into certidate(
+			cnum, cyear, cround, clevel, docregstart1, docregend1, docteststart, docresultstart, datepk) 
+			values(#{cnum},
+				#{cyear},
+				#{cround},
+				(select clevel from certiinfo where cnum=#{cnum}),
+				#{docRegStart1},
+				#{docRegEnd1},
+				#{docTestStart},
+				#{docResultStart},
+				CERTIDATE_SEQ.nextval
+				
+			)
+	</insert>
+
+	<insert id="temp1" parameterType="spring.project.model.CertiDateDTO">
+		insert into certidate(
+			cnum, cyear, cround, clevel, docregstart1, docregend1, docteststart, docresultstart, docresultend, datepk) 
+			values(#{cnum},
+				#{cyear},
+				#{cround},
+				(select clevel from certiinfo where cnum=#{cnum}),
+				#{docRegStart1},
+				#{docRegEnd1},
+				#{docTestStart},
+				#{docResultStart},
+				#{docResultEnd},
+				CERTIDATE_SEQ.nextval
+				
+			)
+	</insert>
+
 	<insert id="addLangInfo" parameterType="spring.project.model.CertiInfoDTO">
 		insert into certiinfo values(
 			#{cnum},
