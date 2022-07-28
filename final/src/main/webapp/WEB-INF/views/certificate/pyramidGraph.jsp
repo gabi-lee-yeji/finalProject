@@ -53,8 +53,6 @@
 					stacked: true,
 					ticks:{
 						callback: function(value,index,values){
-							if(Math.abs(value) > xmax)
-								var xmax = Math.abs(value);
 							return Math.abs(value);
 						}
 					},

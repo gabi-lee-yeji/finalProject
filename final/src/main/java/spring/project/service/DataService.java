@@ -34,6 +34,10 @@ public interface DataService {
 	
 	//PRV데이터 수동으로 가져온것들 DB에 업데이트(certiinfo)
 	public void updatePrvInfo() throws Exception;
+
+	//temp
+	public void temp1() throws Exception;
+	public void temp2() throws Exception;
 }
 
 

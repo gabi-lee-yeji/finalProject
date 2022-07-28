@@ -79,4 +79,15 @@ public class DataController {
 	public void updatePrvInfo() throws Exception{
 		ds.updatePrvInfo();
 	}
+	
+	//temp
+	@RequestMapping("temp1")
+	public void temp1() throws Exception{
+		ds.temp1();
+	}
+	//temp2
+	@RequestMapping("temp2")
+	public void temp2() throws Exception{
+		ds.temp2();
+	}
 }
