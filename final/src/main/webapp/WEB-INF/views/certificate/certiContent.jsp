@@ -7,26 +7,26 @@
 <jsp:include page="../userNavBar.jsp"></jsp:include>
 
 <body>
-	<table border=1 width="800" height="800">
+	<table border=1 width="1000" height="800">
 		<tr>
-			<th>${info.cname}</th>
-  			<td>
-				<c:if test="${sessionScope.sid != null}">
-					<c:if test="${cnt == 0}">
-						<input type="image"src="/resources/img/좋아요전.png" alt="제출" height="20" width="20" onclick="location.href='/like/add?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
-					</c:if>
-					<c:if test="${cnt != 0}">
-						<input type="image"src="/resources/img/좋아요후.png" alt="제출" height="25" width="20" onclick="location.href='/like/delete?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
-					</c:if>
+		<th>${info.cname}</th>
+  		<td>
+			<c:if test="${sessionScope.sid != null}">
+				<c:if test="${cnt == 0}">
+					<input type="image"src="/resources/img/좋아요전.png" alt="제출" height="20" width="20" onclick="location.href='/like/add?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
 				</c:if>
-			</td>
+				<c:if test="${cnt != 0}">
+					<input type="image"src="/resources/img/좋아요후.png" alt="제출" height="25" width="20" onclick="location.href='/like/delete?cnum=${info.cnum}&memid=${sessionScope.sid}'"/>
+				</c:if>
+			</c:if>
+		</td>
 		</tr>
 		<tr>
-			<td>
-				<c:set var="catArr" value="${fn:replace(fn:replace(info.category,'private','공인민간'),'national','국가기술')}"></c:set>
-					<c:out value="${catArr}"/>
-			</td>
-			<td>${info.clevel}</td>
+		<td>
+			<c:set var="catArr" value="${fn:replace(fn:replace(info.category,'private','공인민간'),'national','국가기술')}"></c:set>
+			<c:out value="${catArr}"/>
+		</td>
+		<td>${info.clevel}</td>
 		</tr>
 		<c:if test="${info.ncs_cat != null}">
 			<tr>
@@ -117,7 +117,6 @@
 			<td>관련 직업</td>
 			<td>${info.cjob}</td>
 		</tr>
-
 	</table>
 	<c:import url = "/community/certiReview" />
 	<div id="requirement"></div>	
