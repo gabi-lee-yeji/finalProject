@@ -351,7 +351,7 @@ $(document).ready(function (){
 
 </script>
 
-<form action="/member/signUpPro" name="frm" id="frm" method="post" name="memberInput" onSubmit="return Check()" >
+<form action="/member/signUpPro" name="frm" id="frm" method="post" onSubmit="return Check()" >
 			아이디 : <input type="text" id="memid" name="memid" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/> 
 				   <input type="button" value="아이디중복체크" onclick="idDuplicate();"> <font id = "checkId" size = "2"></font>
 				<br/>
@@ -413,5 +413,4 @@ $(document).ready(function (){
 				  
 				</div>
 			<input type="submit" id="btn" value="완료"/>
-	
 </form>

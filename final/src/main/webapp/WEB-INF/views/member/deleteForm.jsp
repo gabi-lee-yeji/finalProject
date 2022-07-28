@@ -13,6 +13,6 @@
 	<input type="text" name="memid" value="${sessionScope.sid}" readonly/><br/>
 	<input type="password" name="passwd" required/><br/>
 	<input type="submit" value="탈퇴" />
-	<button type="button" onclick="window.location='/member/main'">돌아가기</button>
+	<button type="button" onclick="window.location='/mypage/'">돌아가기</button>
 </form>
 </c:if>

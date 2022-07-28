@@ -1,39 +1,29 @@
 package spring.project.controller;
 
-import java.io.IOException;
 import java.util.Calendar;
-import java.net.http.HttpRequest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import spring.project.model.Comm_BoardDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.Post_BoardDTO;
 import spring.project.service.MailSendService;
 import spring.project.service.MemberService;
-import spring.project.service.Post_BoardService;
 
 @Controller
 @RequestMapping("/member/*")
@@ -43,9 +33,6 @@ public class MemberController {
 	private MailSendService mailService;
 	
 	@Autowired
-	private JavaMailSender mailSender;
-	
-	@Autowired
 	private MemberService service;
 	
 	@RequestMapping("loginForm")
@@ -53,6 +40,11 @@ public class MemberController {
 		if(memid != null) model.addAttribute("memid",memid);
 		return "member/loginForm";
 	}
+	@RequestMapping("agreeForm")
+	public String agree(String memid,Model model) {
+		return "member/agreeForm";
+	}
+	
 	@RequestMapping("loginPro")
 	public String loginPro(HttpServletRequest request,HttpSession session,HttpServletResponse response,Model model,MemberInfoDTO dto,String auto) {
 		
@@ -343,7 +335,7 @@ public class MemberController {
 	}
 	//내가 쓴 글 확인
 	@RequestMapping("myList")
-	public String Mylist(String pageNum,Model model,int board_type,String writer) {
+	public String Mylist(String pageNum,Model model,Integer board_type,String writer) {
 		if(pageNum == null) pageNum = "1";
 		int pageSize = 10;
 		int currentPage = Integer.parseInt(pageNum);
@@ -351,12 +343,13 @@ public class MemberController {
 		int endRow = currentPage * pageSize;
 		int count = 0;
 		int number = 0;
+		System.out.println(board_type);
+		if(board_type == null) board_type = 0;
 		count = service.post_BoardCount(board_type,writer);
 		ArrayList<Post_BoardDTO> boardList = null;
 		if(count > 0) {
 		boardList = (ArrayList<Post_BoardDTO>)service.myList(writer,board_type,startRow,endRow);
 		}
-		
 		number = count - (currentPage - 1) * pageSize;
 		
 		model.addAttribute("count", count);

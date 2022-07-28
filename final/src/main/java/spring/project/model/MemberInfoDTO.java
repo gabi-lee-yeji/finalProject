@@ -31,7 +31,6 @@ public class MemberInfoDTO {
 	private String major; //전공
 	private String mem_job; //직업
 	private int status; //회원상태
-	private String mem_level; // 멤버 등급(미사용)
 	private int mem_point; //멤버 포인트
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date regdate; //가입 날짜

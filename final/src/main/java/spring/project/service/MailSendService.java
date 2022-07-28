@@ -57,6 +57,5 @@ public class MailSendService {
 				e.printStackTrace();
 			}
 		}
-		
 	
 }

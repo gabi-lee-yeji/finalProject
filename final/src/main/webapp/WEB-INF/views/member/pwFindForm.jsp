@@ -166,5 +166,5 @@ $(document).ready(function (){
 			<input type="submit" value="확인"/>
 </form>
 
-<a href="/member/signUpForm">회원 가입</a>
+<a href="/member/agreeForm">회원가입</a>
 	<a href="/member/idFindForm">아이디 찾기</a>

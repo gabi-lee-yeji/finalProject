@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import spring.project.mapper.MemberMapper;
-import spring.project.mapper.Post_BoardMapper;
 import spring.project.model.Comm_BoardDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.model.Post_BoardDTO;
