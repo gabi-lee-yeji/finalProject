@@ -14,6 +14,7 @@
 <div>
 	<c:forEach var="dto" items="${list}">
 		<table border="1">
+		
 			<tr>
 				<td>제목</td>
 				<td><a href="${dto.link}" target="_blank">
