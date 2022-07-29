@@ -134,9 +134,9 @@ public class MemberController {
 		
 		return "member/logout";
 	}
-	//메인
-	@RequestMapping("main")
-	public String main(HttpServletResponse response,HttpSession session,Model model,HttpServletRequest request) {
+	//자동로그인
+	@RequestMapping("autoLogin")
+	public String autoLogin(HttpServletResponse response,HttpSession session,Model model,HttpServletRequest request) {
 		
 		String sid = (String)session.getAttribute("sid");
 		Cookie[] cookies = request.getCookies();
@@ -160,11 +160,11 @@ public class MemberController {
 					}
 				}
 				if(cauto != null && cid != null && cpw != null) {
-					loginPro( request, session, response, model, dto, cauto);
+					return loginPro( request, session, response, model, dto, cauto);
 				}
 			}
 		}
-		return "member/main";
+		return null;
 	}
 	//아이디 중복 확인
 	@RequestMapping(value = "idDuplicate", method = RequestMethod.GET)

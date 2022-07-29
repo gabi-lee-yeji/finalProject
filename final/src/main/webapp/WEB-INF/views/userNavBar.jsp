@@ -27,8 +27,21 @@
 			.navbar .nav-item .dropdown-menu{ margin-top:0; }
 		}
 	</style>
+	
+	
+	
 </head>
 <body>
+	
+	<!-- 자동로그인 쿠키처리 -->
+	<c:if test="${sessionScope.sid == null}">
+		<c:if test="${cookie.cid.value!=null and cookie.cpw.value!=null and cookie.cauto.value!=null}">
+			<script>
+				window.location = "/member/autoLogin";
+			</script>
+		</c:if>
+	</c:if>
+	
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
 		<a class="navbar-brand" href="/main">자격증모두모아</a>
