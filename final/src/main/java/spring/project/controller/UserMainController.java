@@ -175,6 +175,10 @@ public class UserMainController {
 		return "/certificate/langFilterPro";
 	}
 
+	@RequestMapping("sitemap")
+	public String sitemap() {
+		return "/sitemap";
+	}
 }
 
 

@@ -350,7 +350,7 @@ $(document).ready(function (){
 });
 
 </script>
-
+<jsp:include page="../userNavBar.jsp"></jsp:include>
 <form action="/member/signUpPro" name="frm" id="frm" method="post" onSubmit="return Check()" >
 			아이디 : <input type="text" id="memid" name="memid" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/> 
 				   <input type="button" value="아이디중복체크" onclick="idDuplicate();"> <font id = "checkId" size = "2"></font>
@@ -414,3 +414,4 @@ $(document).ready(function (){
 				</div>
 			<input type="submit" id="btn" value="완료"/>
 </form>
+<jsp:include page="../footer.jsp"></jsp:include>
