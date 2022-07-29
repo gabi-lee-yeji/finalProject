@@ -44,9 +44,9 @@ public class UserMainController {
 		adminService.updateMemberStatus();
 		
 		//사용자 맞춤 인기자격증 Top 10 
-		//String memid = (String) session.getAttribute("sid");
-		//model.addAttribute("clientList", service.getClientTopCerti(memid));
-		model.addAttribute("clientList", service.getClientTopCerti("hyewon"));
+		String memid = (String) session.getAttribute("sid");
+		if(memid != null)
+			model.addAttribute("clientList", service.getClientTopCerti(memid));
 		
 		model.addAttribute("natList", service.getNatTopCerti());
 		model.addAttribute("prvList", service.getPrvTopCerti());

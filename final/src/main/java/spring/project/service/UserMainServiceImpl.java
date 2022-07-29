@@ -70,7 +70,7 @@ public class UserMainServiceImpl implements UserMainService{
 							String fieldValue = field.get(dto).toString(); 
 							if(fieldValue.contains("T")) { 
 								String[] valueArry = fieldValue.split("T");
-								if(valueArry.length > 0) {
+								if(valueArry.length > 1) {
 									if(valueArry[1].startsWith("00")) {
 										value = fieldValue.split("T")[0];  
 										field.set(dto, value);  
