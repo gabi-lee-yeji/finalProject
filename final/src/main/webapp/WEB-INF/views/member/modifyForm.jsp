@@ -6,6 +6,7 @@
 <title>modifyForm</title>
 <c:if test="${result == 1}">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
 	
@@ -56,18 +57,130 @@ function execDaumPostcode() {
         }
     }).open();
 }
-var a = document.frm.passwd.value
-var b = document.frm.passwd2.value
-function pwCheck(){
-	if(!(a==b)){
-		alert("비밀번호가 일치하지 않습니다!")
-		document.frm.passwd.value="";
-		document.frm.passwd2.value="";
-		return false;	
-	}
+function Check(){
+    var email = RegExp(/^[A-Za-z0-9]+$/)
+    var id= RegExp(/^[a-zA-Z0-9]+$/)
+    var pass= RegExp(/^[a-zA-Z0-9]+$/)
+    var named= RegExp(/^[가-힣]+$/)
+    var fmt = RegExp(/^\d{6}[1234]\d{6}$/)  //포멧 설정
+    var phone1 = RegExp(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})$/)
+    var phone2 = RegExp(/^[0-9]{3,4}$/)
+    var phone3 = RegExp(/^[0-9]{4}$/)
+    var memid = document.getElementById("memid").value;
 
-}
-
+    //아이디 비밀번호 같음 확인
+       if($("#memid").val() == $("#passwd").val()){
+         alert("아이디와 비밀번호를 같게 할 수 없습니다.");
+         $("#passwd").val("");
+         $("#passwd2").val("");
+         $("#passwd").focus();
+          return false;
+    }
+     if($("#passwd").val() != ""){
+    	 
+	     //비밀번호 유효성검사
+	     if(!pass.test($("#passwd").val())){
+	         alert("형식에 맞게 입력해주세요");
+	         $("#passwd").val("");
+	         $("#passwd").focus();
+	          return false;
+	    }
+    	 if($("#passwd").val().length < 4 || $("passwd").val().length > 12){
+    		alert("비밀번호는 4~12자 이내로 해주세요")
+    		$("#passwd").val("");
+	        $("#passwd2").val("");
+	        $("#passwd").focus();
+    		return false;
+    	 }
+     
+	    //비밀번호 서로확인
+	     if($("#passwd").val() != $("#passwd2").val()){
+	         alert("비밀번호가 일치하지 않습니다.");
+	         $("#passwd").val("");
+	         $("#passwd2").val("");
+	         $("#passwd").focus();
+	         return false;
+	    }
+    }
+   //이름 공백 검사
+     if($("#mem_name").val() == ""){
+          alert("이름을 입력해주세요");
+          $("#mem_name").focus();
+          return false;
+     }
+     //이름 유효성 검사
+     if(!named.test($("#mem_name").val())){
+          alert("이름은 한글만 사용하실 수 있습니다.")
+          $("#mem_name").val("");
+          $("#mem_name").focus();
+          return false;
+     }
+    //이메일 공백 확인
+     if($("#userEmail1").val() == ""){
+         alert("이메일을 입력하시기 바랍니다");
+         $("#userEmail1").focus();
+         return false;
+    }
+    //이메일 유효성 검사
+    if(!email.test($("#userEmail1").val())){
+         alert("이메일형식에 맞게 입력해주세요")
+         $("#userEmail1").val("");
+         $("#userEmail1").focus();
+         return false;
+    }//우편번호 유효성 검사
+    if($("#postcode").val() == ""){
+    	alert("우편번호를 입력해주세요.")
+    	return false;
+    }//주소 유효성 검사
+    if($("#Address").val() == ""){
+    	alert("주소를 입력해주세요.")
+    	return false;
+    }
+    if($("#detailAddress").val() == ""){
+    	alert("상세주소를 입력해주세요.")
+    	return false;
+    }
+    if(!email.test($("#userEmail1").val())){
+        alert("이메일형식에 맞게 입력해주세요")
+        $("#userEmail1").val("");
+        $("#userEmail1").focus();
+        return false;
+    }
+    //번호 유효성 검사
+    if($("#phone1").val() == ""){
+    	alert("전화번호는 비워둘 수 없습니다.")
+    	$("#phone1").focus();
+    	return false;
+    }
+    if(!phone1.test($("#phone1").val())){
+    	alert("전화번호를 정확히 입력해주세요.")
+    	$("#phone1").val("");
+    	$("#phone1").focus();
+    	return false;
+    }
+    if($("#phone2").val() == ""){
+    	alert("전화번호는 비워둘 수 없습니다.")
+    	$("#phone2").focus();
+    	return false;
+    }
+    if(!phone2.test($("#phone2").val())){
+    	alert("전화번호를 정확히 입력해주세요.")
+    	$("#phone2").val("");
+    	$("#phone2").focus();
+    	return false;
+    }
+    if($("#phone3").val() == ""){
+    	alert("전화번호는 비워둘 수 없습니다.")
+    	$("#phone3").focus();
+    	return false;
+    }
+   	if(!phone3.test($("#phone3").val())){
+   		alert("전화번호를 정확히 입력해주세요");
+   		$("#phone3").val("");
+   		$("#phone3").focus();
+   		return false;
+   	}
+};
 function noSpaceForm(obj){
 	var str_space = /\s/;
 	if(str_space.exec(obj.value)){
@@ -77,7 +190,6 @@ function noSpaceForm(obj){
 		return false;
 	}
 }	
-	
 </script>
 
 <jsp:include page="../userNavBar.jsp"></jsp:include>
@@ -85,13 +197,13 @@ function noSpaceForm(obj){
 <div style="margin-left:230px">
 	
 	<h1>수정폼</h1>
-	<form action="/member/modifyPro" method="post" name="frm" onsubmit="return pwCheck();">
-				아이디 : ${dto.memid} <input type="hidden" name="memid" value="${dto.memid}"/><br/>
-				새 비밀번호 : <input type="password" name="passwd" placeholder="새 비밀번호" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-				비밀번호 확인 :	<input type="password" name="passwd2" placeholder="비밀번호 확인"/><br/>
-				이름 : <input type="text" name="mem_name" value="${dto.mem_name}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
-				이메일 : <input type="text" name="mail1" value="${dto.mail1}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>@
-				<input type="text" name="mail2" value="${dto.mail2}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+	<form action="/member/modifyPro" method="post" name="frm" onSubmit="return Check()">
+				아이디 : ${dto.memid} <input type="hidden" name="memid" id="memid" value="${dto.memid}"/><br/>
+				새 비밀번호 : <input type="password" name="passwd" id="passwd" placeholder="새 비밀번호" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+				비밀번호 확인 :	<input type="password" name="passwd2" id="passwd2" placeholder="비밀번호 확인"/><br/>
+				이름 : <input type="text" name="mem_name" id="mem_name" value="${dto.mem_name}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+				이메일 : <input type="text" name="mail1" id="userEmail1" value="${dto.mail1}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>@
+				<input type="text" name="mail2" id="userEmail2" value="${dto.mail2}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 				생일 : ${dto.birthday} <br/>
 				성별 <br/>
 				남<input type="radio" name="gender" value="M" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" checked/>
@@ -104,9 +216,9 @@ function noSpaceForm(obj){
 				전화번호 : <select name="pC">
 					<option value="${pC}">${pC}</option>
 						</select>
-				<input type="text" name="phone1" value="${dto.phone1}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
-				<input type="text" name="phone2" value="${dto.phone2}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
-				<input type="text" name="phone3" value="${dto.phone3}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" /><br/>
+				<input type="text" name="phone1" id="phone1" value="${dto.phone1}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
+				<input type="text" name="phone2" id="phone2" value="${dto.phone2}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" />-
+				<input type="text" name="phone3" id="phone3" value="${dto.phone3}" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);" /><br/>
 				<input type="submit" value="수정완료"/>
 		
 	</form>
