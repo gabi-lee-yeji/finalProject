@@ -65,19 +65,19 @@
 			<ul class="pagination justify-content-center">
 				<c:if test="${startPage > 10}" >
 					<li class="page-item">
-			        	<a class="page-link" href="/help/qna/qnaList?board_type=3&pageNum=${startPage - 10}">[이전]</a>
+			        	<a class="page-link" href="/help/qna/searchList?search=${search}&keyword=${keyword}&board_type=3&pageNum=${startPage - 10}">[이전]</a>
 			    	</li>
 			    </c:if>
 			    
 			    <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">    
 			        <li class="page-item">
-			        	<a class="page-link" href="/help/qna/qnaList?board_type=3&pageNum=${i}">[${i}]</a>
+			        	<a class="page-link" href="/help/qna/searchList?search=${search}&keyword=${keyword}&board_type=3&pageNum=${i}">[${i}]</a>
 			        </li>
 			    </c:forEach>
 			    
 			    <c:if test="${endPage < pageCount}" >
 			    	<li class="page-item">
-			       		<a class="page-link" href="/help/qna/qnaList?board_type=3&pageNum=${startPage + 10 }">[다음]</a>
+			       		<a class="page-link" href="/help/qna/searchList?search=${search}&keyword=${keyword}&board_type=3&pageNum=${startPage + 10 }">[다음]</a>
 			    	</li>
 			    </c:if>
 			 </ul>
