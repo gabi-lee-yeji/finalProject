@@ -109,4 +109,4 @@ repeat{
 }
 
 df3<- data.frame(susu3 , row.names = NULL, stringsAsFactors = F)
-write.table(df3, "susu3.csv", quote=F, sep=";", col.names=F, fileEncoding="CP949", row.names=F)
+write.table(df3, "susu4.csv", quote=F, sep=";", col.names=F, fileEncoding="CP949", row.names=F)
