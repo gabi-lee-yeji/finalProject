@@ -13,7 +13,7 @@
 				<!-- 사이트맵 -->
 				<div class="col-md-4">
 					<div class="newsletter">
-						<p class="m-0 text-center text-white"><a class="more" href="#">사이트맵</a></p>
+						<p class="m-0 text-center text-white"><a class="more" href="/sitemap">사이트맵</a></p>
 					</div>
 				</div>
 				<!-- 콘택트 -->

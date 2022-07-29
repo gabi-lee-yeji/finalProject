@@ -3,8 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/views/mypage/sidebar.jsp"></jsp:include>
-<div style="margin-left:200px">
+<jsp:include page="../userNavBar.jsp"></jsp:include>
+<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+<div style="margin-left:230px">
 <c:if test="${count == 0}">
 	<h1>내 댓글 모음 (전체 댓글:${count})</h1>
 		<table border=1>
@@ -60,4 +61,5 @@
     <br/>
 </c:if>
 </div>
+<jsp:include page="../footer.jsp"></jsp:include>
 </body>

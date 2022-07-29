@@ -230,7 +230,7 @@ public class MemberController {
 	//수정 폼
 	@RequestMapping("modifyForm")
 	public String modifyForm(HttpSession session,MemberInfoDTO dto,Model model) {
-		
+		System.out.println(dto);
 		MemberInfoDTO dto2 = service.userCheck(dto);
 			int result = dto2.getCnt();
 			if(result == 1) {

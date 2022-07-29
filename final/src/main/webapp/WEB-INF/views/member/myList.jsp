@@ -7,8 +7,9 @@
 <meta charset="UTF-8">
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/mypage/sidebar.jsp"></jsp:include>
-<div style="margin-left:200px">
+<jsp:include page="../userNavBar.jsp"></jsp:include>
+<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+<div style="margin-left:230px">
 	<c:if test="${board_type == 0}">
 		<h1>내가 쓴 모든 게시글</h1>
 		<c:if test="${count == 0}">
@@ -136,4 +137,5 @@
 	    <br/>
 	</c:if>
 </div>
+<jsp:include page="../footer.jsp"></jsp:include>
 </body>

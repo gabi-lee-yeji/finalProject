@@ -17,6 +17,7 @@
 	}
 }
 </script>
+<jsp:include page="../userNavBar.jsp"></jsp:include>
 <div align="center">
 <form action="signUpForm" name="frm" id="frm" method="post">
 		<input type="checkbox" name="checkAll" id="checkAll" onclick="checkYes();"/>
@@ -53,3 +54,4 @@
 		<br/><input type="submit" value="회원가입으로"/>
 </form>
 </div>
+<jsp:include page="../footer.jsp"></jsp:include>

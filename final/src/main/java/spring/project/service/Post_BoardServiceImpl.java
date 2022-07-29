@@ -144,9 +144,12 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Transactional
 	public int delPost_Board(int pnum) {
 		int result = 0;
-		List resultAttach = pbAMapper.getPost_BoardAtachList(pnum);
+		List<Post_BoardAttachDTO> resultAttach = pbAMapper.getPost_BoardAtachList(pnum);
 		if(resultAttach != null) {
 			result += pbAMapper.delPost_BoardAttachList(pnum);
+			if( delAttachFiles(resultAttach) != resultAttach.size()) {
+				//파일 삭제 오류 메시지(로그)
+			}
 			result += pbMapper.delPost_Board(pnum);
 		}else {
 			result += pbMapper.delPost_Board(pnum);
@@ -288,4 +291,18 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		return list;
 	}
 	
+	private int delAttachFiles(List<Post_BoardAttachDTO> resultAttach) {
+		int result=0;
+		
+		for(Post_BoardAttachDTO dto : resultAttach) {
+			File f = new File(dto.getUploadPath());
+			if(f.exists()) {
+				if(f.delete()) {
+					result++;
+				}
+			}
+		}
+		
+		return result;
+	}
 }

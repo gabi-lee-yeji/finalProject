@@ -75,14 +75,12 @@
 						My Page
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="/mypage/">내가 보유한 자격증</a>
-						<a class="dropdown-item" href="">내가 찜한 자격증</a>
-						<a class="dropdown-item" href="">나의 일정</a>
-						<a class="dropdown-item" href="">자격증 추천</a>
+						<a class="dropdown-item" href="/mypage/">나의 자격증 관리</a>
 						<hr>
-						<a class="dropdown-item" href="">나의 활동내역</a>
+						<a class="dropdown-item" href="/member/myList?writer=${sessionScope.sid }">내가 작성한 게시글</a>
+						<a class="dropdown-item" href="/member/myComments?writer=${sessionScope.sid }">내가 작성한 댓글</a>
 						<hr>
-						<a class="dropdown-item" href="/member/modifyForm">개인정보</a>
+						<a class="dropdown-item" href="/member/modifyConfirm">개인정보 관리</a>
 					</div>
 					</li>
 					<li class="nav-item">

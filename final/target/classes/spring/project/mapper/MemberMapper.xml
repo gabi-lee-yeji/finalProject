@@ -21,8 +21,6 @@
 											0,
 											0,
 											sysdate,
-											'',
-											'',
 											sysdate
 											) 
 	</insert>
@@ -54,8 +52,6 @@
 			<if test="mem_degree != null">mem_degree=#{mem_degree},</if>
 			<if test="major != null">major=#{major},</if>
 			<if test="mem_job != null">mem_job=#{mem_job},</if>
-			<if test="passwdQ1 != null">passwdQ1=#{passwdQ1},</if>
-			<if test="passwdQ2 != null">passwdQ2=#{passwdQ2}</if>
 		</set>
 		where memid=#{memid} and status in (0,1)
 	</update>
