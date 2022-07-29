@@ -132,6 +132,13 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.getCertiReqList(cnum);
 	}
 	
+	//자격증 응시자격 조회 - 응시자격은 여러개일 수 있어서 분리함
+	@Override 
+	public List<CertiRequirementDTO> getCertiReqList(String cnum) {
+		return mapper.getCertiReqList(cnum);
+	}
+
+	
 	//�ڰ��� ������
 	@Override
 	public List<CertiDateDTO> searchPeriod(String cnum){
@@ -217,10 +224,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Transactional
 	@Override
-	public int modCerti(CertiInfoDTO info, CertiRequirementDTO req) {
-		int result = mapper.modCertiInfo(info);
-		result += mapper.modCertiReq(req);
-		return result;
+	public int modCerti(CertiInfoDTO info) {
+		return mapper.modCertiInfo(info);
 	}
 	
 	@Override
