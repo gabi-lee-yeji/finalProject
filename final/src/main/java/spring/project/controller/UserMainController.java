@@ -19,7 +19,7 @@ import spring.project.service.MypageService;
 import spring.project.service.UserMainService;
 
 @Controller
-@RequestMapping("/*")
+@RequestMapping("/")
 public class UserMainController {
 	
 	@Autowired 
@@ -30,6 +30,11 @@ public class UserMainController {
 	private MypageService mpService;
 	@Autowired
 	private PagingService pageService;
+	
+	@RequestMapping("/")
+	public String mainRedirect(HttpSession session, Model model) {
+		return userMain(session, model);
+	}
 	
 	@RequestMapping("main")
 	public String userMain(HttpSession session, Model model) {

@@ -120,4 +120,15 @@
 	</table>
 	<c:import url = "/community/certiReview" />
 	<div id="requirement"></div>	
+	
+	<!-- 
+	<div class="row">
+		<div class="col">
+			<c:import url = "/certificate/lineGraph" />
+		</div>
+		<div class="col">
+			<c:import url = "/certificate/pyramidGraph" />
+		</div>
+	</div>
+	 -->
 </body>
