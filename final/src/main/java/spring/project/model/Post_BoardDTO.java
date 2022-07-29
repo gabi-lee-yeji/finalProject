@@ -22,7 +22,7 @@ public class Post_BoardDTO implements SearchAccessible {
 	private Date reg;				// 작성시간
 	private String img;				// 첨부파일(빈 칼럼)
 	private List<Post_BoardAttachDTO> attachList; // 게시글과 해당하는 파일 리스트
-	private int status;				// 글 존재 유무(0-존재, 1-삭제)
+	private int status;				// 글 상태(0-존재, 1-삭제)
 	
 	private String board_mapping;	// 각 게시판별 mapping
 	private String board_name; //게시판 이름

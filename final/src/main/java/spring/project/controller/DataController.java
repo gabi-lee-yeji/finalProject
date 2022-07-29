@@ -73,4 +73,27 @@ public class DataController {
 	public void addLangInfo() throws Exception{
 		ds.addLangInfo();
 	}
+	
+	//PRV데이터 수동으로 가져온것들 DB에 업데이트(certiinfo)
+	@RequestMapping("updatePrvInfo")
+	public void updatePrvInfo() throws Exception{
+		ds.updatePrvInfo();
+	}
+	
+	//국가기술자격 연도별 실기/필기 합격률 데이터 추가(pass_rate_nat)
+	@RequestMapping("addPassRateNat")
+	public void addPassRateNat() throws Exception{
+		ds.addPassRateNat();
+	}
+	
+	//temp
+	@RequestMapping("temp1")
+	public void temp1() throws Exception{
+		ds.temp1();
+	}
+	//temp2
+	@RequestMapping("temp2")
+	public void temp2() throws Exception{
+		ds.temp2();
+	}
 }

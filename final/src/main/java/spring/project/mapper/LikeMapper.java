@@ -11,16 +11,16 @@ import spring.project.model.LikeDTO;
 
 public interface LikeMapper {
 	
-	// Âò Ãß°¡
+	// ì°œ ë“±ë¡
 	public int addLike(LikeDTO like);
 	
-	// Âò »èÁ¦
+	// ì°œ ì‚­ì œ
 	public int deleteLike(LikeDTO like);
 	
-	// Âò ¸ñ·Ï
+	// ì°œ ë¦¬ìŠ¤íŠ¸ ë¶ˆëŸ¬ì˜¤ê¸°
 	public List<LikeDTO> getLike(String memid);	
 	
-	// Âò È®ÀÎ
+	// ì°œ ë“±ë¡ í™•ì¸
 	public LikeDTO checkLike(LikeDTO like);
 	
 	public int likeCheck(@Param("cnum")String cnum, @Param("memid")String memid);

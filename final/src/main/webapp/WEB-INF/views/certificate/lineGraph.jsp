@@ -3,11 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 
-<canvas id="chart" width="100px" height="100px"></canvas>
+<canvas id="lchart" width="100px" height="100px"></canvas>
 
 <script>
-	var chartArea = document.getElementById('chart').getContext('2d');
-	var chart = new Chart(chartArea, {
+	var lchartArea = document.getElementById('lchart').getContext('2d');
+	var lchart = new Chart(lchartArea, {
 		type: 'line',
 		data: {
 			labels: [
@@ -50,11 +50,14 @@
 			scales:{
 				y:{
 					beginAtZero: true,
-					max: 100
+					max: 100,
+					ticks:{
+						callback: function(value,index,values){
+							return value + '%';
+						}
+					}
 				}
 			}
 		}
 	});
 </script>
-
-${data}

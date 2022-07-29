@@ -125,13 +125,12 @@ public class AdminServiceImpl implements AdminService{
 	public CertiInfoDTO getCertiInfo(String cnum) {
 		return mapper.getCertiInfo(cnum);
 	}
-	
+		
 	//자격증 응시자격 조회 - 응시자격은 여러개일 수 있어서 분리함
 	@Override 
 	public List<CertiRequirementDTO> getCertiReqList(String cnum) {
 		return mapper.getCertiReqList(cnum);
 	}
-
 	
 	//�ڰ��� ������
 	@Override

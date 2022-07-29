@@ -33,7 +33,6 @@ public interface AdminService {
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword);
 	//검색 결과 전체 개수
 	public int getSearchCnt(String search, String keyword);
-		
 	
 	//등록된 자격증 정보 
 	public CertiInfoDTO getCertiInfo(String cnum);

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 	
 	
-	<title>loginForm</title>
+<title>loginForm</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -24,12 +24,14 @@ function Check(){
         
 </script>
 
+<jsp:include page="../userNavBar.jsp"></jsp:include>
 <form action="loginPro" name="frm" method="post" onSubmit="return Check()">
 			아이디 : <input type="text" name="memid" id="memid" value="${memid}"/> <br/>
 			비밀번호 : <input type="password" name="passwd" id="passwd"/> <br/>
 			<input type="checkbox" name="auto" value="1"/>자동로그인<br/>
 			<input type="submit" value="로그인"/>
 </form>
-	<a href="signUpForm">회원가입</a>	
+	<a href="/member/agreeForm">회원가입</a>	
 	<a href="idFindForm">아이디찾기</a>
 	<a href="pwFindForm">비밀번호 찾기</a>
+<jsp:include page="../footer.jsp"></jsp:include>

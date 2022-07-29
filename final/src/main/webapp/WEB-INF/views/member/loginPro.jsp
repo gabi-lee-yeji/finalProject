@@ -6,7 +6,7 @@
 
 <c:if test="${result == 1}">
 	<c:if test="${dto.status == 0 || dto.status == 1}">
-		<c:redirect url="/member/main"/>		
+		<c:redirect url="/main"/>		
 	</c:if>
 	<c:if test="${dto.status == 2}">
 		<script>

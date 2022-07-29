@@ -156,4 +156,29 @@
 		<c:import url = "/community/certiReview" />
 		<div id="requirement" style="margin-top:20px"></div>
 	</section>	
+
+	<hr>
+	<c:import url = "/community/certiReview" />
+	<hr>
+	<div id="requirement">
+		requirement
+	</div>
+	<hr>	
+	<c:import url = "/certificate/news" />
+	<hr>
+	<div class="row" style="width:80%;">
+		<div class="col" style="width:50%;">
+			최근 5년 시험 합격률 추이
+			<c:import url="/certificate/lineGraph"/>
+		</div>
+		<div class="col" style="width:50%;">
+			<c:if test="${info.cnum.charAt(0) == 78 }">
+				연령별/성별 합격자 그래프
+				<c:import url="/certificate/pyramidGraph"/>
+			</c:if>
+		</div>
+	</div>
+		 
+	<c:import url="../footer.jsp" />
+
 </body>
