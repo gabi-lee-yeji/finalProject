@@ -69,9 +69,12 @@ public class UserMainServiceImpl implements UserMainService{
 						if(value!=null) { 
 							String fieldValue = field.get(dto).toString(); 
 							if(fieldValue.contains("T")) { 
-								if(fieldValue.split("T")[1].startsWith("00")) {
-									value = fieldValue.split("T")[0];  
-									field.set(dto, value);  
+								String[] valueArry = fieldValue.split("T");
+								if(valueArry.length > 0) {
+									if(valueArry[1].startsWith("00")) {
+										value = fieldValue.split("T")[0];  
+										field.set(dto, value);  
+									}
 								}
 							}
 						}
