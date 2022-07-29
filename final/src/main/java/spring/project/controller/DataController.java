@@ -80,6 +80,12 @@ public class DataController {
 		ds.updatePrvInfo();
 	}
 	
+	//국가기술자격 연도별 실기/필기 합격률 데이터 추가(pass_rate_nat)
+	@RequestMapping("addPassRateNat")
+	public void addPassRateNat() throws Exception{
+		ds.addPassRateNat();
+	}
+	
 	//temp
 	@RequestMapping("temp1")
 	public void temp1() throws Exception{

@@ -4,6 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.project.mapper.DataMapper">
 
+	<insert id="addPassRateNat" parameterType="spring.project.model.PassRateNatDTO">
+		insert into pass_rate_nat values(
+			#{cname}, #{cyear}, #{doc_apply}, #{doc_pass}, #{prac_apply}, #{prac_pass}
+		)
+	</insert>
 	
 	<insert id="temp2" parameterType="spring.project.model.CertiDateDTO">
 		insert into certidate(

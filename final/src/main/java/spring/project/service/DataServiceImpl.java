@@ -27,6 +27,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateNatDTO;
 import spring.project.model.PassRatePrvDTO;
 
 @Service
@@ -416,6 +417,7 @@ public class DataServiceImpl implements DataService {
 		}
 	}
 	
+	@Transactional
 	@Override
 	public void updatePrvInfo() throws Exception{
 		FileInputStream fis = new FileInputStream(new File("f:/data/prvinfo.csv"));
@@ -443,6 +445,29 @@ public class DataServiceImpl implements DataService {
 				mapper.updatePrvInfo2(dto);
 			}
 			
+		}
+	}
+	
+	@Transactional
+	@Override
+	public void addPassRateNat() throws Exception{
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/susu4.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			PassRateNatDTO dto = new PassRateNatDTO();
+			
+			dto.setCname(datas[0]);
+			dto.setCyear(Integer.parseInt(datas[1]));
+			dto.setDoc_apply(Integer.parseInt(datas[2]));
+			dto.setDoc_pass(Integer.parseInt(datas[3]));
+			dto.setPrac_apply(Integer.parseInt(datas[4]));
+			dto.setPrac_pass(Integer.parseInt(datas[5]));
+			
+			mapper.addPassRateNat(dto);
 		}
 	}
 	
