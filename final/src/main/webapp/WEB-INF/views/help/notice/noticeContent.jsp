@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
-	<h1>공지사항 글보기</h1>
+	<h1>공지사항 글보기${memberStatus}</h1>
 	<jsp:include page="/WEB-INF/views/board/boardContent.jsp" flush="false"/>
 	<c:if test="${memberStatus == 1}">
 		<input type="button" value="수정" 
