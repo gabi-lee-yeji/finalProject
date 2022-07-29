@@ -7,7 +7,7 @@
 </head>
 	<jsp:include page="../userNavBar.jsp"/>
 	<div class="row" >
-		<div class="col-2" style="margin-left:20px">
+		<div class="col-2" style="margin-left:50px">
 			<c:import url="/certificate/langFilterForm"/>
 		</div>
 		<div class="col-8" >

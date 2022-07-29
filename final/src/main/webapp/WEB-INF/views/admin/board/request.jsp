@@ -15,25 +15,29 @@
 		    <jsp:include page="../adminNavBar.jsp"></jsp:include>
 		  </div>
 		</div>
-		<div style="margin-left:50px; margin-top:5%">
+		<div style="margin-left:50px;margin-right:50; margin-top:5%">
 			<h1>답변 안달린 1:1 문의 목록 [총 : ${count }]</h1>
-			<table>
-				<tr>
-					<th>글번호</th>
-					<th>글제목</th>
-					<th>작성자</th>
-					<th>조회수</th>
-					<th>작성시간</th>
-				</tr>
-				<c:forEach var="dto" items="${list }">
+			<table class="table table-hover">
+				<thead>
 					<tr>
-						<td>${dto.pnum }</td>
-						<td><a href="/help/qna/addQna?pnum=${dto.pnum }">${dto.subject }</a></td>
-						<td>${dto.writer }</td>
-						<td>${dto.readCnt }</td>
-						<td><fmt:formatDate pattern="yy-MM-dd" value="${dto.reg }"/></td>
+						<th>글번호</th>
+						<th>글제목</th>
+						<th>작성자</th>
+						<th>조회수</th>
+						<th>작성시간</th>
 					</tr>
-				</c:forEach>
+				</thead>
+				<tbody>
+					<c:forEach var="dto" items="${list }">
+						<tr>
+							<td>${dto.pnum }</td>
+							<td><a href="/help/qna/addQna?pnum=${dto.pnum }">${dto.subject }</a></td>
+							<td>${dto.writer }</td>
+							<td>${dto.readCnt }</td>
+							<td><fmt:formatDate pattern="yy-MM-dd" value="${dto.reg }"/></td>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
 		</div>
 	
@@ -51,17 +55,25 @@
 				<c:set var="endPage" value="${pageCount}" />
 			</c:if>
 	        
-	        <c:if test="${startPage > 10 }">
-	        	<a href="/admin/board/request?pageNum=${startPage-10}">[이전]</a>
-	        </c:if>
-	        
-	        <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-	        	<a href="/admin/board/request?pageNum=${i}">[${i}]</a>
-			</c:forEach>
-			
-			<c:if test="${endPage < pageCount}">
-	        	<a href="/admin/board/request?pageNum=${startPage + 10}">[다음]</a>
-			</c:if>
+	        <ul class="pagination justify-content-center">
+		        <c:if test="${startPage > 10 }">
+		        	<li class="page-item">
+		        		<a class="page-link" href="/admin/board/request?pageNum=${startPage-10}">이전</a>
+		        	</li>
+		        </c:if>
+		        
+		        <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
+		        	<li class="page-item">
+		        		<a class="page-link" href="/admin/board/request?pageNum=${i}">${i}</a>
+		        	</li>
+				</c:forEach>
+				
+				<c:if test="${endPage < pageCount}">
+					<li class="page-item">
+		        		<a class="page-link" href="/admin/board/request?pageNum=${startPage + 10}">다음</a>
+		        	</li>
+				</c:if>
+			</ul>
 	    </c:if>
 	</div>
 </body>

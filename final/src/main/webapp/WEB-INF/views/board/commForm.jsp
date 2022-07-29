@@ -29,26 +29,26 @@
 	 
 </script>
 <c:if test="${sessionScope.sid != null}">
-<form role="form" action="/community/addComm" name="addComm" onsubmit="return check()">
-	<h2>댓글 작성</h2>
-	<table border=1>
-		<tr>
-			<td>작성자</td>
-			<td>${sessionScope.sid}
-				<input type="hidden" name="writer" value="${sessionScope.sid}" />
-			</td>
-		</tr>
-		<tr>
-			<td>댓글</td>
-			<td><textarea name="comm_content" id="comm_content" rows="5" cols="40" ></textarea></td>
-		</tr>
-	</table>
-	
-	<input type="hidden" name="pnum" value="${board.pnum}" />
-	<input type="hidden" name="board_type" value="${board.board_type}" />
-	<input type="hidden" name="pageNum" value="${pageNum}" />
-	<input type="submit" value="댓글작성" />
-</form>
+	<form role="form" action="/community/addComm" name="addComm" onsubmit="return check()">
+		<h2>댓글 작성</h2>
+		<table class="table table-bordered">
+			<tr>
+				<td>작성자</td>
+				<td>${sessionScope.sid}
+					<input type="hidden" name="writer" value="${sessionScope.sid}" />
+				</td>
+			</tr>
+			<tr>
+				<td>댓글</td>
+				<td><textarea name="comm_content" id="comm_content" rows="5" cols="40" ></textarea></td>
+			</tr>
+		</table>
+		
+		<input type="hidden" name="pnum" value="${board.pnum}" />
+		<input type="hidden" name="board_type" value="${board.board_type}" />
+		<input type="hidden" name="pageNum" value="${pageNum}" />
+		<input type="submit" value="댓글작성" />
+	</form>
 </c:if>
 
 <c:if test="${comm_BoardCount > 0}">

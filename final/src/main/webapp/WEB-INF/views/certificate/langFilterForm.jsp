@@ -5,7 +5,8 @@
 <form action="/certificate/langFilterPro" method="post" >
 	<h3>언어</h3>
 	<c:forEach var="map" items="${langOption}">
-		<input type="radio" name="ncs_cat"  value="${map.CODE}">${map.LNAME} <br>
+		<input type="radio" name="ncs_cat" value="${map.CODE}">
+		${map.LNAME} <br>
 	</c:forEach>
-	<input type="submit" value="적용"/>	
+	<input type="submit" class="btn btn-primary" value="적용"/>	
 </form>
