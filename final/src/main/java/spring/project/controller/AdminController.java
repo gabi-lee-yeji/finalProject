@@ -1,46 +1,23 @@
 package spring.project.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import google.analytics.reportingAPI.AnalyticsService;
-import spring.project.model.CertiAccessible;
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiInfoDTO;
 import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.EmpBoardDTO;
 import spring.project.model.EmpInfoDTO;
-import spring.project.model.MemberFilterDTO;
 import spring.project.model.MemberInfoDTO;
 import spring.project.pagination.PagingDTO;
 import spring.project.pagination.PagingService;
@@ -63,8 +40,6 @@ public class AdminController {
 	@Autowired
 	private AnalyticsService gaService;
 	
-	static Map<String, Object> paramMap = new HashMap<String, Object>();
-	
 	//자격증 등록 페이지 
 	@RequestMapping("addCerti")
 	public String addCerti() {
@@ -81,10 +56,10 @@ public class AdminController {
 		return "admin/certi/addCertiPro";
 	}
 	
-	//?��격증 목록 ?��?���?
+	//등록된 자격증 목록
 	@RequestMapping("certiList")
 	public String getCertiList(String pageNum, String sort, String order, String category, Model model) {
-		//?�� ?��?���??�� 보여주고 ?��?? 게시�??�� 매개�??���? ?��?��
+		//DI 이용한 페이징 처리 - 원하는 페이지 사이즈를 정해서 pageNum과 같이 매개변수로 보내줌
 		int pageSize = 30;
 		PagingDTO page = pageService.getPaging(pageSize, pageNum);
 		model.addAttribute("list", service.getCertList(page, sort, order, category));
@@ -97,7 +72,7 @@ public class AdminController {
 		return "admin/certi/certiList";
 	}
 	
-	//?��격증 �??��기능 (결과?��?���?)
+	//자격증 목록 - 검색기능 (검색결과 페이지)
 	@RequestMapping("search")
 	public String searchList(String pageNum, String search, String keyword, Model model) {
 		PagingDTO page = pageService.getPaging(30, pageNum);
@@ -111,7 +86,7 @@ public class AdminController {
 		return "/admin/certi/searchList";
 	}
 	
-	//?��격증 ?��?�� - ?��?��?���? ?��?���??�� 
+	//자격증 상세정보 페이지 - 페이지 내에서 바로 수정 가능
 	@RequestMapping("certiInfo")
 	public String getCertiInfo(String cnum, Model model) {
 		model.addAttribute("cnum", cnum);
@@ -123,7 +98,7 @@ public class AdminController {
 		return "admin/certi/certiInfo";
 	}
 	
-	//?��격증�? ?��?��?��?�� 목록
+	//자격증별 상세일정 목록
 	@RequestMapping("certiDate")
 	public String getcertiDateInfo(String cnum, Model model) {
 		List<CertiDateDTO> dateList = null;
@@ -138,16 +113,19 @@ public class AdminController {
 		
 		return "admin/certi/certiDate";
 	}
-	//?��격증 ?��?�� 추�?
+	
+	//자격증 상세일정 추가 페이지 - Form
 	@RequestMapping("certi/addDate")
 	public String addDate(String cnum, Model model) {
 		model.addAttribute("info", service.getCertiInfo(cnum));
 		return "admin/certi/addDate";
 	}
+	//자격증 상세일정 등록 - Pro
 	@RequestMapping("certi/addDatePro")
 	public String addDate(HttpServletRequest request, String cnum, String cname, String clevel, Integer count, Model model) {
 		int result = 0;
 		
+		//하나의 자격증에 한번에 여러개의 상세일정 등록 가능 
 		for(int i=1;i<=count;i++) {
 			int cyear = Integer.parseInt(request.getParameter("cyear"+i));
 			int cround = Integer.parseInt(request.getParameter("cround"+i));
@@ -186,14 +164,14 @@ public class AdminController {
 		return "admin/certi/addDatePro";
 	}
 	
-	//?��격증 ?��?�� 추�? ?��?���?
+	//자격증 상세일정 form - 일정 등록 페이지에서 버튼 클릭시 상세일정form이 추가됨
 	@RequestMapping("certi/addDateTbl")
 	public String ajaxDateTbl(String count, Model model) {
 		model.addAttribute("count", count);
 		return "admin/ajax/addDateTbl";
 	}
 	
-	//?��격증 ?��?�� ?��?��  
+	//자격증 상세일정 삭제
 	@RequestMapping("certi/deleteDate")
 	public String deleteDate(String cnum, String[] dateList, Model model){
 		//�?�??��격증?�� 경우 ?��?�� ?��?�� ?�� 컨펌 ?��?���?�? ?��?�� 
@@ -315,12 +293,14 @@ public class AdminController {
 		return "/admin/member/searchList";
 	}
 	@RequestMapping("member/reportList")
-	public String getMemberReport(Integer status, Model model) {
+	public String getMemberReport(Integer status, String pageNum, Model model) {
 		model.addAttribute("status", status);
 		if(status!=null)
 			model.addAttribute("status_name", service.getMemStatusName(status));
 		
-		model.addAttribute("list", service.getReportMemList(status));
+		PagingDTO page = pageService.getPaging(10, pageNum);
+		model.addAttribute("page", page);
+		model.addAttribute("list", service.getReportMemList(status, page));
 		model.addAttribute("count", service.getReportMemCnt(status));
 		return "/admin/member/reportList";
 	}
@@ -411,10 +391,12 @@ public class AdminController {
 		
 		PagingDTO page = pageService.getPaging(5, null);
 		model.addAttribute("certList",service.getCertList(page, "registDate", "desc", null));
-		model.addAttribute("memReportList", service.getReportMemList(0));
-		model.addAttribute("empNotice", service.getEmpNoticeList(page));
+		model.addAttribute("memReportList", service.getReportMemList(0,page));
+		List<EmpBoardDTO> empNoticeList = service.getEmpNoticeList(page);
+		model.addAttribute("empNotice", empNoticeList);
+		model.addAttribute("empNoticeCnt", empNoticeList.size());
 		
-		//?��?��?���? ?��?��조정 
+		//회원상태 조정
 		service.updateMemberStatus();
 		return "/admin/main";
 	}
@@ -431,21 +413,15 @@ public class AdminController {
 		model.addAttribute("count", service.getNewRequestCnt());
 		return "/admin/ajax/newRequest";
 	}
-	@RequestMapping("ajax/visitor")
-	public String adminMainVisitor() {
-		//구�? ?��계에?�� 방문?��?�� 조회?��?�� view�? 보내�?
-		return "/admin/ajax/visitor";
-	}
 	
-	//ga tester
-	@RequestMapping("test")
+	@RequestMapping("ajax/visitor")
 	public String googleTest(Model model) throws Exception {
 		String start = "7daysAgo";
 		String today = "today";
-		//구�? ?��계에?�� 방문?��?�� 조회?��?�� view�? 보내�?
+		//구글 analytics 방문자 통계 가져와서 view로 보내기
 		model.addAttribute("usersToday", gaService.getUsersStats(today, today));
 		model.addAttribute("users7Days", gaService.getUsersStats(start, today));
-		return "/admin/stats/test";
+		return "/admin/ajax/visitorStats";
 	}
 	
 	
@@ -493,20 +469,20 @@ public class AdminController {
 		return "/admin/emp/board/delNotice";
 	}
 	
-	//�?리자 - ?��?��게시?�� 
-	//?��?��목록
+	//관리자 - 직원게시판
+	//사원 목록
 	@RequestMapping("emp/empList")
 	public String getEmpList(String pageNum, String sort, String order, String empjob, String status, 
 							HttpSession session, Model model) {
 		
-		//sessionId�? 매니???��?��?���? 체크
+		//sessionId가 매니저 이상인지 체크
 		String empid = (String)session.getAttribute("sid");
-		//String empid = "manager";
+		if(empid == null) return "/member/loginForm";
 		int checkIfMgr = service.checkifMgr(empid);
 		model.addAttribute("checkIfMgr", checkIfMgr);
 		
 		//?��?��?�� ?��보는 매니??�? ?��?���? 조회�??��
-		if(status != null && status.equals("���")){
+		if(status != null && status.equals("일반")){
 			if(checkIfMgr != 1) {
 				return "/admin/warning";
 			}

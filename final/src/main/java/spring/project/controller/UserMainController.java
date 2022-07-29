@@ -1,6 +1,7 @@
 package spring.project.controller;
 
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiFilterDTO;
+import spring.project.model.CertiRequirementDTO;
 import spring.project.pagination.PagingDTO;
 import spring.project.pagination.PagingService;
 import spring.project.service.AdminService;
@@ -42,9 +44,9 @@ public class UserMainController {
 		adminService.updateMemberStatus();
 		
 		//사용자 맞춤 인기자격증 Top 10 
-		//String memid = (String) session.getAttribute("sid");
-		//model.addAttribute("clientList", service.getClientTopCerti(memid));
-		model.addAttribute("clientList", service.getClientTopCerti("hyewon"));
+		String memid = (String) session.getAttribute("sid");
+		if(memid != null)
+			model.addAttribute("clientList", service.getClientTopCerti(memid));
 		
 		model.addAttribute("natList", service.getNatTopCerti());
 		model.addAttribute("prvList", service.getPrvTopCerti());
@@ -59,7 +61,9 @@ public class UserMainController {
 	@RequestMapping("searchCerti")
 	public String getCertiSearchList(String pageNum, String keyword, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
+		model.addAttribute("page",page);
 		model.addAttribute("list", service.getCertiSearchList(page, keyword));
+		model.addAttribute("count", service.getCertiSearchCnt(keyword));
 		model.addAttribute("keyword", keyword);
 		return "/certificate/searchList";
 	}
@@ -112,7 +116,9 @@ public class UserMainController {
 	
 	@RequestMapping("certificate/requirement")
 	public String getCertiRequirement(String cnum, Model model) {
-		model.addAttribute("list", service.getCertiRequirement(cnum));
+		List<CertiRequirementDTO> list = service.getCertiRequirement(cnum);
+		model.addAttribute("list", list);
+		model.addAttribute("count", list.size());
 		return "/certificate/certiReq_tbl";
 	}
 	

@@ -290,8 +290,11 @@ public class AdminServiceImpl implements AdminService{
 	}
 	*/
 	@Override
-	public List<MemberInfoDTO> getReportMemList(Integer status) {
-		return mapper.getReportMemList(status);
+	public List<MemberInfoDTO> getReportMemList(Integer status, PagingDTO page) {
+		map.put("status", status);
+		map.put("startRow", page.getStartRow());
+		map.put("endRow", page.getEndRow());
+		return mapper.getReportMemList(map);
 	}
 	@Override
 	public int getReportMemCnt(Integer status) {

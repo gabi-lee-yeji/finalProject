@@ -89,7 +89,7 @@ public interface AdminMapper {
 	//public List<MemberInfoDTO> getMemberFilter(Map map);
 	
 	//신고당한 회원목록 가져오기 
-	public List<MemberInfoDTO> getReportMemList(Integer status);
+	public List<MemberInfoDTO> getReportMemList(Map map);
 	public int getReportMemCnt(Integer status);
 	//신고당한 회원의 정보 가져오기
 	public List<Map<String, Object>> getReportMemPosting(String memid);

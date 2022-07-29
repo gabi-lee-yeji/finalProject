@@ -11,6 +11,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateNatDTO;
 import spring.project.model.PassRatePrvDTO;
 
 public interface DataMapper {
@@ -34,6 +35,7 @@ public interface DataMapper {
 	public void updatePrvInfo2(CertiInfoDTO dto);
 	public void addCertiReq(CertiRequirementDTO dto);
 	public void addLangInfo(CertiInfoDTO dto);
+	public void addPassRateNat(PassRateNatDTO dto);
 	
 	public void temp1(CertiDateDTO dto);
 	public void temp2(CertiDateDTO dto);

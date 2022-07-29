@@ -56,8 +56,8 @@
 							return Math.abs(value);
 						}
 					},
-					max: Math.ceil(Math.max(...maleData, ...femaleData)/Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...femaleData)))))*Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...femaleData)))),
-					min: -Math.ceil(Math.max(...maleData, ...femaleData)/Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...femaleData)))))*Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...femaleData))))
+					max: Math.ceil(Math.max(...maleData, ...female)/Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...female)))))*Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...female)))),
+					min: -Math.ceil(Math.max(...maleData, ...female)/Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...female)))))*Math.pow(10,Math.floor(Math.log10(Math.max(...maleData, ...female))))
 				},
 				y: {
 					beginAtZero: true,

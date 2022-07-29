@@ -35,6 +35,9 @@ public interface DataService {
 	//PRV데이터 수동으로 가져온것들 DB에 업데이트(certiinfo)
 	public void updatePrvInfo() throws Exception;
 
+	//국가기술자격 연도별 실기/필기 합격률 데이터 추가(pass_rate_nat)
+	public void addPassRateNat() throws Exception;
+	
 	//temp
 	public void temp1() throws Exception;
 	public void temp2() throws Exception;

@@ -84,7 +84,7 @@ public interface AdminService {
 	public List<CertiInfoDTO> getMemberLikeList(String memid);
 	
 	//신고된 회원 목록
-	public List<MemberInfoDTO> getReportMemList(Integer status);
+	public List<MemberInfoDTO> getReportMemList(Integer status, PagingDTO page);
 	public int getReportMemCnt(Integer status);
 	
 	//신고된 회원의 상세 정보 
