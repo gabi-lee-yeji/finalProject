@@ -535,22 +535,25 @@
 		</if>
 	</select>
 	<select id="getReportMemList" resultType="spring.project.model.MemberInfoDTO">
-		select 
-			a.*, 
-			b.email, b.mem_name, b.mobile, b.mem_point, b.regdate,
-			c.status_name 
-			from 
-				(select memid, count(*) as reportCnt from member_report group by memid) a, 
-				memberinfo b,
-	            member_status c
-			where 
-			<![CDATA[ a.reportCnt >= 1	]]>
-			and a.memid=b.memid
-			and b.status=c.status
-			<if test="status != null"> 
-				and b.status = #{status} 
-			</if>
-		order by a.reportCnt
+		select * from 
+			(select rownum r, list.* from
+				(select 
+					a.*, 
+					b.email, b.mem_name, b.mobile, b.mem_point, b.regdate,
+					c.status_name 
+					from 
+						(select memid, count(*) as reportCnt from member_report group by memid) a, 
+						memberinfo b,
+			            member_status c
+					where 
+					<![CDATA[ a.reportCnt >= 1	]]>
+					and a.memid=b.memid
+					and b.status=c.status
+					<if test="status != null"> 
+						and b.status = #{status} 
+					</if>
+					order by a.reportCnt) list)
+			where r between #{startRow} and #{endRow}
 	</select>
 	
 	<select id="getMemberFilter" resultType="spring.project.model.MemberInfoDTO"
@@ -617,7 +620,7 @@
 	
 	<select id="getCertCnt" resultType="int">
 		select count(*) from certiinfo
-		<if test="category != null">
+		<if test="category != null and category != ''">
 			where category = #{category}
 		</if>
 	</select>
