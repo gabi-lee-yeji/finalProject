@@ -296,7 +296,7 @@ function noSpaceForm(obj){
 		obj.value = obj.value.replace(' ','');
 		return false
 	}
-}	
+}
 
 var code = "";
 $(document).ready(function (){
@@ -345,7 +345,6 @@ $(document).ready(function (){
 			$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
 			$resultMsg.css('color','red');
 		}
-		
 	})
 });
 
