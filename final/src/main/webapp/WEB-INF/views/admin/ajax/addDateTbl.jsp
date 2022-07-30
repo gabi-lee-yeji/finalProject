@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div>
 	<hr>
-	<table>
+	<table class="table table-hover" style="max-width:80%;max-height:400px">
 		<tr>
 			<td>연도</td>
 			<td><input type="text" name="cyear${count}" id="cyear"></td>

@@ -15,6 +15,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+<section style="margin: 20px 10% 10% 10%">
 	<c:if test="${board.status != 0}">
 		<script>
 			alert("삭제된 게시글 입니다.");
@@ -45,6 +46,7 @@
 	<c:if test="${memberStatus == 1}">
 		<c:import url = "/admin/board/reportDetails" />
 	</c:if>
+</section>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

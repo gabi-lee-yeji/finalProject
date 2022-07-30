@@ -9,7 +9,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   </head>
   <body>
     <form action="/community/addMemberReportPro" method="post">
-      <table border="1">
+      <table class="table table-bordered">
         <c:if test="${board != null}">
           <input type="hidden" name="wr_option" value="P" />
           <input type="hidden" name="pnum" value="${board.pnum}" />
