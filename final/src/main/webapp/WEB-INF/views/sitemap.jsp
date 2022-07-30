@@ -18,10 +18,50 @@
 			<a>aa</a>
 		</td>
 		<td>
-			<a>bb</a>
+			<a href="/help/notice/noticeList?board_type=1">공지사항</a>
 		</td>
 		<td>
-			<a>cc</a>
+			<a href="/community/review/reviewList?board_type=4">꿀팁/후기</a>
+		</td>
+		<td>
+			<a>dd</a>
+		</td>
+	</tr>
+	<tr align="center">
+		<td>
+			<a>aa</a>
+		</td>
+		<td>
+			<a href="/help/faq/faqList?board_type=2">자주하는 질문</a>
+		</td>
+		<td>
+			<a href="/community/question/questionList?board_type=5">질문글</a>
+		</td>
+		<td>
+			<a>dd</a>
+		</td>
+	</tr>
+	<tr align="center">
+		<td>
+			<a>aa</a>
+		</td>
+		<td>
+			<a href="help/qna/qnaList?board_type=3">1:1 문의</a>
+		</td>
+		<td>
+			<a href="/community/info/infoNews">취업톡톡</a>
+		</td>
+		<td>
+			<a>dd</a>
+		</td>
+	</tr>
+	<tr align="center">
+		<td>
+			<a>aa</a>
+		</td>
+		<td></td>
+		<td>
+			<a href="/community/job_seeker/job_seekerList?board_type=7">취준생 공간</a>
 		</td>
 		<td>
 			<a>dd</a>
