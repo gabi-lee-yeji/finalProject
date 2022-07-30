@@ -343,12 +343,11 @@ public class MemberController {
 		int endRow = currentPage * pageSize;
 		int count = 0;
 		int number = 0;
-		System.out.println(board_type);
 		if(board_type == null) board_type = 0;
 		count = service.post_BoardCount(board_type,writer);
 		ArrayList<Post_BoardDTO> boardList = null;
 		if(count > 0) {
-		boardList = (ArrayList<Post_BoardDTO>)service.myList(writer,board_type,startRow,endRow);
+			boardList = (ArrayList<Post_BoardDTO>)service.myList(writer,board_type,startRow,endRow);
 		}
 		number = count - (currentPage - 1) * pageSize;
 		
