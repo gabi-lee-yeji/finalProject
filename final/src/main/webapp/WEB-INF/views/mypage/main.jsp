@@ -10,16 +10,17 @@
 	
 	<div class="container">
 		<div class="row" style="min-height:100px">
-			<div class="col-lg-6 col-md-12">
-				<p>캘린더 들어갈 공간</p>
+			<div class="col-lg-6 col-md-12" style="">
+				<h3 style="display:inline;">관심자격증 시험일정</h3>
+				<c:import url="/calendar/myPage">
+					<c:param name="memid" value="${sessionScope.sid }"></c:param>
+				</c:import>
 			</div>
 			<div class="col-lg-6 col-md-12">
-				<p>
-					내가 보유한 자격증 
-					<a href = "/mypage/memberCerti">
-						[관리]
-					</a>
-				</p>
+				<h3 style="display:inline;">내가 보유한 자격증</h3> 
+				<a href = "/mypage/memberCerti">
+					[관리]
+				</a>
 				<table class="table">
 					<tr align="center">
 						<th>자격증명</th>
@@ -49,12 +50,46 @@
 				</table>
 			</div>
 		</div>
+		<hr>
 		<div class="row" style="min-height:100px">
 			<div class="col-lg-6 col-md-12">
-				<p>개인 추천 자격증</p>
+			<h3 style="display:inline;">사용자 맞춤 인기자격증</h3> 
+			<table class="table table-hover">
+				<c:forEach var="dto" items="${clientList }" varStatus="status">
+					<tr>
+						<th>${status.count}</th>			
+						<td><a href="/certificate/certiContent?cnum=${dto.cnum }">${dto.cname }</a></td>
+					</tr>
+				</c:forEach>
+			</table>
 			</div>
 			<div class="col-lg-6 col-md-12">
-				<p>내 1:1 문의</p>
+				<h3 style="display:inline;">나의 1:1 문의</h3> 
+				<a href = "/member/myList?writer=${sessionScope.sid }&board_type=3">
+					[더보기]
+				</a>
+				<table class="table">
+					<tr align="center">
+						<th>글번호</th>
+						<th>제 목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>조회수</th>
+					</tr>
+					<c:forEach var="board" items="${boardList}">
+						<tr align="center">
+							<td>${board.pnum}</td>
+							<c:if test="${board.board_type == 3}">
+							<td><a href="/help/qna/qnaContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td>
+							</c:if>
+							<td>${board.writer}</td>
+							<td>
+								<fmt:formatDate value="${board.reg}" type="date" />
+							</td>
+							<td>${board.readCnt}</td>
+						</tr>
+					</c:forEach>
+				</table>
 			</div>
 		</div>
 	</div>

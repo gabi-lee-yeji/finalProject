@@ -108,7 +108,7 @@
 				<td><a href="/community/job_seeker/job_seekerContent?pnum=${board.pnum}&pageNum=${currentPage}">${board.subject}</a></td>
 				</c:if>
 				<td>${board.writer}</td>
-				<td>${board.reg}</td>
+				<td><fmt:formatDate value="${board.reg}" type="date" /></td>
 				<td>${board.readCnt}</td>
 			</tr>
 		</c:forEach>

@@ -22,7 +22,7 @@
 	<h1>${info.cnum}   ${info.cname }</h1>
 	<input type="button" value="자격증 목록" onclick="window.location='/admin/certiList'"/> 
 	
-	<c:if test="${fn:substring(info.cnum,0,1) != 'N' }">
+	<c:if test="${fn:substring(info.cnum,0,1) != 'N' or isNatAdd == 1}">
 		<input type="button" value="일정 추가" onclick="window.location='/admin/certi/addDate?cnum=${info.cnum}'">
 	</c:if>
 	<form action="/admin/certi/deleteDate" method="post">

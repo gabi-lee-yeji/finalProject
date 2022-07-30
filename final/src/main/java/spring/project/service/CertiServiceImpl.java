@@ -95,7 +95,8 @@ public class CertiServiceImpl implements CertiService {
 		rc.eval("contents <- character()");
 		
 		String cname = mapper.getCertiInfo(cnum).getCname();
-		cname = "\"" + cname + "\"";
+		//cname 전처리 1.띄어쓰기제거 2.괄호제거 3.따옴표붙이기
+		cname = "\"" + cname.replaceAll("\\([^)]*\\)", "").replaceAll(" ", "") + "\"";
 		
 		rc.eval("url <- \"https://search.naver.com/search.naver?where=news&query=\"");
 		rc.eval("text <- read_html( paste0(url,"+ "'\"'," + cname+ ",'\"'" + ")) ");
