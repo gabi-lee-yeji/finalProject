@@ -714,6 +714,9 @@
 		from certidate 
 		where cnum=#{cnum}
 	</select>
+	<select id="searchCompany" resultType="String">
+		select company from certiinfo where cnum=#{cnum}
+	</select>
 	<select id="getCertiReqList" resultType="spring.project.model.CertiRequirementDTO">
 		select * from certi_requirement where cnum=#{cnum}
 	</select>

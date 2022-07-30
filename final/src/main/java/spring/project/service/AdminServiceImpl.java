@@ -144,13 +144,24 @@ public class AdminServiceImpl implements AdminService{
 		List<Integer> cround_list = new ArrayList<Integer>();
 		
 		List<CertiScheduleDTO> schedule = mapper.getQnetDateInfo(cnum);
-		for(CertiScheduleDTO dto : schedule ) {
-			cyear_list.add(dto.getCyear());
-			cround_list.add(dto.getCround());
+		
+		if(schedule.size() > 0) {
+			for(CertiScheduleDTO dto : schedule ) {
+				cyear_list.add(dto.getCyear());
+				cround_list.add(dto.getCround());
+			}
+			String clevel = schedule.get(0).getClevel();
+		
+			return mapper.searchNatPeriod(clevel, cyear_list, cround_list);
+		}else {
+			return mapper.searchPeriod(cnum);
 		}
-		String clevel = schedule.get(0).getClevel();
+	}
 	
-		return mapper.searchNatPeriod(clevel, cyear_list, cround_list);
+	//cnum으로 company 조회
+	@Override
+	public String searchCompany(String cnum) {
+		return mapper.searchCompany(cnum);
 	}
 	
 	//�ڰ��� ���� �߰�

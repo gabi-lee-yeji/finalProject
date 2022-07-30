@@ -52,6 +52,7 @@ public interface AdminMapper {
 	public List<CertiDateDTO> searchNatPeriod(@Param("clevel")String clevel,
 											@Param("cyear_list")List<Integer> cyear_list,
 											@Param("cround_list")List<Integer> cround_list);
+	public String searchCompany(String cnum);
 	
 	//자격증 일정 삭제
 	public int deleteCertiDate(int[] dateList);

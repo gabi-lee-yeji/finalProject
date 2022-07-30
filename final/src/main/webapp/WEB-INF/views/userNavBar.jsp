@@ -93,7 +93,7 @@
 						<a class="dropdown-item" href="/member/myList?writer=${sessionScope.sid }">내가 작성한 게시글</a>
 						<a class="dropdown-item" href="/member/myComments?writer=${sessionScope.sid }">내가 작성한 댓글</a>
 						<hr>
-						<a class="dropdown-item" href="/member/modifyConfirm">개인정보 관리</a>
+						<a class="dropdown-item" href="/member/modifyConfirm">회원정보 관리</a>
 					</div>
 					</li>
 					<li class="nav-item">

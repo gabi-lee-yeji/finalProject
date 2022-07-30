@@ -20,7 +20,7 @@
   <hr>
   <a href="/member/myComments?writer=${sessionScope.sid}" class="w3-bar-item w3-button">내가 작성한 댓글</a>
   <hr>
-  <a href="/member/modifyConfirm" class="w3-bar-item w3-button">개인정보수정</a>
+  <a href="/member/modifyConfirm" class="w3-bar-item w3-button">회원정보 수정</a>
   <hr>
   <a href="/member/deleteForm" class="w3-bar-item w3-button">회원탈퇴</a>
   

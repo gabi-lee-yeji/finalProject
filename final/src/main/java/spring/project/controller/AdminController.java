@@ -103,7 +103,14 @@ public class AdminController {
 	public String getcertiDateInfo(String cnum, Model model) {
 		List<CertiDateDTO> dateList = null;
 		if(cnum.substring(0, 1).equals("N")) {
-			dateList = service.searchNatPeriod(cnum);
+			//큐넷에서 시행하는 시험이 아닌경우 certischedule을 거치지 않고 검색
+			if(!service.searchCompany(cnum).equals("한국산업인력공단")) {
+				dateList = service.searchPeriod(cnum);
+				model.addAttribute("isNatAdd", 1);
+			}else {
+				dateList = service.searchNatPeriod(cnum);
+			}
+			
 		}else {
 			dateList = service.searchPeriod(cnum);
 		}
@@ -153,8 +160,6 @@ public class AdminController {
 						request.getParameter("pracResStart"+i),
 						request.getParameter("pracResEnd"+i)
 					);
-			System.out.println(dto);
-			System.out.println(dto.getDocRegStart1().split(" ")[0]+"T"+dto.getDocRegStart1().split(" ")[1]);
 			result += service.addCertiDate(dto);
 		}
 		

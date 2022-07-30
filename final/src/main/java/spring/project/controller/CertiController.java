@@ -83,7 +83,11 @@ public class CertiController {
 			
 			List<CertiDateDTO> dateList = null;
 			if(cnum.substring(0,1).equals("N")) {
-				dateList = service.searchNatPeriod(cnum);
+				if(reqList.size() == 0) {
+					dateList = service.searchPeriod(cnum);
+				}else {
+					dateList = service.searchNatPeriod(cnum);
+				}
 			}else {
 				dateList = service.searchPeriod(cnum);
 			}
