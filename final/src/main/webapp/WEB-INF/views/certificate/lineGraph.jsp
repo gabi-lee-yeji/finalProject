@@ -4,9 +4,11 @@
 <%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 
+
 <c:if test="${fn:length(data) > 0 }">
-	<canvas id="lchart" width="100px" height="100px"></canvas>
-	
+	<div style="max-width:600px">
+		<canvas id="lchart" ></canvas>
+	</div>
 	<script>
 		var lchartArea = document.getElementById('lchart').getContext('2d');
 		var lchart = new Chart(lchartArea, {

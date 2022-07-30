@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <c:if test="${fn:length(boardList)>0}" >
 <h2>${info.cname} 관련 꿀팁/후기</h2>
-<table border=1>
+<table class="table table-bordered">
 		<tr>
 			<th>글번호</th>
 			<th>제 목</th>

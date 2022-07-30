@@ -12,7 +12,9 @@
 	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<section style="margin-left:5%;margin-right:5%;margin-bottom:5%">
 		<h1>1:1 문의 목록(전체 글:${count})</h1>
-		
+		<c:if test="${sessionScope.sid != null}">
+			<button class="btn btn-primary" style="float: right" onclick="window.location='/help/qna/addQna'">글쓰기</button>
+		</c:if>
 		<c:if test="${count == 0}">
 			<table class="table table-hover">
 				<tr>
@@ -88,9 +90,6 @@
 			    	</li>
 			    </c:if>
 			 </ul>
-		</c:if>
-		<c:if test="${sessionScope.sid != null}">
-			<a href="/help/qna/addQna">글쓰기</a>
 		</c:if>
 	</section>
 	<jsp:include page="/WEB-INF/views/footer.jsp" />
