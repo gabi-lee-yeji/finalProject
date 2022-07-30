@@ -103,7 +103,7 @@
 				
 				<c:if test="${sessionScope.sid == null}">
 					<li class="nav-item">
-					<a class="nav-link" href="/member/signUpForm">회원가입</a>
+					<a class="nav-link" href="/member/agreeForm">회원가입</a>
 					</li>
 					<li class="nav-item">
 					<a class="nav-link" href="/member/loginForm">로그인</a>

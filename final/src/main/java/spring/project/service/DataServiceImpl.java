@@ -47,7 +47,6 @@ public class DataServiceImpl implements DataService {
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
 			CertiDateDTO qdto = new CertiDateDTO();
 			String [] datas = strLine.split(";");
 			for(int i=0; i<datas.length; i++) datas[i] = trimQuote(datas[i]); 
@@ -89,7 +88,6 @@ public class DataServiceImpl implements DataService {
 				qdto.setPracResEnd(datas[9].substring(8, 16));
 			}
 			
-			//System.out.println(qdto);
 			mapper.addQnetDate(qdto);
 		}
 	}
@@ -103,7 +101,6 @@ public class DataServiceImpl implements DataService {
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
 			String [] datas = strLine.split(",");
 			
 			PassDetailDTO dto = new PassDetailDTO();
@@ -127,7 +124,6 @@ public class DataServiceImpl implements DataService {
 					+(datas[16].equals("")?0:Integer.parseInt(datas[16])));
 			dto.setTotal(Integer.parseInt(datas[17]));
 			
-			//System.out.println(dto);
 			
 			mapper.addPassDetailN(dto);
 		}
@@ -159,6 +155,7 @@ public class DataServiceImpl implements DataService {
 			dto.setPassed(Integer.parseInt(strList.get(i).split(";")[5]));
 			
 			if(mapper.addPassRate(dto) != 1) {
+				//
 				System.out.println(dto);
 			}
 		}
@@ -555,10 +552,8 @@ public class DataServiceImpl implements DataService {
 			linetxt = true;
 		}
 		
-		//System.out.println(info.getCnum() + "\t" + pilgi + "@" + silgi);
 
 		//필기 과목 분리하기
-		//System.out.println("\n"+info.getCnum());
 		if(pilgi.contains("1.")) {
 			//1. 2. 3. 으로 나눠진 경우
 			for(String p : pilgi.split("(\\d+\\.)")) {
