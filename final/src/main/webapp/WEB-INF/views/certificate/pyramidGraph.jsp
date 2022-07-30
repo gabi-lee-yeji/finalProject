@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<c:if test="${fn:length(data) > 0 }">
-	<canvas id="myChart"></canvas>
+<c:if test="${data!=null }">
+	<div style="max-width:600px">
+		<h5>연령별/성별 합격자 그래프</h5>
+		<canvas id="myChart"></canvas>
+	</div>
 	
 	<script>
 		// data convert

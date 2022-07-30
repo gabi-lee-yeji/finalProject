@@ -155,12 +155,10 @@
 					<c:import url="/calendar/certiInfo"/>
 				</div>
 				<div style="margin-top:5%">
-					<h5>최근 5년 시험 합격률 추이</h5>
 					<c:import url="/certificate/lineGraph"/>
 				</div>
 				<div style="margin-top:5%">
 					<c:if test="${info.cnum.charAt(0) == 78 }">
-						<h5>연령별/성별 합격자 그래프</h5>
 						<c:import url="/certificate/pyramidGraph"/>
 					</c:if>
 				</div>
