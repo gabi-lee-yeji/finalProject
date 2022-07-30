@@ -174,12 +174,12 @@ public class AdminController {
 	//자격증 상세일정 삭제
 	@RequestMapping("certi/deleteDate")
 	public String deleteDate(String cnum, String[] dateList, Model model){
-		//�?�??��격증?�� 경우 ?��?�� ?��?�� ?�� 컨펌 ?��?���?�? ?��?�� 
+		//국가자격증인 경우 컨펌 
 		if(cnum.startsWith("N")) {
-			//CertiSchedule?��?�� ?��?�� ?��격증 ?��?��?�� ?��?�� 
+			//국가자격증인 경우 회차정보 (CertiSchedule) 삭제
 			model.addAttribute("result", service.deleteCertiNatDate(dateList, cnum));
 		}else {
-			//CertiDate?��?�� ?��?�� ?���? ?��?�� (datePK ?��?��) 
+			//공인민간, 어학자격증 상세일정 (CertiDate) 삭제 (datePK 사용) 
 			model.addAttribute("result",service.deleteCertiDate(dateList));
 		}
 		

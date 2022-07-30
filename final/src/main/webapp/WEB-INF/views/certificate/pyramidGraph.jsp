@@ -16,16 +16,16 @@
 	const data = {
 		labels: ['60대+', '50대', '40대', '30대', '20대', '10대'],
 		datasets: [{
-			label: '남성',
-			data: maleData,
-			backgroundColor:'rgba(54, 162, 235, 1)',
-			borderColor: 'rgba(54, 162, 235, 1)',
-			borderWidth: 1
-		},{
 			label: '여성',
 			data: femaleData,
 			backgroundColor: 'rgba(255, 26, 104, 1)',
 			borderColor: 'rgba(255, 26, 104, 1)',
+			borderWidth: 1
+		},{
+			label: '남성',
+			data: maleData,
+			backgroundColor:'rgba(54, 162, 235, 1)',
+			borderColor: 'rgba(54, 162, 235, 1)',
 			borderWidth: 1
 		}]
 	};

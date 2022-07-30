@@ -106,9 +106,10 @@ public class CertiController {
 	}
 	
 	
-	// 메인 페이지 필터
+	// 자격증 메인 페이지 필터
 	@RequestMapping("mainFilter")
 	public String FilterForm(String category, Model model) {
+		//NCS 대분류명 조회 (자격증에 해당하는 대분류명만 조회)
 		model.addAttribute("ncsList", service.getNcsCodeList());
 		model.addAttribute("category", category);
 		return "/certificate/mainFilter";

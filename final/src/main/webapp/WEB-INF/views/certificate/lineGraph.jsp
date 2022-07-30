@@ -3,8 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 
-<canvas id="lchart" width="100px" height="100px"></canvas>
-
+<div style="max-width:600px">
+	<canvas id="lchart" ></canvas>
+</div>
 <script>
 	var lchartArea = document.getElementById('lchart').getContext('2d');
 	var lchart = new Chart(lchartArea, {

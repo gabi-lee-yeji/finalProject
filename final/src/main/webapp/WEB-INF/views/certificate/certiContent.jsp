@@ -31,13 +31,13 @@
 		
 	</script>
 </head>
-<jsp:include page="../userNavBar.jsp"></jsp:include>
 
 <body>
-	<section style="margin-left:5%; margin-right:5%">
+	<jsp:include page="../userNavBar.jsp"></jsp:include>
+	<section style="margin-top:30px;margin-left:5%; margin-right:5%; margin-bottom:10%">
 		<div class="row">
 			<div class="col-8" style="float:left">
-				<table class="table table-bordered" width="900" height="800">
+				<table class="table table-bordered" style="width:100%;">
 					<tr>
 						<th colspan=2>
 							${info.cname}
@@ -148,37 +148,34 @@
 						<td>${info.cjob}</td>
 					</tr>
 				</table>
+				<div id="requirement" style="margin-top:20px"></div>
 			</div>
-			<div class="col-4" style="">
-				<c:import url="/calendar/certiInfo"/>
+			<div class="col-4">
+				<div>
+					<c:import url="/calendar/certiInfo"/>
+				</div>
+				<div style="margin-top:5%">
+					<h5>최근 5년 시험 합격률 추이</h5>
+					<c:import url="/certificate/lineGraph"/>
+				</div>
+				<div style="margin-top:5%">
+					<c:if test="${info.cnum.charAt(0) == 78 }">
+						<h5>연령별/성별 합격자 그래프</h5>
+						<c:import url="/certificate/pyramidGraph"/>
+					</c:if>
+				</div>
 			</div>
 		</div>
-		<c:import url = "/community/certiReview" />
-		<div id="requirement" style="margin-top:20px"></div>
+		<div class="row">
+			<div class="col-8">
+				<c:import url = "/certificate/news" />
+			</div>
+			<div class="col">
+				<c:import url = "/community/certiReview" />
+			</div>
+		</div>
 	</section>	
-
-	<hr>
-	<c:import url = "/community/certiReview" />
-	<hr>
-	<div id="requirement">
-		requirement
-	</div>
-	<hr>	
-	<c:import url = "/certificate/news" />
-	<hr>
-	<div class="row" style="width:80%;">
-		<div class="col" style="width:50%;">
-			최근 5년 시험 합격률 추이
-			<c:import url="/certificate/lineGraph"/>
-		</div>
-		<div class="col" style="width:50%;">
-			<c:if test="${info.cnum.charAt(0) == 78 }">
-				연령별/성별 합격자 그래프
-				<c:import url="/certificate/pyramidGraph"/>
-			</c:if>
-		</div>
-	</div>
-		 
-	<c:import url="../footer.jsp" />
-
+	<footer>
+		<c:import url="../footer.jsp" />
+	</footer>
 </body>

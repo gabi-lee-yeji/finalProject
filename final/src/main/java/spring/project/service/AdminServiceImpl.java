@@ -132,28 +132,34 @@ public class AdminServiceImpl implements AdminService{
 		return mapper.getCertiReqList(cnum);
 	}
 	
-	//�ڰ��� ������
+	//공인민간, 어학 자격증 상세일정 조회
 	@Override
 	public List<CertiDateDTO> searchPeriod(String cnum){
 		return mapper.searchPeriod(cnum);
 	}
 	@Override
 	public List<CertiDateDTO> searchNatPeriod(String cnum){
-		//��������ڰ��� ��� CertiSchedule������ �Ѱܼ� �������� ���� ��������
+		List<CertiDateDTO> list = null;
+		
 		List<Integer> cyear_list = new ArrayList<Integer>();
 		List<Integer> cround_list = new ArrayList<Integer>();
-		
+		//CertiSchedule에 등록된 국가자격증 회차 정보 조회
 		List<CertiScheduleDTO> schedule = mapper.getQnetDateInfo(cnum);
-		for(CertiScheduleDTO dto : schedule ) {
-			cyear_list.add(dto.getCyear());
-			cround_list.add(dto.getCround());
+		
+		//조회된 회차 정보가 있을 경우만 상세일정 조회
+		if(schedule.size() > 0) {
+			for(CertiScheduleDTO dto : schedule ) {
+				cyear_list.add(dto.getCyear());
+				cround_list.add(dto.getCround());
+			}
+			String clevel = schedule.get(0).getClevel();
+			list = mapper.searchNatPeriod(clevel, cyear_list, cround_list);
 		}
-		String clevel = schedule.get(0).getClevel();
 	
-		return mapper.searchNatPeriod(clevel, cyear_list, cround_list);
+		return list;
 	}
 	
-	//�ڰ��� ���� �߰�
+	//자격증 상세일정 추가
 	@Override
 	public int addCertiDate(CertiDateDTO dto) {
 		return mapper.addCertiDate(dto);
@@ -180,7 +186,6 @@ public class AdminServiceImpl implements AdminService{
 			
 			result += mapper.deleteCertiNatDate(dto);
 		}
-		System.out.println(result);
 		return result;
 	}
 	

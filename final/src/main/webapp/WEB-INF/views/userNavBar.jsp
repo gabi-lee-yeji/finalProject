@@ -29,7 +29,7 @@
 	</style>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="navBar">
 		<!-- Brand -->
 		<a class="navbar-brand" href="/main">자격증모두모아</a>
 		<div class="collapse navbar-collapse justify-content-between">
@@ -98,7 +98,7 @@
 				</c:if>
 			</ul>
 		</div>
-		<div style="margin-left:20px;margin-right:30px;float:right;">
+		<div style="margin-top:10px;margin-left:20px;margin-right:30px;float:right;">
 			<form class="form-inline" action="/search" >
 				<input class="form-control mr-sm-2" name="keyword" type="text" placeholder="전체사이트 내 검색">
 				<button class="btn btn-success" type="submit">검색</button>

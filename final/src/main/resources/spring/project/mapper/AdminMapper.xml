@@ -443,11 +443,11 @@
 	</delete>
 	<delete id="deleteCertiNatDate">
 		delete from certischedule
-		where 
-			cnum=#{cnum}
-			and cyear=#{cyear}
-			and cround=#{cround}
-			and clevel=#{clevel} 
+			where 
+				cnum=#{cnum}
+				and cyear=#{cyear}
+				and cround=#{cround}
+				and clevel=#{clevel} 
 	</delete>
 	
 	<select id="getReportReasonList" resultType="spring.project.model.MemberReportDTO">
