@@ -26,6 +26,9 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+        <dependent-module archiveName="ojdbc8-21.5.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/java/99. install file/ojdbc8-21.5.0.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
                                                                                                                 		
         
         
