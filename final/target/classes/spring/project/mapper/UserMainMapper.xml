@@ -140,6 +140,7 @@
 	</select>
 	<select id="getNcsCodeList" resultType="map">
 		select * from (select floor(code/100) as code, lname from ncs_code)
+			where code > 0
 			group by code, lname
 			order by code
 	</select>

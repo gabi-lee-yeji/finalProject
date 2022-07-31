@@ -42,6 +42,8 @@ public interface AdminService {
 	//자격증별 일정정보 목록 조회 및 일정 검색
 	public List<CertiDateDTO> searchPeriod(String cnum);
 	public List<CertiDateDTO> searchNatPeriod(String cnum);
+	//국가자격 cnum으로 시행사 조회
+	public String searchCompany(String cnum);
 	
 	//자격증 일정 추가
 	public int addCertiDate(CertiDateDTO dto);

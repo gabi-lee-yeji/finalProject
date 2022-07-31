@@ -103,7 +103,14 @@ public class AdminController {
 	public String getcertiDateInfo(String cnum, Model model) {
 		List<CertiDateDTO> dateList = null;
 		if(cnum.substring(0, 1).equals("N")) {
-			dateList = service.searchNatPeriod(cnum);
+			//큐넷에서 시행하는 시험이 아닌경우 certischedule을 거치지 않고 검색
+			if(!service.searchCompany(cnum).equals("한국산업인력공단")) {
+				dateList = service.searchPeriod(cnum);
+				model.addAttribute("isNatAdd", 1);
+			}else {
+				dateList = service.searchNatPeriod(cnum);
+			}
+			
 		}else {
 			dateList = service.searchPeriod(cnum);
 		}
@@ -153,8 +160,6 @@ public class AdminController {
 						request.getParameter("pracResStart"+i),
 						request.getParameter("pracResEnd"+i)
 					);
-			System.out.println(dto);
-			System.out.println(dto.getDocRegStart1().split(" ")[0]+"T"+dto.getDocRegStart1().split(" ")[1]);
 			result += service.addCertiDate(dto);
 		}
 		
@@ -174,12 +179,12 @@ public class AdminController {
 	//자격증 상세일정 삭제
 	@RequestMapping("certi/deleteDate")
 	public String deleteDate(String cnum, String[] dateList, Model model){
-		//�?�??��격증?�� 경우 ?��?�� ?��?�� ?�� 컨펌 ?��?���?�? ?��?�� 
+		//국가자격증인 경우 컨펌 
 		if(cnum.startsWith("N")) {
-			//CertiSchedule?��?�� ?��?�� ?��격증 ?��?��?�� ?��?�� 
+			//국가자격증인 경우 회차정보 (CertiSchedule) 삭제
 			model.addAttribute("result", service.deleteCertiNatDate(dateList, cnum));
 		}else {
-			//CertiDate?��?�� ?��?�� ?���? ?��?�� (datePK ?��?��) 
+			//공인민간, 어학자격증 상세일정 (CertiDate) 삭제 (datePK 사용) 
 			model.addAttribute("result",service.deleteCertiDate(dateList));
 		}
 		
@@ -436,8 +441,8 @@ public class AdminController {
 	}
 	@RequestMapping("emp/addNotice")
 	public String addEmpNotice(HttpSession session, Model model){
-		//model.addAttribute("id", session.getAttribute("memid"));
-		model.addAttribute("id", "test");
+		//model.addAttribute("id", session.getAttribute("sid"));
+		model.addAttribute("id", "admin");
 		return "/admin/emp/board/noticeForm";
 	}
 	@RequestMapping("emp/addNoticePro")
@@ -447,15 +452,19 @@ public class AdminController {
 	}
 	@RequestMapping("emp/notice")
 	public String getEmpNotice(int ebnum, HttpSession session, Model model) {
-		//model.addAttribute("id", session.getAttribute("memid"));
+		//model.addAttribute("id", session.getAttribute("sid"));
 		model.addAttribute("id", "test");
 		service.updateReadCnt(ebnum);  //조회?��+1
 		model.addAttribute("dto",service.getEmpNotice(ebnum));
 		return "/admin/emp/board/notice";
 	}
 	@RequestMapping("emp/modNotice")
-	public String modEmpNotice(int ebnum, Model model) {
+	public String modEmpNotice(int ebnum, HttpSession session, Model model) {
+		//dto가 null이 아닌 경우만 noticeForm이 수정 폼으로 변경
 		model.addAttribute("dto",service.getEmpNotice(ebnum));
+		
+		//model.addAttribute("id", session.getAttribute("sid"));
+		model.addAttribute("id", "test");
 		return "/admin/emp/board/noticeForm";
 	}
 	@RequestMapping("emp/modNoticePro")

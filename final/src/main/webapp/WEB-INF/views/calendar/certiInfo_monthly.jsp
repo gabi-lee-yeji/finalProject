@@ -76,7 +76,7 @@
 	<style>
 	
 	  body {
-	    margin: 40px 10px;
+	    margin: 0;
 	    padding: 0;
 	    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	    font-size: 14px;

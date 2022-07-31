@@ -27,8 +27,8 @@
 		<h1>자격증 목록 [총 : ${count }]</h1>
 		<form action="/admin/search" method="post" >
 			<div class="row">
-				<select	name="search" onchange="setSearch(this)" class="form-control" style="max-width:8%">
-					<option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;검색</option>
+				<select	name="search" onchange="setSearch(this)" class="form-control" style="max-width:10%">
+					<option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;검색</option>
 					<option value="cnum">자격증번호</option>
 					<option value="cname">종목명</option>
 					<option value="clevel">자격증등급</option>
@@ -38,7 +38,7 @@
 				<input type="submit" value="검색" class="btn btn-primary" >
 			</div>
 		</form>
-		<input type="button" value="자격증 등록" class="btn btn-primary" onclick="window.location='/admin/addCerti'"/>
+		<input type="button" value="자격증 등록" class="btn btn-outline-primary" onclick="window.location='/admin/addCerti'"/>
 		<table class="table table-hover">
 			<thead>
 				<tr>

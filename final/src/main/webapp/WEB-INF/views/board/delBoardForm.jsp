@@ -7,11 +7,13 @@ pageEncoding="UTF-8"%>
   <input type="hidden" name="memid" value="${sessionScope.sid}" />
   <table>
     <tr>
-      <td>비밀번호를 입력해주세요</td>
-      <td><input type="password" name="passwd" /></td>
+      <td><h4 style="font: bold">비밀번호를 입력해주세요</h4></td>
     </tr>
     <tr>
-      <td><input type="submit" value="전송" /></td>
+    	<td><input type="password" name="passwd" /></td>
+    </tr>
+    <tr>
+      <td><input class="btn btn-primary" type="submit" value="삭제" /></td>
     </tr>
   </table>
 </html>

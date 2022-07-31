@@ -12,7 +12,9 @@
 	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<section style="margin-left:5%;margin-right:5%">
 		<h1>공지사항 목록(전체 글:${count})</h1>
-		
+		<c:if test="${memberStatus == 1}">
+			<button class="btn btn-primary" style="float: right" onclick="window.location='/help/notice/addNotice'">글쓰기</button>
+		</c:if>
 		<c:if test="${count == 0}">
 			<table class="table table-hover">
 				<thead>
@@ -91,9 +93,6 @@
 			       	</li>
 			    </c:if>
 			</ul>
-		</c:if>
-		<c:if test="${memberStatus == 1}">
-			<a href="/help/notice/addNotice">글쓰기</a>
 		</c:if>
 	</section>
 	<jsp:include page="/WEB-INF/views/footer.jsp" />

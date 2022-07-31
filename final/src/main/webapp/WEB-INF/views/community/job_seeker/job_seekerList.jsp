@@ -13,7 +13,9 @@
 	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
 	<section style="margin-left:5%;margin-right:5%;margin-bottom:5%">
 		<h1>취준생 공간 목록(전체 글:${count})</h1>
-		
+		<c:if test="${sessionScope.sid != null}">
+			<button class="btn btn-primary" style="float: right" onclick="window.location='/community/job_seeker/addJob_seeker'">글쓰기</button>
+		</c:if>
 		<c:if test="${count == 0}">
 			<table class="table table-hover">
 				<thead>
@@ -77,25 +79,22 @@
 			<ul class="pagination justify-content-center">
 				<c:if test="${startPage > 10}" >
 					<li class="page-item">
-			        	<a class="page-link" href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${startPage - 10}">[이전]</a>
+			        	<a class="page-link" href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${startPage - 10}">이전</a>
 			    	</li>
 			    </c:if>
 			    
 			    <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
 			    	<li class="page-item">    
-			        	<a class="page-link" href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${i}">[${i}]</a>
+			        	<a class="page-link" href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${i}">${i}</a>
 			    	</li>
 			    </c:forEach>
 			    
 			    <c:if test="${endPage < pageCount}" >
 			    	<li class="page-item">
-			       		<a class="page-link" href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${startPage + 10 }">[다음]</a>
+			       		<a class="page-link" href="/community/job_seeker/job_seekerList?board_type=7&pageNum=${startPage + 10 }">다음</a>
 			    	</li>
 			    </c:if>
 			</ul>
-		</c:if>
-		<c:if test="${sessionScope.sid != null}">
-			<a href="/community/job_seeker/addJob_seeker">글쓰기</a>
 		</c:if>
 	</section>
 	<jsp:include page="/WEB-INF/views/footer.jsp" />

@@ -9,13 +9,15 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<section style="margin: 20px 10% 10% 10%">	
 		<h1>자주하는 질문 등록</h1>
 		<form action="/help/faq/addFaqPro" name="addFaq" 
 			method="post" encType="multipart/form-data" onSubmit="return check()">
 			<jsp:include page="/WEB-INF/views/board/addBoardForm.jsp" flush="false"/>
 			<input type="hidden" name="board_type" value="2"/>
 		</form>
-		<input type="button" value="글 목록" onclick="window.location='/help/faq/faqList?board_type=2' "/>
+		<input type="button" class="btn btn-primary" style="float:right" value="글 목록" onclick="window.location='/help/faq/faqList?board_type=2' "/>
+	</section>
 </body>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
 </html>
