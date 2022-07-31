@@ -14,7 +14,7 @@
 </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+<c:import url="/navbar"/>
 	<c:if test="${board.status != 0}">
 		<script>
 			alert("삭제된 게시글 입니다.");

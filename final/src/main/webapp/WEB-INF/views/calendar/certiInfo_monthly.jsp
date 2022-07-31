@@ -83,7 +83,7 @@
 	  }
 	
 	  #calendar {
-	    max-width: 1100px;
+	    max-width:700px;
 	    margin: 0 auto;
 	  }
 	

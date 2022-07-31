@@ -4,10 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-<jsp:include page="../userNavBar.jsp" />
+<c:import url="/navbar"/>
 <jsp:include page="sidebar.jsp" />
 <div class="w3-main" style="margin-left:200px">
-	
 	<div class="container">
 		<div class="row" style="min-height:100px">
 			<div class="col-lg-6 col-md-12">

@@ -8,7 +8,7 @@
 <title>취준생 공간</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+<c:import url="/navbar"/>
 	<c:if test="${pnum == 0}" >
 		<h1>취준생 공간 글 등록</h1>
 		<form action="/community/job_seeker/addJob_seekerPro" name="addJob_seeker" 

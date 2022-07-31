@@ -51,4 +51,7 @@ public interface CertiService {
 	
 	public List<String> getLikeList(String memid);
 	
+	//해당자격증의 ncs 분류명 조회 
+	public Map<String,String> getNcsName(String cnum);
+	
 }

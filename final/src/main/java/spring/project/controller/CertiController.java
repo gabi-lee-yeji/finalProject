@@ -77,32 +77,31 @@ public class CertiController {
 	
 	// 자격증 상세정보
 	@RequestMapping("certiContent")
-		public String certiContent(String cnum, String ncs_cat, HttpSession session, Model model) {
-		//	Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
-			List<CertiRequirementDTO> reqList = adminservice.getCertiReqList(cnum);
+	public String certiContent(String cnum, String ncs_cat, HttpSession session, Model model) {
+		List<CertiRequirementDTO> reqList = adminservice.getCertiReqList(cnum);
+		
+		List<CertiDateDTO> dateList = null;
+		if(cnum.substring(0,1).equals("N")) {
+			dateList = service.searchNatPeriod(cnum);
+		}else {
+			dateList = service.searchPeriod(cnum);
+		}
+		
+		String id = (String)session.getAttribute("sid");
+		int cnt = 0;
+		if(id != null)
+			cnt = service.count(cnum,id); //관심자격증 등록되어있는지 체크
 			
-			List<CertiDateDTO> dateList = null;
-			if(cnum.substring(0,1).equals("N")) {
-				dateList = service.searchNatPeriod(cnum);
-			}else {
-				dateList = service.searchPeriod(cnum);
-			}
-			
-			String id = (String)session.getAttribute("sid");
-			int cnt = 0;
-			if(id != null)
-				cnt = service.count(cnum,id); //관심자격증 등록되어있는지 체크
-				
-			model.addAttribute("cnum",cnum);
-		//	model.addAttribute("cnt",cnt);
-			model.addAttribute("dateList", dateList);
-			model.addAttribute("info",adminservice.getCertiInfo(cnum));
-			model.addAttribute("cnum", cnum);
-	//		model.addAttribute("info", map.get("info"));
-			model.addAttribute("reqList", reqList);
-			model.addAttribute("reqCnt", reqList.size()); 
-
-			return "/certificate/certiContent";
+		model.addAttribute("cnum",cnum);
+		model.addAttribute("cnt",cnt);
+		model.addAttribute("dateList", dateList);
+		model.addAttribute("info",adminservice.getCertiInfo(cnum));
+		model.addAttribute("cnum", cnum);
+		model.addAttribute("reqList", reqList);
+		model.addAttribute("reqCnt", reqList.size()); 
+		//ncs 분류명  
+		model.addAttribute("ncs", service.getNcsName(cnum));
+		return "/certificate/certiContent";
 	}
 	
 	

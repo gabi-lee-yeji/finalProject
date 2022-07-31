@@ -7,9 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import spring.project.model.CertiDateDTO;
 import spring.project.model.CertiFilterDTO;
@@ -45,9 +50,12 @@ public class UserMainController {
 		
 		//사용자 맞춤 인기자격증 Top 10 
 		String memid = (String) session.getAttribute("sid");
-		if(memid != null)
+		if(memid != null) {
 			model.addAttribute("clientList", service.getClientTopCerti(memid));
-		
+			String order = service.getClientGenAge(memid);
+			model.addAttribute("gender",order.substring(0, 1));
+			model.addAttribute("age", order.substring(1, order.length()));
+		}
 		model.addAttribute("natList", service.getNatTopCerti());
 		model.addAttribute("prvList", service.getPrvTopCerti());
 		
@@ -59,9 +67,15 @@ public class UserMainController {
 	}
 	
 	@RequestMapping("searchCerti")
-	public String getCertiSearchList(String pageNum, String keyword, Model model) {
+	public String getCertiSearchList(String pageNum, String keyword, String cnum, 
+								RedirectAttributes redirectAttributes, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
 		model.addAttribute("page",page);
+		if(cnum != null) {
+			redirectAttributes.addAttribute("cnum", cnum);
+			return "redirect:/certificate/certiContent";
+		}
+			
 		model.addAttribute("list", service.getCertiSearchList(page, keyword));
 		model.addAttribute("count", service.getCertiSearchCnt(keyword));
 		model.addAttribute("keyword", keyword);
@@ -184,6 +198,34 @@ public class UserMainController {
 	@RequestMapping("sitemap")
 	public String sitemap() {
 		return "/sitemap";
+	}
+	
+	//에러페이지 처리
+	@RequestMapping("error/404")
+	public String error404() {
+		return "error/404error";
+	}
+	@ExceptionHandler(NoHandlerFoundException.class)
+	@ResponseStatus(value=HttpStatus.NOT_FOUND)
+	public String handle404() {
+		return "error/404error";
+	}
+	
+	@RequestMapping("error/500")
+	public String error500() {
+		return "error/500error";
+	}
+	@RequestMapping("error/403")
+	public String error403() {
+		return "error/403error";
+	}
+	
+	@RequestMapping("navbar")
+	public String userNavBar(HttpSession session, Model model) {
+		String memid = (String)session.getAttribute("sid");
+		if(memid != null)
+			model.addAttribute("checkEmp", adminService.checkIfEmp(memid));
+		return "/userNavBar";
 	}
 }
 

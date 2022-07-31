@@ -8,7 +8,7 @@
 <title>질문글</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+<c:import url="/navbar"/>
 	<c:if test="${pnum == 0}" >
 		<h1>질문글 등록</h1>
 		<form action="/community/question/addQuestionPro" name="addQuestion" 

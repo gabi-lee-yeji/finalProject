@@ -27,7 +27,9 @@
 		<result property="leaving_reason" column="leaving_reason"/>
 		<collection property="memberInfo" resultMap="memberInfo"/>
 	</resultMap>
-	
+	<select id="checkIfEmp" resultType="int">
+		select count(*) from emp_info where empid=#{memid}
+	</select>
 	<update id="delReportComment">
 		update comm_board set status=1 where comm_num=#{comm_num}
 	</update>

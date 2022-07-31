@@ -9,7 +9,7 @@
 <title>공지사항</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	<section style="margin-left:5%;margin-right:5%">
 		<h1>공지사항 목록(전체 글:${count})</h1>
 		<c:if test="${memberStatus == 1}">

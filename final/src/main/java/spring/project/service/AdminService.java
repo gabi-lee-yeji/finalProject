@@ -177,4 +177,7 @@ public interface AdminService {
 	//직원 검색결과
 	public List<EmpInfoDTO> getEmpSearchList(PagingDTO page, String search, String keyword);
 	public int getEmpSearchCnt(String search, String keyword);
+	
+	//aop - 세션ID가 사원인지 체크
+	public int checkIfEmp(String memid);
 }
