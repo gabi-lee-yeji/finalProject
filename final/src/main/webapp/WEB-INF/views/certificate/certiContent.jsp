@@ -7,18 +7,6 @@
 	<title>자격증 상세정보 : ${cnum}</title>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script>
-		function addWish(){
-			var sid = '<%=(String)session.getAttribute("sid")%>';
-		/*	if(sid == "null"){	
-				alert("로그인이 필요한 서비스입니다.");
-				window.location='/member/loginForm';
-			}else*/ 
-			if(document.getElementById("like").value != null){
-				alert("관심자격증에 추가되었습니다.");
-				window.location='/like/add';
-			}
-		}
-		
 		addReqTbl();
 		function addReqTbl(){
 			$.ajax({
