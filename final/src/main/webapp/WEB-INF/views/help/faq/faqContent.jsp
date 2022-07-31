@@ -8,7 +8,7 @@
 <title>자주하는 질문</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+<c:import url="/navbar"/>
 	<section style="margin: 20px 10% 10% 10%">
 		<h1>자주하는 질문 글보기</h1>
 		<input type="button" class="btn btn-primary" style="float:right;margin-right:20%;margin-bottom:10px" value="목록" onclick="window.location = '/help/faq/faqList?board_type=2' "/>

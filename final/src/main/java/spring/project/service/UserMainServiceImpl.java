@@ -132,17 +132,22 @@ public class UserMainServiceImpl implements UserMainService{
 
 	@Override
 	public List<CertiInfoDTO> getClientTopCerti(String memid) {
+		String order= getClientGenAge(memid);
+		return mapper.getClientTopCerti(order);
+	}
+	@Override
+	public String getClientGenAge(String memid) {
 		//사용자 정보(나이, 성별 조회)
 		MemberInfoDTO dto = adminService.getMemberInfo(memid);
 		String gender = dto.getGender();
 		int age = adminService.getMemberAge(memid);
 		age = (int) Math.floor(age/10) * 10;
-		
+		if(0 < age && age < 10) age = 10;
+		if(60 < age) age = 60;
 		String order = gender+age;
-		
-		return mapper.getClientTopCerti(order);
+		return order;
 	}
-
+	
 	@Override
 	public List<CertiInfoDTO> getNatTopCerti() {
 		return mapper.getNatTopCerti();
@@ -324,6 +329,12 @@ public class UserMainServiceImpl implements UserMainService{
 	@Override
 	public String getLangTestName(int ncs_cat) {
 		return mapper.getLangTestName(ncs_cat);
+	}
+
+	@Override
+	public List<SearchAccessible> getCnumSearchList(PagingDTO page, String cnum) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

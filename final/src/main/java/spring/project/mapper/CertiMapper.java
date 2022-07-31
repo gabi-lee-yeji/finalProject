@@ -49,7 +49,8 @@ public interface CertiMapper {
 	List<Map<String,Object>> getNcsCodeList();
 	List<CertiInfoDTO> getCertiFilteredList(Map map);
 	int getCertiFilteredCnt(CertiFilterDTO dto);
-	List<String> getNcsName(CertiFilterDTO dto);
+	List<String> getNcsNameList(CertiFilterDTO dto);
 	
+	public Map<String,String> getNcsName(String cnum);
 	
 }

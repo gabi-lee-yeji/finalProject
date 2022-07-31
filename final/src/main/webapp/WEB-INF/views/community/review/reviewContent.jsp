@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 	</script>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	<section style="margin: 20px 10% 10% 10%">
 		<c:if test="${board.status != 0}">
 			<script>

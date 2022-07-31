@@ -17,6 +17,8 @@
 <body>
 	<h1 style="text-align: center">다음 민간자격증 접수가</h1>
 	<h1 style="text-align: center">곧 마감됩니다!</h1>
+	<input type="checkbox" id="check" onclick="closePopup();"/>
+	24시간 동안 열지 않기
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -36,4 +38,18 @@
 		</tbody>
 	</table>
 </body>
+<script>
+	function setCookie(name, value, expiredays) {
+	    var date = new Date();
+	    date.setDate(date.getDate() + expiredays);
+	    document.cookie = escape(name) + "=" + escape(value) + "; expires=" + date.toUTCString();
+	}
+	
+	function closePopup() {
+	    if (document.getElementById("check").value) {
+	        setCookie("prvPopup", "N", 1);
+	        self.close();
+	    }
+	}
+</script>
 </html>

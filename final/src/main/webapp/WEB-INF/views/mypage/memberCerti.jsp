@@ -24,7 +24,7 @@
 </script>
 
 
-<jsp:include page="../userNavBar.jsp" />
+<c:import url="/navbar"/>
 <jsp:include page="sidebar.jsp" />
 <div class="w3-main" style="margin-left:220px;margin-right:20px;">
 		

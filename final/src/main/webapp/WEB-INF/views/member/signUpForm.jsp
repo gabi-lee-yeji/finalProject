@@ -506,7 +506,7 @@ function Check(){
 </script>
 
 <body>
-<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+<c:import url="/navbar"/>
 	<section style="margin-left:5%;margin-right:5%">
 		<h1>회원가입</h1>
 		<form action="/member/signUpPro" name="frm" id="frm" method="post" name="memberInput" onSubmit="return Check()" >
@@ -575,4 +575,5 @@ function Check(){
 			<input type="submit" id="btn" class="btn btn-primary" value="완료"/>
 		</form>
 	</section>
+	<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>

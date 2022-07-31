@@ -78,7 +78,6 @@ public class CertiController {
 	// 자격증 상세정보
 	@RequestMapping("certiContent")
 	public String certiContent(String cnum, String ncs_cat, HttpSession session, Model model) {
-	//	Map<String, CertiAccessible> map = service.getCertiInfo(cnum);
 		List<CertiRequirementDTO> reqList = adminservice.getCertiReqList(cnum);
 		
 		List<CertiDateDTO> dateList = null;
@@ -104,6 +103,8 @@ public class CertiController {
 		model.addAttribute("cnum", cnum);
 		model.addAttribute("reqList", reqList);
 		model.addAttribute("reqCnt", reqList.size()); 
+		//ncs 분류명  
+		model.addAttribute("ncs", service.getNcsName(cnum));
 
 		return "/certificate/certiContent";
 	}

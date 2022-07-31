@@ -9,7 +9,7 @@
 <title>꿀팁, 후기</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	<section style="margin-left:5%;margin-right:5%;margin-bottom:5%">
 		<h1>꿀팁, 후기 목록(전체 글:${count})</h1>
 		<c:if test="${sessionScope.sid != null}">

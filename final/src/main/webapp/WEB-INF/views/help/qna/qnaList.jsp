@@ -9,7 +9,7 @@
 	<title>1:1 문의</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	<section style="margin-left:5%;margin-right:5%;margin-bottom:5%">
 		<h1>1:1 문의 목록(전체 글:${count})</h1>
 		<c:if test="${sessionScope.sid != null}">
