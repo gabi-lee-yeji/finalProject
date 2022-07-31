@@ -205,12 +205,18 @@ public class UserMainServiceImpl implements UserMainService{
 			}
 		}
 		
-		List<CertiDateDTO> prvlist = calFormatList(mapper.getCertiSchedules(prvCnum));
-		List<CertiDateDTO> natlist = calFormatList(mapper.getMemberNatSchedules(natCnum));
-		
 		List<CertiDateDTO> list = new ArrayList<CertiDateDTO>();
-		list.addAll(prvlist);
-		list.addAll(natlist);
+		List<CertiDateDTO> prvlist = null;
+		List<CertiDateDTO> natlist = null;
+		if(prvCnum.size() > 0) {
+			prvlist = calFormatList(mapper.getCertiSchedules(prvCnum));
+			list.addAll(prvlist);
+		}
+		if(natCnum.size() > 0) {
+			natlist = calFormatList(mapper.getMemberNatSchedules(natCnum));
+			list.addAll(natlist);
+		}
+		
 		return list;
 	}
 
@@ -224,7 +230,7 @@ public class UserMainServiceImpl implements UserMainService{
 
 	@Override
 	public List<CertiRequirementDTO> getCertiRequirement(String cnum) {
-		System.out.println(cnum);
+		//System.out.println(cnum);
 		List<CertiRequirementDTO> list = mapper.getCertiRequirement(cnum);
 		if(list.size()==0) {
 			String clevel = mapper.checkClevel(cnum);

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ import spring.project.model.PassRatePrvDTO;
 @Service
 public class DataServiceImpl implements DataService {
 	
+	static Logger logger = Logger.getLogger("dailyout");
 	@Autowired
 	private DataMapper mapper;
 	@Autowired
@@ -155,8 +157,7 @@ public class DataServiceImpl implements DataService {
 			dto.setPassed(Integer.parseInt(strList.get(i).split(";")[5]));
 			
 			if(mapper.addPassRate(dto) != 1) {
-				//
-				System.out.println(dto);
+				logger.warn("cannot input data at addPassRate: " + dto.toString());
 			}
 		}
 	}
@@ -268,7 +269,7 @@ public class DataServiceImpl implements DataService {
 				mapper.addCertiSchedule(dto);
 				
 			}else {
-				System.out.println(datas[3]);
+				logger.warn("cannot input data at addNatSchedule: " + datas[3]);
 			}
 		}
 	}
@@ -345,7 +346,7 @@ public class DataServiceImpl implements DataService {
 				
 				mapper.updatePrvInfo1(dto);
 			}else {
-				System.out.println(datas[0]);
+				logger.warn("cannot input data at addPrvInfo: " + datas[0]);
 			}
 		}
 	}
@@ -363,7 +364,9 @@ public class DataServiceImpl implements DataService {
 			CertiRequirementDTO dto = new CertiRequirementDTO();
 			if(!datas[0].equals("")) {
 				dto.setCnum(mapper.findPrvCnum(datas[0],datas[1]));
-				if(dto.getCnum() == null) System.out.println(datas[0]);
+				if(dto.getCnum() == null) {
+					logger.warn("cannot input data at addCertiReq: " + datas[0]);
+				}
 			}
 			dto.setClevel(datas[1]);
 			dto.setReq_degree(datas[2]);
@@ -437,7 +440,7 @@ public class DataServiceImpl implements DataService {
 			
 			dto.setCnum(mapper.findPrvCnum(datas[0], datas[1]));
 			if(dto.getCnum() == null) {
-				System.out.println(dto.getCname() + " " + dto.getClevel());
+				logger.warn("cannot input data at updatePrvInfo: " + dto.getCname() + " " + dto.getClevel());
 			}else {
 				mapper.updatePrvInfo2(dto);
 			}
@@ -675,6 +678,7 @@ public class DataServiceImpl implements DataService {
 			mapper.temp2(dto);
 		}
 	}
+	
 }
 
 
