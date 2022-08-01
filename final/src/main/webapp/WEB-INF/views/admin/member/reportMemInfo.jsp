@@ -14,7 +14,7 @@
 <body>
 	<jsp:include page="../adminNavBar.jsp"/>
 	<section style="margin: 20px 10% 10% 10%">
-		<h1>회원정보</h1>
+		<h1>신고된 회원정보</h1>
 		<form action="/admin/member/memReportPro" method="post">
 			<table class="table table-bordered">
 				<tr>
@@ -131,7 +131,7 @@
 					</table>
 					<input type="hidden" value="${reportCnt}" name="reportCnt">
 					<input type="hidden" value="${memid}" name="memid">
-					<input type="submit" value="선택한 댓글 삭제">
+					<input type="submit" class="btn btn-warning" value="선택한 댓글 삭제">
 				</form>
 			</div>
 		</div>

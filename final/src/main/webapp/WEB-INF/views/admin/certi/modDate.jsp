@@ -134,11 +134,12 @@
 			<div style="margin-top:20px; margin-bottom:20px">
 				<c:if test="${fn:startsWith(cnum, 'N')}">
 					<h5>상기일정을 수정하실 경우, [총 : ${count}개]의 자격증일정도 같이 변경됩니다.</h5>
-					<input type="button" class="btn btn-outline-warn" value="변경되는 자격증 리스트 확인하기" onclick="chkList();">
+					<input type="button" class="btn btn-warning" value="변경되는 자격증 리스트 확인하기" onclick="chkList();">
 				</c:if>
 			</div>	
 			<input type="submit" class="btn btn-primary" value="수정" style="margin-left:45%">
 		</form>
 	</section>
+	<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

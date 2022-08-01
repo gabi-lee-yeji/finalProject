@@ -11,6 +11,12 @@
 	<title>직원공지 등록</title>
 </head>
 <body>
+	<c:if test="${check != 1 }">
+		<script>
+			alert("공지 등록/수정은 매니저 이상만 가능합니다!");
+			window.location="/admin/emp/noticeList";
+		</script>
+	</c:if>
 	<jsp:include page="../../adminNavBar.jsp"/>
 	<c:set var="url" value="/admin/emp/addNoticePro"/>
 	<c:if test="${dto != null }">
@@ -27,7 +33,7 @@
 				<br>
 				<div class="input-group mb-3">
 				  	<span class="input-group-text" id="inputGroup-sizing-default">작성자</span>
-				  	<input type="text" value="${id}" name="writer" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+				  	<input type="text" value="${empid}" name="writer" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 				</div>
 				<div class="input-group">
 					<span class="input-group-text">내용</span>
@@ -41,6 +47,6 @@
 			</c:if>
 			<input type="submit" value="등록" class="btn btn-primary">
 		</form>
-		<input type="button" value="취소" onclick="window.location='/admin/emp/noticeList'">
+		<input type="button" class="btn btn-outline-primary" value="취소" onclick="window.location='/admin/emp/noticeList'">
 	</section>
 </body>

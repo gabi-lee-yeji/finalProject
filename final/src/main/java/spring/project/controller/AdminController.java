@@ -47,12 +47,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping("addCertiPro")
-	public String addCertiPro(CertiInfoDTO info, CertiScheduleDTO schedule, 
-								CertiDateDTO certiDate, CertiRequirementDTO requirement,
-								Model model) {
-		int result = service.addCertiInfo(info, schedule, certiDate, requirement);
-		model.addAttribute("category", info.getCategory());
-		model.addAttribute("result", result);
+	public String addCertiPro(CertiInfoDTO info, CertiRequirementDTO requirement, Model model) {
+		System.out.println("====Controller:addCertiPro");	
+		System.out.println(info);
+		System.out.println(requirement);
+		model.addAttribute("result", service.addCertiInfo(info, requirement));
 		return "admin/certi/addCertiPro";
 	}
 	
@@ -216,26 +215,26 @@ public class AdminController {
 		return "admin/certi/modDatePro";
 	}
 	
-	//?��격증 ?���? ?��?�� (update status)
+	//자격증 삭제(update status)
 	@RequestMapping("certi/deleteForm")
-	public String deleteForm(String cnum, MemberInfoDTO dto, Model model) {
-		//?��?��?���? ?�� ?��?��?�� ?��격증 �? 권한 ?��?��
+	public String deleteForm(String cnum, HttpSession session, Model model) {
+		String empid = (String) session.getAttribute("sid");
+		model.addAttribute("empInfo", service.getMemberInfo(empid));
 		model.addAttribute("dto", service.getCertiInfo(cnum));
 		return "admin/certi/deleteForm";
 	}
 	@RequestMapping("deletePro")
 	public String deletePro(String cnum, String name, MemberInfoDTO dto, Model model) {
-		//ID || ps 미입?��?�� ?��?��?�� �??�� (2�?) -> view?��?��?�� 빈칸 체크?���?! 
-		if(dto.getMemid()==null || dto.getPasswd()==null) return "member/loginForm";
-		
-		//?��?��?�� ID�? �?리자 ID?���? 
-		if(dto.getMemid().contains("admin")) {
+		//입력한 id가 사원인지 체크
+		if(service.checkIfEmp(dto.getMemid())==1) {
 			//id, pw 체크
 			if(memService.userCheck(dto).getCnt()==1) {
-				model.addAttribute("result",service.delCerti(cnum, name));
+				System.out.println(dto);
+				System.out.println(memService.userCheck(dto).getCnt());
+				model.addAttribute("result", service.delCerti(cnum, name));
 			}
 		}else {
-			return "member/loginForm";
+			return "/admin/certi/certiList";
 		}
 		return "admin/certi/deletePro";
 	}
@@ -243,6 +242,7 @@ public class AdminController {
 	@RequestMapping("modCertiPro")
 	public String modCerti(CertiInfoDTO info, Model model) {
 		model.addAttribute("result", service.modCerti(info));
+		model.addAttribute("cnum", info.getCnum());
 		return "/admin/certi/modCertiPro";
 	}
 	
@@ -268,20 +268,7 @@ public class AdminController {
 		model.addAttribute("liked", service.getMemberLikeList(memid));
 		return "/admin/member/memberInfo";
 	}
-	/*
-	@RequestMapping("member/filter")
-	public String memberFilter() {
-		return "/admin/member/memberFilter";
-	}
 	
-	@RequestMapping("member/filterPro")
-	public String getSearchList(MemberFilterDTO dto, String pageNum, Model model) {
-		PagingDTO page = pageService.getPaging(10, pageNum);
-		List<MemberInfoDTO> list = service.getMemberFilter(dto, page);
-		model.addAttribute("list", list);
-		return "/admin/member/searchList";
-	}
-	*/
 	@RequestMapping("member/search")
 	public String getMemberSearchList(String search, String keyword, String pageNum, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
@@ -348,6 +335,7 @@ public class AdminController {
 		return "/admin/board/reportReason";
 	}
 	
+	//관리자 - 전체 게시글 목록(사용자게시판)
 	@RequestMapping("board/list")
 	public String getBoardList(String pageNum, Integer status, 
 							Integer board_type, Model model) {
@@ -360,11 +348,15 @@ public class AdminController {
 		model.addAttribute("board_type", board_type);
 		return "/admin/board/list";
 	}
+	
+	//관리자 - 전체 게시글 목록(검색결과)
 	@RequestMapping("board/search")
 	public String getBoardSearchList(String pageNum, Integer board_type, String search, String keyword, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
 		
-		model.addAttribute("board_type", board_type);
+		String board_name = "전체";
+		if(board_type != null) board_name = service.getBoardName(board_type);
+		model.addAttribute("board_name", board_name);
 		model.addAttribute("search", search);
 		model.addAttribute("keyword", keyword);
 		
@@ -425,7 +417,7 @@ public class AdminController {
 	}
 	
 	
-	//�?리자 - 직원게시?�� - 직원공�?
+	//관리자 - 직원게시판 - 직원공지목록
 	@RequestMapping("emp/noticeList")
 	public String getEmpNoticeList(String pageNum, Model model) {
 		PagingDTO page = pageService.getPaging(10, pageNum);
@@ -434,10 +426,13 @@ public class AdminController {
 		model.addAttribute("count", service.getEmpNoticeCnt());
 		return "/admin/emp/board/noticeList";
 	}
+	
+	//직원 공지 등록 - 매니저 이상만 가능!
 	@RequestMapping("emp/addNotice")
 	public String addEmpNotice(HttpSession session, Model model){
-		//model.addAttribute("id", session.getAttribute("sid"));
-		model.addAttribute("id", "admin");
+		String empid = (String)session.getAttribute("sid");
+		model.addAttribute("empid", empid);
+		model.addAttribute("check", service.checkifMgr(empid));
 		return "/admin/emp/board/noticeForm";
 	}
 	@RequestMapping("emp/addNoticePro")
@@ -445,21 +440,25 @@ public class AdminController {
 		model.addAttribute("result", service.addEmpNotice(dto));
 		return "/admin/emp/board/noticePro";
 	}
+	
+	//직원공지
 	@RequestMapping("emp/notice")
 	public String getEmpNotice(int ebnum, HttpSession session, Model model) {
-		//model.addAttribute("id", session.getAttribute("sid"));
-		model.addAttribute("id", "test");
-		service.updateReadCnt(ebnum);  //조회?��+1
+		model.addAttribute("id", session.getAttribute("sid"));
+		service.updateReadCnt(ebnum);  //조회수 +1
 		model.addAttribute("dto",service.getEmpNotice(ebnum));
 		return "/admin/emp/board/notice";
 	}
+	
+	//직원공지 수정 - 매니저이상만 가능
 	@RequestMapping("emp/modNotice")
 	public String modEmpNotice(int ebnum, HttpSession session, Model model) {
 		//dto가 null이 아닌 경우만 noticeForm이 수정 폼으로 변경
 		model.addAttribute("dto",service.getEmpNotice(ebnum));
 		
-		//model.addAttribute("id", session.getAttribute("sid"));
-		model.addAttribute("id", "test");
+		String empid = (String)session.getAttribute("sid");
+		model.addAttribute("empid", empid);
+		model.addAttribute("check", service.checkifMgr(empid));
 		return "/admin/emp/board/noticeForm";
 	}
 	@RequestMapping("emp/modNoticePro")
@@ -526,27 +525,26 @@ public class AdminController {
 		model.addAttribute("checkIfMgr", service.checkifMgr(empid));
 		return "/admin/emp/info/searchEmpList";
 	}
-	//?��?��?���?
+	//사원 상세정보 조회 
 	@RequestMapping("emp/empInfo")
 	public String getEmpInfo(String empid, HttpSession session, Model model) {
 		String sessionId = (String)session.getAttribute("sid");
 		model.addAttribute("sessionId", sessionId);
-		//model.addAttribute("sessionId","admin_mgr");
 		model.addAttribute("dto",service.getEmpInfo(empid));
 		model.addAttribute("age", service.getMemberAge(empid));
 		model.addAttribute("checkIfMgr", service.checkifMgr(sessionId));
 		return "/admin/emp/info/empInfo";
 	}
-	//?��?�� ?���?
+	//사원 등록
 	@RequestMapping("emp/addEmp")
 	public String addEmpForm(String memid, Model model) {
-		//?���? ?��?���??�� ?��?��?��?�� ?��?���? �??��
-		//처음 �??�� ?��?��?�� ?��?�� -> ?��?���??���??�� 
 		model.addAttribute("memid", memid);
 		
+		//memberinfo에 등록된 id인지 체크
 		if(memid!=null)
 			model.addAttribute("dto", service.getMemberInfo(memid));
 		
+		//입사일 초기값(오늘 날짜)
 		model.addAttribute("currentDate", service.getCurrentDate());
 		return "/admin/emp/info/addEmp";
 	}

@@ -85,62 +85,11 @@
 					<tr>
 						<td>공인 유효날짜</td>
 						<td>
-							<input type="text" name="docResultStart" class="form-control" onKeypress="dateFormat(this);" onChange="checkDate(this);" placeholder="yyyy-MM-dd" maxlength="10">
+							<input type="text" name="expiry" class="form-control" onKeypress="dateFormat(this);" onChange="checkDate(this);" placeholder="yyyy-MM-dd" maxlength="10">
 						</td>
 					</tr>
 				</table>
 			</div>
-			<div class="col" style="margin-right:50px">
-				<h2>응시자격</h2>
-				<table>
-					<tr>
-						<td>학력</td>
-						<td>
-							<input type="radio" name="req_degree" value="고졸" /> 고졸 
-							<input type="radio" name="req_degree" value="전문학사"/> 전문학사 
-							<input type="radio" name="req_degree" value="학사"/> 학사 <br>
-							<input type="radio" name="req_degree" value="석사"/> 석사 
-							<input type="radio" name="req_degree" value="박사"/> 박사 
-							<input type="radio" name="req_degree" value="기타"/> 기타 
-						</td>
-					</tr>
-					<tr>
-						<td>나이</td>
-						<td><input type="text" name="req_age" class="form-control"/></td>
-					</tr>
-					<tr>
-						<td>경력</td>
-						<td>
-							<input type="text" name="req_exp" class="form-control"/>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-							(eg) 관련분야 종사 N년 이상
-						</td>
-					</tr>
-					<tr>
-						<td>전제조건</td>
-						<td>
-							<input type="text" name="pre_requisite" class="form-control"/>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-							(eg) 1급 위해 2급 자격증 필요한 경우 등
-						</td>
-					</tr>
-					<tr>
-						<td>참고사항</td>
-						<td><textarea name="ref" class="form-control"></textarea></td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		<hr>
-		<div class="row">
 			<div class="col" style="margin-left:50px">
 				<h2>상세정보</h2>
 				<table>
@@ -178,81 +127,55 @@
 					</tr>
 				</table>
 			</div>
-			<div class="col" style="margin-right:50px">
-				<details>
-					<summary>시험일정 추가</summary>
-					<h2>시험 일정</h2>
-					<table>
-						<tr>
-							<td>자격증 회차</td>
-							<td><input type="text" name="cround" class="form-control"></td>
-						</tr>
-						<tr>
-							<td>필기 원서접수</td>
-							<td>
-								<input type="text" name="docRegStart1" class="form-control" onKeypress="dateFormat(this);" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="docRegEnd1" class="form-control" onKeypress="dateFormat(this);" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-						<tr>
-							<td>필기원서 - 추가접수</td>
-							<td>
-								<input type="text" name="docRegStart2" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="docRegEnd2" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-						<tr>
-							<td>필기시험</td>
-							<td>
-								<input type="text" name="docTestStart" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="docTestEnd" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-						<tr>
-							<td>필기-합격자발표</td>
-							<td>
-								<input type="text" name="docResultStart" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="docResultEnd" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-						<tr>
-							<td>응시자격 서류제출</td>
-							<td>
-								<input type="text" name="docSubmitStart" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="docSubmitEnd" class="form-control"onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-						<tr>
-							<td>실기시험 원서 접수</td>
-							<td>
-								<input type="text" name="pracRegStart1" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="pracRegEnd1" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-						<tr>
-							<td>실기시험 추가 접수</td>
-							<td>
-								<input type="text" name="pracRegStart2" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="pracRegEnd2" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-						<tr>
-							<td>실기시험</td>
-							<td>
-								<input type="text" name="pracTestStart" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="pracTestEnd" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-						<tr>
-							<td>실기 합격자 발표</td>
-							<td>
-								<input type="text" name="pracResStart" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-								~ <input type="text" name="pracResEnd" class="form-control" onKeypress="dateFormat(this)" onblur="checkDate(this);" placeholder="yyyy-MM-dd HH:mm" maxlength="16">
-							</td>
-						</tr>
-					</table>
-				</details>
-			</div>
+		</div>
+		<hr>
+		<div style="margin-left:50px">
+			<h2>응시자격</h2>
+			<table>
+				<tr>
+					<td>학력</td>
+					<td>
+						<input type="radio" name="req_degree" value="고졸" /> 고졸 
+						<input type="radio" name="req_degree" value="전문학사"/> 전문학사 
+						<input type="radio" name="req_degree" value="학사"/> 학사 <br>
+						<input type="radio" name="req_degree" value="석사"/> 석사 
+						<input type="radio" name="req_degree" value="박사"/> 박사 
+						<input type="radio" name="req_degree" value="기타"/> 기타 
+					</td>
+				</tr>
+				<tr>
+					<td>나이</td>
+					<td><input type="text" name="req_age" class="form-control"/></td>
+				</tr>
+				<tr>
+					<td>경력</td>
+					<td>
+						<input type="text" name="req_exp" class="form-control"/>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						(eg) 관련분야 종사 N년 이상
+					</td>
+				</tr>
+				<tr>
+					<td>전제조건</td>
+					<td>
+						<input type="text" name="pre_requisite" class="form-control"/>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						(eg) 1급 위해 2급 자격증 필요한 경우 등
+					</td>
+				</tr>
+				<tr>
+					<td>참고사항</td>
+					<td><textarea name="ref" class="form-control"></textarea></td>
+				</tr>
+			</table>
 		</div>
 		<input type="submit" value="등록" class="btn btn-primary btn-lg" style="margin-right:50%; margin-top:20px; float:right"/>
 	</form>

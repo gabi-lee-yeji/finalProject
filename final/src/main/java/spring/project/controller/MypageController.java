@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.project.model.MemberCertiDTO;
 import spring.project.model.MemberLikeDTO;
+import spring.project.service.MemberService;
 import spring.project.service.MypageService;
+import spring.project.service.UserMainService;
 
 @Controller
 @RequestMapping("/mypage/*")
@@ -19,6 +21,17 @@ public class MypageController {
 
 	@Autowired
 	MypageService service;
+	@Autowired
+	UserMainService ums;
+	@Autowired
+	MemberService ms;
+	
+	//mypage sidebar
+	@RequestMapping("sidebar")
+	public String sidebar(Model model, HttpSession session) {
+		model.addAttribute("point", service.getPoint((String) session.getAttribute("sid")));
+		return "mypage/sidebar";
+	}
 	
 	//보유자격증 추가 form
 	@RequestMapping("addMemberCerti")
@@ -83,6 +96,8 @@ public class MypageController {
 	@RequestMapping("")
 	public String mypageMain(Model model, HttpSession session) {
 		model.addAttribute("memberCertiList", service.memberCertiList((String) session.getAttribute("sid")));
+		model.addAttribute("clientList", ums.getClientTopCerti((String)session.getAttribute("sid")));
+		model.addAttribute("boardList", ms.myList((String)session.getAttribute("sid"),3,1,5));
 		return "mypage/main";
 	}
 	

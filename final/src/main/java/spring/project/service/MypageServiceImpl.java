@@ -77,6 +77,11 @@ public class MypageServiceImpl implements MypageService{
 	public void deleteMemberLikePro(MemberLikeDTO dto) {
 		mapper.deleteMemberLike(dto);
 	}
+	
+	@Override
+	public int getPoint(String memid) {
+		return mapper.getPoint(memid);
+	}
 }
 
 
