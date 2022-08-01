@@ -41,7 +41,7 @@
 					</tr>
 					<tr>
 						<td width=100px>
-							<c:set var="catArr" value="${fn:replace(fn:replace(info.category,'private','공인민간'),'national','국가기술')}"></c:set>
+							<c:set var="catArr" value="${fn:replace(fn:replace(fn:replace(info.category,'private','공인민간'),'national','국가기술'),'language','어학')}"></c:set>
 								<c:out value="${catArr}"/>
 						</td>
 						<td>${info.clevel}</td>

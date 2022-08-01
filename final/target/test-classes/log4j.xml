@@ -28,39 +28,39 @@
 	
 	<!-- Application Loggers -->
 	<logger name="spring.project.controller">
-		<level value="warn" />
+		<level value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="dailyout"/>
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
-		<level value="warn" />
+		<level value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="dailyout"/>
 	</logger>
 	
 	<logger name="org.springframework.beans">
-		<level value="warn" />
+		<level value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="dailyout"/>
 	</logger>
 	
 	<logger name="org.springframework.context">
-		<level value="warn" />
+		<level value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="dailyout"/>
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="warn" />
+		<level value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="dailyout"/>
 	</logger>
 
 	<!-- SQL Logger -->
 	<logger name="jdbc.sqltiming" additivity="false">
-		<level value="warn"/>
+		<level value="info"/>
 		<appender-ref ref="console"/>
 		<appender-ref ref="dailyout"/>
 	</logger>
@@ -70,24 +70,24 @@
 		<appender-ref ref="dailyout"/>
 	</logger>
 	<logger name="jdbc.audit" additivity="false">
-		<level value="warn"/>
+		<level value="info"/>
 		<appender-ref ref="console"/>
 		<appender-ref ref="dailyout"/>
 	</logger>
 	<logger name="jdbc.resultset" additivity="false">
-		<level value="warn"/>
+		<level value="info"/>
 		<appender-ref ref="console"/>
 		<appender-ref ref="dailyout"/>
 	</logger>
 	<logger name="jdbc.resultsettable" additivity="false">
-		<level value="warn"/>
+		<level value="info"/>
 		<appender-ref ref="console"/>
 		<appender-ref ref="dailyout"/>
 	</logger>
 	
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="dailyout"/>
 	</root>
