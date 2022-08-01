@@ -16,10 +16,12 @@
 <body>
 <c:import url="/navbar"/>
 	<c:if test="${board.status != 0}">
-		<script>
-			alert("삭제된 게시글 입니다.");
-			history.go(-1);
-		</script>
+		<c:if test="${memberStatus != 1}">
+			<script>
+				alert("삭제된 게시글 입니다.");
+				history.go(-1);
+			</script>
+		</c:if>
 	</c:if>
 	<h1>질문글 글보기</h1>
 	<input type="button" value="목록" class="btn btn-primary" style="float:right;margin-right:20%;margin-bottom:10px" 
