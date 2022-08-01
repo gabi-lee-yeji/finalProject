@@ -97,19 +97,24 @@
 					</div>
 					</li>
 					<li class="nav-item">
-					<a class="nav-link" href="/member/logout">로그아웃</a>
+						<a class="nav-link" href="/member/logout">로그아웃</a>
 					</li>
-				</c:if>
+					<c:if test="${checkEmp > 0 }">
+						<li class="nav-item">
+							<a class="nav-link" href="/admin/main">관리자 메인</a>
+						</li>
+					</c:if>
+			</c:if>
 				
-				<c:if test="${sessionScope.sid == null}">
-					<li class="nav-item">
-					<a class="nav-link" href="/member/agreeForm">회원가입</a>
-					</li>
-					<li class="nav-item">
-					<a class="nav-link" href="/member/loginForm">로그인</a>
-					</li>
-				</c:if>
-			</ul>
+			<c:if test="${sessionScope.sid == null}">
+				<li class="nav-item">
+				<a class="nav-link" href="/member/agreeForm">회원가입</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" href="/member/loginForm">로그인</a>
+				</li>
+			</c:if>
+		</ul>
 		</div>
 		<div style="margin-top:10px;margin-left:20px;margin-right:30px;float:right;">
 			<form class="form-inline" action="/search" >

@@ -8,7 +8,7 @@
 <title>자주하는 질문</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	<section style="margin: 20px 10% 10% 10%">	
 		<h1>자주하는 질문 등록</h1>
 		<form action="/help/faq/addFaqPro" name="addFaq" 

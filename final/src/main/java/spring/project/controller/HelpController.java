@@ -157,12 +157,12 @@ public class HelpController {
 	
 	// 공지글 등록
 	@RequestMapping("notice/addNotice")
-	public String addNotice(String pnum, Post_BoardDTO board, Model model) {
+	public String addNoticeAdmin(String pnum, Post_BoardDTO board, Model model) {
 		addBoard(pnum, board, model);	
 		return "/help/notice/addNotice";
 	}
 	@RequestMapping("notice/addNoticePro")
-	public String addNoticePro(Post_BoardDTO board, Model model,
+	public String addNoticeProAdmin(Post_BoardDTO board, Model model,
 			@RequestParam("file") MultipartFile[] files) {
 		addBoardPro(board, model, files);
 		return "/help/notice/addNoticePro";
@@ -191,36 +191,36 @@ public class HelpController {
 	
 	// 공지글 수정 
 	@RequestMapping("notice/modNotice")
-	public String modNotice(String pageNum, int pnum, Model model) {
+	public String modNoticeAdmin(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
 		return "help/notice/modNotice";
 	}	
 	@RequestMapping("notice/modNoticePro")
-	public String modNoticePro(Post_BoardDTO board, MemberInfoDTO dto, String pageNum, Model model) {
+	public String modNoticeProAdmin(Post_BoardDTO board, MemberInfoDTO dto, String pageNum, Model model) {
 		modBoardPro(board, dto, pageNum, model);
 		return "help/notice/modNoticePro";
 	}
 	
 	// 공지글 삭제
 	@RequestMapping("notice/delNotice")
-	public String delNotice(String pageNum, int pnum, Model model) {
+	public String delNoticeAdmin(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
 		return "help/notice/delNotice";
 	}
 	@RequestMapping("notice/delNoticePro")
-	public String delNoticePro(MemberInfoDTO dto, String pageNum, int pnum, Model model) {
+	public String delNoticeProAdmin(MemberInfoDTO dto, String pageNum, int pnum, Model model) {
 		delBoardPro(dto, pageNum, pnum, model);
 		return "help/notice/delNoticePro";
 	}
 	
 	// 자주하는 질문 등록
 	@RequestMapping("faq/addFaq")
-	public String addFaq(String pnum, Post_BoardDTO board, Model model) {
+	public String addFaqAdmin(String pnum, Post_BoardDTO board, Model model) {
 		addBoard(pnum, board, model);	
 		return "/help/faq/addFaq";
 	}
 	@RequestMapping("faq/addFaqPro")
-	public String addFaqPro(Post_BoardDTO board, Model model,
+	public String addFaqProAdmin(Post_BoardDTO board, Model model,
 			@RequestParam("file") MultipartFile[] files) {
 		addBoardPro(board, model, files);
 		return "/help/faq/addFaqPro";
@@ -249,24 +249,24 @@ public class HelpController {
 	
 	// 자주하는 질문 수정 
 	@RequestMapping("faq/modFaq")
-	public String modFaq(String pageNum, int pnum, Model model) {
+	public String modFaqAdmin(String pageNum, int pnum, Model model) {
 		modBoard(pageNum, pnum, model);
 		return "help/faq/modFaq";
 	}	
 	@RequestMapping("faq/modFaqPro")
-	public String modFaqPro(Post_BoardDTO board, MemberInfoDTO dto, String pageNum, Model model) {
+	public String modFaqProAdmin(Post_BoardDTO board, MemberInfoDTO dto, String pageNum, Model model) {
 		modBoardPro(board, dto, pageNum, model);
 		return "help/faq/modFaqPro";
 	}
 	
 	// 자주하는 질문 삭제
 	@RequestMapping("faq/delFaq")
-	public String delFaq(String pageNum, int pnum, Model model) {
+	public String delFaqAdmin(String pageNum, int pnum, Model model) {
 		delBoard(pageNum, pnum, model);
 		return "help/faq/delFaq";
 	}
 	@RequestMapping("faq/delFaqPro")
-	public String delFaqPro(MemberInfoDTO dto, String pageNum, int pnum, Model model) {
+	public String delFaqProAdmin(MemberInfoDTO dto, String pageNum, int pnum, Model model) {
 		delBoardPro(dto, pageNum, pnum, model);
 		return "help/faq/delFaqPro";
 	}

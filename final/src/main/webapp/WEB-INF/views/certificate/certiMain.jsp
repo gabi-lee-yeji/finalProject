@@ -25,7 +25,7 @@
 		<div class="bg-dark">
 		  <button class="w3-button bg-dark w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
 		  <div class="w3-container">
-		    <jsp:include page="../userNavBar.jsp"/>
+		  	<c:import url="/navbar"/>
 		  </div>
 		</div>
 		<div style="margin-left:50px;margin-right:50px; margin-top:10px">

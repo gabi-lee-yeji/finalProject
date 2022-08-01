@@ -181,4 +181,7 @@ public interface AdminMapper {
 	//직원목록 - 검색 결과 
 	public List<EmpInfoDTO> getEmpSearchList(Map map);
 	public int getEmpSearchCnt(Map map);
+	
+	//세션ID가 사원인지 조회
+	public int checkIfEmp(String memid);
 }

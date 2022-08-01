@@ -8,7 +8,7 @@
 <title>공지사항</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	<section style="margin-left:5%;margin-right:5%;margin-bottom:10%">
 		<h1>공지사항 글보기</h1>
 		<div style="margin-bottom:20px">

@@ -33,7 +33,7 @@
 </head>
 
 <body>
-	<jsp:include page="../userNavBar.jsp"></jsp:include>
+	<c:import url="/navbar"/>
 	<section style="margin-top:30px;margin-left:5%; margin-right:5%; margin-bottom:10%">
 		<div class="row">
 			<div class="col-8" style="float:left">
@@ -60,14 +60,9 @@
 					</tr>
 					<c:if test="${info.ncs_cat != null}">
 						<tr>
-						<td>분류</td>
-							<c:set var="ncs" 
-							value="${fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace
-							(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace
-							(fn:substring(info.ncs_cat,0,1),2,'경영'),6,'보건,의료'),7,'사회복지'),8,'문화예술,디자인,방송'),12,'미용,스포츠'),13,'음식,서비스')
-							,14,'건설'),16,'기계'),17,'재료'),18,'화학'),19,'섬유,의복'),20,'전기,전자'),21,'정보통신'),22,'식품,가공'),23,'인쇄,가구,공예'),24,'농립,어업'),25,'안전관리'),26,'환경,관리')}"/>
-						<td>${ncs}</td>
-					</tr>
+							<td>분류</td>
+							<td>${ncs.LNAME} (${ncs.MNAME})</td>
+						</tr>
 					</c:if>
 					<tr>
 						<td>${info.company}</td>
@@ -166,14 +161,11 @@
 		</div>
 		<div class="row">
 			<div class="col-8">
-				<c:import url = "/certificate/news" />
 			</div>
 			<div class="col">
 				<c:import url = "/community/certiReview" />
 			</div>
 		</div>
 	</section>	
-	<footer>
-		<c:import url="../footer.jsp" />
-	</footer>
+	<c:import url="../footer.jsp" />
 </body>

@@ -4,7 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="spring.project.mapper.CertiMapper">
-	<select id="getNcsName" resultType="String">
+	<select id="getNcsName" resultType="map">
+		select b.lname, b.mname from certiinfo a
+			left join ncs_code b
+			on a.ncs_cat = b.code
+			where a.cnum = #{cnum}
+	</select>
+	<select id="getNcsNameList" resultType="String">
 		select distinct lname from ncs_code where floor(code/100) in
 		<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
 			#{ncs_cat}

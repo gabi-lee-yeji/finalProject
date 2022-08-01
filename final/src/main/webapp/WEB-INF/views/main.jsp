@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +51,7 @@
 	</style>
 </head>
 <body>
-	<jsp:include page="./userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	
 	<div>
 		<form name="frm" action="/searchCerti" onsubmit="getCnum()" method="post" 
@@ -78,7 +79,21 @@
 	<div class="row">
 		<div class="col">
 			<table class="table table-hover">
-				<tr><th colspan="2" style="text-align: center;font-size: 20px">사용자 맞춤 인기자격증</th></tr>
+				<tr>
+					<th colspan="2" style="text-align: center;font-size: 20px">
+						사용자 맞춤 인기자격증 <br>
+						<c:if test="${sessionScope.sid != null }">
+							(${age}대 
+							<c:if test="${fn:startsWith(gender, 'F')}">
+								여성
+							</c:if>
+							<c:if test="${fn:startsWith(gender, 'M')}">
+								남성
+							</c:if>
+							)
+						</c:if>
+					</th>
+				</tr>
 				<c:if test="${sessionScope.sid != null }">
 					<c:forEach var="dto" items="${clientList }" varStatus="status">
 						<tr>
@@ -124,12 +139,38 @@
 	</div>
 	
 	<script>
-		<c:if test="${natPopup > 0}">
-			window.open('/main/natPopup','접수마감일 임박한 시험 (국가)','width=600,height=600');
-		</c:if>
-		<c:if test="${prvPopup > 0}">
-			window.open('/main/prvPopup','접수마감일 임박한 시험 (민간)','width=600,height=600');
-		</c:if>	
+		openPopup();
+		function getCookie(name) {
+	        var cookie = document.cookie;
+	        
+	        if (document.cookie != "") {
+	            var cookie_array = cookie.split("; ");
+	            for ( var index in cookie_array) {
+	                var cookie_name = cookie_array[index].split("=");
+	                
+	                if (cookie_name[0] == name) {
+	                    return cookie_name[1];
+	                }
+	            }
+	        }
+	        return ;
+	    }
+		
+		function openPopup() { 
+	        var natCookie = getCookie("natPopup");
+	        var prvCookie = getCookie("prvPopup");
+	        
+	        if (natCookie != "N"){
+	        	<c:if test="${natPopup > 0}">
+					window.open('/main/natPopup','접수마감일 임박한 시험 (국가)','width=600,height=600');
+				</c:if>
+	        }
+	        if(prvCookie != "N"){
+	        	<c:if test="${prvPopup > 0}">
+					window.open('/main/prvPopup','접수마감일 임박한 시험 (민간)','width=600,height=600');
+				</c:if>
+	        }
+	    }
 		
 		function getCnum(){
 			var cname = $('#certiSearch').val();
@@ -145,5 +186,6 @@
 		}
 		
 	</script>
+	<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

@@ -8,7 +8,7 @@
 <title>꿀팁, 후기</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	<section style="margin: 20px 10% 10% 10%">
 		<c:if test="${pnum == 0}" >
 			<h1>꿀팁, 후기 등록</h1>

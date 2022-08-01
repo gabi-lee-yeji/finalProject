@@ -589,4 +589,9 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
+	@Override
+	public int checkIfEmp(String memid) {
+		return mapper.checkIfEmp(memid);
+	}
+
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <head>
 	<title>로그인 - 자격증모두모아</title>
 	<link rel="stylesheet" href="/resources/css/loginForm.css">
@@ -24,12 +24,12 @@
 	</script>
 </head>
 <body>
-	<jsp:include page="../userNavBar.jsp"></jsp:include>
+	<c:import url="/navbar"/>
 	<section style="margin-top:0">
 		<div class="wrapper fadeInDown" >
 	  		<div id="formContent">
 	    		<!-- Login Form -->
-	    		<form action="loginPro" name="frm" method="post" onSubmit="return Check()">
+	    		<form action="/member/loginPro" name="frm" method="post" onSubmit="return Check()">
 		      		<input type="text" name="memid" id="memid" value="${memid}" class="fadeIn second" placeholder="ID">
 		      		<br>
 		      		<input type="password" name="passwd" id="passwd" class="fadeIn third" placeholder="password">

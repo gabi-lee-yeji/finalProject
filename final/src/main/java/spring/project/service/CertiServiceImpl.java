@@ -190,7 +190,12 @@ public class CertiServiceImpl implements CertiService {
 	
 	@Override
 	public List<String> getNcsName(CertiFilterDTO dto) {
-		return mapper.getNcsName(dto);
+		return mapper.getNcsNameList(dto);
+	}
+
+	@Override
+	public Map<String, String> getNcsName(String cnum) {
+		return mapper.getNcsName(cnum);
 	}
 
 
