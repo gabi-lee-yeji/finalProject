@@ -72,10 +72,10 @@ function Check(){
 				<option>LGU+</option>
 				<option>알뜰폰</option>
 			</select>
-			<input type="text" name="phone1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>
+			<input type="text" name="phone1" id="phone1" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>
 			-
-			<input type="text" name="phone2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>
+			<input type="text" name="phone2" id="phone2" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/>
 			-
-			<input type="text" name="phone3" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
+			<input type="text" name="phone3" id="phone3" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/><br/>
 			<input type="submit" value="아이디 찾기" />
 </form>

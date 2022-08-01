@@ -32,7 +32,7 @@
 			<td>${comm.comm_num}</td>
 			<td><a href="/${comm.board_mapping}?pnum=${comm.pnum}">${comm.comm_content}</a></td>
 			<td>${comm.writer}</td>
-			<td>${comm.reg}</td>
+			<td><fmt:formatDate value="${comm.reg}" type="date"/></td>
 			<td>${comm.pnum}</td>
 		</tr>
 	</c:forEach>

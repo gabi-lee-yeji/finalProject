@@ -51,7 +51,7 @@
 		</div><br/>
 		<input type="checkbox" name="ckb" id="ckb2" required/>
 		<b><label for="ckb2">개인정보 수집 및 이용 동의(필수)</label></b><br/>
-		<br/><input type="submit" value="회원가입으로"/>
+		<br/><input type="submit" class="btn btn-primary" value="회원가입으로"/>
 </form>
 </div>
 <jsp:include page="../footer.jsp"></jsp:include>

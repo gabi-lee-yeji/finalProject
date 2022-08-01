@@ -106,6 +106,10 @@ function degreeFunc(e){
 }	
 	
 function Check(){
+		const birthday = document.getElementById("birthday").value;
+		const today = new Date();
+		const date1 = new Date(birthday)
+		const diff = ((today.getTime()) - date1.getTime()) / (1000*60*60*24*30*12)
 		var rtn = false;
         var email = RegExp(/^[A-Za-z0-9]+$/)
         var id= RegExp(/^[a-zA-Z0-9]+$/)
@@ -124,143 +128,154 @@ function Check(){
              $("#memid").focus();
              return false;
         }
-        //아이디 유효성검사
-         if(!id.test($("#memid").val())){
-             alert("아이디는 영문과 숫자로 조합해야합니다.");
-             $("#memid").val("");
-             // idCheck.value = "";
-             $("#memid").focus();
+      //아이디 유효성검사
+        if(!id.test($("#memid").val())){
+            alert("아이디는 영문과 숫자로 조합해야합니다.");
+            $("#memid").val("");
+            // idCheck.value = "";
+            $("#memid").focus();
+            return false;
+       }
+        if($("#memid").val().length < 5 || $("#memid").val().length > 20){
+            alert("아이디의 길이는 5~20자 이내로 작성해주세요.");
+            $("#memid").val("");
+            // idCheck.value = "";
+            $("#memid").focus();
+            return false;
+       }
+      //비밀번호 공백 확인
+      if($("#passwd").val() == ""){
+            alert("패스워드 입력바람");
+            $("#passwd").focus();
+            return false;
+       }
+       //아이디 비밀번호 같음 확인
+          if($("#memid").val() == $("#passwd").val()){
+            alert("아이디와 비밀번호를 같게 할 수 없습니다.");
+            $("#passwd").val("");
+            $("#passwd2").val("");
+            $("#passwd").focus();
+             return false;
+       }
+        //비밀번호 유효성검사
+        if(!pass.test($("#passwd").val())){
+            alert("형식에 맞게 입력해주세요");
+            $("#passwd").val("");
+            $("#passwd").focus();
+             return false;
+       }
+       //비밀번호 확인란 공백 확인
+        if($("#passwd2").val() == ""){
+            alert("패스워드 확인란을 입력해주세요");
+            $("#passwd2").focus();
+            return false;
+       }
+       //비밀번호 서로확인
+        if($("#passwd").val() != $("#passwd2").val()){
+            alert("비밀번호가 일치하지 않습니다.");
+            $("#passwd").val("");
+            $("#passwd2").val("");
+            $("#passwd").focus();
+            return false;
+       }
+      //이름 공백 검사
+        if($("#mem_name").val() == ""){
+             alert("이름을 입력해주세요");
+             $("#mem_name").focus();
              return false;
         }
-         if($("#memid").val().length < 5 || $("#memid").val().length > 20){
-             alert("아이디의 길이는 5~20자 이내로 작성해주세요.");
-             $("#memid").val("");
-             // idCheck.value = "";
-             $("#memid").focus();
+        //이름 유효성 검사
+        if(!named.test($("#mem_name").val())){
+             alert("이름은 한글만 사용하실 수 있습니다.")
+             $("#mem_name").val("");
+             $("#mem_name").focus();
              return false;
         }
-       //비밀번호 공백 확인
-       if($("#passwd").val() == ""){
-             alert("패스워드 입력바람");
-             $("#passwd").focus();
-             return false;
-        }
-        //아이디 비밀번호 같음 확인
-           if($("#memid").val() == $("#passwd").val()){
-             alert("아이디와 비밀번호를 같게 할 수 없습니다.");
-             $("#passwd").val("");
-             $("#passwd2").val("");
-             $("#passwd").focus();
-              return false;
-        }
-         //비밀번호 유효성검사
-         if(!pass.test($("#passwd").val())){
-             alert("형식에 맞게 입력해주세요");
-             $("#passwd").val("");
-             $("#passwd").focus();
-              return false;
-        }
-        //비밀번호 확인란 공백 확인
-         if($("#passwd2").val() == ""){
-             alert("패스워드 확인란을 입력해주세요");
-             $("#passwd2").focus();
-             return false;
-        }
-        //비밀번호 서로확인
-         if($("#passwd").val() != $("#passwd2").val()){
-             alert("비밀번호가 일치하지 않습니다.");
-             $("#passwd").val("");
-             $("#passwd2").val("");
-             $("#passwd").focus();
-             return false;
-        }
-       //이름 공백 검사
-         if($("#mem_name").val() == ""){
-              alert("이름을 입력해주세요");
-              $("#mem_name").focus();
-              return false;
-         }
-         //이름 유효성 검사
-         if(!named.test($("#mem_name").val())){
-              alert("이름은 한글만 사용하실 수 있습니다.")
-              $("#mem_name").val("");
-              $("#mem_name").focus();
-              return false;
-         }
-        //이메일 공백 확인
-         if($("#userEmail1").val() == ""){
-             alert("이메일을 입력하시기 바랍니다");
-             $("#userEmail1").focus();
-             return false;
-        }
-        //이메일 유효성 검사
-        if(!email.test($("#userEmail1").val())){
-             alert("이메일형식에 맞게 입력해주세요")
-             $("#userEmail1").val("");
-             $("#userEmail1").focus();
-             return false;
-        }//생일 유효성 검사
-        if($("#birthday").val() == ""){
-        	alert("생일을 입력해주세요.")
-        	return false;
-        }//우편번호 유효성 검사
-        if($("#postcode").val() == ""){
-        	alert("우편번호를 입력해주세요.")
-        	return false;
-        }//주소 유효성 검사
-        if($("#Address").val() == ""){
-        	alert("주소를 입력해주세요.")
-        	return false;
-        }
-        if($("#detailAddress").val() == ""){
-        	alert("상세주소를 입력해주세요.")
-        	return false;
-        }
-        if(!email.test($("#userEmail1").val())){
+       //이메일 공백 확인
+        if($("#userEmail1").val() == ""){
+            alert("이메일을 입력하시기 바랍니다");
+            $("#userEmail1").focus();
+            return false;
+       }
+       //이메일 유효성 검사
+       if(!email.test($("#userEmail1").val())){
             alert("이메일형식에 맞게 입력해주세요")
             $("#userEmail1").val("");
             $("#userEmail1").focus();
             return false;
-        }
-        if($("mail_check_input").val() == ""){
-       		alert("인증번호를 입력해주세요")
-       		$("mail_check_input").val("");
-       		$("mail_check_input").focus();
-       	}
-        //번호 유효성 검사
-        if($("#phone1").val() == ""){
-        	alert("전화번호는 비워둘 수 없습니다.")
-        	$("#phone1").focus();
-        	return false;
-        }
-        if(!phone1.test($("#phone1").val())){
-        	alert("전화번호를 정확히 입력해주세요.")
-        	$("#phone1").val("");
-        	$("#phone1").focus();
-        	return false;
-        }
-        if($("#phone2").val() == ""){
-        	alert("전화번호는 비워둘 수 없습니다.")
-        	$("#phone2").focus();
-        	return false;
-        }
-        if(!phone2.test($("#phone2").val())){
-        	alert("전화번호를 정확히 입력해주세요.")
-        	$("#phone2").val("");
-        	$("#phone2").focus();
-        	return false;
-        }
-        if($("#phone3").val() == ""){
-        	alert("전화번호는 비워둘 수 없습니다.")
-        	$("#phone3").focus();
-        	return false;
-        }
-       	if(!phone3.test($("#phone3").val())){
-       		alert("전화번호를 정확히 입력해주세요");
-       		$("#phone3").val("");
-       		$("#phone3").focus();
-       		return false;
-       	}
+       }
+       //생일 유효성 검사
+       if($("#birthday").val() == ""){
+       	alert("생일을 입력해주세요.")
+       	return false;
+       }
+       //10살 나이제한
+       if(diff < 10){
+    	   alert("가입은 10살 이상부터 가능합니다.")
+    	   return false;
+       }
+       //우편번호 유효성 검사
+       if($("#postcode").val() == ""){
+       	alert("우편번호를 입력해주세요.")
+       	return false;
+       }
+       //주소 유효성 검사
+       if($("#Address").val() == ""){
+       	alert("주소를 입력해주세요.")
+       	return false;
+       }
+       //상세 주소 검사
+       if($("#detailAddress").val() == ""){
+       	alert("상세주소를 입력해주세요.")
+       	return false;
+       }
+       //이메일 유효성 검사
+       if(!email.test($("#userEmail1").val())){
+           alert("이메일형식에 맞게 입력해주세요")
+           $("#userEmail1").val("");
+           $("#userEmail1").focus();
+           return false;
+       }
+       //인증번호 검사
+       if($("mail_check_input").val() == ""){
+      		alert("인증번호를 입력해주세요")
+      		$("mail_check_input").val("");
+      		$("mail_check_input").focus();
+      	}
+       //번호 유효성 검사
+       if($("#phone1").val() == ""){
+       	alert("전화번호는 비워둘 수 없습니다.")
+       	$("#phone1").focus();
+       	return false;
+       }
+       if(!phone1.test($("#phone1").val())){
+       	alert("전화번호를 정확히 입력해주세요.")
+       	$("#phone1").val("");
+       	$("#phone1").focus();
+       	return false;
+       }
+       if($("#phone2").val() == ""){
+       	alert("전화번호는 비워둘 수 없습니다.")
+       	$("#phone2").focus();
+       	return false;
+       }
+       if(!phone2.test($("#phone2").val())){
+       	alert("전화번호를 정확히 입력해주세요.")
+       	$("#phone2").val("");
+       	$("#phone2").focus();
+       	return false;
+       }
+       if($("#phone3").val() == ""){
+       	alert("전화번호는 비워둘 수 없습니다.")
+       	$("#phone3").focus();
+       	return false;
+       }
+      	if(!phone3.test($("#phone3").val())){
+      		alert("전화번호를 정확히 입력해주세요");
+      		$("#phone3").val("");
+      		$("#phone3").focus();
+      		return false;
+      	}
 		$.ajax({
 			url : '/member/idDuplicate?memid=' + memid,
 			type : 'get',
@@ -296,7 +311,7 @@ function noSpaceForm(obj){
 		obj.value = obj.value.replace(' ','');
 		return false
 	}
-}
+}	
 
 var code = "";
 $(document).ready(function (){
@@ -345,12 +360,13 @@ $(document).ready(function (){
 			$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
 			$resultMsg.css('color','red');
 		}
+		
 	})
 });
 
 </script>
-<jsp:include page="../userNavBar.jsp"></jsp:include>
-<form action="/member/signUpPro" name="frm" id="frm" method="post" onSubmit="return Check()" >
+
+<form action="/member/signUpPro" name="frm" id="frm" method="post" name="memberInput" onSubmit="return Check()" >
 			아이디 : <input type="text" id="memid" name="memid" onkeyup="noSpaceForm(this);" onchange="noSpaceForm(this);"/> 
 				   <input type="button" value="아이디중복체크" onclick="idDuplicate();"> <font id = "checkId" size = "2"></font>
 				<br/>
@@ -412,5 +428,5 @@ $(document).ready(function (){
 				  
 				</div>
 			<input type="submit" id="btn" value="완료"/>
+	
 </form>
-<jsp:include page="../footer.jsp"></jsp:include>
