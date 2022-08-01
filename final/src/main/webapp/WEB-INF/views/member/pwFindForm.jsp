@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
 	<title>비밀번호 찾기</title>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -147,7 +148,7 @@
 			<div class="form-group email-form">
 				<label for="email">이메일</label>
 				<div class="input-group">
-					<input type="text" class="form-control" name="mail1" id="userEmail1" placeholder="이메일">@
+					<input type="text" class="form-control" name="mail1" id="userEmail1" placeholder="이메일"/>@
 					<select class="form-control" name="mail2" id="userEmail2">
 						<option>naver.com</option>
 						<option>daum.net</option>
