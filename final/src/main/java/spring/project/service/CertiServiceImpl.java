@@ -197,6 +197,11 @@ public class CertiServiceImpl implements CertiService {
 	public Map<String, String> getNcsName(String cnum) {
 		return mapper.getNcsName(cnum);
 	}
+	
+	@Override
+	public int findDateCount(String cnum) {
+		return mapper.findDateCount(cnum);
+	}
 
 
 }

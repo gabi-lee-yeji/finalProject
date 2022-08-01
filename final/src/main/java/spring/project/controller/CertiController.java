@@ -82,7 +82,8 @@ public class CertiController {
 		
 		List<CertiDateDTO> dateList = null;
 		if(cnum.substring(0,1).equals("N")) {
-			if(reqList.size() == 0) {
+			//certidate에서 cnum찾기
+			if(service.findDateCount(cnum) > 0) {
 				dateList = service.searchPeriod(cnum);
 			}else {
 				dateList = service.searchNatPeriod(cnum);

@@ -25,6 +25,8 @@ public class UserMainServiceImpl implements UserMainService{
 	UserMainMapper mapper;
 	@Autowired
 	AdminService adminService;
+	@Autowired
+	CertiService certiService;
 	
 	public List<CertiDateDTO> calFormatList(List<CertiDateDTO> list){
 		List<CertiDateDTO> formatedList = new ArrayList<CertiDateDTO>();
@@ -228,7 +230,9 @@ public class UserMainServiceImpl implements UserMainService{
 	@Override
 	public List<CertiDateDTO> getCertiDate(String cnum) {
 		if(cnum.startsWith("N")) {
-			return calFormatList(mapper.getNatCertiDate(cnum));
+			if(certiService.findDateCount(cnum) == 0) {
+				return calFormatList(mapper.getNatCertiDate(cnum));
+			}
 		}
 		return calFormatList(mapper.getCertiDate(cnum));
 	}

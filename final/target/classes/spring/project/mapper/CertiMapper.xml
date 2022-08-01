@@ -4,6 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="spring.project.mapper.CertiMapper">
+
+	<select id="findDateCount" resultType="int">
+		select count(*) from certidate where cnum=#{cnum}
+	</select>
+
 	<select id="getNcsName" resultType="map">
 		select b.lname, b.mname from certiinfo a
 			left join ncs_code b
@@ -142,6 +147,7 @@
 		<foreach collection="cround_list" item="cround" open="(" separator="," close=")">
 			#{cround,jdbcType=VARCHAR}
 		</foreach>
+		and cnum is null
 	</select>
 	
 	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">

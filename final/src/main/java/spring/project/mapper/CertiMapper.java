@@ -53,4 +53,7 @@ public interface CertiMapper {
 	
 	public Map<String,String> getNcsName(String cnum);
 	
+	//자격증 일정 불러오는데 사용되는 메서드
+	public int findDateCount(String cnum);
+	
 }

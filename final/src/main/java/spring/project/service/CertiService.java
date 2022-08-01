@@ -48,10 +48,12 @@ public interface CertiService {
 	
 	// 관심자격증 목록
 	public int count(String cnum, String memid);
-	
 	public List<String> getLikeList(String memid);
 	
 	//해당자격증의 ncs 분류명 조회 
 	public Map<String,String> getNcsName(String cnum);
+	
+	//자격증 일정 조회 부분
+	public int findDateCount(String cnum);
 	
 }

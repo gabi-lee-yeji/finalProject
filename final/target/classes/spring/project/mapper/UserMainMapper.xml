@@ -341,7 +341,8 @@
 				</foreach>
 				and a.cyear=b.cyear
 				and a.cround=b.cround
-				and a.clevel=b.clevel) c
+				and a.clevel=b.clevel
+				and b.cnum is null) c
 			left join certiinfo d
 			on c.cnum=d.cnum
 	</select>
@@ -374,7 +375,8 @@
 				where a.cnum = #{cnum}
 				and a.cyear=b.cyear
 				and a.cround=b.cround
-				and a.clevel=b.clevel) c
+				and a.clevel=b.clevel
+				and b.cnum is null) c
 			left join certiinfo d
 			on c.cnum=d.cnum
 	</select>
