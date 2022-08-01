@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../userNavBar.jsp"></jsp:include>
-<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+<c:import url="/mypage/sidebar"/>
 
 <script>
 function Check(){

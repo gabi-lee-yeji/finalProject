@@ -25,7 +25,7 @@
 
 
 <c:import url="/navbar"/>
-<jsp:include page="sidebar.jsp" />
+<c:import url="/mypage/sidebar"/>
 <div class="w3-main" style="margin-left:220px;margin-right:20px;">
 		
 	<!-- 보유자격증 부분 -->

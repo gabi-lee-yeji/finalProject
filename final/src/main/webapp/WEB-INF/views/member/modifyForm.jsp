@@ -193,7 +193,7 @@ function noSpaceForm(obj){
 </script>
 
 <c:import url="/navbar"/>
-<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+<c:import url="/mypage/sidebar"/>
 <div style="margin-left:230px">
 	
 	<h1>수정폼</h1>

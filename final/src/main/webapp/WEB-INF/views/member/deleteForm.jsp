@@ -8,7 +8,7 @@
 </c:if>
 
 <c:import url="/navbar"/>
-<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+<c:import url="/mypage/sidebar"/>
 <div style="margin-left:230px">
 	<h1>회원 탈퇴</h1>
 	<c:if test="${sessionScope.sid != null}">

@@ -5,7 +5,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <c:import url="/navbar"/>
-<jsp:include page="sidebar.jsp" />
+<c:import url="/mypage/sidebar"/>
 <div class="w3-main" style="margin-left:200px">
 	<div class="container">
 		<div class="row" style="min-height:100px">

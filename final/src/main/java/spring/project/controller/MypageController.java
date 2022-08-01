@@ -26,6 +26,13 @@ public class MypageController {
 	@Autowired
 	MemberService ms;
 	
+	//mypage sidebar
+	@RequestMapping("sidebar")
+	public String sidebar(Model model, HttpSession session) {
+		model.addAttribute("point", service.getPoint((String) session.getAttribute("sid")));
+		return "mypage/sidebar";
+	}
+	
 	//보유자격증 추가 form
 	@RequestMapping("addMemberCerti")
 	public String addMemberCerti(Model model) {

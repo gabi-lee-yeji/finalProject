@@ -8,6 +8,9 @@ import spring.project.model.MemberLikeDTO;
 
 public interface MypageService {
 
+	//멤버 포인트 불러오기
+	public int getPoint(String memid);
+	
 	//전체 자격증 리스트 보여줌(datalist 태그) - addform에 사용
 	public ArrayList<CertiInfoDTO> getCertiSearch();
 	

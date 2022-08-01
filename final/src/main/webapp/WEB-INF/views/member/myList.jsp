@@ -8,7 +8,7 @@
 </head>
 <body>
 <c:import url="/navbar"/>
-<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+<c:import url="/mypage/sidebar"/>
 <div style="margin-left:230px">
 	<c:if test="${board_type == 0}">
 		<h1>내가 쓴 모든 게시글</h1>

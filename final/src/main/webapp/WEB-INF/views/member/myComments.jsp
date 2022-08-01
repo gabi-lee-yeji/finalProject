@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="/navbar"/>
-<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+<c:import url="/mypage/sidebar"/>
 <div style="margin-left:230px">
 <c:if test="${count == 0}">
 	<h1>내 댓글 모음 (전체 댓글:${count})</h1>
