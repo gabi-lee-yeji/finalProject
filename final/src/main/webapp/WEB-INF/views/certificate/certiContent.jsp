@@ -56,13 +56,13 @@
 						<td>${info.company}</td>
 						<td><a href="${info.website}">${info.website}</a></td>
 					</tr>
-					<c:if test="${dateList == null }">
+					<c:if test="${fn:length(dateList) == 0 }">
 						<tr>
 							<td>시험 일정</td>
-							<td>상시 응시 가능 **<a href="${info.website}">웹사이트</a> 참고</td>
+							<td>상세 일정은 <a href="${info.website}">웹사이트</a> 참고</td>
 						</tr>
 					</c:if>
-					<c:if test="${dateList != null }">
+					<c:if test="${fn:length(dateList) != 0 }">
 						<c:forEach var="date" items="${dateList}" >
 							<tr>
 								<td>시험 일정 </td>

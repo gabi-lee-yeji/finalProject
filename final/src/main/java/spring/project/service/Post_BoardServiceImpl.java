@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,8 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Autowired
 	private ServletContext sc;
 	
+	static Logger logger = Logger.getLogger("dailyout");
+	
 	@Transactional
 	@Override
 	public int addPost_Board(Post_BoardDTO board,
@@ -54,7 +57,9 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 				
 				String webPath = "/resources/image/upload";
 				String realPath = sc.getRealPath(webPath);
-				System.out.println("realPath ====="+realPath);
+				
+				//System.out.println("realPath ====="+realPath);
+				logger.info("realPath ====="+realPath);
 				
 				attachDTO.setFileName(uploadFileName);	// attachDTO FileName에 원본 파일명 저장
 				
