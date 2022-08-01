@@ -106,10 +106,6 @@
 		}	
 			
 		function Check(){
-				const birthday = document.getElementById("birthday").value;
-				const today = new Date();
-				const date1 = new Date(birthday)
-				const diff = ((today.getTime()) - date1.getTime()) / (1000*60*60*24*30*12)
 				var rtn = false;
 		        var email = RegExp(/^[A-Za-z0-9]+$/)
 		        var id= RegExp(/^[a-zA-Z0-9]+$/)
@@ -208,11 +204,6 @@
 		       if($("#birthday").val() == ""){
 		       	alert("생일을 입력해주세요.")
 		       	return false;
-		       }
-		       //10살 나이제한
-		       if(diff < 10){
-		    	   alert("가입은 10살 이상부터 가능합니다.")
-		    	   return false;
 		       }
 		       //우편번호 유효성 검사
 		       if($("#postcode").val() == ""){
