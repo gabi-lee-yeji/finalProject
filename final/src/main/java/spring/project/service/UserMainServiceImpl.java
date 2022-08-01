@@ -40,10 +40,13 @@ public class UserMainServiceImpl implements UserMainService{
 					Object value = field.get(dto); //해당 변수의 value 조회
 					if(value!=null) { 
 						String fieldValue = field.get(dto).toString(); 
-						if(fieldValue.contains("T")) { //value가 T를 포함한 경우
-							if(fieldValue.split("T")[1].startsWith("00")) { //시간이 저장되지 않은 경우
-								value = fieldValue.split("T")[0];  //일정에 시간을 뺀 날짜만 저장
-								field.set(dto, value);  
+						if(fieldValue.contains("T")) { //value가 T(날짜,시간 구분자)를 포함한 경우
+							String[] valueArry = fieldValue.split("T");
+							if(valueArry.length > 1) {
+								if(fieldValue.split("T")[1].startsWith("00")) { //시간이 저장되지 않은 경우
+									value = fieldValue.split("T")[0];  //일정에 시간을 뺀 날짜만 저장
+									field.set(dto, value);  
+								}
 							}
 						}
 					}
