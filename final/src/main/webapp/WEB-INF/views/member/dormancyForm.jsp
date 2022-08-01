@@ -51,10 +51,8 @@ function Check(){
 			document.frm.check.value = data;
 		if(document.frm.check.value == 1){	
 			if(document.frm.injeung.value == document.frm.mail_check_input.value){
-				alert("작동됨?")
 				rtn = true;	
 			}else{
-				alert("ㅎㅇㅎㅇ");
 				rtn = false;	
 			}
 		}
