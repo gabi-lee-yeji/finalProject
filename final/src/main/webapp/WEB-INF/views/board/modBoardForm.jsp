@@ -17,7 +17,7 @@
 	};
 </script>
 
-  <table>
+  <table class="table table-bordered">
     <tr>
       <td>제목</td>
       <td>${board.subject}</td>
@@ -29,8 +29,9 @@
     <tr>
       <td>내용</td>
       <td>
-        <textarea id="post_content" name="post_content" rows="13" cols="40">
-${board.post_content}</textarea>
+        <textarea id="post_content" name="post_content" rows="13" cols="100" style="border:none">
+			${board.post_content}
+		</textarea>
       </td>
     </tr>
 	<c:if test="${fn:length(boardAttach) > 0}">
@@ -47,10 +48,9 @@ ${board.post_content}</textarea>
       <td>비밀번호</td>
       <td><input type="password" name="passwd" /></td>
     </tr>
-    <tr>
-    	<td><input type="submit" value="수정 완료" /></td>
-    </tr>
   </table>
+  <input type="submit" class="btn btn-primary" value="수정 완료" />
+  
   <input type="hidden" name="pnum" value="${board.pnum}" />
   <input type="hidden" name="memid" value="${sessionScope.sid}" />
   <input type="hidden" name="pageNum" value="${pageNum}" />

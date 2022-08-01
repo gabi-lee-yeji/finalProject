@@ -132,17 +132,22 @@ public class UserMainServiceImpl implements UserMainService{
 
 	@Override
 	public List<CertiInfoDTO> getClientTopCerti(String memid) {
+		String order= getClientGenAge(memid);
+		return mapper.getClientTopCerti(order);
+	}
+	@Override
+	public String getClientGenAge(String memid) {
 		//사용자 정보(나이, 성별 조회)
 		MemberInfoDTO dto = adminService.getMemberInfo(memid);
 		String gender = dto.getGender();
 		int age = adminService.getMemberAge(memid);
 		age = (int) Math.floor(age/10) * 10;
-		
+		if(0 < age && age < 10) age = 10;
+		if(60 < age) age = 60;
 		String order = gender+age;
-		
-		return mapper.getClientTopCerti(order);
+		return order;
 	}
-
+	
 	@Override
 	public List<CertiInfoDTO> getNatTopCerti() {
 		return mapper.getNatTopCerti();
@@ -205,12 +210,18 @@ public class UserMainServiceImpl implements UserMainService{
 			}
 		}
 		
-		List<CertiDateDTO> prvlist = calFormatList(mapper.getCertiSchedules(prvCnum));
-		List<CertiDateDTO> natlist = calFormatList(mapper.getMemberNatSchedules(natCnum));
-		
 		List<CertiDateDTO> list = new ArrayList<CertiDateDTO>();
-		list.addAll(prvlist);
-		list.addAll(natlist);
+		List<CertiDateDTO> prvlist = null;
+		List<CertiDateDTO> natlist = null;
+		if(prvCnum.size() > 0) {
+			prvlist = calFormatList(mapper.getCertiSchedules(prvCnum));
+			list.addAll(prvlist);
+		}
+		if(natCnum.size() > 0) {
+			natlist = calFormatList(mapper.getMemberNatSchedules(natCnum));
+			list.addAll(natlist);
+		}
+		
 		return list;
 	}
 
@@ -224,7 +235,7 @@ public class UserMainServiceImpl implements UserMainService{
 
 	@Override
 	public List<CertiRequirementDTO> getCertiRequirement(String cnum) {
-		System.out.println(cnum);
+		//System.out.println(cnum);
 		List<CertiRequirementDTO> list = mapper.getCertiRequirement(cnum);
 		if(list.size()==0) {
 			String clevel = mapper.checkClevel(cnum);
@@ -318,6 +329,12 @@ public class UserMainServiceImpl implements UserMainService{
 	@Override
 	public String getLangTestName(int ncs_cat) {
 		return mapper.getLangTestName(ncs_cat);
+	}
+
+	@Override
+	public List<SearchAccessible> getCnumSearchList(PagingDTO page, String cnum) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

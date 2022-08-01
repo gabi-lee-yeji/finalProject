@@ -27,9 +27,22 @@
 			.navbar .nav-item .dropdown-menu{ margin-top:0; }
 		}
 	</style>
+	
+	
+	
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	
+	<!-- 자동로그인 쿠키처리 -->
+	<c:if test="${sessionScope.sid == null}">
+		<c:if test="${cookie.cid.value!=null and cookie.cpw.value!=null and cookie.cauto.value!=null}">
+			<script>
+				window.location = "/member/autoLogin";
+			</script>
+		</c:if>
+	</c:if>
+	
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="navBar">
 		<!-- Brand -->
 		<a class="navbar-brand" href="/main">자격증모두모아</a>
 		<div class="collapse navbar-collapse justify-content-between">
@@ -80,25 +93,30 @@
 						<a class="dropdown-item" href="/member/myList?writer=${sessionScope.sid }">내가 작성한 게시글</a>
 						<a class="dropdown-item" href="/member/myComments?writer=${sessionScope.sid }">내가 작성한 댓글</a>
 						<hr>
-						<a class="dropdown-item" href="/member/modifyConfirm">개인정보 관리</a>
+						<a class="dropdown-item" href="/member/modifyConfirm">회원정보 관리</a>
 					</div>
 					</li>
 					<li class="nav-item">
-					<a class="nav-link" href="/member/logout">로그아웃</a>
+						<a class="nav-link" href="/member/logout">로그아웃</a>
 					</li>
-				</c:if>
+					<c:if test="${checkEmp > 0 }">
+						<li class="nav-item">
+							<a class="nav-link" href="/admin/main">관리자 메인</a>
+						</li>
+					</c:if>
+			</c:if>
 				
-				<c:if test="${sessionScope.sid == null}">
-					<li class="nav-item">
-					<a class="nav-link" href="/member/signUpForm">회원가입</a>
-					</li>
-					<li class="nav-item">
-					<a class="nav-link" href="/member/loginForm">로그인</a>
-					</li>
-				</c:if>
-			</ul>
+			<c:if test="${sessionScope.sid == null}">
+				<li class="nav-item">
+				<a class="nav-link" href="/member/agreeForm">회원가입</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" href="/member/loginForm">로그인</a>
+				</li>
+			</c:if>
+		</ul>
 		</div>
-		<div style="margin-left:20px;margin-right:30px;float:right;">
+		<div style="margin-top:10px;margin-left:20px;margin-right:30px;float:right;">
 			<form class="form-inline" action="/search" >
 				<input class="form-control mr-sm-2" name="keyword" type="text" placeholder="전체사이트 내 검색">
 				<button class="btn btn-success" type="submit">검색</button>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script language="javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
@@ -136,10 +136,12 @@ $(document).ready(function (){
 	});
 
 </script>
-
-<form action="/member/dormancyPro" name="frm" method="post" onsubmit="return Check()">
-	아이디 : <input type="text" name="memid" id="memid"/><br/>
-	<div class="form-group email-form">
+<body>
+<c:import url="/navbar"/>
+	<section style="margin: 20px 10% 10% 30%">
+		<form action="/member/dormancyPro" name="frm" method="post" onsubmit="return Check()">
+			아이디 : <input type="text" name="memid" id="memid"/><br/>
+			<div class="form-group email-form">
 				 <label for="email">이메일</label>
 				<div class="input-group">
 				<input type="text" class="form-control" name="mail1" id="userEmail1" placeholder="이메일">@
@@ -162,7 +164,10 @@ $(document).ready(function (){
 			<input type="hidden" name="check" id="check" value="0"/>
 			<input type="hidden" name="injeung" id="injeung"/>
 			<input type="submit" value="확인"/>
-</form>
-
-<a href="/member/agreeForm">회원가입</a>
-	<a href="/member/idFindForm">아이디 찾기</a>
+		</form>
+	
+		<a href="/member/agreeForm">회원가입</a>
+		<a href="/member/idFindForm">아이디 찾기</a>
+	</section>
+	<jsp:include page="../footer.jsp"/>
+</body>

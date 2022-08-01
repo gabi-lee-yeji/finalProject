@@ -27,7 +27,9 @@
 		<result property="leaving_reason" column="leaving_reason"/>
 		<collection property="memberInfo" resultMap="memberInfo"/>
 	</resultMap>
-	
+	<select id="checkIfEmp" resultType="int">
+		select count(*) from emp_info where empid=#{memid}
+	</select>
 	<update id="delReportComment">
 		update comm_board set status=1 where comm_num=#{comm_num}
 	</update>
@@ -443,11 +445,11 @@
 	</delete>
 	<delete id="deleteCertiNatDate">
 		delete from certischedule
-		where 
-			cnum=#{cnum}
-			and cyear=#{cyear}
-			and cround=#{cround}
-			and clevel=#{clevel} 
+			where 
+				cnum=#{cnum}
+				and cyear=#{cyear}
+				and cround=#{cround}
+				and clevel=#{clevel} 
 	</delete>
 	
 	<select id="getReportReasonList" resultType="spring.project.model.MemberReportDTO">
@@ -713,6 +715,9 @@
 			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd
 		from certidate 
 		where cnum=#{cnum}
+	</select>
+	<select id="searchCompany" resultType="String">
+		select company from certiinfo where cnum=#{cnum}
 	</select>
 	<select id="getCertiReqList" resultType="spring.project.model.CertiRequirementDTO">
 		select * from certi_requirement where cnum=#{cnum}

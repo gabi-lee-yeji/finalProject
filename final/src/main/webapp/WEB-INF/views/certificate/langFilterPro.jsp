@@ -8,33 +8,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>필터링 결과 (${count}개)</title>
-	<style>
-		.pagination {
-		  display: inline-block;
-		}
-		
-		.pagination a {
-		  color: black;
-		  float: left;
-		  padding: 8px 16px;
-		  text-decoration: none;
-		  transition: background-color .3s;
-		  border: 1px solid #ddd;
-		}
-		
-		.pagination a.active {
-		  background-color: #4CAF50;
-		  color: white;
-		  border: 1px solid #4CAF50;
-		}
-		
-		.pagination a:hover:not(.active) {background-color: #ddd;}
-	</style>
 </head>
 <body>
 	<jsp:include page="../userNavBar.jsp"/>
 	<div class="row" >
-		<div class="col-2" style="margin-left:20px">
+		<div class="col-2" style="margin-left:50px">
 			<c:import url="/certificate/langFilterForm"/>
 		</div>
 		<div class="col-8" >
@@ -87,21 +65,27 @@
 		<c:if test="${endPage > pageCount}">
 			<c:set var="endPage" value="${pageCount}" />
 		</c:if>
-       	<div class="pagination">
+       	<ul class="pagination justify-content-center">
 	        <c:if test="${startPage > 10 }">
-	        	<a href="/certificate/langFilterPro?pageNum=${startPage-10}&ncs_cat=${ncs_cat}">
-	        		이전
-	        	</a>
+	        	<li class="page-item">
+		        	<a class="page-link" href="/certificate/langFilterPro?pageNum=${startPage-10}&ncs_cat=${ncs_cat}">
+		        		이전
+		        	</a>
+		        </li>
 	        </c:if>
 	        <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
-	        	<a href="/certificate/langFilterPro?pageNum=${i}&&ncs_cat=${ncs_cat}" >
-	        		${i}
-	        	</a>
+	        	<li class="page-item">
+		        	<a class="page-link" href="/certificate/langFilterPro?pageNum=${i}&&ncs_cat=${ncs_cat}" >
+		        		${i}
+		        	</a>
+		        </li>
 			</c:forEach>
 			<c:if test="${endPage < pageCount}">
-	        	<a href="/certificate/langFilterPro?pageNum=${startPage + 10}&&ncs_cat=${ncs_cat}">
-	        		다음
-	        	</a>
+				<li class="page-item">
+		        	<a class="page-link" href="/certificate/langFilterPro?pageNum=${startPage + 10}&&ncs_cat=${ncs_cat}">
+		        		다음
+		        	</a>
+		        </li>
 			</c:if>
-		</div>
+		</ul>
    	</c:if>

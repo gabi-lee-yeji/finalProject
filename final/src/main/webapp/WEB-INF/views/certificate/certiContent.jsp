@@ -7,18 +7,6 @@
 	<title>자격증 상세정보 : ${cnum}</title>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script>
-		function addWish(){
-			var sid = '<%=(String)session.getAttribute("sid")%>';
-		/*	if(sid == "null"){	
-				alert("로그인이 필요한 서비스입니다.");
-				window.location='/member/loginForm';
-			}else*/ 
-			if(document.getElementById("like").value != null){
-				alert("관심자격증에 추가되었습니다.");
-				window.location='/like/add';
-			}
-		}
-		
 		addReqTbl();
 		function addReqTbl(){
 			$.ajax({
@@ -31,13 +19,13 @@
 		
 	</script>
 </head>
-<jsp:include page="../userNavBar.jsp"></jsp:include>
 
 <body>
-	<section style="margin-left:5%; margin-right:5%">
+	<c:import url="/navbar"/>
+	<section style="margin-top:30px;margin-left:5%; margin-right:5%; margin-bottom:10%">
 		<div class="row">
 			<div class="col-8" style="float:left">
-				<table class="table table-bordered" width="900" height="800">
+				<table class="table table-bordered" style="width:100%;">
 					<tr>
 						<th colspan=2>
 							${info.cname}
@@ -60,14 +48,9 @@
 					</tr>
 					<c:if test="${info.ncs_cat != null}">
 						<tr>
-						<td>분류</td>
-							<c:set var="ncs" 
-							value="${fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace
-							(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace
-							(fn:substring(info.ncs_cat,0,1),2,'경영'),6,'보건,의료'),7,'사회복지'),8,'문화예술,디자인,방송'),12,'미용,스포츠'),13,'음식,서비스')
-							,14,'건설'),16,'기계'),17,'재료'),18,'화학'),19,'섬유,의복'),20,'전기,전자'),21,'정보통신'),22,'식품,가공'),23,'인쇄,가구,공예'),24,'농립,어업'),25,'안전관리'),26,'환경,관리')}"/>
-						<td>${ncs}</td>
-					</tr>
+							<td>분류</td>
+							<td>${ncs.LNAME} (${ncs.MNAME})</td>
+						</tr>
 					</c:if>
 					<tr>
 						<td>${info.company}</td>
@@ -148,37 +131,29 @@
 						<td>${info.cjob}</td>
 					</tr>
 				</table>
+				<div id="requirement" style="margin-top:20px"></div>
 			</div>
-			<div class="col-4" style="">
-				<c:import url="/calendar/certiInfo"/>
+			<div class="col-4">
+				<div>
+					<c:import url="/calendar/certiInfo"/>
+				</div>
+				<div style="margin-top:5%">
+					<c:import url="/certificate/lineGraph"/>
+				</div>
+				<div style="margin-top:5%">
+					<c:if test="${info.cnum.charAt(0) == 78 }">
+						<c:import url="/certificate/pyramidGraph"/>
+					</c:if>
+				</div>
 			</div>
 		</div>
-		<c:import url = "/community/certiReview" />
-		<div id="requirement" style="margin-top:20px"></div>
+		<div class="row">
+			<div class="col-8">
+			</div>
+			<div class="col">
+				<c:import url = "/community/certiReview" />
+			</div>
+		</div>
 	</section>	
-
-	<hr>
-	<c:import url = "/community/certiReview" />
-	<hr>
-	<div id="requirement">
-		requirement
-	</div>
-	<hr>	
-	<c:import url = "/certificate/news" />
-	<hr>
-	<div class="row" style="width:80%;">
-		<div class="col" style="width:50%;">
-			최근 5년 시험 합격률 추이
-			<c:import url="/certificate/lineGraph"/>
-		</div>
-		<div class="col" style="width:50%;">
-			<c:if test="${info.cnum.charAt(0) == 78 }">
-				연령별/성별 합격자 그래프
-				<c:import url="/certificate/pyramidGraph"/>
-			</c:if>
-		</div>
-	</div>
-		 
 	<c:import url="../footer.jsp" />
-
 </body>

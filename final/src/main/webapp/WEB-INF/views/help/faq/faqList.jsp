@@ -9,10 +9,12 @@
 <title>자주하는 질문</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
+	<c:import url="/navbar"/>
 	<section style="margin-left:5%;margin-right:5%;margin-bottom:5%">
 		<h1>자주하는 질문 목록(전체 글:${count})</h1>
-		
+		<c:if test="${memberStatus == 1}">
+			<button class="btn btn-primary" style="float: right" onclick="window.location='/help/faq/addFaq'">글쓰기</button>
+		</c:if>
 		<c:if test="${count == 0}">
 			<table class="table table-hover">
 				<thead>
@@ -75,25 +77,22 @@
 			<ul class="pagination justify-content-center">
 				<c:if test="${startPage > 10}" >
 					<li class="page-item">
-			        	<a class="page-link" href="/help/faq/faqList?board_type=2&pageNum=${startPage - 10}">[이전]</a>
+			        	<a class="page-link" href="/help/faq/faqList?board_type=2&pageNum=${startPage - 10}">이전</a>
 			    	</li>
 			    </c:if>
 			    
 			    <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">    
 			        <li class="page-item">
-			        	<a class="page-link" href="/help/faq/faqList?board_type=2&pageNum=${i}">[${i}]</a>
+			        	<a class="page-link" href="/help/faq/faqList?board_type=2&pageNum=${i}">${i}</a>
 			    	</li>
 			    </c:forEach>
 			    
 			    <c:if test="${endPage < pageCount}" >
 			    	<li class="page-item">
-			       		<a class="page-link" href="/help/faq/faqList?board_type=2&pageNum=${startPage + 10 }">[다음]</a>
+			       		<a class="page-link" href="/help/faq/faqList?board_type=2&pageNum=${startPage + 10 }">다음</a>
 			    	</li>
 			    </c:if>
 			 </ul>
-		</c:if>
-		<c:if test="${memberStatus == 1}">
-			<a href="/help/faq/addFaq">글쓰기</a>
 		</c:if>
 	</section>
 	<jsp:include page="/WEB-INF/views/footer.jsp" />

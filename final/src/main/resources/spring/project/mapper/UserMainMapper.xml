@@ -84,7 +84,8 @@
 		select * from 
 		    (select rownum r, list.* from 
 		        (select cyear, cround, clevel, docregend1 from certidate 
-		            where docregend1 between sysdate and sysdate+(interval'15'day) 
+		            where docregend1 between sysdate and sysdate+(interval'15'day)
+		            and cnum is null 
 		            order by docregend1) list)
 		    where r = 1
 	</select>
@@ -140,6 +141,7 @@
 	</select>
 	<select id="getNcsCodeList" resultType="map">
 		select * from (select floor(code/100) as code, lname from ncs_code)
+			where code > 0
 			group by code, lname
 			order by code
 	</select>

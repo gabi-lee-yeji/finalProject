@@ -52,6 +52,7 @@ public interface AdminMapper {
 	public List<CertiDateDTO> searchNatPeriod(@Param("clevel")String clevel,
 											@Param("cyear_list")List<Integer> cyear_list,
 											@Param("cround_list")List<Integer> cround_list);
+	public String searchCompany(String cnum);
 	
 	//자격증 일정 삭제
 	public int deleteCertiDate(int[] dateList);
@@ -180,4 +181,7 @@ public interface AdminMapper {
 	//직원목록 - 검색 결과 
 	public List<EmpInfoDTO> getEmpSearchList(Map map);
 	public int getEmpSearchCnt(Map map);
+	
+	//세션ID가 사원인지 조회
+	public int checkIfEmp(String memid);
 }

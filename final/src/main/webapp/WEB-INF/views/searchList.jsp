@@ -8,7 +8,8 @@
 	<title>사이트 내 검색결과 : ${keyword }</title>
 </head>
 <body>
-	<jsp:include page="userNavBar.jsp"/>
+	<c:import url="/navbar"/>
+	<section style="margin: 20px 10% 10% 10%">
 	<div>
 		<h1>키워드 : "${keyword }"</h1>
 		<c:if test="${count > 0 }">
@@ -120,5 +121,6 @@
 			<h2>검색 결과가 없습니다.</h2>
 		</c:if>
 	</div>
+	</section>
 </body>
 </html>

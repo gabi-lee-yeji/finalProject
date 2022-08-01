@@ -30,7 +30,7 @@
 						<option value="6">정보</option>
 						<option value="7">취준생</option>
 					</select>
-					<select class="form-control" style="max-width:8%" name="search">
+					<select class="form-control" style="max-width:10%" name="search">
 						<option value="both">제목+내용</option>
 						<option value="writer">작성자</option>
 					</select>	

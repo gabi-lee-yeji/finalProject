@@ -22,7 +22,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 	};
 </script>
 
-<table>
+<table class="table table-bordered">
 	<tr>
 		<td>제목</td>
 		<c:if test="${pnum == 0}" >
@@ -49,7 +49,5 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 		<td>이미지</td>
 		<td><input type="file" name="file" multiple="multiple"/></td>
 	</tr>
-	<tr>
-		<td><input type="submit" value="등록" /></td>
-	</tr>
 </table>
+<input class="btn btn-primary" type="submit" value="등록" />

@@ -134,9 +134,9 @@ public class MemberController {
 		
 		return "member/logout";
 	}
-	//메인
-	@RequestMapping("main")
-	public String main(HttpServletResponse response,HttpSession session,Model model,HttpServletRequest request) {
+	//자동로그인
+	@RequestMapping("autoLogin")
+	public String autoLogin(HttpServletResponse response,HttpSession session,Model model,HttpServletRequest request) {
 		
 		String sid = (String)session.getAttribute("sid");
 		Cookie[] cookies = request.getCookies();
@@ -160,11 +160,11 @@ public class MemberController {
 					}
 				}
 				if(cauto != null && cid != null && cpw != null) {
-					loginPro( request, session, response, model, dto, cauto);
+					return loginPro( request, session, response, model, dto, cauto);
 				}
 			}
 		}
-		return "member/main";
+		return null;
 	}
 	//아이디 중복 확인
 	@RequestMapping(value = "idDuplicate", method = RequestMethod.GET)
@@ -343,12 +343,11 @@ public class MemberController {
 		int endRow = currentPage * pageSize;
 		int count = 0;
 		int number = 0;
-		System.out.println(board_type);
 		if(board_type == null) board_type = 0;
 		count = service.post_BoardCount(board_type,writer);
 		ArrayList<Post_BoardDTO> boardList = null;
 		if(count > 0) {
-		boardList = (ArrayList<Post_BoardDTO>)service.myList(writer,board_type,startRow,endRow);
+			boardList = (ArrayList<Post_BoardDTO>)service.myList(writer,board_type,startRow,endRow);
 		}
 		number = count - (currentPage - 1) * pageSize;
 		

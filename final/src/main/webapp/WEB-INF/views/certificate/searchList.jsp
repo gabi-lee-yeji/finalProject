@@ -8,7 +8,7 @@
 		<title>자격증 검색 결과 : ${keyword}</title>
 	</head>
 	<body>
-		<jsp:include page="../userNavBar.jsp"/>
+		<c:import url="/navbar"/>
 		<section style="margin-left:5%;margin-right:5%;margin-bottom:5%">
 			<table class="table table-hover">
 				<thead>
