@@ -26,20 +26,23 @@ public class UserMainServiceImpl implements UserMainService{
 	@Autowired
 	AdminService adminService;
 	
+	//조회한 상세정보 목록의 날짜를 fullCalendar에 적용가능한 pattern으로 변경
 	public List<CertiDateDTO> calFormatList(List<CertiDateDTO> list){
 		List<CertiDateDTO> formatedList = new ArrayList<CertiDateDTO>();
 		for(CertiDateDTO dto : list) {
+			//List에 담긴 dto의 모든 필드의 정보를 Field배열에 저장 
+			//Field 객체 = dto의 변수 하나의 정보를 담고 있음
 			Field[] allFields = dto.getClass().getDeclaredFields();
 
 			for(Field field : allFields) {
-				field.setAccessible(true);  
+				field.setAccessible(true);  //private 변수도 접근 가능하게 설정
 				try {
-					Object value = field.get(dto); 
+					Object value = field.get(dto); //해당 변수의 value 조회
 					if(value!=null) { 
 						String fieldValue = field.get(dto).toString(); 
-						if(fieldValue.contains("T")) { 
-							if(fieldValue.split("T")[1].startsWith("00")) {
-								value = fieldValue.split("T")[0];  
+						if(fieldValue.contains("T")) { //value가 T를 포함한 경우
+							if(fieldValue.split("T")[1].startsWith("00")) { //시간이 저장되지 않은 경우
+								value = fieldValue.split("T")[0];  //일정에 시간을 뺀 날짜만 저장
 								field.set(dto, value);  
 							}
 						}
@@ -53,81 +56,32 @@ public class UserMainServiceImpl implements UserMainService{
 		return formatedList;
 	}
 	
+	//민간, 어학 시험의 전체 일정 조회 - main calendar
 	@Override
 	public List<CertiDateDTO> getCertiSchedules() {
 		List<CertiDateDTO> list = mapper.getCertiSchedules(null);
-		List<CertiDateDTO> newList = new ArrayList<CertiDateDTO>();   
+		List<CertiDateDTO> formatedList = null;   
 		
 		if(list.size()>0) {
-			for(CertiDateDTO dto : list) {
-				Field[] allFields = dto.getClass().getDeclaredFields();
-	
-				for(Field field : allFields) {
-					field.setAccessible(true);  
-					try {
-						Object value = field.get(dto); 
-						if(value!=null) { 
-							String fieldValue = field.get(dto).toString(); 
-							if(fieldValue.contains("T")) { 
-								String[] valueArry = fieldValue.split("T");
-								if(valueArry.length > 1) {
-									if(valueArry[1].startsWith("00")) {
-										value = fieldValue.split("T")[0];  
-										field.set(dto, value);  
-									}
-								}
-							}
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				newList.add(dto);
-			}
+			formatedList = calFormatList(list);
 		}
 		
-		if(newList.size()>0) {
-			return newList;
+		if(formatedList.size()>0) {
+			return formatedList;
 		}
 		
 		return list;
 	}
 	
+	//국가기술자격증의 전체 일정 조회 - main calendar
 	@Override
 	public List<CertiDateDTO> getNatSchedules() {
-		List<CertiDateDTO> list = new ArrayList<CertiDateDTO>();
-		for(CertiDateDTO dto : mapper.getNatSchedules()) {
-			//List�� ���� dto�� ��� ���� ���� Field��ü �迭�� ���� 
-			Field[] allFields = dto.getClass().getDeclaredFields();
-
-			for(Field field : allFields) {
-				field.setAccessible(true);  //private�ʵ忡 ���ٰ����ϰ� ����
-				try {
-//					System.out.println("field Value :"+field.get(dto));
-//					System.out.println("field Value String:"+field.get(dto).toString());
-					Object value = field.get(dto); //�ʵ忡 ����� ���� ������ 
-					if(value!=null) { 
-						String fieldValue = field.get(dto).toString(); 
-						if(fieldValue.contains("T")) { 
-							if(fieldValue.split("T")[1].startsWith("00")) {
-								value = fieldValue.split("T")[0];  //����� �ð��� ���� ��� ��¥�� ����
-								field.set(dto, value);  
-								//System.out.println("field Value :"+field.get(dto));
-							}
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			list.add(dto);
-			//System.out.println(dto);
+		List<CertiDateDTO> list = mapper.getNatSchedules();
+		List<CertiDateDTO> formatedList = calFormatList(list);
+		if(formatedList.size()>0) {
+			return formatedList;
 		}
-		if(list.size()>0) {
-			return list;
-		}
-		
-		return mapper.getNatSchedules();
+		return list;
 	}
 
 	@Override
