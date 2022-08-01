@@ -21,7 +21,6 @@ public class MailSendService {
 			// 난수의 범위 111111 ~ 999999 (6자리 난수)
 			Random r = new Random();
 			int checkNum = r.nextInt(888888) + 111111;
-			System.out.println("인증번호 : " + checkNum);
 			authNumber = checkNum;
 		}
 		

@@ -71,7 +71,6 @@
 					url : '/member/idDuplicate?memid=' + memid,
 					type : 'get',
 					success : function(data){
-						console.log("1 = 중복o / 0 = 중복x" + data);
 						document.frm.result.value = data;
 					if(document.frm.result.value == ""){
 						$("#checkId").html("아이디를 입력해주세요")
@@ -272,7 +271,6 @@
 					type : 'get',
 					async : false,
 					success : function(data){
-						console.log("1 = 중복o / 0 = 중복x" + data);
 						document.frm.result.value = data;
 					if(document.frm.result.value == 0){
 						if(document.frm.injeung.value == document.frm.mail_check_input.value){
@@ -311,7 +309,6 @@
 				var mail = document.getElementById("userEmail1").value;
 				var mail2 = document.getElementById("userEmail2").value;
 				var email = mail+"@"+mail2;
-				console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
 				var cehckBox = $(".mail_check_input");
 				var boxWrap = $(".mail_check_box");
 				$.ajax({
@@ -324,7 +321,6 @@
 						cehckBox.attr("disabled",false);
 						boxWrap.attr("id", "mail_check_box_true");
 						code = data;
-						console.log(code);
 						alert("인증번호가 전송되었습니다")
 						}
 					});
@@ -335,7 +331,6 @@
 			$(".mail_check_input").blur(function() {
 				const inputCode = $(".mail_check_input").val();
 				const $resultMsg = $("#mail-check-warn");
-				console.log(inputCode);
 				
 				if(inputCode == code){
 					document.frm.injeung.value=code
