@@ -195,7 +195,7 @@ public class UserMainServiceImpl implements UserMainService{
 	public List<CertiRequirementDTO> getCertiRequirement(String cnum) {
 		//System.out.println(cnum);
 		List<CertiRequirementDTO> list = mapper.getCertiRequirement(cnum);
-		if(list.size()==0) {
+		if(list.size()==0 && cnum.charAt(0) == 'N') {
 			String clevel = mapper.checkClevel(cnum);
 			list = mapper.getNatCertiRequirement(clevel);
 		}
