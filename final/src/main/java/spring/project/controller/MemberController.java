@@ -1,5 +1,4 @@
 package spring.project.controller;
-
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +28,7 @@ import spring.project.service.MemberService;
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
+	static Logger logger = Logger.getLogger("dailyout");
 	
 	@Autowired
 	private MailSendService mailService;
@@ -329,8 +330,9 @@ public class MemberController {
 	@GetMapping("/mailCheck")
 	@ResponseBody
 	public String mailCheck(String email) {
-		System.out.println("이메일 인증 요청이 들어옴!");
-		System.out.println("이메일 인증 이메일 : " + email);
+		
+		logger.info("이메일 인증요청이 들어옴!");
+		logger.info("이메일 인증 이메일 : " + email);
 		return mailService.joinEmail(email);
 	}
 	//내가 쓴 글 확인
