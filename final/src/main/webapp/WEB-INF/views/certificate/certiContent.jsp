@@ -149,6 +149,7 @@
 		</div>
 		<div class="row">
 			<div class="col-8">
+				<c:import url="/certificate/news" />
 			</div>
 			<div class="col">
 				<c:import url = "/community/certiReview" />
