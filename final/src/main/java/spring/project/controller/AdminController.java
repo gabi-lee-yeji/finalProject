@@ -152,8 +152,6 @@ public class AdminController {
 						request.getParameter("pracResStart"+i),
 						request.getParameter("pracResEnd"+i)
 					);
-			System.out.println(dto);
-			System.out.println(dto.getDocRegStart1().split(" ")[0]+"T"+dto.getDocRegStart1().split(" ")[1]);
 			result += service.addCertiDate(dto);
 		}
 		
