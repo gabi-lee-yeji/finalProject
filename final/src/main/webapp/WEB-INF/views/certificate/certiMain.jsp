@@ -49,15 +49,13 @@
 							</td>
 							<td><a href="/certificate/certiContent?cnum=${board.cnum}&pageNum=${currentPage}">${board.cname}</a>	
 							<c:if test="${sessionScope.sid != null}">
-									<c:if test="${check > 0}">
-										<c:if test="${fn:contains( mlist, board.cnum )}">
-											<input type="image"src="/resources/img/좋아요후.png" alt="제출" height="25" width="20" onclick="location.href='/like/delete?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
-										</c:if>
-										<c:if test="${!fn:contains( mlist, board.cnum )}">
-											<input type="image"src="/resources/img/좋아요전.png" alt="제출" height="20" width="20" onclick="location.href='/like/add?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
-										</c:if>
-									</c:if>
+								<c:if test="${fn:contains( mlist, board.cnum )}">
+									<input type="image"src="/resources/img/좋아요후.png" alt="제출" height="25" width="20" onclick="location.href='/like/delete?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
 								</c:if>
+								<c:if test="${!fn:contains( mlist, board.cnum )}">
+									<input type="image"src="/resources/img/좋아요전.png" alt="제출" height="20" width="20" onclick="location.href='/like/add?cnum=${board.cnum}&memid=${sessionScope.sid}'"/>
+								</c:if>
+							</c:if>
 							<td><c:out value="${board.clevel}"/></td>
 							<td>
 								<c:set var="catArr" value="${fn:replace(fn:replace(board.category,'private','공인민간'),'national','국가기술')}"></c:set>

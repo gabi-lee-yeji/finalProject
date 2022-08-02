@@ -56,7 +56,6 @@ public class CertiController {
 		String memid = (String)session.getAttribute("sid");
 		if(memid != null) {
 			List<String> mlist = service.getLikeList(memid);
-			model.addAttribute("check", mlist.size());
 			model.addAttribute("mlist", mlist);
 		}
 		
@@ -116,8 +115,14 @@ public class CertiController {
 	
 	// 어학 자격증 페이지
 	@RequestMapping("certiLang")
-	public String getCertiLangList(String pageNum, Model model) {
+	public String getCertiLangList(String pageNum, HttpSession session, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
+		
+		String memid = (String)session.getAttribute("sid");
+		if(memid != null) {
+			List<String> mlist = service.getLikeList(memid);
+			model.addAttribute("mlist", mlist);
+		}
 		
 		model.addAttribute("page", page);
 		model.addAttribute("list", service.getCertiLangList(page));
