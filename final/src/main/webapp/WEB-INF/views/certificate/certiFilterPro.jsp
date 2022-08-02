@@ -56,6 +56,14 @@
 							<td>${dto.cnum}</td>
 							<td>
 								<a href="/certificate/certiContent?cnum=${dto.cnum}">${dto.cname}</a>
+								<c:if test="${sessionScope.sid != null}">
+									<c:if test="${fn:contains( mlist, dto.cnum )}">
+										<input type="image"src="/resources/img/좋아요후.png" alt="제출" height="25" width="20" onclick="location.href='/like/delete?cnum=${dto.cnum}&memid=${sessionScope.sid}'"/>
+									</c:if>
+									<c:if test="${!fn:contains( mlist, dto.cnum )}">
+										<input type="image"src="/resources/img/좋아요전.png" alt="제출" height="20" width="20" onclick="location.href='/like/add?cnum=${dto.cnum}&memid=${sessionScope.sid}'"/>
+									</c:if>
+								</c:if>
 								<c:if test="${fn:contains(cnumList, dto.cnum)}">
 									<button type="button" class="btn btn-danger btn-xs">접수마감!</button>
 								</c:if>

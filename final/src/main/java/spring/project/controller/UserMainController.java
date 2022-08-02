@@ -22,6 +22,7 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.pagination.PagingDTO;
 import spring.project.pagination.PagingService;
 import spring.project.service.AdminService;
+import spring.project.service.CertiService;
 import spring.project.service.MypageService;
 import spring.project.service.UserMainService;
 
@@ -37,6 +38,8 @@ public class UserMainController {
 	private MypageService mpService;
 	@Autowired
 	private PagingService pageService;
+	@Autowired
+	public CertiService certService;
 	
 	@RequestMapping("/")
 	public String mainRedirect(HttpSession session, Model model) {
@@ -144,7 +147,7 @@ public class UserMainController {
 	}
 	
 	@RequestMapping("certificate/filterPro")
-	public String getFilterResult(CertiFilterDTO dto, String pageNum,String ncs_cat, Model model) {
+	public String getFilterResult(CertiFilterDTO dto, String pageNum,String ncs_cat, HttpSession session, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
 		model.addAttribute("page", page);
 		
@@ -156,6 +159,12 @@ public class UserMainController {
 		if(dto.getNcs_cat().length>0) {
 			model.addAttribute("ncsName", service.getNcsName(dto));
 			model.addAttribute("ncs_length", dto.getNcs_cat().length+1);
+		}
+		
+		String memid = (String)session.getAttribute("sid");
+		if(memid != null) {
+			List<String> mlist = certService.getLikeList(memid);
+			model.addAttribute("mlist", mlist);
 		}
 		
 		model.addAttribute("cnumList", service.getCnumOfCloseTests());
@@ -183,7 +192,7 @@ public class UserMainController {
 		return "/certificate/langFilterForm";
 	}
 	@RequestMapping("/certificate/langFilterPro")
-	public String langFilterPro(Integer ncs_cat, String pageNum, Model model) {
+	public String langFilterPro(Integer ncs_cat, String pageNum, HttpSession session, Model model) {
 		PagingDTO page = pageService.getPaging(20, pageNum);
 		model.addAttribute("page", page);
 		
@@ -192,6 +201,13 @@ public class UserMainController {
 		model.addAttribute("list", service.getLangFilteredList(page, ncs_cat) );
 		model.addAttribute("count",service.getLangFilterCnt(ncs_cat));
 		model.addAttribute("cnumList", service.getCloseLangCnumList());
+		
+		String memid = (String)session.getAttribute("sid");
+		if(memid != null) {
+			List<String> mlist = certService.getLikeList(memid);
+			model.addAttribute("mlist", mlist);
+		}
+		
 		return "/certificate/langFilterPro";
 	}
 
