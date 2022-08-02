@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% 
+   //줄바꿈
+   pageContext.setAttribute("br", "<br/>");
+   pageContext.setAttribute("cn","\n"); 
+%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	function check(){
@@ -67,7 +73,7 @@
 	<c:forEach var="comm" items="${commList}">
 		<tr> 
 			<td>${comm.comm_num}</td>
-			<td>${comm.comm_content}</td>
+			<td>${fn:replace(comm.comm_content, cn, br)}</td>
 			<td>${comm.writer}</td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${comm.reg}"/></td>
 			<td><c:if test="${sessionScope.sid != null}">
