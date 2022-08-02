@@ -169,7 +169,7 @@ public class AopAdvice {
 	}
 	
 	//MyPage는 로그인한 사용자만 접근가능
-	@Around("execution(* spring.project.controller.MyPage*.*(..))")
+	@Around("execution(* spring.project.controller.Mypage*.*(..))")
 	public String myPage(ProceedingJoinPoint jp) throws Throwable {
 		String view = (String) jp.proceed();
 		

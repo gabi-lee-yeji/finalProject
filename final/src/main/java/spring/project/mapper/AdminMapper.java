@@ -133,6 +133,7 @@ public interface AdminMapper {
 						@Param("board_type")Integer board_type);
 	
 	//전체게시글 - 검색 결과 조회
+	public String getBoardName(int board_type);
 	//글제목+내용 검색
 	public List<Post_BoardDTO> getBoardSearchBoth(Map map);
 	public int getSearchBothCnt(Map map);

@@ -34,8 +34,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Transactional
 	@Override
-	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, 
-							CertiDateDTO certiDate, CertiRequirementDTO requirement) {
+	public int addCertiInfo(CertiInfoDTO info, CertiRequirementDTO requirement) {
+		System.out.println("====serviceImpl");
 		String cnum = "";
 		String sequence = "";
 		
@@ -60,33 +60,22 @@ public class AdminServiceImpl implements AdminService{
 		cnum += String.format("%05d", mapper.findCurrseq(sequence));
 		
 		info.setCnum(cnum); 
-		schedule.setCnum(cnum);
-		requirement.setCnum(cnum);
-		
-		//자격증일정이 입력됐는지 체크후 certiDate에도 cnum 설정
-		if(certiDate != null) {
-			certiDate.setCnum(cnum);
-		}
 		
 		int result = 0;
 		
-		//국가자격증 - certiinfo / certischedule(큐넷일정) 에만 insert
-		//민간,어학 - certiinfo / certidate(상세일정) 에 insert
-		if(info.getCategory().equals("national")) {
+		if(info.getCategory().equals("national")) {		//국가자격증의 경우 info만 입력
 			result += mapper.addCertiInfo(info);
-			result += mapper.addCertiSchedule(schedule);
-			if(result==2) mapper.findNextseq(sequence);
+			if(result==1) mapper.findNextseq(sequence);
 		}else {
 			result += mapper.addCertiInfo(info);
-			result += mapper.addCertiDate(certiDate);
 			
 			//입력된 certirequirement(응시자격)이 있을 경우 insert
 			if(requirement != null) {
+				requirement.setCnum(cnum);
 				result += mapper.addCertiReq(requirement);
 			}
-			if(result>=2) mapper.findNextseq(sequence);
+			if(result>=1) mapper.findNextseq(sequence);
 		}
-		System.out.println("===자격증등록==="+result);
 		return result;
 	}
 
@@ -233,9 +222,9 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	//자격증 정보 수정
-	@Transactional
 	@Override
 	public int modCerti(CertiInfoDTO info) {
+		System.out.println("======impl=====");
 		return mapper.modCertiInfo(info);
 	}
 	
@@ -622,6 +611,11 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int checkIfEmp(String memid) {
 		return mapper.checkIfEmp(memid);
+	}
+
+	@Override
+	public String getBoardName(int board_type) {
+		return mapper.getBoardName(board_type);
 	}
 
 }

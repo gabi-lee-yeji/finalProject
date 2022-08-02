@@ -21,8 +21,7 @@ public interface AdminService {
 	
 	//자격증 관리 메서드 
 	//자격증 등록
-	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, 
-							CertiDateDTO date, CertiRequirementDTO requirement);
+	public int addCertiInfo(CertiInfoDTO info, CertiRequirementDTO requirement);
 	
 	//등록된 자격증 전체 목록
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category);
@@ -132,7 +131,7 @@ public interface AdminService {
 	//전체게시글 - 검색 기능
 	public List<Post_BoardDTO> getBoardSearchList(PagingDTO page, Integer board_type, String search, String keyword);
 	public int getBoardSearchCnt(Integer board_type, String search, String keyword);
-	
+	public String getBoardName(int board_type);
 	
 	//직원게시판
 	//직원공지목록 조회

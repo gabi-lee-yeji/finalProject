@@ -38,8 +38,8 @@ public class AnalyticsService {
 	private static final String APPLICATION_NAME = "Hello Analytics Reporting";
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 	//static ClassPathResource resource = new ClassPathResource("json//google//analytics//reportingAPI//finalproject-tj01-56d2d06db588.json");
-	private static final String KEY_FILE_LOCATION = "PRIVATE";
-	private static final String VIEW_ID = "VIEW_ID";
+	private static final String KEY_FILE_LOCATION = "C:\\\\Users\\\\yejig\\\\OneDrive\\\\Desktop\\\\JAVA\\\\finalproject-tj01-56d2d06db588.json";
+	private static final String VIEW_ID = "270372661";
 	
 	private static AnalyticsReporting initializeAnalyticsReporting() throws GeneralSecurityException, IOException {
 

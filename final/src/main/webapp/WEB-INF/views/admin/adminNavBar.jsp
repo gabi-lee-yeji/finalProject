@@ -86,7 +86,7 @@
 				  <a class="nav-link" href="/member/logout">로그아웃</a>
 				</li>
 				<li class="nav-item">
-				  <button onclick="window.location='/main'">사용자메인</button>
+				  <a class="nav-link" href="/main">사용자메인</a>
 				</li>
 		  	</ul>
 	  	</div>

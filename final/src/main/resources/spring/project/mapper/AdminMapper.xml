@@ -27,8 +27,14 @@
 		<result property="leaving_reason" column="leaving_reason"/>
 		<collection property="memberInfo" resultMap="memberInfo"/>
 	</resultMap>
+	<select id="getBoardName" resultType="String">
+		select board_name from boardtype 
+			where board_type=#{board_type}
+	</select>
 	<select id="checkIfEmp" resultType="int">
-		select count(*) from emp_info where empid=#{memid}
+		select count(*) from emp_info 
+			where empid=#{memid}
+			and status != '퇴사'
 	</select>
 	<update id="delReportComment">
 		update comm_board set status=1 where comm_num=#{comm_num}
@@ -74,7 +80,7 @@
 	</select>
 	<select id="checkifMgr" resultType="int">
 		select count(*) from emp_info 
-			where empid=#{empid} and status not in ('일반', '퇴사')
+			where empid=#{empid} and status = '매니저'
 	</select>
 	<update id="updateToMember">
 		update memberinfo
@@ -103,7 +109,7 @@
 	</update>
 	<select id="getEmpInfo" resultMap="empInfo">
 		select 
-			a.mem_name, a.email, 
+			a.passwd, a.mem_name, a.email, 
 			to_char(a.birthday, 'YYYY.MM.DD') as birthday, a.gender,
 			a.postalCode, a.address, a.addr_detail,
 			a.mobile, a.mem_degree, a.major,
@@ -157,7 +163,7 @@
 			#{job},
 			#{hiredate},
 			#{sal},
-			'일반',
+			'사원',
 			sysdate,
 			''
 		)
@@ -245,7 +251,7 @@
 	<select id="getBoardSearchBoth" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
     		(select rownum r, list.* from 
-		        (select * from post_board a 
+		        (select a.*,b.board_name, b.board_mapping from post_board a 
 		        left join boardtype b 
 		        on a.board_type=b.board_type
 				<trim prefix="where">
@@ -267,10 +273,10 @@
 	<select id="getBoardSearchWriter" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
     		(select rownum r, a.* from 
-		        (select * from post_board a 
+		        (select a.*,b.board_name, b.board_mapping from post_board a 
 		        left join boardtype b 
 		        on a.board_type=b.board_type
-		        where writer like '%안%' 
+		        where writer like '%${keyword}%' 
 		        <if test="board_type != null">
 		        	and a.board_type = #{board_type}
 		        </if>
@@ -460,7 +466,6 @@
 			<set>
 				status = #{status},
 				<if test="status != 0">
-					mem_level = '',
 					mem_point = 0,
 				</if>
 				ref_date = sysdate
@@ -631,19 +636,19 @@
 	<update id="modCertiInfo">
 		update certiinfo
 		<set>
-			<if test="cname != null">cname=#{cname},</if>
-			<if test="category != null">category=#{category},</if>
-			<if test="clevel != null">clevel=#{clevel},</if>
-			company = NVL(#{company}, company),
-			website = NVL(#{website}, website),
-			price = NVL(#{price}, price),
-			cmethod = NVL(#{cmethod}, cmethod),
-			subject = NVL(#{subject}, subject),
-			cutline = NVL(#{cutline}, cutline),
-			cinfo = NVL(#{cinfo}, cinfo),
-			cjob = NVL(#{cjob}, cjob),
-			ncs_cat = NVL(#{ncs_cat}, ncs_cat),
-			notice = NVL(#{notice}, notice)
+			<if test="cname != null and cname != ''">cname=#{cname},</if>
+			<if test="category != null and category != ''">category=#{category},</if>
+			<if test="clevel != null and clevel != ''">clevel=#{clevel},</if>
+			<if test="company != null">company = #{company},</if>
+			<if test="website != null">website = #{website, jdbcType=VARCHAR},</if>
+			<if test="price != null">price = #{price, jdbcType=VARCHAR},</if>
+			<if test="cmethod != null">cmethod = #{cmethod, jdbcType=VARCHAR},</if>
+			<if test="subject != null">subject = #{subject, jdbcType=VARCHAR},</if>
+			<if test="cutline != null">cutline = #{cutline, jdbcType=VARCHAR},</if>
+			<if test="cinfo != null">cinfo = #{cinfo, jdbcType=VARCHAR},</if>
+			<if test="cjob != null">cjob = #{cjob, jdbcType=VARCHAR},</if>
+			<if test="ncs_cat != null">ncs_cat = #{ncs_cat, jdbcType=INTEGER},</if>
+			<if test="notice != null">notice = #{notice, jdbcType=VARCHAR},</if>
 		</set>
 		where cnum=#{cnum}
 	</update>
@@ -817,7 +822,7 @@
 			#{cinfo,jdbcType=VARCHAR},
 			#{cjob,jdbcType=VARCHAR},
 			to_date(#{expiry, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			#{status, jdbcType=VARCHAR},
+			'Y',
 			#{price, jdbcType=VARCHAR},
 			#{ncs_cat,jdbcType=INTEGER},
 			#{notice, jdbcType=VARCHAR},

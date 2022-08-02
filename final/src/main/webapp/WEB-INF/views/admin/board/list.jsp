@@ -16,7 +16,7 @@
 		    <jsp:include page="../adminNavBar.jsp"></jsp:include>
 		  </div>
 		</div>
-		<div style="margin-left:50px;margin-right:50px; margin-top:5%">
+		<div style="margin-left:50px;margin-right:50px; margin-top:20px">
 			<h1>전체 게시글 목록 [총 : ${count}개]</h1>
 			<form action="/admin/board/search" method="post">
 				<div class="row">
@@ -108,19 +108,19 @@
 	        <ul class="pagination justify-content-center">
 		        <c:if test="${startPage > 10 }">
 		        	<li class="page-item">
-		        		<a class="page-link" href="/admin/board/list?pageNum=${startPage-10}">이전</a>
+		        		<a class="page-link" href="/admin/board/list?pageNum=${startPage-10}&board_type=${board_type}&status=${status}">이전</a>
 		        	</li>
 		        </c:if>
 		        
 		        <c:forEach var="i" begin="${startPage}" end="${endPage}" step="1" >
 		        	<li class="page-item">
-		        		<a class="page-link" href="/admin/board/list?pageNum=${i}">${i}</a>
+		        		<a class="page-link" href="/admin/board/list?pageNum=${i}&board_type=${board_type}&status=${status}">${i}</a>
 		        	</li>
 				</c:forEach>
 				
 				<c:if test="${endPage < pageCount}">
 					<li class="page-item">
-		        		<a class="page-link" href="/admin/board/list?pageNum=${startPage + 10}">다음</a>
+		        		<a class="page-link" href="/admin/board/list?pageNum=${startPage + 10}&board_type=${board_type}&status=${status}">다음</a>
 		        	</li>
 				</c:if>
 			</ul>

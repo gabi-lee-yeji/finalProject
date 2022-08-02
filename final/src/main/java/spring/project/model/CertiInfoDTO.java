@@ -3,6 +3,8 @@ package spring.project.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -40,5 +42,6 @@ public class CertiInfoDTO implements CertiAccessible,SearchAccessible{
 	//보유자격증 정보를 가져오기 위한 변수 추가 
 	//resultMap을 쓰기에 겹치는 변수가 많고, 2개만 추가하면되므로 같은 DTO 사용
 	private String cert_name;    //member_cert 테이블의 자격증명 (cnum 존재시 필요 x)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date expiryDate;	//보유자격증의 만료일자
 }
