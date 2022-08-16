@@ -65,13 +65,13 @@
 	</select>
 
 	<select id="myList" resultType="spring.project.model.Post_BoardDTO">
-				select * from
-				(select post_board.*,rownum r from
-					(select * from post_board order by post_group desc, post_level)post_board
+		select * from
+			(select post_board.*,rownum r from
+				(select * from post_board order by post_group desc, post_level) post_board
 					<where>
-				writer=#{writer}<if test="board_type != 0">and board_type=${board_type}</if>
-				and status in (0,1))
-				</where>
+						writer=#{writer}<if test="board_type != 0">and board_type=${board_type}</if>
+						and status in (0,1))
+					</where>
 		<![CDATA[ where r>=#{startRow} and r<=#{endRow} ]]>
 	</select>
 	<select id="post_BoardCount" resultType="int">
@@ -83,14 +83,16 @@
 	</select>
 	<select id="myComments" resultType="spring.project.model.Comm_BoardDTO">
 		select board.*,cboard.board_mapping from
-		(select comm_board.*,rownum r,p.board_type from
-		(select * from comm_board order by comm_group desc, comm_level)comm_board,post_board p
-		where comm_board.pnum = p.pnum and comm_board.writer=#{writer} and comm_board.status in (0,1)) board,boardtype cboard
-        where board.board_type = cboard.board_type and
-		<![CDATA[ r>=#{startRow} and r<=#{endRow} ]]>
+			(select comm_board.*,rownum r,p.board_type from
+				(select * from comm_board order by comm_group desc, comm_level)comm_board,post_board p
+					where comm_board.pnum = p.pnum 
+						and comm_board.writer=#{writer} 
+						and comm_board.status in 0) board, boardtype cboard
+        					where board.board_type = cboard.board_type and
+							<![CDATA[ r>=#{startRow} and r<=#{endRow} ]]>
 	</select>
 	<select id="commentsCount" resultType="int">
-		select count(*) from comm_board where writer=#{writer} and status in (0,1)
+		select count(*) from comm_board where writer=#{writer} and status in 0
 	</select>
 	<update id="updateTime">
 		update MemberInfo set ref_date=sysdate where memid=#{memid} and status in (0,1)

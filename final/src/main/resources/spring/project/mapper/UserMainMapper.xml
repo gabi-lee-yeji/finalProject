@@ -178,7 +178,7 @@
 	</select>
 	<select id="getHelpBoardSearchCnt" resultType="int">
 		select count(*) from post_board 
-						where subject like '%${keyword}%' or post_content like '%${keyword}%' 
+						where (subject like '%${keyword}%' or post_content like '%${keyword}%') 
 						and board_type in (1,2)
 						and status = 0
 	</select>
@@ -187,7 +187,7 @@
 			(select rownum r, list.* from 
 				(select b.board_mapping, a.* from 
 					(select * from post_board 
-						where subject like '%${keyword}%' or post_content like '%${keyword}%' 
+						where (subject like '%${keyword}%' or post_content like '%${keyword}%') 
 						and board_type in (1,2)
 						and status = 0
 						order by readCnt desc) a,
@@ -197,7 +197,7 @@
 	</select>
 	<select id="getCommBoardSearchCnt" resultType="int">
 		select count(*) from post_board 
-						where subject like '%${keyword}%' or post_content like '%${keyword}%' 
+						where (subject like '%${keyword}%' or post_content like '%${keyword}%') 
 						and board_type in (4,5,6,7)
 						and status = 0
 	</select>
@@ -206,7 +206,7 @@
 			(select rownum r, list.* from 
 				(select b.board_mapping, a.* from 
 					(select * from post_board 
-						where subject like '%${keyword}%' or post_content like '%${keyword}%' 
+						where (subject like '%${keyword}%' or post_content like '%${keyword}%') 
 						and board_type in (4,5,6,7)
 						and status = 0
 						order by readCnt desc) a,

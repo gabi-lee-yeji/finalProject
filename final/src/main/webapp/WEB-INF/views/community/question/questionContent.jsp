@@ -47,5 +47,6 @@
 	<c:if test="${memberStatus == 1}">
 		<c:import url = "/admin/board/reportDetails" />
 	</c:if>
+	<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>
