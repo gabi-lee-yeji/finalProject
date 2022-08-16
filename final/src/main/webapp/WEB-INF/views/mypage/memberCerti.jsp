@@ -24,8 +24,8 @@
 </script>
 
 
-<jsp:include page="../userNavBar.jsp" />
-<jsp:include page="sidebar.jsp" />
+<c:import url="/navbar"/>
+<c:import url="/mypage/sidebar"/>
 <div class="w3-main" style="margin-left:220px;margin-right:20px;">
 		
 	<!-- 보유자격증 부분 -->

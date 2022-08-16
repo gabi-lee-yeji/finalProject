@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,8 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Autowired
 	private ServletContext sc;
 	
+	static Logger logger = Logger.getLogger("dailyout");
+	
 	@Transactional
 	@Override
 	public int addPost_Board(Post_BoardDTO board,
@@ -54,7 +57,9 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 				
 				String webPath = "/resources/image/upload";
 				String realPath = sc.getRealPath(webPath);
-				System.out.println("realPath ====="+realPath);
+				
+				//System.out.println("realPath ====="+realPath);
+				logger.info("realPath ====="+realPath);
 				
 				attachDTO.setFileName(uploadFileName);	// attachDTO FileName에 원본 파일명 저장
 				
@@ -144,9 +149,12 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 	@Transactional
 	public int delPost_Board(int pnum) {
 		int result = 0;
-		List resultAttach = pbAMapper.getPost_BoardAtachList(pnum);
+		List<Post_BoardAttachDTO> resultAttach = pbAMapper.getPost_BoardAtachList(pnum);
 		if(resultAttach != null) {
 			result += pbAMapper.delPost_BoardAttachList(pnum);
+			if( delAttachFiles(resultAttach) != resultAttach.size()) {
+				//파일 삭제 오류 메시지(로그)
+			}
 			result += pbMapper.delPost_Board(pnum);
 		}else {
 			result += pbMapper.delPost_Board(pnum);
@@ -288,4 +296,18 @@ public class Post_BoardServiceImpl implements Post_BoardService {
 		return list;
 	}
 	
+	private int delAttachFiles(List<Post_BoardAttachDTO> resultAttach) {
+		int result=0;
+		
+		for(Post_BoardAttachDTO dto : resultAttach) {
+			File f = new File(dto.getUploadPath());
+			if(f.exists()) {
+				if(f.delete()) {
+					result++;
+				}
+			}
+		}
+		
+		return result;
+	}
 }

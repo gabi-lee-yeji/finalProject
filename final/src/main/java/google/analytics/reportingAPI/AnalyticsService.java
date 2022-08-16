@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import com.google.api.services.analyticsreporting.v4.AnalyticsReportingScopes;
@@ -36,10 +37,9 @@ import com.google.api.services.analyticsreporting.v4.model.ReportRow;
 public class AnalyticsService {
 	private static final String APPLICATION_NAME = "Hello Analytics Reporting";
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-	private static final String KEY_FILE_LOCATION = "F:\\finalProject\\final\\src\\main\\resources\\google\\analytics\\reportingAPI\\finalproject-tj01-56d2d06db588.json";
+	//static ClassPathResource resource = new ClassPathResource("json//google//analytics//reportingAPI//finalproject-tj01-56d2d06db588.json");
+	private static final String KEY_FILE_LOCATION = "C:\\\\Users\\\\yejig\\\\OneDrive\\\\Desktop\\\\JAVA\\\\finalproject-tj01-56d2d06db588.json";
 	private static final String VIEW_ID = "270372661";
-//	private static final String KEY_FILE_LOCATION = "PRIVATE";
-//	private static final String VIEW_ID = "VIEW_ID";
 	
 	private static AnalyticsReporting initializeAnalyticsReporting() throws GeneralSecurityException, IOException {
 

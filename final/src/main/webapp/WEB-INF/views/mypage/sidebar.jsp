@@ -9,13 +9,22 @@
 <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar">
   <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
   <h4><a href="/mypage/" class="w3-bar-item w3-button">마이페이지</a></h4>
+  <a class="w3-bar-item">보유 포인트: ${point }</a>
   <hr>
   <a href="/mypage/memberCerti" class="w3-bar-item w3-button">나의 자격증 관리</a>
   <hr>
-  <a href="#" class="w3-bar-item w3-button">내 1:1 문의</a>
-  <a href="#" class="w3-bar-item w3-button">내가 작성한 게시글</a>
+  <a href="/member/myList?writer=${sessionScope.sid}" class="w3-bar-item w3-button"><b>내가 작성한 게시글</b></a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=3" class="w3-bar-item w3-button">&nbsp;&nbsp;내 1:1 문의</a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=4" class="w3-bar-item w3-button">&nbsp;&nbsp;후기글</a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=5" class="w3-bar-item w3-button">&nbsp;&nbsp;질문글</a>
+  <a href="/member/myList?writer=${sessionScope.sid}&board_type=7" class="w3-bar-item w3-button">&nbsp;&nbsp;취준생공간</a>
   <hr>
-  <a href="#" class="w3-bar-item w3-button">개인정보수정</a>
+  <a href="/member/myComments?writer=${sessionScope.sid}" class="w3-bar-item w3-button">내가 작성한 댓글</a>
+  <hr>
+  <a href="/member/modifyConfirm" class="w3-bar-item w3-button">회원정보 수정</a>
+  <hr>
+  <a href="/member/deleteForm" class="w3-bar-item w3-button">회원탈퇴</a>
+  
 </div>
 
 <script>

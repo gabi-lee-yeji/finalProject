@@ -27,7 +27,15 @@
 		<result property="leaving_reason" column="leaving_reason"/>
 		<collection property="memberInfo" resultMap="memberInfo"/>
 	</resultMap>
-	
+	<select id="getBoardName" resultType="String">
+		select board_name from boardtype 
+			where board_type=#{board_type}
+	</select>
+	<select id="checkIfEmp" resultType="int">
+		select count(*) from emp_info 
+			where empid=#{memid}
+			and status != '퇴사'
+	</select>
 	<update id="delReportComment">
 		update comm_board set status=1 where comm_num=#{comm_num}
 	</update>
@@ -72,7 +80,7 @@
 	</select>
 	<select id="checkifMgr" resultType="int">
 		select count(*) from emp_info 
-			where empid=#{empid} and status not in ('일반', '퇴사')
+			where empid=#{empid} and status = '매니저'
 	</select>
 	<update id="updateToMember">
 		update memberinfo
@@ -101,7 +109,7 @@
 	</update>
 	<select id="getEmpInfo" resultMap="empInfo">
 		select 
-			a.mem_name, a.email, 
+			a.passwd, a.mem_name, a.email, 
 			to_char(a.birthday, 'YYYY.MM.DD') as birthday, a.gender,
 			a.postalCode, a.address, a.addr_detail,
 			a.mobile, a.mem_degree, a.major,
@@ -155,7 +163,7 @@
 			#{job},
 			#{hiredate},
 			#{sal},
-			'일반',
+			'사원',
 			sysdate,
 			''
 		)
@@ -243,7 +251,7 @@
 	<select id="getBoardSearchBoth" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
     		(select rownum r, list.* from 
-		        (select * from post_board a 
+		        (select a.*,b.board_name, b.board_mapping from post_board a 
 		        left join boardtype b 
 		        on a.board_type=b.board_type
 				<trim prefix="where">
@@ -265,10 +273,10 @@
 	<select id="getBoardSearchWriter" resultType="spring.project.model.Post_BoardDTO">
 		select * from 
     		(select rownum r, a.* from 
-		        (select * from post_board a 
+		        (select a.*,b.board_name, b.board_mapping from post_board a 
 		        left join boardtype b 
 		        on a.board_type=b.board_type
-		        where writer like '%안%' 
+		        where writer like '%${keyword}%' 
 		        <if test="board_type != null">
 		        	and a.board_type = #{board_type}
 		        </if>
@@ -398,7 +406,27 @@
 		where datepk = #{datePK}
 	</update>
 	<select id="getCertiDate" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate where datepk = #{datePK}
+		select 
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd
+			from certidate where datepk = #{datePK}
 	</select>
 	<select id="getNatSameScheduleList" resultType="spring.project.model.CertiInfoDTO">
 		select * from 
@@ -423,11 +451,11 @@
 	</delete>
 	<delete id="deleteCertiNatDate">
 		delete from certischedule
-		where 
-			cnum=#{cnum}
-			and cyear=#{cyear}
-			and cround=#{cround}
-			and clevel=#{clevel} 
+			where 
+				cnum=#{cnum}
+				and cyear=#{cyear}
+				and cround=#{cround}
+				and clevel=#{clevel} 
 	</delete>
 	
 	<select id="getReportReasonList" resultType="spring.project.model.MemberReportDTO">
@@ -438,7 +466,6 @@
 			<set>
 				status = #{status},
 				<if test="status != 0">
-					mem_level = '',
 					mem_point = 0,
 				</if>
 				ref_date = sysdate
@@ -515,22 +542,25 @@
 		</if>
 	</select>
 	<select id="getReportMemList" resultType="spring.project.model.MemberInfoDTO">
-		select 
-			a.*, 
-			b.email, b.mem_name, b.mobile, b.mem_point, b.regdate,
-			c.status_name 
-			from 
-				(select memid, count(*) as reportCnt from member_report group by memid) a, 
-				memberinfo b,
-	            member_status c
-			where 
-			<![CDATA[ a.reportCnt >= 1	]]>
-			and a.memid=b.memid
-			and b.status=c.status
-			<if test="status != null"> 
-				and b.status = #{status} 
-			</if>
-		order by a.reportCnt
+		select * from 
+			(select rownum r, list.* from
+				(select 
+					a.*, 
+					b.email, b.mem_name, b.mobile, b.mem_point, b.regdate,
+					c.status_name 
+					from 
+						(select memid, count(*) as reportCnt from member_report group by memid) a, 
+						memberinfo b,
+			            member_status c
+					where 
+					<![CDATA[ a.reportCnt >= 1	]]>
+					and a.memid=b.memid
+					and b.status=c.status
+					<if test="status != null"> 
+						and b.status = #{status} 
+					</if>
+					order by a.reportCnt) list)
+			where r between #{startRow} and #{endRow}
 	</select>
 	
 	<select id="getMemberFilter" resultType="spring.project.model.MemberInfoDTO"
@@ -597,7 +627,7 @@
 	
 	<select id="getCertCnt" resultType="int">
 		select count(*) from certiinfo
-		<if test="category != null">
+		<if test="category != null and category != ''">
 			where category = #{category}
 		</if>
 	</select>
@@ -606,19 +636,19 @@
 	<update id="modCertiInfo">
 		update certiinfo
 		<set>
-			<if test="cname != null">cname=#{cname},</if>
-			<if test="category != null">category=#{category},</if>
-			<if test="clevel != null">clevel=#{clevel},</if>
-			company = NVL(#{company}, company),
-			website = NVL(#{website}, website),
-			price = NVL(#{price}, price),
-			cmethod = NVL(#{cmethod}, cmethod),
-			subject = NVL(#{subject}, subject),
-			cutline = NVL(#{cutline}, cutline),
-			cinfo = NVL(#{cinfo}, cinfo),
-			cjob = NVL(#{cjob}, cjob),
-			ncs_cat = NVL(#{ncs_cat}, ncs_cat),
-			notice = NVL(#{notice}, notice)
+			<if test="cname != null and cname != ''">cname=#{cname},</if>
+			<if test="category != null and category != ''">category=#{category},</if>
+			<if test="clevel != null and clevel != ''">clevel=#{clevel},</if>
+			<if test="company != null">company = #{company},</if>
+			<if test="website != null">website = #{website, jdbcType=VARCHAR},</if>
+			<if test="price != null">price = #{price, jdbcType=VARCHAR},</if>
+			<if test="cmethod != null">cmethod = #{cmethod, jdbcType=VARCHAR},</if>
+			<if test="subject != null">subject = #{subject, jdbcType=VARCHAR},</if>
+			<if test="cutline != null">cutline = #{cutline, jdbcType=VARCHAR},</if>
+			<if test="cinfo != null">cinfo = #{cinfo, jdbcType=VARCHAR},</if>
+			<if test="cjob != null">cjob = #{cjob, jdbcType=VARCHAR},</if>
+			<if test="ncs_cat != null">ncs_cat = #{ncs_cat, jdbcType=INTEGER},</if>
+			<if test="notice != null">notice = #{notice, jdbcType=VARCHAR},</if>
 		</set>
 		where cnum=#{cnum}
 	</update>
@@ -635,7 +665,27 @@
 	</update>
 	
 	<select id="searchNatPeriod" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate 
+		select
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd 
+		from certidate 
 		where clevel=#{clevel}
 		and cyear in
 		<foreach collection="cyear_list" item="cyear" open="(" separator="," close=")">
@@ -648,10 +698,33 @@
 	</select>
 	
 	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">
-		select * from certidate 
+		select 
+			cnum, cyear, cround, clevel, datePK, 
+			to_char(docRegStart1,'YYYY-MM-DD HH24:MI') as docRegStart1,
+			to_char(docRegEnd1,'YYYY-MM-DD HH24:MI') as docRegEnd1,
+			to_char(docRegStart2,'YYYY-MM-DD HH24:MI') as docRegStart2,
+			to_char(docRegEnd2,'YYYY-MM-DD HH24:MI') as docRegEnd2,
+			to_char(docTestStart,'YYYY-MM-DD HH24:MI') as docTestStart,
+			to_char(docTestEnd,'YYYY-MM-DD HH24:MI') as docTestEnd,
+			to_char(docResultStart,'YYYY-MM-DD HH24:MI') as docResultStart,
+			to_char(docResultEnd,'YYYY-MM-DD HH24:MI') as docResultEnd,
+			to_char(docSubmitStart,'YYYY-MM-DD HH24:MI') as docSubmitStart,
+			to_char(docSubmitEnd,'YYYY-MM-DD HH24:MI') as docSubmitEnd,
+			to_char(pracRegStart1,'YYYY-MM-DD HH24:MI') as pracRegStart1,
+			to_char(pracRegEnd1,'YYYY-MM-DD HH24:MI') as pracRegEnd1,
+			to_char(pracRegStart2,'YYYY-MM-DD HH24:MI') as pracRegStart2,
+			to_char(pracRegEnd2,'YYYY-MM-DD HH24:MI') as pracRegEnd2,
+			to_char(pracTestStart,'YYYY-MM-DD HH24:MI') as pracTestStart,
+			to_char(pracTestEnd,'YYYY-MM-DD HH24:MI') as pracTestEnd,
+			to_char(pracResStart,'YYYY-MM-DD HH24:MI') as pracResStart,
+			to_char(pracResEnd,'YYYY-MM-DD HH24:MI') as pracResEnd
+		from certidate 
 		where cnum=#{cnum}
 	</select>
-	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
+	<select id="searchCompany" resultType="String">
+		select company from certiinfo where cnum=#{cnum}
+	</select>
+	<select id="getCertiReqList" resultType="spring.project.model.CertiRequirementDTO">
 		select * from certi_requirement where cnum=#{cnum}
 	</select>
 	<select id="getQnetDate" resultType="spring.project.model.CertiDateDTO"
@@ -749,7 +822,7 @@
 			#{cinfo,jdbcType=VARCHAR},
 			#{cjob,jdbcType=VARCHAR},
 			to_date(#{expiry, jdbcType=VARCHAR},'YYYY-MM-DD'),
-			#{status, jdbcType=VARCHAR},
+			'Y',
 			#{price, jdbcType=VARCHAR},
 			#{ncs_cat,jdbcType=INTEGER},
 			#{notice, jdbcType=VARCHAR},

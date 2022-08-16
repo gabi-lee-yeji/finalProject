@@ -14,6 +14,29 @@
 		<result property="board_mapping" column="board_mapping"/>
 		<collection property="commBoard" resultMap="commBoard"/>
 	</resultMap>
+	<select id="getLangTestName" resultType="String">
+	 	select lname from ncs_code where code=#{ncs_cat}
+	</select>
+	<select id="getCloseLangCnumList" resultType="String">
+		select cnum from certidate 
+    		where docregend1 between sysdate and sysdate+(interval'15'day)
+    		and cnum is not null 
+    		and cnum like 'L%'
+	</select>
+	<select id="getLangFilterCnt" resultType="int">
+		select count(*) from certiinfo where ncs_cat = #{ncs_cat}
+	</select>
+	<select id="getLangFilteredList" resultType="spring.project.model.CertiInfoDTO">
+		select * from 
+			(select rownum r, list.* from 
+				(select * from certiinfo where ncs_cat = #{ncs_cat}) list )
+			where r between #{startRow} and #{endRow}
+			
+	</select>
+	<select id="getLanguageList" resultType="map">
+		select code, lname from ncs_code where code between 1 and 10
+	</select>
+	
 	<select id="getCloseNatCnumList" resultType="String">
 		select b.cnum from 
 		    (select cyear, cround, clevel from certidate
@@ -26,6 +49,8 @@
 	<select id="getClosePrvCnumList" resultType="String">
 		select cnum from certidate 
     		where docregend1 between sysdate and sysdate+(interval'15'day)
+    		and cnum is not null 
+    		and cnum like 'P%'
 	</select>
 	<select id="getCloseTestCnt" resultType="int">
 		select count(*) from certidate 
@@ -59,7 +84,8 @@
 		select * from 
 		    (select rownum r, list.* from 
 		        (select cyear, cround, clevel, docregend1 from certidate 
-		            where docregend1 between sysdate and sysdate+(interval'15'day) 
+		            where docregend1 between sysdate and sysdate+(interval'15'day)
+		            and cnum is null 
 		            order by docregend1) list)
 		    where r = 1
 	</select>
@@ -115,6 +141,7 @@
 	</select>
 	<select id="getNcsCodeList" resultType="map">
 		select * from (select floor(code/100) as code, lname from ncs_code)
+			where code > 0
 			group by code, lname
 			order by code
 	</select>
@@ -314,7 +341,8 @@
 				</foreach>
 				and a.cyear=b.cyear
 				and a.cround=b.cround
-				and a.clevel=b.clevel) c
+				and a.clevel=b.clevel
+				and b.cnum is null) c
 			left join certiinfo d
 			on c.cnum=d.cnum
 	</select>
@@ -347,7 +375,8 @@
 				where a.cnum = #{cnum}
 				and a.cyear=b.cyear
 				and a.cround=b.cround
-				and a.clevel=b.clevel) c
+				and a.clevel=b.clevel
+				and b.cnum is null) c
 			left join certiinfo d
 			on c.cnum=d.cnum
 	</select>

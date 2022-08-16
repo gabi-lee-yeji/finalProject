@@ -21,8 +21,7 @@ public interface AdminService {
 	
 	//자격증 관리 메서드 
 	//자격증 등록
-	public int addCertiInfo(CertiInfoDTO info, CertiScheduleDTO schedule, 
-							CertiDateDTO date, CertiRequirementDTO requirement);
+	public int addCertiInfo(CertiInfoDTO info, CertiRequirementDTO requirement);
 	
 	//등록된 자격증 전체 목록
 	public List<CertiInfoDTO> getCertList(PagingDTO page, String sort, String order, String category);
@@ -33,14 +32,17 @@ public interface AdminService {
 	public List<CertiInfoDTO> getSearchList(PagingDTO page, String search, String keyword);
 	//검색 결과 전체 개수
 	public int getSearchCnt(String search, String keyword);
-		
 	
-	//등록된 자격증 정보 - 상세정보
-	public Map<String, CertiAccessible> getCertiInfo(String cnum);
+	//등록된 자격증 정보 
+	public CertiInfoDTO getCertiInfo(String cnum);
+	//응시자격
+	public List<CertiRequirementDTO> getCertiReqList(String cnum);
 	
 	//자격증별 일정정보 목록 조회 및 일정 검색
 	public List<CertiDateDTO> searchPeriod(String cnum);
 	public List<CertiDateDTO> searchNatPeriod(String cnum);
+	//국가자격 cnum으로 시행사 조회
+	public String searchCompany(String cnum);
 	
 	//자격증 일정 추가
 	public int addCertiDate(CertiDateDTO dto);
@@ -61,7 +63,7 @@ public interface AdminService {
 	//자격증 정보 삭제 
 	public int delCerti(String cnum, String name);
 	//자격증 정보 수정
-	public int modCerti(CertiInfoDTO info, CertiRequirementDTO req);
+	public int modCerti(CertiInfoDTO info);
 	
 	
 	
@@ -83,7 +85,7 @@ public interface AdminService {
 	public List<CertiInfoDTO> getMemberLikeList(String memid);
 	
 	//신고된 회원 목록
-	public List<MemberInfoDTO> getReportMemList(Integer status);
+	public List<MemberInfoDTO> getReportMemList(Integer status, PagingDTO page);
 	public int getReportMemCnt(Integer status);
 	
 	//신고된 회원의 상세 정보 
@@ -129,7 +131,7 @@ public interface AdminService {
 	//전체게시글 - 검색 기능
 	public List<Post_BoardDTO> getBoardSearchList(PagingDTO page, Integer board_type, String search, String keyword);
 	public int getBoardSearchCnt(Integer board_type, String search, String keyword);
-	
+	public String getBoardName(int board_type);
 	
 	//직원게시판
 	//직원공지목록 조회
@@ -176,4 +178,7 @@ public interface AdminService {
 	//직원 검색결과
 	public List<EmpInfoDTO> getEmpSearchList(PagingDTO page, String search, String keyword);
 	public int getEmpSearchCnt(String search, String keyword);
+	
+	//aop - 세션ID가 사원인지 체크
+	public int checkIfEmp(String memid);
 }

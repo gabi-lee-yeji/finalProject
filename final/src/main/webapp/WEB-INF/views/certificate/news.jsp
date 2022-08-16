@@ -2,9 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div>
-	<c:forEach var="dto" items="${list }">
-		<table border="1">
+	<table class="table table-bordered">
+		<c:forEach var="dto" items="${list }">
 			<tr>
 				<td>
 					${dto.press }
@@ -27,7 +26,5 @@
 					</a>
 				</td>
 			</tr>
-			
-		</table>
-	</c:forEach>
-</div>
+		</c:forEach>
+	</table>

@@ -24,6 +24,9 @@
 		</c:forEach>
 	</datalist>
 	<input type="hidden" name="cnum" id="cnum" />
+	<br>
+	<input type="checkbox" id="check" onclick="closePopup();"/>
+	24시간 동안 열지 않기
 </body>
 <script>
 	function openCertiInfo(){
@@ -40,5 +43,18 @@
 		
 		window.location = '/certificate/certiContent?cnum='+$("#cnum").val();
 	}
+	
+	 function setCookie(name, value, expiredays) {
+        var date = new Date();
+        date.setDate(date.getDate() + expiredays);
+        document.cookie = escape(name) + "=" + escape(value) + "; expires=" + date.toUTCString();
+    }
+
+    function closePopup() {
+        if (document.getElementById("check").value) {
+            setCookie("natPopup", "N", 1);
+            self.close();
+        }
+    }
 </script>
 </html>

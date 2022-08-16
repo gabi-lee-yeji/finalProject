@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% 
+   //줄바꿈
+   pageContext.setAttribute("br", "<br/>");
+   pageContext.setAttribute("cn","\n"); 
+%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	function check(){
@@ -29,31 +35,31 @@
 	 
 </script>
 <c:if test="${sessionScope.sid != null}">
-<form role="form" action="/community/addComm" name="addComm" onsubmit="return check()">
-	<h2>댓글 작성</h2>
-	<table border=1>
-		<tr>
-			<td>작성자</td>
-			<td>${sessionScope.sid}
-				<input type="hidden" name="writer" value="${sessionScope.sid}" />
-			</td>
-		</tr>
-		<tr>
-			<td>댓글</td>
-			<td><textarea name="comm_content" id="comm_content" rows="5" cols="40" ></textarea></td>
-		</tr>
-	</table>
-	
-	<input type="hidden" name="pnum" value="${board.pnum}" />
-	<input type="hidden" name="board_type" value="${board.board_type}" />
-	<input type="hidden" name="pageNum" value="${pageNum}" />
-	<input type="submit" value="댓글작성" />
-</form>
+	<form role="form" action="/community/addComm" name="addComm" onsubmit="return check()">
+		<h2>댓글 작성</h2>
+		<table class="table table-bordered" style="max-width:80%">
+			<tr>
+				<td>작성자</td>
+				<td>${sessionScope.sid}
+					<input type="hidden" name="writer" value="${sessionScope.sid}" />
+				</td>
+			</tr>
+			<tr>
+				<td>댓글</td>
+				<td><textarea name="comm_content" id="comm_content" rows="5" cols="40" ></textarea></td>
+			</tr>
+		</table>
+		
+		<input type="hidden" name="pnum" value="${board.pnum}" />
+		<input type="hidden" name="board_type" value="${board.board_type}" />
+		<input type="hidden" name="pageNum" value="${pageNum}" />
+		<input type="submit" class="btn btn-primary" value="댓글작성" />
+	</form>
 </c:if>
 
 <c:if test="${comm_BoardCount > 0}">
 	<h2>댓글 목록</h2>
-	<table border=1>
+	<table class="table table-bordered" style="max-width:80%; margin-top:20px">
 		<tr>
 			<th>댓글번호</th>
 			<th>글내용</th>
@@ -67,31 +73,32 @@
 	<c:forEach var="comm" items="${commList}">
 		<tr> 
 			<td>${comm.comm_num}</td>
-			<td>${comm.comm_content}</td>
+			<td>${fn:replace(comm.comm_content, cn, br)}</td>
 			<td>${comm.writer}</td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${comm.reg}"/></td>
 			<td><c:if test="${sessionScope.sid != null}">
-					<input type="button" value="수정" onclick="modComm(${comm.comm_num});" />
+					<input type="button" class="btn btn-outline-primary" value="수정" onclick="modComm(${comm.comm_num});" />
 				</c:if>
 				<c:if test="${sessionScope.sid == null}">
-					<input type="button" disabled value="수정" />
+					<input type="button" class="btn btn-light" disabled value="수정" />
 				</c:if>
 			</td>
 			<td>
 				<c:if test="${sessionScope.sid != null}">
-				<input type="button" value="삭제"
+				<input type="button" value="삭제" class="btn btn-outline-primary"
 					onclick="window.location='/community/delComm?comm_num=${comm.comm_num}&writer=${sessionScope.sid}&pnum=${comm.pnum}&pageNum=${pageNum}' "/>
 				</c:if>
 				<c:if test="${sessionScope.sid == null}">
-					<input type="button" disabled value="삭제" />
+					<input type="button" class="btn btn-light" disabled value="삭제" />
 				</c:if>
 			</td>
 			<td>
 				<c:if test="${sessionScope.sid != null}">
-					<input type="button" value="신고" onclick="addReport(${comm.comm_num});" />
+					<input type="button" value="신고" class="btn btn-danger"
+						onclick="addReport(${comm.comm_num});" />
 				</c:if>
 				<c:if test="${sessionScope.sid == null}">
-					<input type="button" disabled value="신고" />
+					<input type="button" class="btn btn-light" disabled value="신고" />
 				</c:if>
 			</td>
 		</tr>

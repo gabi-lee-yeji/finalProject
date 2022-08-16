@@ -9,27 +9,29 @@
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/views/userNavBar.jsp"/>
-<h1>취업톡톡</h1>
-<div>
-	<c:forEach var="dto" items="${list}">
-		<table border="1">
-			<tr>
-				<td>제목</td>
-				<td><a href="${dto.link}" target="_blank">
-						${dto.subject}
-					</a>
-				</td>
-				<td>${dto.date}</td>
-			</tr>
-			<tr>
-				<td>요약</td>
-				<td colspan="2">
-					${dto.summary}
-				</td>
-			</tr>
-		</table>
-	</c:forEach>
-</div>
-<jsp:include page="/WEB-INF/views/footer.jsp" />
+	<c:import url="/navbar"/>
+	<section style="margin-left:5%;margin-right:5%;margin-bottom:5%">
+		<h1>취업톡톡</h1>
+		<div>
+			<c:forEach var="dto" items="${list}">
+				<table class="table table-bordered">
+					<tr>
+						<td>제목</td>
+						<td><a href="${dto.link}" target="_blank">
+								${dto.subject}
+							</a>
+						</td>
+						<td>${dto.date}</td>
+					</tr>
+					<tr>
+						<td>요약</td>
+						<td colspan="2">
+							${dto.summary}
+						</td>
+					</tr>
+				</table>
+			</c:forEach>
+		</div>
+	</section>
+	<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>

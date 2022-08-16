@@ -36,4 +36,7 @@ public interface MypageMapper {
 	public int chkMemberCertiExist(MemberCertiDTO dto);
 	public int chkMemberCertiNew(MemberCertiDTO dto);
 	public int chkMemberLike(MemberLikeDTO dto);
+	
+	//회언 포인트 조회하기
+	public int getPoint(String memid);
 }

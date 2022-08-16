@@ -11,25 +11,42 @@
 	<title>직원공지 등록</title>
 </head>
 <body>
+	<c:if test="${check != 1 }">
+		<script>
+			alert("공지 등록/수정은 매니저 이상만 가능합니다!");
+			window.location="/admin/emp/noticeList";
+		</script>
+	</c:if>
 	<jsp:include page="../../adminNavBar.jsp"/>
 	<c:set var="url" value="/admin/emp/addNoticePro"/>
 	<c:if test="${dto != null }">
 		<c:set var="url" value="/admin/emp/modNoticePro"/>
 	</c:if>
-	<form action="${url }" method="post">
-		제목 : <input type="text" name="subject" value="${dto.subject}">
-		<br>
-		작성자 : ${id} ${dto.writer }
-		<input type="hidden" name="writer" value="${id}">
-		<br>
-		내용:
-		<br>
-		<textarea name="post_content" rows="13" cols="40" >${dto.post_content }</textarea>
-		<br>
-		<c:if test="${dto != null }">
-			<input type="hidden" name="ebnum" value="${dto.ebnum }">
-		</c:if>
-		<input type="submit" value="등록">
-	</form>
-	<input type="button" value="취소" onclick="window.location='/admin/emp/noticeList'">
+	
+	<section style="margin: 20px 10% 10% 10%">
+		<form action="${url}" method="post">
+			<div>
+				<div class="input-group mb-3">
+				  	<span class="input-group-text" id="inputGroup-sizing-default">제목</span>
+				  	<input type="text" name="subject" value="${dto.subject}" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+				</div>
+				<br>
+				<div class="input-group mb-3">
+				  	<span class="input-group-text" id="inputGroup-sizing-default">작성자</span>
+				  	<input type="text" value="${empid}" name="writer" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+				</div>
+				<div class="input-group">
+					<span class="input-group-text">내용</span>
+					<textarea name="post_content" class="form-control" style="height:500px" aria-label="With textarea">
+						${dto.post_content}
+					</textarea>
+				</div>
+			</div>
+			<c:if test="${dto != null }">
+				<input type="hidden" name="ebnum" value="${dto.ebnum }">
+			</c:if>
+			<input type="submit" value="등록" class="btn btn-primary">
+		</form>
+		<input type="button" class="btn btn-outline-primary" value="취소" onclick="window.location='/admin/emp/noticeList'">
+	</section>
 </body>

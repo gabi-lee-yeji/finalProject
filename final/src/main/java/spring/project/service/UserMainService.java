@@ -35,10 +35,13 @@ public interface UserMainService {
 	//공인민간 top 10
 	List<String> getPrvTopCerti();
 	//사용자 정보에 맞는 인기자격증 추천
+	String getClientGenAge(String memid);
 	List<CertiInfoDTO> getClientTopCerti(String memid);
 	
 	//자격증 검색 기능 + 공민민간자격증top10 눌렀을 경우 결과 페이지로 이동 - UserMain에서 사용되는 검색
 	List<SearchAccessible> getCertiSearchList(PagingDTO page, String keyword);
+	//메인 자격증 검색 - 공인민간/국가기술 목록에 있는 자격증 선택시 cnum으로 검색
+	List<SearchAccessible> getCnumSearchList(PagingDTO page, String cnum);
 	//전체사이트 검색 기능 - NavBar에 따라다니는 검색
 	Map<String, List<SearchAccessible>> getSearchList(PagingDTO page, String keyword);
 	
@@ -63,5 +66,11 @@ public interface UserMainService {
 	List<Map<String,Object>> getCloseNatTests();
 	
 	int getCloseTestCnt(String category);
+	
+	List<Map<String,Object>> getLanguageList();
+	List<CertiInfoDTO> getLangFilteredList(PagingDTO page, int ncs_cat);
+	int getLangFilterCnt(int ncs_cat);
+	List<String> getCloseLangCnumList();
+	String getLangTestName(int ncs_cat);
 	
 }

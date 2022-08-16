@@ -1,12 +1,10 @@
 package spring.project.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,7 @@ import spring.project.model.CertiScheduleDTO;
 import spring.project.model.MypageNewsDTO;
 import spring.project.model.PassDetailDTO;
 import spring.project.model.PassRateAccessible;
-import spring.project.model.LikeDTO;
+import spring.project.pagination.PagingDTO;
 
 @Service
 public class CertiServiceImpl implements CertiService {
@@ -30,12 +28,13 @@ public class CertiServiceImpl implements CertiService {
 	private CertiMapper mapper;
 	static Map<String, CertiAccessible> certiMap = new HashMap<String, CertiAccessible>();
 
+	// 전체 자격증 목록
 	@Override
-	public List<CertiInfoDTO> getCertiList(int startRow, int endRow,String category) {
+	public List<CertiInfoDTO> getCertiList(int startRow, int endRow, String category) {
 		return mapper.getCertiList(startRow, endRow, category);
 	}
 	
-	
+	// 자격증 상세페이지
 	@Override
 	public Map<String, CertiAccessible> getCertiInfo(String cnum) {
 		CertiInfoDTO info = mapper.getCertiInfo(cnum);
@@ -45,6 +44,7 @@ public class CertiServiceImpl implements CertiService {
 		return certiMap;
 	}
 	
+	// 원서접수,시험일정 목록
 	@Override
 	public List<CertiDateDTO> searchPeriod(String cnum){
 		return mapper.searchPeriod(cnum);
@@ -65,17 +65,23 @@ public class CertiServiceImpl implements CertiService {
 		return mapper.searchNatPeriod(clevel, cyear_list, cround_list);
 	}
 	
+	// 자격증 개수
 	@Override
 	public int getCertCnt() {
 		return mapper.getCertCnt();
 	}
 
+	// 어학 자격증 페이지
 	@Override
-	public List<CertiInfoDTO> getCertiLangList() {
-		
-		return mapper.getCertiLangList();
+	public List<CertiInfoDTO> getCertiLangList(PagingDTO page) {
+		return mapper.getCertiLangList(page);
+	}
+	@Override
+	public int getCertiLangCnt() {
+		return mapper.getCertiLangCnt();
 	}
 
+	// 자격증 관련 뉴스
 	@Override
 	public ArrayList<MypageNewsDTO> getNews(String cnum) throws Exception{
 
@@ -89,7 +95,8 @@ public class CertiServiceImpl implements CertiService {
 		rc.eval("contents <- character()");
 		
 		String cname = mapper.getCertiInfo(cnum).getCname();
-		cname = "\"" + cname + "\"";
+		//cname 전처리 1.띄어쓰기제거 2.괄호제거 3.따옴표붙이기
+		cname = "\"" + cname.replaceAll("\\([^)]*\\)", "").replaceAll(" ", "") + "\"";
 		
 		rc.eval("url <- \"https://search.naver.com/search.naver?where=news&query=\"");
 		rc.eval("text <- read_html( paste0(url,"+ "'\"'," + cname+ ",'\"'" + ")) ");
@@ -135,7 +142,7 @@ public class CertiServiceImpl implements CertiService {
 	}
 	
 	@Override
-	public ArrayList<PassDetailDTO> pyramidGraph(String cnum) {
+	public PassDetailDTO pyramidGraph(String cnum) {
 		return mapper.pyramidGraph(cnum);
 	}
 	
@@ -147,7 +154,7 @@ public class CertiServiceImpl implements CertiService {
 			return mapper.lineGraphPrv(dto);
 	}
 	
-
+	// 자격증 카테고리 필터
 	@Override
 	public List<CertiInfoDTO> getFilteredList(CertiFilterDTO dto) {	
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
@@ -183,8 +190,19 @@ public class CertiServiceImpl implements CertiService {
 	
 	@Override
 	public List<String> getNcsName(CertiFilterDTO dto) {
-		return mapper.getNcsName(dto);
+		return mapper.getNcsNameList(dto);
 	}
+
+	@Override
+	public Map<String, String> getNcsName(String cnum) {
+		return mapper.getNcsName(cnum);
+	}
+	
+	@Override
+	public int findDateCount(String cnum) {
+		return mapper.findDateCount(cnum);
+	}
+
 
 }
 

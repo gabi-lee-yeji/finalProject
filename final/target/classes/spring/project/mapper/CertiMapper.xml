@@ -4,7 +4,18 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="spring.project.mapper.CertiMapper">
-<select id="getNcsName" resultType="String">
+
+	<select id="findDateCount" resultType="int">
+		select count(*) from certidate where cnum=#{cnum}
+	</select>
+
+	<select id="getNcsName" resultType="map">
+		select b.lname, b.mname from certiinfo a
+			left join ncs_code b
+			on a.ncs_cat = b.code
+			where a.cnum = #{cnum}
+	</select>
+	<select id="getNcsNameList" resultType="String">
 		select distinct lname from ncs_code where floor(code/100) in
 		<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
 			#{ncs_cat}
@@ -29,31 +40,31 @@
 	</select>
 	<select id="getCertiFilteredList" resultType="spring.project.model.CertiInfoDTO">
 		select * from 
-			(select rownum r, list.* from 
-				(select * from certiinfo 
-					<where>
-						<if test="category != null and category != ''">
-							category = #{category}
-						</if>
-						<if test="ncs_cat != null">
-							and floor(ncs_cat/100) in
-							<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
-								#{ncs_cat}
-							</foreach>
-						</if>
-						<if test="company != null">
-							and company like '%${company}%'
-						</if>
-					</where>
-					) list)
-			where r between #{startRow} and #{endRow}
+		(select rownum r, list.* from 
+			(select * from certiinfo 
+				<where>
+					<if test="category != null and category != ''">
+						category = #{category}
+					</if>
+					<if test="ncs_cat != null">
+						and floor(ncs_cat/100) in
+					<foreach collection="ncs_cat" item="ncs_cat" open="(" separator="," close=")">
+						#{ncs_cat}
+					</foreach>
+					</if>
+					<if test="company != null">
+						and company like '%${company}%'
+					</if>
+				</where>
+		) list)
+		where r between #{startRow} and #{endRow}
 	</select>
 	<select id="getNcsCodeList" resultType="map">
 		select * from (select floor(code/100) as code, lname from ncs_code)
+			where code > 0
 			group by code, lname
 			order by code
 	</select>
-	
 	
 	<select id="getreqList" resultType="spring.project.model.CertiInfoDTO">
 		select * from certiinfo a full outer join certi_requirement b on a.cnum=b.cnum
@@ -89,8 +100,15 @@
 	</select>
 		
 	<select id="getCertiLangList" resultType="spring.project.model.CertiInfoDTO">
-		select * from certiinfo
-		where category='language'	
+		select * from
+			(select rownum r, list.* from 
+				(select * from certiinfo
+					where category='language') list)
+			where r between #{startRow} and #{endRow}	
+	</select>
+	<select id="getCertiLangCnt" resultType="int">
+		select count(*) from certiinfo
+					where category='language'
 	</select>
 
 	<select id="getCertiReqInfo" resultType="spring.project.model.CertiRequirementDTO">
@@ -129,6 +147,7 @@
 		<foreach collection="cround_list" item="cround" open="(" separator="," close=")">
 			#{cround,jdbcType=VARCHAR}
 		</foreach>
+		and cnum is null
 	</select>
 	
 	<select id="searchPeriod" resultType="spring.project.model.CertiDateDTO">

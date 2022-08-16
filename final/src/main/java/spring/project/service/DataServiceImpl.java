@@ -10,6 +10,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +28,13 @@ import spring.project.model.CertiRequirementDTO;
 import spring.project.model.CertiScheduleDTO;
 import spring.project.model.NcsDTO;
 import spring.project.model.PassDetailDTO;
+import spring.project.model.PassRateNatDTO;
 import spring.project.model.PassRatePrvDTO;
 
 @Service
 public class DataServiceImpl implements DataService {
 	
+	static Logger logger = Logger.getLogger("dailyout");
 	@Autowired
 	private DataMapper mapper;
 	@Autowired
@@ -46,7 +49,6 @@ public class DataServiceImpl implements DataService {
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
 			CertiDateDTO qdto = new CertiDateDTO();
 			String [] datas = strLine.split(";");
 			for(int i=0; i<datas.length; i++) datas[i] = trimQuote(datas[i]); 
@@ -88,7 +90,6 @@ public class DataServiceImpl implements DataService {
 				qdto.setPracResEnd(datas[9].substring(8, 16));
 			}
 			
-			//System.out.println(qdto);
 			mapper.addQnetDate(qdto);
 		}
 	}
@@ -102,7 +103,6 @@ public class DataServiceImpl implements DataService {
 		
 		String strLine;
 		while((strLine = br.readLine()) != null) {
-			//System.out.println(strLine);
 			String [] datas = strLine.split(",");
 			
 			PassDetailDTO dto = new PassDetailDTO();
@@ -126,7 +126,6 @@ public class DataServiceImpl implements DataService {
 					+(datas[16].equals("")?0:Integer.parseInt(datas[16])));
 			dto.setTotal(Integer.parseInt(datas[17]));
 			
-			//System.out.println(dto);
 			
 			mapper.addPassDetailN(dto);
 		}
@@ -158,7 +157,7 @@ public class DataServiceImpl implements DataService {
 			dto.setPassed(Integer.parseInt(strList.get(i).split(";")[5]));
 			
 			if(mapper.addPassRate(dto) != 1) {
-				System.out.println(dto);
+				logger.warn("cannot input data at addPassRate: " + dto.toString());
 			}
 		}
 	}
@@ -224,7 +223,7 @@ public class DataServiceImpl implements DataService {
 			HashMap<String,String> map = splitd4(datas[4]);
 			dto.setSubject(splitSubject(map.get("subject")));
 			dto.setRequirement(map.get("requirement"));
-			dto.setCmethod(splitCmethod(map.get("cmethod")));
+			dto.setCmethod(map.get("cmethod"));
 			dto.setCutline(map.get("cutline"));
 			dto.setPrice(datas[5]);
 			dto.setNcs_cat(Integer.parseInt(datas[6]));
@@ -270,7 +269,7 @@ public class DataServiceImpl implements DataService {
 				mapper.addCertiSchedule(dto);
 				
 			}else {
-				System.out.println(datas[3]);
+				logger.warn("cannot input data at addNatSchedule: " + datas[3]);
 			}
 		}
 	}
@@ -347,7 +346,7 @@ public class DataServiceImpl implements DataService {
 				
 				mapper.updatePrvInfo1(dto);
 			}else {
-				System.out.println(datas[0]);
+				logger.warn("cannot input data at addPrvInfo: " + datas[0]);
 			}
 		}
 	}
@@ -364,8 +363,10 @@ public class DataServiceImpl implements DataService {
 			
 			CertiRequirementDTO dto = new CertiRequirementDTO();
 			if(!datas[0].equals("")) {
-				dto.setCnum(mapper.findCnum(datas[0]));
-				if(dto.getCnum() == null) System.out.println(datas[0]);
+				dto.setCnum(mapper.findPrvCnum(datas[0],datas[1]));
+				if(dto.getCnum() == null) {
+					logger.warn("cannot input data at addCertiReq: " + datas[0]);
+				}
 			}
 			dto.setClevel(datas[1]);
 			dto.setReq_degree(datas[2]);
@@ -398,6 +399,11 @@ public class DataServiceImpl implements DataService {
 			dto.setCjob(datas[6]);
 			dto.setExpiry(datas[7]);
 			dto.setWebsite(datas[4]);
+			dto.setNcs_cat(Integer.parseInt(datas[1]));
+			dto.setPrice(datas[8]);
+			dto.setCmethod(datas[9]);
+			dto.setSubject(datas[10]);
+			dto.setCutline(datas[11]);
 			
 			dto.setCategory("language");
 			dto.setStatus("Y");
@@ -409,6 +415,66 @@ public class DataServiceImpl implements DataService {
 			
 			mapper.addLangInfo(dto);
 		}
+	}
+	
+	@Transactional
+	@Override
+	public void updatePrvInfo() throws Exception{
+		FileInputStream fis = new FileInputStream(new File("f:/data/prvinfo.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiInfoDTO dto = new CertiInfoDTO();
+			
+			dto.setCname(datas[0]);
+			dto.setClevel(datas[1]);
+			dto.setPrice(datas[2]);
+			dto.setCmethod(datas[3]);
+			dto.setSubject(formatSubject(datas[4]));
+			dto.setCutline(datas[5]);
+			if(!datas[6].equals("제한없음")) {
+				dto.setRequirement(datas[6]);
+			}
+			
+			dto.setCnum(mapper.findPrvCnum(datas[0], datas[1]));
+			if(dto.getCnum() == null) {
+				logger.warn("cannot input data at updatePrvInfo: " + dto.getCname() + " " + dto.getClevel());
+			}else {
+				mapper.updatePrvInfo2(dto);
+			}
+			
+		}
+	}
+	
+	@Transactional
+	@Override
+	public void addPassRateNat() throws Exception{
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/susu4.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			PassRateNatDTO dto = new PassRateNatDTO();
+			
+			dto.setCname(datas[0]);
+			dto.setCyear(Integer.parseInt(datas[1]));
+			dto.setDoc_apply(Integer.parseInt(datas[2]));
+			dto.setDoc_pass(Integer.parseInt(datas[3]));
+			dto.setPrac_apply(Integer.parseInt(datas[4]));
+			dto.setPrac_pass(Integer.parseInt(datas[5]));
+			
+			mapper.addPassRateNat(dto);
+		}
+	}
+	
+	//prvinfo.csv 파일 시험과목 포맷변경 ,@ -> @^
+	private String formatSubject(String subject) {
+		
+		return subject.replace('@', '^').replace(',', '@');
 	}
 	
 	//시험정보 줄글 split하기
@@ -442,7 +508,7 @@ public class DataServiceImpl implements DataService {
 		
 		return result;
 	}
-
+/*
 	//검정방법 split
 	private String splitCmethod(String cmethod) {
 		
@@ -462,7 +528,7 @@ public class DataServiceImpl implements DataService {
 		}
 		return data;
 	}
-	
+*/
 	//시험과목 과목별로 분리
 	private String splitSubject(String subject) {
 		
@@ -489,10 +555,8 @@ public class DataServiceImpl implements DataService {
 			linetxt = true;
 		}
 		
-		//System.out.println(info.getCnum() + "\t" + pilgi + "@" + silgi);
 
 		//필기 과목 분리하기
-		//System.out.println("\n"+info.getCnum());
 		if(pilgi.contains("1.")) {
 			//1. 2. 3. 으로 나눠진 경우
 			for(String p : pilgi.split("(\\d+\\.)")) {
@@ -565,6 +629,54 @@ public class DataServiceImpl implements DataService {
 		str = str.replaceAll("\"=\"\"", "");
 		str = str.replaceAll("\"\"\"", "");
 		return str;
+	}
+
+	@Override
+	@Transactional
+	public void temp1() throws Exception{
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/temp1.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiDateDTO dto = new CertiDateDTO();
+			
+			dto.setCnum(datas[0]);
+			dto.setCyear(2022);
+			dto.setCround(Integer.parseInt(datas[2]));
+			dto.setDocRegStart1(datas[3]);
+			dto.setDocRegEnd1(datas[4]);
+			dto.setDocTestStart(datas[5]);
+			dto.setDocResultStart(datas[6]);
+			dto.setDocResultEnd(datas[7]);
+			
+			mapper.temp1(dto);
+		}
+	}
+	@Override
+	@Transactional
+	public void temp2() throws Exception{
+
+		FileInputStream fis = new FileInputStream(new File("f:/data/temp2.csv"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis, "CP949"));
+		
+		String strLine;
+		while((strLine=br.readLine()) != null) {
+			String [] datas = strLine.split(";");
+			CertiDateDTO dto = new CertiDateDTO();
+			
+			dto.setCnum(datas[0]);
+			dto.setCyear(2022);
+			dto.setCround(Integer.parseInt(datas[2]));
+			dto.setDocRegStart1(datas[3]);
+			dto.setDocRegEnd1(datas[4]);
+			dto.setDocTestStart(datas[5]);
+			dto.setDocResultStart(datas[6]);
+			
+			mapper.temp2(dto);
+		}
 	}
 	
 }

@@ -45,13 +45,14 @@ public interface AdminMapper {
 	
 	//자격증 상세정보 페이지
 	public CertiInfoDTO getCertiInfo(String cnum);
-	public CertiRequirementDTO getCertiReqInfo(String cnum);
+	public List<CertiRequirementDTO> getCertiReqList(String cnum);
 	
 	public List<CertiDateDTO> searchPeriod(String cnum);
 	public List<CertiScheduleDTO> getQnetDateInfo(String cnum);
 	public List<CertiDateDTO> searchNatPeriod(@Param("clevel")String clevel,
 											@Param("cyear_list")List<Integer> cyear_list,
 											@Param("cround_list")List<Integer> cround_list);
+	public String searchCompany(String cnum);
 	
 	//자격증 일정 삭제
 	public int deleteCertiDate(int[] dateList);
@@ -89,7 +90,7 @@ public interface AdminMapper {
 	//public List<MemberInfoDTO> getMemberFilter(Map map);
 	
 	//신고당한 회원목록 가져오기 
-	public List<MemberInfoDTO> getReportMemList(Integer status);
+	public List<MemberInfoDTO> getReportMemList(Map map);
 	public int getReportMemCnt(Integer status);
 	//신고당한 회원의 정보 가져오기
 	public List<Map<String, Object>> getReportMemPosting(String memid);
@@ -132,6 +133,7 @@ public interface AdminMapper {
 						@Param("board_type")Integer board_type);
 	
 	//전체게시글 - 검색 결과 조회
+	public String getBoardName(int board_type);
 	//글제목+내용 검색
 	public List<Post_BoardDTO> getBoardSearchBoth(Map map);
 	public int getSearchBothCnt(Map map);
@@ -180,4 +182,7 @@ public interface AdminMapper {
 	//직원목록 - 검색 결과 
 	public List<EmpInfoDTO> getEmpSearchList(Map map);
 	public int getEmpSearchCnt(Map map);
+	
+	//세션ID가 사원인지 조회
+	public int checkIfEmp(String memid);
 }
